@@ -1,0 +1,506 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Android Page matches the snapshot 1`] = `
+<div
+  class="min-h-screen flex flex-col"
+>
+  <header
+    class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800"
+  >
+    <nav
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      <div
+        class="flex justify-between items-center h-16"
+      >
+        <a
+          class="flex items-center space-x-2"
+          href="/"
+        >
+          <div
+            class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+          >
+            <span
+              class="text-white font-bold text-sm"
+            >
+              C
+            </span>
+          </div>
+          <span
+            class="font-bold text-xl text-gray-900 dark:text-white"
+          >
+            CardOnCue
+          </span>
+        </a>
+        <div
+          class="hidden md:flex items-center space-x-8"
+        >
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/"
+          >
+            Home
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/features"
+          >
+            Features
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/search"
+          >
+            Search
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/support"
+          >
+            Support
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/contact"
+          >
+            Contact
+          </a>
+        </div>
+        <div
+          class="flex items-center space-x-4"
+        >
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+              href="/sign-in"
+            >
+              Sign In
+            </a>
+          </div>
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200 flex items-center space-x-1"
+              href="/account"
+            >
+              <svg
+                data-testid="user-icon"
+              />
+              <span>
+                Account
+              </span>
+            </a>
+            <div
+              data-testid="user-button"
+            >
+              User Button
+            </div>
+          </div>
+          <button
+            class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+          >
+            <svg
+              data-testid="menu-icon"
+            />
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main
+    class="flex-grow"
+  >
+    <section
+      class="bg-gradient-to-br from-green-50 to-green-100 dark:from-gray-900 dark:to-gray-800 py-20"
+    >
+      <div
+        class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="text-center"
+        >
+          <div
+            class="inline-flex items-center justify-center w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full mb-6"
+          >
+            <svg
+              data-testid="smartphone-icon"
+            />
+          </div>
+          <h1
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Android Version 
+            <span
+              class="text-green-600"
+            >
+              Coming Soon
+            </span>
+          </h1>
+          <p
+            class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
+          >
+            We're working hard to bring CardOnCue to Android devices. Be among the first to know when it's available by joining our waitlist.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section
+      class="py-20 bg-white dark:bg-gray-900"
+    >
+      <div
+        class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="card"
+          viewport="[object Object]"
+        >
+          <div
+            class="text-center mb-8"
+          >
+            <h2
+              class="text-2xl font-bold text-gray-900 dark:text-white mb-2"
+            >
+              Request Android Access
+            </h2>
+            <p
+              class="text-gray-600 dark:text-gray-300"
+            >
+              We'll notify you as soon as the Android version is ready for download.
+            </p>
+          </div>
+          <form
+            class="space-y-6"
+          >
+            <div>
+              <label
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                for="name"
+              >
+                Name *
+              </label>
+              <input
+                class="input-field "
+                id="name"
+                placeholder="Your full name"
+                type="text"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                for="email"
+              >
+                Email *
+              </label>
+              <input
+                class="input-field "
+                id="email"
+                placeholder="your.email@example.com"
+                type="email"
+                value=""
+              />
+            </div>
+            <div>
+              <label
+                class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                for="message"
+              >
+                Message (Optional)
+              </label>
+              <textarea
+                class="input-field resize-none"
+                id="message"
+                placeholder="Tell us about your use case or any specific features you'd like to see..."
+                rows="4"
+              />
+            </div>
+            <button
+              class="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              type="submit"
+            >
+              Request Android Access
+            </button>
+          </form>
+          <div
+            class="mt-6 text-center"
+          >
+            <p
+              class="text-sm text-gray-500 dark:text-gray-400"
+            >
+              We respect your privacy and will only use your information to notify you about the Android release.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="py-20 bg-gray-50 dark:bg-gray-800"
+    >
+      <div
+        class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="text-center mb-16"
+          viewport="[object Object]"
+        >
+          <h2
+            class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+          >
+            Why Android Support Matters
+          </h2>
+          <p
+            class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+          >
+            Android devices represent the majority of smartphones worldwide. We're committed to making CardOnCue available to everyone.
+          </p>
+        </div>
+        <div
+          class="grid md:grid-cols-3 gap-8"
+        >
+          <div
+            class="card text-center"
+            viewport="[object Object]"
+          >
+            <div
+              class="text-4xl mb-4"
+            >
+              🌍
+            </div>
+            <h3
+              class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
+            >
+              Universal Access
+            </h3>
+            <p
+              class="text-gray-600 dark:text-gray-300"
+            >
+              Make CardOnCue available to the billions of Android users worldwide.
+            </p>
+          </div>
+          <div
+            class="card text-center"
+            viewport="[object Object]"
+          >
+            <div
+              class="text-4xl mb-4"
+            >
+              👨‍👩‍👧‍👦
+            </div>
+            <h3
+              class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
+            >
+              Cross-Platform
+            </h3>
+            <p
+              class="text-gray-600 dark:text-gray-300"
+            >
+              Share cards seamlessly between iOS and Android family members.
+            </p>
+          </div>
+          <div
+            class="card text-center"
+            viewport="[object Object]"
+          >
+            <div
+              class="text-4xl mb-4"
+            >
+              📱
+            </div>
+            <h3
+              class="text-xl font-semibold text-gray-900 dark:text-white mb-2"
+            >
+              Complete Solution
+            </h3>
+            <p
+              class="text-gray-600 dark:text-gray-300"
+            >
+              Provide a comprehensive digital card solution for all mobile users.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer
+    class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
+  >
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+    >
+      <div
+        class="grid grid-cols-1 md:grid-cols-4 gap-8"
+      >
+        <div
+          class="col-span-1 md:col-span-2"
+        >
+          <div
+            class="flex items-center space-x-2 mb-4"
+          >
+            <div
+              class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+            >
+              <span
+                class="text-white font-bold text-sm"
+              >
+                C
+              </span>
+            </div>
+            <span
+              class="font-bold text-xl text-gray-900 dark:text-white"
+            >
+              CardOnCue
+            </span>
+          </div>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4 max-w-md"
+          >
+            Automatically show your membership cards, library cards, and barcodes when you enter relevant locations. Never fumble for your wallet again.
+          </p>
+          <div
+            class="flex space-x-4"
+          >
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                Twitter
+              </span>
+              <svg
+                data-testid="twitter-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                GitHub
+              </span>
+              <svg
+                data-testid="github-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="mailto:hello@cardoncue.com"
+            >
+              <span
+                class="sr-only"
+              >
+                Email
+              </span>
+              <svg
+                data-testid="mail-icon"
+              />
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Navigation
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/"
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/features"
+              >
+                Features
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/support"
+              >
+                Support
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Legal
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/privacy"
+              >
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/terms"
+              >
+                Terms of Use
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700"
+      >
+        <div
+          class="flex flex-col sm:flex-row justify-between items-center"
+        >
+          <div
+            class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-0"
+          >
+            <a
+              class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-sm font-medium"
+              href="#"
+            >
+              Download on the App Store
+            </a>
+            <a
+              class="text-primary-600 hover:text-primary-700 font-medium text-sm"
+              href="/android"
+            >
+              Android Version Coming Soon →
+            </a>
+          </div>
+          <p
+            class="text-sm text-gray-500 dark:text-gray-400"
+          >
+            © 2024 CardOnCue. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;

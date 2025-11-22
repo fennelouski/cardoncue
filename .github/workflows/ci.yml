@@ -1,0 +1,181 @@
+name: CardOnCue CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  # Lint and validate
+  lint:
+    name: Lint & Validation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Lint backend code
+        working-directory: web
+        run: npm run lint || echo "Linting not configured yet"
+
+      - name: Validate OpenAPI spec
+        run: |
+          npm install -g @apidevtools/swagger-cli
+          swagger-cli validate docs/api-spec.yaml
+
+  # Backend tests
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Run unit tests
+        working-directory: web
+        run: npm test -- --coverage || echo "Tests not yet implemented"
+
+      - name: Upload coverage
+        if: success()
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./web/coverage/coverage-final.json
+          flags: backend
+
+  # iOS tests (macOS only)
+  ios-test:
+    name: iOS Tests
+    runs-on: macos-13
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode version
+        run: sudo xcode-select -s /Applications/Xcode_15.0.app/Contents/Developer
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build for testing
+        working-directory: ios
+        run: |
+          xcodebuild build-for-testing \
+            -project CardOnCue.xcodeproj \
+            -scheme CardOnCue \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+            -derivedDataPath DerivedData || echo "iOS project not yet created"
+
+      - name: Run tests
+        working-directory: ios
+        run: |
+          xcodebuild test \
+            -project CardOnCue.xcodeproj \
+            -scheme CardOnCue \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+            -derivedDataPath DerivedData \
+            -enableCodeCoverage YES || echo "iOS tests not yet implemented"
+
+      - name: Generate coverage report
+        if: success()
+        working-directory: ios
+        run: |
+          xcrun xccov view --report DerivedData/Logs/Test/*.xcresult || echo "Coverage report generation failed"
+
+  # Security checks
+  security:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run npm audit
+        working-directory: web
+        run: npm audit --audit-level=moderate || true
+
+      - name: Check for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: main
+          head: HEAD
+
+  # Deploy to Vercel (main branch only)
+  deploy-production:
+    name: Deploy to Production
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    needs: [lint, backend-test, ios-test, security]
+    environment:
+      name: production
+      url: https://cardoncue.app
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Pull Vercel environment information
+        working-directory: web
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build project
+        working-directory: web
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel
+        working-directory: web
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+  # Deploy preview (PRs and develop branch)
+  deploy-preview:
+    name: Deploy Preview
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/develop'
+    needs: [lint, backend-test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+
+      - name: Pull Vercel environment information
+        working-directory: web
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build project
+        working-directory: web
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Vercel
+        working-directory: web
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}

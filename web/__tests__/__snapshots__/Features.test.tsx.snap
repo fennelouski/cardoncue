@@ -1,0 +1,1066 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Features Page matches the snapshot 1`] = `
+<div
+  class="min-h-screen flex flex-col"
+>
+  <header
+    class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800"
+  >
+    <nav
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      <div
+        class="flex justify-between items-center h-16"
+      >
+        <a
+          class="flex items-center space-x-2"
+          href="/"
+        >
+          <div
+            class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+          >
+            <span
+              class="text-white font-bold text-sm"
+            >
+              C
+            </span>
+          </div>
+          <span
+            class="font-bold text-xl text-gray-900 dark:text-white"
+          >
+            CardOnCue
+          </span>
+        </a>
+        <div
+          class="hidden md:flex items-center space-x-8"
+        >
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/"
+          >
+            Home
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/features"
+          >
+            Features
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/search"
+          >
+            Search
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/support"
+          >
+            Support
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/contact"
+          >
+            Contact
+          </a>
+        </div>
+        <div
+          class="flex items-center space-x-4"
+        >
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+              href="/sign-in"
+            >
+              Sign In
+            </a>
+          </div>
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200 flex items-center space-x-1"
+              href="/account"
+            >
+              <svg
+                data-testid="user-icon"
+              />
+              <span>
+                Account
+              </span>
+            </a>
+            <div
+              data-testid="user-button"
+            >
+              User Button
+            </div>
+          </div>
+          <button
+            class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+          >
+            <svg
+              data-testid="menu-icon"
+            />
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main
+    class="flex-grow"
+  >
+    <section
+      class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="text-center"
+        >
+          <h1
+            class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Powerful Features for 
+            <span
+              class="text-primary-600"
+            >
+              Modern Life
+            </span>
+          </h1>
+          <p
+            class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto"
+          >
+            Discover how CardOnCue transforms the way you interact with digital cards, making everyday activities seamless and secure.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section
+      class="py-20 bg-white dark:bg-gray-900"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="grid lg:grid-cols-2 gap-12"
+        >
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <div
+              class="flex items-start space-x-4"
+            >
+              <div
+                class="flex-shrink-0"
+              >
+                <div
+                  class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center"
+                >
+                  <svg
+                    data-testid="map-pin-icon"
+                  />
+                </div>
+              </div>
+              <div
+                class="flex-grow"
+              >
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+                >
+                  Location-Aware Card Surfacing
+                </h3>
+                <p
+                  class="text-gray-600 dark:text-gray-300 mb-4"
+                >
+                  Your iPhone detects when you enter stores, libraries, and other locations. Relevant cards automatically appear on your lock screen or in the CardOnCue app.
+                </p>
+                <ul
+                  class="space-y-2"
+                >
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Precise location detection using GPS and Wi-Fi
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Customizable notification radius (50-500 meters)
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Works in background without draining battery
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Region-based grouping for efficient monitoring
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <div
+              class="flex items-start space-x-4"
+            >
+              <div
+                class="flex-shrink-0"
+              >
+                <div
+                  class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center"
+                >
+                  <svg
+                    data-testid="qr-code-icon"
+                  />
+                </div>
+              </div>
+              <div
+                class="flex-grow"
+              >
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+                >
+                  Auto-Rendered Barcodes & QR Codes
+                </h3>
+                <p
+                  class="text-gray-600 dark:text-gray-300 mb-4"
+                >
+                  Cards display with perfectly rendered barcodes and QR codes that scan instantly at checkout counters and self-service kiosks.
+                </p>
+                <ul
+                  class="space-y-2"
+                >
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Support for all major barcode formats (Code 128, QR, EAN-13, etc.)
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      High-resolution rendering for reliable scanning
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Secure one-time use options for returns
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Real-time barcode generation
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <div
+              class="flex items-start space-x-4"
+            >
+              <div
+                class="flex-shrink-0"
+              >
+                <div
+                  class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center"
+                >
+                  <svg
+                    data-testid="users-icon"
+                  />
+                </div>
+              </div>
+              <div
+                class="flex-grow"
+              >
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+                >
+                  Multi-Card Support
+                </h3>
+                <p
+                  class="text-gray-600 dark:text-gray-300 mb-4"
+                >
+                  Manage cards for your entire family - kids' library cards, multiple memberships, and shared household accounts.
+                </p>
+                <ul
+                  class="space-y-2"
+                >
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Unlimited cards per account
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Family sharing capabilities
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Card grouping and organization
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Quick card switching
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <div
+              class="flex items-start space-x-4"
+            >
+              <div
+                class="flex-shrink-0"
+              >
+                <div
+                  class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center"
+                >
+                  <svg
+                    data-testid="arrow-right-left-icon"
+                  />
+                </div>
+              </div>
+              <div
+                class="flex-grow"
+              >
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+                >
+                  One-Time Use Return QR Codes
+                </h3>
+                <p
+                  class="text-gray-600 dark:text-gray-300 mb-4"
+                >
+                  Generate temporary QR codes for retail returns at stores like Amazon at Kohl's, ensuring security while maintaining convenience.
+                </p>
+                <ul
+                  class="space-y-2"
+                >
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Secure, expiring QR codes
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Return-specific formatting
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Audit trail for security
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Integration with major retailers
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <div
+              class="flex items-start space-x-4"
+            >
+              <div
+                class="flex-shrink-0"
+              >
+                <div
+                  class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center"
+                >
+                  <svg
+                    data-testid="bell-icon"
+                  />
+                </div>
+              </div>
+              <div
+                class="flex-grow"
+              >
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+                >
+                  Region-Based Notifications
+                </h3>
+                <p
+                  class="text-gray-600 dark:text-gray-300 mb-4"
+                >
+                  Get notified when entering theme parks, Costco, Whole Foods, libraries, and other supported locations.
+                </p>
+                <ul
+                  class="space-y-2"
+                >
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Smart notification scheduling
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Location history tracking
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Customizable alert preferences
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Quiet hours support
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <div
+              class="flex items-start space-x-4"
+            >
+              <div
+                class="flex-shrink-0"
+              >
+                <div
+                  class="w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center"
+                >
+                  <svg
+                    data-testid="shield-icon"
+                  />
+                </div>
+              </div>
+              <div
+                class="flex-grow"
+              >
+                <h3
+                  class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+                >
+                  Privacy & Security First
+                </h3>
+                <p
+                  class="text-gray-600 dark:text-gray-300 mb-4"
+                >
+                  Your card data is end-to-end encrypted and never stored in plain text. Cards are only displayed when you need them.
+                </p>
+                <ul
+                  class="space-y-2"
+                >
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      AES-256-GCM encryption
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Zero-knowledge architecture
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Secure element integration
+                    </span>
+                  </li>
+                  <li
+                    class="flex items-start space-x-2"
+                  >
+                    <div
+                      class="w-1.5 h-1.5 bg-primary-600 rounded-full mt-2 flex-shrink-0"
+                    />
+                    <span
+                      class="text-sm text-gray-600 dark:text-gray-300"
+                    >
+                      Privacy-preserving location data
+                    </span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="py-20 bg-gray-50 dark:bg-gray-800"
+    >
+      <div
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="text-center mb-16"
+          viewport="[object Object]"
+        >
+          <h2
+            class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+          >
+            Perfect For Everyday Activities
+          </h2>
+          <p
+            class="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto"
+          >
+            CardOnCue works seamlessly across a wide range of locations and use cases
+          </p>
+        </div>
+        <div
+          class="grid md:grid-cols-2 gap-8"
+        >
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+            >
+              Grocery Shopping
+            </h3>
+            <div
+              class="flex flex-wrap gap-2 mb-4"
+            >
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Costco
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Whole Foods
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Trader Joe's
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Kroger
+              </span>
+            </div>
+            <p
+              class="text-gray-600 dark:text-gray-300"
+            >
+              Membership cards appear automatically when you arrive at warehouse clubs and grocery stores.
+            </p>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+            >
+              Library Visits
+            </h3>
+            <div
+              class="flex flex-wrap gap-2 mb-4"
+            >
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Public Libraries
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                University Libraries
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                School Libraries
+              </span>
+            </div>
+            <p
+              class="text-gray-600 dark:text-gray-300"
+            >
+              Borrow books seamlessly with library cards that appear when you enter library premises.
+            </p>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+            >
+              Retail Returns
+            </h3>
+            <div
+              class="flex flex-wrap gap-2 mb-4"
+            >
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Amazon at Kohl's
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Best Buy
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Target
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Walmart
+              </span>
+            </div>
+            <p
+              class="text-gray-600 dark:text-gray-300"
+            >
+              Generate secure return QR codes for hassle-free returns at participating retailers.
+            </p>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-900 dark:text-white mb-3"
+            >
+              Theme Parks & Entertainment
+            </h3>
+            <div
+              class="flex flex-wrap gap-2 mb-4"
+            >
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Disney Parks
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Universal Studios
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Six Flags
+              </span>
+              <span
+                class="px-3 py-1 bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 text-sm rounded-full"
+              >
+                Local Amusement Parks
+              </span>
+            </div>
+            <p
+              class="text-gray-600 dark:text-gray-300"
+            >
+              Season passes and tickets display automatically at park entrances and attractions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="py-20 bg-primary-600"
+    >
+      <div
+        class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          viewport="[object Object]"
+        >
+          <h2
+            class="text-3xl md:text-4xl font-bold text-white mb-4"
+          >
+            Android Support Coming Soon
+          </h2>
+          <p
+            class="text-xl text-primary-100 mb-8"
+          >
+            We're working hard to bring CardOnCue to Android devices. Join our waitlist to be among the first to know when it's available.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <a
+              class="bg-white text-primary-600 hover:bg-gray-50 font-semibold py-4 px-8 rounded-lg transition-colors duration-200"
+              href="/android"
+            >
+              Request Android Version
+            </a>
+            <a
+              class="border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold py-4 px-8 rounded-lg transition-colors duration-200"
+              href="#"
+            >
+              Download iOS Version
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer
+    class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
+  >
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+    >
+      <div
+        class="grid grid-cols-1 md:grid-cols-4 gap-8"
+      >
+        <div
+          class="col-span-1 md:col-span-2"
+        >
+          <div
+            class="flex items-center space-x-2 mb-4"
+          >
+            <div
+              class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+            >
+              <span
+                class="text-white font-bold text-sm"
+              >
+                C
+              </span>
+            </div>
+            <span
+              class="font-bold text-xl text-gray-900 dark:text-white"
+            >
+              CardOnCue
+            </span>
+          </div>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4 max-w-md"
+          >
+            Automatically show your membership cards, library cards, and barcodes when you enter relevant locations. Never fumble for your wallet again.
+          </p>
+          <div
+            class="flex space-x-4"
+          >
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                Twitter
+              </span>
+              <svg
+                data-testid="twitter-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                GitHub
+              </span>
+              <svg
+                data-testid="github-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="mailto:hello@cardoncue.com"
+            >
+              <span
+                class="sr-only"
+              >
+                Email
+              </span>
+              <svg
+                data-testid="mail-icon"
+              />
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Navigation
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/"
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/features"
+              >
+                Features
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/support"
+              >
+                Support
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Legal
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/privacy"
+              >
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/terms"
+              >
+                Terms of Use
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700"
+      >
+        <div
+          class="flex flex-col sm:flex-row justify-between items-center"
+        >
+          <div
+            class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-0"
+          >
+            <a
+              class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-sm font-medium"
+              href="#"
+            >
+              Download on the App Store
+            </a>
+            <a
+              class="text-primary-600 hover:text-primary-700 font-medium text-sm"
+              href="/android"
+            >
+              Android Version Coming Soon →
+            </a>
+          </div>
+          <p
+            class="text-sm text-gray-500 dark:text-gray-400"
+          >
+            © 2024 CardOnCue. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;

@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header matches the snapshot 1`] = `
+<header
+  class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800"
+>
+  <nav
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+  >
+    <div
+      class="flex justify-between items-center h-16"
+    >
+      <a
+        class="flex items-center space-x-2"
+        href="/"
+      >
+        <div
+          class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+        >
+          <span
+            class="text-white font-bold text-sm"
+          >
+            C
+          </span>
+        </div>
+        <span
+          class="font-bold text-xl text-gray-900 dark:text-white"
+        >
+          CardOnCue
+        </span>
+      </a>
+      <div
+        class="hidden md:flex items-center space-x-8"
+      >
+        <a
+          class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+          href="/"
+        >
+          Home
+        </a>
+        <a
+          class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+          href="/features"
+        >
+          Features
+        </a>
+        <a
+          class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+          href="/search"
+        >
+          Search
+        </a>
+        <a
+          class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+          href="/support"
+        >
+          Support
+        </a>
+        <a
+          class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+          href="/contact"
+        >
+          Contact
+        </a>
+      </div>
+      <div
+        class="flex items-center space-x-4"
+      >
+        <div>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/sign-in"
+          >
+            Sign In
+          </a>
+        </div>
+        <div>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200 flex items-center space-x-1"
+            href="/account"
+          >
+            <svg
+              data-testid="user-icon"
+            />
+            <span>
+              Account
+            </span>
+          </a>
+          <div
+            data-testid="user-button"
+          >
+            User Button
+          </div>
+        </div>
+        <button
+          class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+        >
+          <svg
+            data-testid="menu-icon"
+          />
+        </button>
+      </div>
+    </div>
+  </nav>
+</header>
+`;

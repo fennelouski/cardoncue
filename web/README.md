@@ -11,6 +11,7 @@ A modern, responsive marketing website and user portal for CardOnCue, built with
 - **Animation**: Framer Motion
 - **Authentication**: Clerk
 - **Database**: Vercel KV (production) / In-memory (dev)
+- **Location APIs**: Nominatim (OpenStreetMap), Foursquare Places (optional)
 - **Deployment**: Vercel
 
 ## Project Structure
@@ -36,6 +37,14 @@ web/
 │   ├── layout.tsx           # Root layout
 │   └── page.tsx             # Homepage
 ├── public/                  # Static assets
+├── lib/places/              # Location/place API connectors
+│   ├── cache.ts            # Caching layer (Vercel KV/in-memory)
+│   ├── nominatimConnector.ts # Nominatim (OpenStreetMap) API
+│   ├── foursquareConnector.ts # Foursquare Places API
+│   ├── csvImporter.ts      # Curated location data importer
+│   ├── search.ts           # Unified search with deduplication
+│   └── types.ts            # TypeScript interfaces
+├── __tests__/              # Test suites
 ├── tailwind.config.js       # Tailwind configuration
 ├── next.config.js          # Next.js configuration
 ├── tsconfig.json           # TypeScript configuration
@@ -75,6 +84,16 @@ Create a `.env.local` file in the `web/` directory:
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
 
+# Places API Configuration (Optional - enables enhanced location search)
+NOMINATIM_BASE_URL=https://nominatim.openstreetmap.org
+NOMINATIM_USER_AGENT=CardOnCue/1.0 (your-email@example.com)
+FOURSQUARE_API_KEY=fsq3... # Optional - enables Foursquare Places API
+GOOGLE_PLACES_API_KEY=...  # Optional - enables Google Places API (paid)
+
+# Caching Configuration
+PLACES_CACHE_TTL_SECONDS=86400  # 24 hours
+PLACES_RATE_LIMIT_PER_MIN=60    # Rate limit for external APIs
+
 # Node environment
 NODE_ENV=development
 
@@ -90,6 +109,51 @@ NODE_ENV=development
 2. Copy your publishable key and secret key
 3. Add them to your environment variables
 4. Configure your Clerk application settings for your domain
+
+## Places API Integration
+
+CardOnCue includes a sophisticated location search system that integrates with multiple free and paid place APIs to provide accurate business and location data.
+
+### Features
+
+- **Multi-source search**: Combines results from Nominatim (OpenStreetMap), Foursquare Places, and curated location data
+- **Smart caching**: Uses Vercel KV or in-memory caching to reduce API calls and improve performance
+- **Rate limiting**: Prevents hitting free API quotas
+- **Deduplication**: Merges duplicate results from different sources
+- **Curated data**: Admin-imported location data for guaranteed accuracy
+
+### API Endpoints
+
+- `GET /api/v1/search?query=...&lat=...&lon=...&limit=20` - Search for businesses/locations
+- `GET /api/v1/networks/:networkId/locations` - Get locations for a specific network (Costco, libraries, etc.)
+- `POST /api/v1/region-refresh` - Get nearby locations for region updates
+- `POST /api/v1/admin/import-networks` - Admin endpoint to import CSV location data
+
+### Seeding Curated Data
+
+Load sample location data from the infra directory:
+
+```bash
+npm run seed
+```
+
+This will populate the curated networks database with sample locations for Costco, Whole Foods, Kohl's, and San Francisco Public Library.
+
+### Places API Configuration
+
+The system uses a fallback hierarchy:
+
+1. **Curated data** (highest priority - admin-imported CSVs)
+2. **Nominatim** (OpenStreetMap - free, primary source)
+3. **Foursquare Places** (optional - if API key provided)
+4. **Google Places** (optional - paid fallback)
+
+### Privacy & Legal Notes
+
+- Nominatim requires a User-Agent header with contact information
+- Rate limits apply to public Nominatim instances - consider hosting your own for production
+- User location data is only cached temporarily and not stored long-term
+- No user PII is sent to external APIs
 
 ### Production Environment Variables
 

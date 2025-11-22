@@ -1,0 +1,530 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Contact Page matches the snapshot 1`] = `
+<div
+  class="min-h-screen flex flex-col"
+>
+  <header
+    class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800"
+  >
+    <nav
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      <div
+        class="flex justify-between items-center h-16"
+      >
+        <a
+          class="flex items-center space-x-2"
+          href="/"
+        >
+          <div
+            class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+          >
+            <span
+              class="text-white font-bold text-sm"
+            >
+              C
+            </span>
+          </div>
+          <span
+            class="font-bold text-xl text-gray-900 dark:text-white"
+          >
+            CardOnCue
+          </span>
+        </a>
+        <div
+          class="hidden md:flex items-center space-x-8"
+        >
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/"
+          >
+            Home
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/features"
+          >
+            Features
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/search"
+          >
+            Search
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/support"
+          >
+            Support
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/contact"
+          >
+            Contact
+          </a>
+        </div>
+        <div
+          class="flex items-center space-x-4"
+        >
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+              href="/sign-in"
+            >
+              Sign In
+            </a>
+          </div>
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200 flex items-center space-x-1"
+              href="/account"
+            >
+              <svg
+                data-testid="user-icon"
+              />
+              <span>
+                Account
+              </span>
+            </a>
+            <div
+              data-testid="user-button"
+            >
+              User Button
+            </div>
+          </div>
+          <button
+            class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+          >
+            <svg
+              data-testid="menu-icon"
+            />
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main
+    class="flex-grow"
+  >
+    <section
+      class="bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 py-20"
+    >
+      <div
+        class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="text-center"
+        >
+          <div
+            class="inline-flex items-center justify-center w-16 h-16 bg-primary-100 dark:bg-primary-900 rounded-full mb-6"
+          >
+            <svg
+              data-testid="mail-icon"
+            />
+          </div>
+          <h1
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Get in 
+            <span
+              class="text-primary-600"
+            >
+              Touch
+            </span>
+          </h1>
+          <p
+            class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
+          >
+            Have questions about CardOnCue? Need help with your cards? We're here to help. Send us a message and we'll get back to you as soon as possible.
+          </p>
+        </div>
+      </div>
+    </section>
+    <section
+      class="py-20 bg-white dark:bg-gray-900"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="grid lg:grid-cols-2 gap-12"
+        >
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <div
+              class="mb-8"
+            >
+              <h2
+                class="text-2xl font-bold text-gray-900 dark:text-white mb-2"
+              >
+                Send us a message
+              </h2>
+              <p
+                class="text-gray-600 dark:text-gray-300"
+              >
+                Fill out the form below and we'll get back to you within 24 hours.
+              </p>
+            </div>
+            <form
+              class="space-y-6"
+            >
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  for="name"
+                >
+                  Name *
+                </label>
+                <input
+                  class="input-field "
+                  id="name"
+                  placeholder="Your full name"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  for="email"
+                >
+                  Email *
+                </label>
+                <input
+                  class="input-field "
+                  id="email"
+                  placeholder="your.email@example.com"
+                  type="email"
+                  value=""
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  for="message"
+                >
+                  Message *
+                </label>
+                <textarea
+                  class="input-field resize-none "
+                  id="message"
+                  placeholder="Tell us how we can help you..."
+                  rows="6"
+                />
+              </div>
+              <button
+                class="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+                type="submit"
+              >
+                Send Message
+              </button>
+            </form>
+          </div>
+          <div
+            class="space-y-8"
+            viewport="[object Object]"
+          >
+            <div
+              class="card"
+            >
+              <div
+                class="flex items-start space-x-4"
+              >
+                <svg
+                  data-testid="clock-icon"
+                />
+                <div>
+                  <h3
+                    class="font-semibold text-gray-900 dark:text-white mb-2"
+                  >
+                    Response Time
+                  </h3>
+                  <p
+                    class="text-gray-600 dark:text-gray-300"
+                  >
+                    We typically respond to all inquiries within 24 hours during business days. For urgent technical issues, please check our support page first.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div
+              class="card"
+            >
+              <h3
+                class="font-semibold text-gray-900 dark:text-white mb-4"
+              >
+                Other Ways to Reach Us
+              </h3>
+              <div
+                class="space-y-4"
+              >
+                <div
+                  class="flex items-center space-x-3"
+                >
+                  <svg
+                    data-testid="mail-icon"
+                  />
+                  <div>
+                    <p
+                      class="font-medium text-gray-900 dark:text-white"
+                    >
+                      Email
+                    </p>
+                    <p
+                      class="text-gray-600 dark:text-gray-300"
+                    >
+                      hello@cardoncue.com
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center space-x-3"
+                >
+                  <svg
+                    data-testid="message-square-icon"
+                  />
+                  <div>
+                    <p
+                      class="font-medium text-gray-900 dark:text-white"
+                    >
+                      Support
+                    </p>
+                    <p
+                      class="text-gray-600 dark:text-gray-300"
+                    >
+                      Check our FAQ and support page first
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="card"
+            >
+              <h3
+                class="font-semibold text-gray-900 dark:text-white mb-4"
+              >
+                Quick Links
+              </h3>
+              <div
+                class="space-y-2"
+              >
+                <a
+                  class="block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+                  href="/support"
+                >
+                  Support & FAQ →
+                </a>
+                <a
+                  class="block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+                  href="/features"
+                >
+                  Features Overview →
+                </a>
+                <a
+                  class="block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+                  href="/search"
+                >
+                  Find Locations →
+                </a>
+                <a
+                  class="block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300"
+                  href="/android"
+                >
+                  Android Waitlist →
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer
+    class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
+  >
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+    >
+      <div
+        class="grid grid-cols-1 md:grid-cols-4 gap-8"
+      >
+        <div
+          class="col-span-1 md:col-span-2"
+        >
+          <div
+            class="flex items-center space-x-2 mb-4"
+          >
+            <div
+              class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+            >
+              <span
+                class="text-white font-bold text-sm"
+              >
+                C
+              </span>
+            </div>
+            <span
+              class="font-bold text-xl text-gray-900 dark:text-white"
+            >
+              CardOnCue
+            </span>
+          </div>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4 max-w-md"
+          >
+            Automatically show your membership cards, library cards, and barcodes when you enter relevant locations. Never fumble for your wallet again.
+          </p>
+          <div
+            class="flex space-x-4"
+          >
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                Twitter
+              </span>
+              <svg
+                data-testid="twitter-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                GitHub
+              </span>
+              <svg
+                data-testid="github-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="mailto:hello@cardoncue.com"
+            >
+              <span
+                class="sr-only"
+              >
+                Email
+              </span>
+              <svg
+                data-testid="mail-icon"
+              />
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Navigation
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/"
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/features"
+              >
+                Features
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/support"
+              >
+                Support
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Legal
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/privacy"
+              >
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/terms"
+              >
+                Terms of Use
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700"
+      >
+        <div
+          class="flex flex-col sm:flex-row justify-between items-center"
+        >
+          <div
+            class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-0"
+          >
+            <a
+              class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-sm font-medium"
+              href="#"
+            >
+              Download on the App Store
+            </a>
+            <a
+              class="text-primary-600 hover:text-primary-700 font-medium text-sm"
+              href="/android"
+            >
+              Android Version Coming Soon →
+            </a>
+          </div>
+          <p
+            class="text-sm text-gray-500 dark:text-gray-400"
+          >
+            © 2024 CardOnCue. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;

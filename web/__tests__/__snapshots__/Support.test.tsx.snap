@@ -1,0 +1,673 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Support Page matches the snapshot 1`] = `
+<div
+  class="min-h-screen flex flex-col"
+>
+  <header
+    class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800"
+  >
+    <nav
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      <div
+        class="flex justify-between items-center h-16"
+      >
+        <a
+          class="flex items-center space-x-2"
+          href="/"
+        >
+          <div
+            class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+          >
+            <span
+              class="text-white font-bold text-sm"
+            >
+              C
+            </span>
+          </div>
+          <span
+            class="font-bold text-xl text-gray-900 dark:text-white"
+          >
+            CardOnCue
+          </span>
+        </a>
+        <div
+          class="hidden md:flex items-center space-x-8"
+        >
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/"
+          >
+            Home
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/features"
+          >
+            Features
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/search"
+          >
+            Search
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/support"
+          >
+            Support
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/contact"
+          >
+            Contact
+          </a>
+        </div>
+        <div
+          class="flex items-center space-x-4"
+        >
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+              href="/sign-in"
+            >
+              Sign In
+            </a>
+          </div>
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200 flex items-center space-x-1"
+              href="/account"
+            >
+              <svg
+                data-testid="user-icon"
+              />
+              <span>
+                Account
+              </span>
+            </a>
+            <div
+              data-testid="user-button"
+            >
+              User Button
+            </div>
+          </div>
+          <button
+            class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+          >
+            <svg
+              data-testid="menu-icon"
+            />
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main
+    class="flex-grow"
+  >
+    <section
+      class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-gray-900 dark:to-gray-800 py-20"
+    >
+      <div
+        class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="text-center"
+        >
+          <div
+            class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full mb-6"
+          >
+            <svg
+              data-testid="help-circle-icon"
+            />
+          </div>
+          <h1
+            class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6"
+          >
+            Support & 
+            <span
+              class="text-blue-600"
+            >
+              FAQ
+            </span>
+          </h1>
+          <p
+            class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
+          >
+            Find answers to common questions about CardOnCue. Can't find what you're looking for? Contact our support team.
+          </p>
+          <a
+            class="btn-primary"
+            href="/contact"
+          >
+            Contact Support
+          </a>
+        </div>
+      </div>
+    </section>
+    <section
+      class="py-20 bg-white dark:bg-gray-900"
+    >
+      <div
+        class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          class="mb-12"
+        >
+          <div
+            class="flex flex-wrap justify-center gap-3"
+          >
+            <button
+              class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 bg-primary-600 text-white"
+            >
+              All Questions
+            </button>
+            <button
+              class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              Getting Started
+            </button>
+            <button
+              class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              Location & Detection
+            </button>
+            <button
+              class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              Cards & Barcodes
+            </button>
+            <button
+              class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              Security & Privacy
+            </button>
+            <button
+              class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              Billing & Subscriptions
+            </button>
+            <button
+              class="px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              Technical
+            </button>
+          </div>
+        </div>
+        <div
+          class="space-y-4"
+        >
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                What is CardOnCue?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                How does location detection work?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                Why does CardOnCue need precise location permission?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                How are my cards kept secure?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                How do I add cards to CardOnCue?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                What locations are supported?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                How do one-time QR codes work?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                Can I control notifications?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                How does billing and subscriptions work?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                How do I cancel my subscription?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                Does CardOnCue drain my battery?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                Can I use CardOnCue on multiple devices?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                What data do you collect and how is it used?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+          <div
+            class="card"
+            viewport="[object Object]"
+          >
+            <button
+              class="w-full flex items-center justify-between text-left"
+            >
+              <h3
+                class="text-lg font-medium text-gray-900 dark:text-white pr-4"
+              >
+                When will Android version be available?
+              </h3>
+              <svg
+                data-testid="chevron-down-icon"
+              />
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="py-20 bg-gray-50 dark:bg-gray-800"
+    >
+      <div
+        class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          viewport="[object Object]"
+        >
+          <h2
+            class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4"
+          >
+            Still Need Help?
+          </h2>
+          <p
+            class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
+          >
+            Can't find the answer you're looking for? Our support team is here to help.
+          </p>
+          <div
+            class="flex flex-col sm:flex-row gap-4 justify-center"
+          >
+            <a
+              class="btn-primary"
+              href="/contact"
+            >
+              Contact Support
+            </a>
+            <a
+              class="btn-secondary"
+              href="mailto:hello@cardoncue.com"
+            >
+              Email Us Directly
+            </a>
+          </div>
+          <div
+            class="mt-8 text-sm text-gray-500 dark:text-gray-400"
+          >
+            <p>
+              We typically respond within 24 hours during business days.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer
+    class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
+  >
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+    >
+      <div
+        class="grid grid-cols-1 md:grid-cols-4 gap-8"
+      >
+        <div
+          class="col-span-1 md:col-span-2"
+        >
+          <div
+            class="flex items-center space-x-2 mb-4"
+          >
+            <div
+              class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+            >
+              <span
+                class="text-white font-bold text-sm"
+              >
+                C
+              </span>
+            </div>
+            <span
+              class="font-bold text-xl text-gray-900 dark:text-white"
+            >
+              CardOnCue
+            </span>
+          </div>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4 max-w-md"
+          >
+            Automatically show your membership cards, library cards, and barcodes when you enter relevant locations. Never fumble for your wallet again.
+          </p>
+          <div
+            class="flex space-x-4"
+          >
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                Twitter
+              </span>
+              <svg
+                data-testid="twitter-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                GitHub
+              </span>
+              <svg
+                data-testid="github-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="mailto:hello@cardoncue.com"
+            >
+              <span
+                class="sr-only"
+              >
+                Email
+              </span>
+              <svg
+                data-testid="mail-icon"
+              />
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Navigation
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/"
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/features"
+              >
+                Features
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/support"
+              >
+                Support
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Legal
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/privacy"
+              >
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/terms"
+              >
+                Terms of Use
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700"
+      >
+        <div
+          class="flex flex-col sm:flex-row justify-between items-center"
+        >
+          <div
+            class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-0"
+          >
+            <a
+              class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-sm font-medium"
+              href="#"
+            >
+              Download on the App Store
+            </a>
+            <a
+              class="text-primary-600 hover:text-primary-700 font-medium text-sm"
+              href="/android"
+            >
+              Android Version Coming Soon →
+            </a>
+          </div>
+          <p
+            class="text-sm text-gray-500 dark:text-gray-400"
+          >
+            © 2024 CardOnCue. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;

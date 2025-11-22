@@ -1,0 +1,128 @@
+[
+  {
+    "id": "costco",
+    "name": "Costco Wholesale",
+    "locations": [
+      {
+        "network_id": "costco",
+        "network_name": "Costco Wholesale",
+        "lat": 37.7749,
+        "lon": -122.4194,
+        "radius_meters": 100,
+        "notes": "Costco Wholesale - San Francisco"
+      },
+      {
+        "network_id": "costco",
+        "network_name": "Costco Wholesale",
+        "lat": 37.6475,
+        "lon": -122.4064,
+        "radius_meters": 100,
+        "notes": "Costco Wholesale - South San Francisco"
+      },
+      {
+        "network_id": "costco",
+        "network_name": "Costco Wholesale",
+        "lat": 37.3875,
+        "lon": -121.9825,
+        "radius_meters": 100,
+        "notes": "Costco Wholesale - Mountain View"
+      }
+    ]
+  },
+  {
+    "id": "whole-foods",
+    "name": "Whole Foods Market",
+    "locations": [
+      {
+        "network_id": "whole-foods",
+        "network_name": "Whole Foods Market",
+        "lat": 37.782,
+        "lon": -122.4009,
+        "radius_meters": 80,
+        "notes": "Whole Foods Market - SOMA"
+      },
+      {
+        "network_id": "whole-foods",
+        "network_name": "Whole Foods Market",
+        "lat": 37.7516,
+        "lon": -122.4302,
+        "radius_meters": 80,
+        "notes": "Whole Foods Market - Noe Valley"
+      }
+    ]
+  },
+  {
+    "id": "kohls",
+    "name": "Kohl's",
+    "locations": [
+      {
+        "network_id": "kohls",
+        "network_name": "Kohl's",
+        "lat": 37.7816,
+        "lon": -122.4501,
+        "radius_meters": 100,
+        "notes": "Kohl's - Geary St"
+      },
+      {
+        "network_id": "kohls",
+        "network_name": "Kohl's",
+        "lat": 37.6719,
+        "lon": -122.4692,
+        "radius_meters": 100,
+        "notes": "Kohl's - Colma"
+      }
+    ]
+  },
+  {
+    "id": "sfpl",
+    "name": "San Francisco Public Library",
+    "locations": [
+      {
+        "network_id": "sfpl",
+        "network_name": "San Francisco Public Library",
+        "lat": 37.779,
+        "lon": -122.4153,
+        "radius_meters": 50,
+        "notes": "Main Library"
+      },
+      {
+        "network_id": "sfpl",
+        "network_name": "San Francisco Public Library",
+        "lat": 37.759,
+        "lon": -122.4198,
+        "radius_meters": 50,
+        "notes": "Mission Branch"
+      },
+      {
+        "network_id": "sfpl",
+        "network_name": "San Francisco Public Library",
+        "lat": 37.7504,
+        "lon": -122.4322,
+        "radius_meters": 50,
+        "notes": "Noe Valley Branch"
+      }
+    ]
+  },
+  {
+    "id": "test-network",
+    "name": "Test Network",
+    "locations": [
+      {
+        "network_id": "test-network",
+        "network_name": "Test Network",
+        "lat": 37.7749,
+        "lon": -122.4194,
+        "radius_meters": 100,
+        "notes": "Test Store"
+      },
+      {
+        "network_id": "test-network",
+        "network_name": "Test Network",
+        "lat": 37.7849,
+        "lon": -122.4294,
+        "radius_meters": 80,
+        "notes": "Another Store"
+      }
+    ]
+  }
+]

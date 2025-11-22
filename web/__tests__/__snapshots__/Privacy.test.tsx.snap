@@ -1,0 +1,640 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Privacy Page matches the snapshot 1`] = `
+<div
+  class="min-h-screen flex flex-col"
+>
+  <header
+    class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-800"
+  >
+    <nav
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      <div
+        class="flex justify-between items-center h-16"
+      >
+        <a
+          class="flex items-center space-x-2"
+          href="/"
+        >
+          <div
+            class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+          >
+            <span
+              class="text-white font-bold text-sm"
+            >
+              C
+            </span>
+          </div>
+          <span
+            class="font-bold text-xl text-gray-900 dark:text-white"
+          >
+            CardOnCue
+          </span>
+        </a>
+        <div
+          class="hidden md:flex items-center space-x-8"
+        >
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/"
+          >
+            Home
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/features"
+          >
+            Features
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/search"
+          >
+            Search
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/support"
+          >
+            Support
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/contact"
+          >
+            Contact
+          </a>
+        </div>
+        <div
+          class="flex items-center space-x-4"
+        >
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+              href="/sign-in"
+            >
+              Sign In
+            </a>
+          </div>
+          <div>
+            <a
+              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200 flex items-center space-x-1"
+              href="/account"
+            >
+              <svg
+                data-testid="user-icon"
+              />
+              <span>
+                Account
+              </span>
+            </a>
+            <div
+              data-testid="user-button"
+            >
+              User Button
+            </div>
+          </div>
+          <button
+            class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+          >
+            <svg
+              data-testid="menu-icon"
+            />
+          </button>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main
+    class="flex-grow py-20"
+  >
+    <div
+      class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      <div
+        class="card"
+      >
+        <h1
+          class="text-3xl font-bold text-gray-900 dark:text-white mb-8"
+        >
+          Privacy Policy
+        </h1>
+        <div
+          class="prose dark:prose-invert max-w-none"
+        >
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-6"
+          >
+            <strong>
+              Last updated:
+            </strong>
+             
+            11/22/2025
+          </p>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            1. Introduction
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            At CardOnCue, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our location-aware digital card storage service.
+          </p>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            2. Information We Collect
+          </h2>
+          <h3
+            class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+          >
+            2.1 Information You Provide
+          </h3>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              Account information (email, name) when you create an account
+            </li>
+            <li>
+              Card information (encrypted and stored securely)
+            </li>
+            <li>
+              Communications you send to us (support requests, feedback)
+            </li>
+          </ul>
+          <h3
+            class="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3"
+          >
+            2.2 Information Collected Automatically
+          </h3>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              Device information (iOS version, device model)
+            </li>
+            <li>
+              App usage statistics (anonymized)
+            </li>
+            <li>
+              Location data (processed locally, never stored on our servers)
+            </li>
+          </ul>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            3. How We Use Your Information
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            We use the information we collect to:
+          </p>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              Provide and maintain the CardOnCue service
+            </li>
+            <li>
+              Process your transactions and manage subscriptions
+            </li>
+            <li>
+              Send you important updates and notifications
+            </li>
+            <li>
+              Respond to your customer service requests
+            </li>
+            <li>
+              Improve our service through anonymized analytics
+            </li>
+            <li>
+              Ensure security and prevent fraud
+            </li>
+          </ul>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            4. Data Security and Encryption
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            Your card data is protected with industry-standard encryption:
+          </p>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              All card data is encrypted using AES-256-GCM encryption
+            </li>
+            <li>
+              Encryption keys are stored securely on your device
+            </li>
+            <li>
+              We cannot decrypt or access your actual card information
+            </li>
+            <li>
+              Location data is processed locally and never transmitted to our servers
+            </li>
+          </ul>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            5. Location Data Handling
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            CardOnCue requires location permissions to provide its core functionality:
+          </p>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              Location data is used only for location detection on your device
+            </li>
+            <li>
+              No location history is stored or transmitted to our servers
+            </li>
+            <li>
+              Location detection uses efficient geofencing to minimize battery impact
+            </li>
+            <li>
+              You can disable location services in your device settings at any time
+            </li>
+          </ul>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            6. Information Sharing and Disclosure
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            We do not sell, trade, or otherwise transfer your personal information to third parties, except in the following cases:
+          </p>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              With your explicit consent
+            </li>
+            <li>
+              To comply with legal obligations
+            </li>
+            <li>
+              To protect our rights and prevent fraud
+            </li>
+            <li>
+              In connection with a business transfer (with notice)
+            </li>
+          </ul>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            7. Data Retention
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            We retain your information for as long as necessary to provide our services and comply with legal obligations:
+          </p>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              Account data is retained while your account is active
+            </li>
+            <li>
+              Encrypted card data is deleted when you delete your account
+            </li>
+            <li>
+              Support communications may be retained for quality assurance
+            </li>
+            <li>
+              Anonymous analytics data is aggregated and retained indefinitely
+            </li>
+          </ul>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            8. Your Rights and Choices
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            You have the following rights regarding your data:
+          </p>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              <strong>
+                Access:
+              </strong>
+               Request a copy of your personal data
+            </li>
+            <li>
+              <strong>
+                Correction:
+              </strong>
+               Update inaccurate or incomplete data
+            </li>
+            <li>
+              <strong>
+                Deletion:
+              </strong>
+               Request deletion of your account and data
+            </li>
+            <li>
+              <strong>
+                Portability:
+              </strong>
+               Export your data in a portable format
+            </li>
+            <li>
+              <strong>
+                Opt-out:
+              </strong>
+               Unsubscribe from marketing communications
+            </li>
+          </ul>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            9. Cookies and Tracking
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            Our website uses minimal cookies and tracking:
+          </p>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              Essential cookies for website functionality
+            </li>
+            <li>
+              Anonymous analytics to improve user experience
+            </li>
+            <li>
+              No advertising or third-party tracking cookies
+            </li>
+            <li>
+              You can disable cookies in your browser settings
+            </li>
+          </ul>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            10. International Data Transfers
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            Your data may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place to protect your data in accordance with applicable privacy laws.
+          </p>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            11. Children's Privacy
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            CardOnCue is not intended for children under 13. We do not knowingly collect personal information from children under 13. If we become aware of such collection, we will delete the information immediately.
+          </p>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            12. Changes to This Policy
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            We may update this Privacy Policy from time to time. We will notify you of any material changes by posting the new policy on this page and updating the "Last updated" date.
+          </p>
+          <h2
+            class="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4"
+          >
+            13. Contact Us
+          </h2>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4"
+          >
+            If you have questions about this Privacy Policy or our data practices, please contact us at:
+          </p>
+          <ul
+            class="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4"
+          >
+            <li>
+              Email: privacy@cardoncue.com
+            </li>
+            <li>
+              Address: [Company Address]
+            </li>
+          </ul>
+          <div
+            class="mt-8 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg"
+          >
+            <p
+              class="text-blue-800 dark:text-blue-200 text-sm"
+            >
+              <strong>
+                Data Controller:
+              </strong>
+               CardOnCue operates as the data controller for the personal information collected through our service. We are committed to protecting your privacy and handling your data responsibly.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer
+    class="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800"
+  >
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
+    >
+      <div
+        class="grid grid-cols-1 md:grid-cols-4 gap-8"
+      >
+        <div
+          class="col-span-1 md:col-span-2"
+        >
+          <div
+            class="flex items-center space-x-2 mb-4"
+          >
+            <div
+              class="w-8 h-8 bg-primary-600 rounded-lg flex items-center justify-center"
+            >
+              <span
+                class="text-white font-bold text-sm"
+              >
+                C
+              </span>
+            </div>
+            <span
+              class="font-bold text-xl text-gray-900 dark:text-white"
+            >
+              CardOnCue
+            </span>
+          </div>
+          <p
+            class="text-gray-600 dark:text-gray-300 mb-4 max-w-md"
+          >
+            Automatically show your membership cards, library cards, and barcodes when you enter relevant locations. Never fumble for your wallet again.
+          </p>
+          <div
+            class="flex space-x-4"
+          >
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                Twitter
+              </span>
+              <svg
+                data-testid="twitter-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="#"
+            >
+              <span
+                class="sr-only"
+              >
+                GitHub
+              </span>
+              <svg
+                data-testid="github-icon"
+              />
+            </a>
+            <a
+              class="text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+              href="mailto:hello@cardoncue.com"
+            >
+              <span
+                class="sr-only"
+              >
+                Email
+              </span>
+              <svg
+                data-testid="mail-icon"
+              />
+            </a>
+          </div>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Navigation
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/"
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/features"
+              >
+                Features
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/support"
+              >
+                Support
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
+          <h3
+            class="text-sm font-semibold text-gray-900 dark:text-white uppercase tracking-wider mb-4"
+          >
+            Legal
+          </h3>
+          <ul
+            class="space-y-2"
+          >
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/privacy"
+              >
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a
+                class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+                href="/terms"
+              >
+                Terms of Use
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700"
+      >
+        <div
+          class="flex flex-col sm:flex-row justify-between items-center"
+        >
+          <div
+            class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-4 sm:mb-0"
+          >
+            <a
+              class="bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors duration-200 text-sm font-medium"
+              href="#"
+            >
+              Download on the App Store
+            </a>
+            <a
+              class="text-primary-600 hover:text-primary-700 font-medium text-sm"
+              href="/android"
+            >
+              Android Version Coming Soon →
+            </a>
+          </div>
+          <p
+            class="text-sm text-gray-500 dark:text-gray-400"
+          >
+            © 2024 CardOnCue. All rights reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;
