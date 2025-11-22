@@ -1,0 +1,6 @@
+id,name,canonical_names,category,is_large_area,default_radius_meters,tags
+costco,Costco Wholesale,"Costco|Costco Wholesale|Costco Warehouse",grocery,false,100,"membership,grocery,wholesale"
+whole-foods,Whole Foods Market,"Whole Foods|Whole Foods Market",grocery,false,80,"grocery,organic"
+kohls,Kohl's,"Kohl's|Kohls",retail,false,100,"retail,amazon-returns"
+sfpl,San Francisco Public Library,"SFPL|SF Library|San Francisco Library",library,false,50,"library,books"
+disneyland,Disneyland Resort,"Disneyland|Disneyland Resort",entertainment,true,2000,"theme-park,entertainment"

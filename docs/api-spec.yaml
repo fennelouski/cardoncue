@@ -1,0 +1,1092 @@
+openapi: 3.0.3
+info:
+  title: CardOnCue API
+  description: |
+    Location-aware digital wallet API for membership cards, loyalty cards, and one-time passes.
+
+    **Key Features:**
+    - End-to-end encrypted card storage
+    - Dynamic region monitoring with nearest-K algorithm
+    - Privacy-first design (local-first, optional sync)
+    - Free-tier optimized (OpenStreetMap + curated data)
+
+    **Authentication:**
+    All endpoints (except /auth/*) require Bearer token authentication.
+  version: 1.0.0
+  contact:
+    name: CardOnCue API Support
+    url: https://cardoncue.app/support
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: https://api.cardoncue.app/v1
+    description: Production server
+  - url: http://localhost:3000/v1
+    description: Local development server
+
+tags:
+  - name: Authentication
+    description: User authentication and session management
+  - name: Cards
+    description: Card CRUD operations (encrypted storage)
+  - name: Locations
+    description: Geospatial queries for stores and venues
+  - name: Networks
+    description: Chain/network management (e.g., Costco, library systems)
+  - name: Regions
+    description: Dynamic region monitoring and refresh
+  - name: Admin
+    description: Administrative operations (import data, manage networks)
+
+security:
+  - BearerAuth: []
+
+paths:
+  # ==================== Authentication ====================
+  /auth/apple:
+    post:
+      summary: Authenticate with Sign in with Apple
+      tags: [Authentication]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - identity_token
+              properties:
+                identity_token:
+                  type: string
+                  description: JWT from Sign in with Apple
+                  example: eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
+                user_identifier:
+                  type: string
+                  description: User identifier from Apple (first-time only)
+                  example: 000123.abc456def789.0123
+                email:
+                  type: string
+                  format: email
+                  description: User email (first-time only, may be relay)
+                  example: user@privaterelay.appleid.com
+                full_name:
+                  type: object
+                  description: User's name (first-time only)
+                  properties:
+                    given_name:
+                      type: string
+                      example: John
+                    family_name:
+                      type: string
+                      example: Doe
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+
+  /auth/email:
+    post:
+      summary: Authenticate with email and password
+      tags: [Authentication]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+                  example: SecurePassword123!
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+
+  /auth/refresh:
+    post:
+      summary: Refresh access token
+      tags: [Authentication]
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refresh_token
+              properties:
+                refresh_token:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      responses:
+        '200':
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ==================== Cards ====================
+  /cards:
+    get:
+      summary: List user's cards
+      tags: [Cards]
+      parameters:
+        - name: include_archived
+          in: query
+          description: Include soft-deleted cards
+          schema:
+            type: boolean
+            default: false
+        - name: network_id
+          in: query
+          description: Filter by network ID
+          schema:
+            type: string
+            example: costco
+        - name: tags
+          in: query
+          description: Filter by tags (comma-separated)
+          schema:
+            type: string
+            example: grocery,membership
+      responses:
+        '200':
+          description: List of cards
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  cards:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Card'
+                  count:
+                    type: integer
+                    example: 12
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create a new card
+      tags: [Cards]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardCreateRequest'
+      responses:
+        '201':
+          description: Card created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /cards/{card_id}:
+    get:
+      summary: Get a specific card
+      tags: [Cards]
+      parameters:
+        - $ref: '#/components/parameters/CardId'
+      responses:
+        '200':
+          description: Card details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    patch:
+      summary: Update card metadata
+      tags: [Cards]
+      parameters:
+        - $ref: '#/components/parameters/CardId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John's Costco Card
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  example: [grocery, membership, family]
+                network_ids:
+                  type: array
+                  items:
+                    type: string
+                  example: [costco]
+                valid_from:
+                  type: string
+                  format: date-time
+                  example: '2025-01-01T00:00:00Z'
+                valid_to:
+                  type: string
+                  format: date-time
+                  example: '2026-01-01T00:00:00Z'
+                one_time:
+                  type: boolean
+                  example: false
+                metadata:
+                  type: object
+                  additionalProperties: true
+                  example:
+                    owner: John Doe
+                    member_since: '2020-03-15'
+      responses:
+        '200':
+          description: Card updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Card'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    delete:
+      summary: Delete a card (soft delete)
+      tags: [Cards]
+      parameters:
+        - $ref: '#/components/parameters/CardId'
+      responses:
+        '204':
+          description: Card deleted successfully
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ==================== Locations ====================
+  /locations/nearby:
+    get:
+      summary: Find nearby locations
+      tags: [Locations]
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+            format: float
+            minimum: -90
+            maximum: 90
+          example: 37.7749
+        - name: lon
+          in: query
+          required: true
+          schema:
+            type: number
+            format: float
+            minimum: -180
+            maximum: 180
+          example: -122.4194
+        - name: radius_km
+          in: query
+          description: Search radius in kilometers
+          schema:
+            type: number
+            format: float
+            minimum: 0.1
+            maximum: 100
+            default: 10
+          example: 5
+        - name: types
+          in: query
+          description: Filter by location types (comma-separated)
+          schema:
+            type: string
+          example: grocery,retail
+        - name: network_ids
+          in: query
+          description: Filter by network IDs (comma-separated)
+          schema:
+            type: string
+          example: costco,whole-foods
+        - name: limit
+          in: query
+          description: Maximum number of results
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          example: 20
+      responses:
+        '200':
+          description: List of nearby locations
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  locations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Location'
+                  count:
+                    type: integer
+                    example: 5
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ==================== Networks ====================
+  /networks:
+    get:
+      summary: List all networks
+      tags: [Networks]
+      parameters:
+        - name: search
+          in: query
+          description: Fuzzy search by network name
+          schema:
+            type: string
+          example: costco
+        - name: category
+          in: query
+          description: Filter by category
+          schema:
+            type: string
+            enum: [grocery, retail, library, entertainment, one-time, other]
+          example: grocery
+      responses:
+        '200':
+          description: List of networks
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  networks:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Network'
+                  count:
+                    type: integer
+                    example: 45
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /networks/{network_id}/locations:
+    get:
+      summary: Get all locations for a network
+      tags: [Networks]
+      parameters:
+        - $ref: '#/components/parameters/NetworkId'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+            default: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: List of locations for this network
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  network:
+                    $ref: '#/components/schemas/Network'
+                  locations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Location'
+                  count:
+                    type: integer
+                    example: 523
+                  total:
+                    type: integer
+                    description: Total locations (for pagination)
+                    example: 523
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ==================== Regions ====================
+  /region-refresh:
+    post:
+      summary: Get nearest regions for monitoring
+      description: |
+        Returns the top K (default 20) nearest locations for iOS region monitoring.
+        Implements the dynamic region refresh algorithm to work around iOS's
+        20-region limit.
+      tags: [Regions]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegionRefreshRequest'
+      responses:
+        '200':
+          description: Top K nearest regions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegionRefreshResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ==================== Admin ====================
+  /admin/networks:
+    post:
+      summary: Create or update a network
+      tags: [Admin]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: string
+                  example: costco
+                name:
+                  type: string
+                  example: Costco Wholesale
+                canonical_names:
+                  type: array
+                  items:
+                    type: string
+                  example: [Costco, Costco Wholesale, Costco Warehouse]
+                category:
+                  type: string
+                  enum: [grocery, retail, library, entertainment, one-time, other]
+                  example: grocery
+                is_large_area:
+                  type: boolean
+                  description: Use large geofences (e.g., theme parks)
+                  example: false
+                default_radius_meters:
+                  type: number
+                  example: 100
+                tags:
+                  type: array
+                  items:
+                    type: string
+                  example: [membership, grocery, wholesale]
+      responses:
+        '201':
+          description: Network created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Network'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/import:
+    post:
+      summary: Import locations from CSV
+      tags: [Admin]
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - file
+                - network_id
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: CSV file with columns (name, address, lat, lon, radius)
+                network_id:
+                  type: string
+                  example: costco
+                overwrite:
+                  type: boolean
+                  default: false
+                  description: Overwrite existing locations
+      responses:
+        '200':
+          description: Import completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  imported:
+                    type: integer
+                    example: 523
+                  skipped:
+                    type: integer
+                    example: 0
+                  errors:
+                    type: array
+                    items:
+                      type: string
+                    example: []
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+# ==================== Components ====================
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT access token from /auth endpoints
+
+  parameters:
+    CardId:
+      name: card_id
+      in: path
+      required: true
+      description: Unique card identifier
+      schema:
+        type: string
+        example: card_01HG4K3V8Q9F6Z2N1M0E7X5Y3W
+
+    NetworkId:
+      name: network_id
+      in: path
+      required: true
+      description: Network identifier
+      schema:
+        type: string
+        example: costco
+
+  schemas:
+    AuthResponse:
+      type: object
+      required:
+        - access_token
+        - refresh_token
+        - expires_in
+        - user
+      properties:
+        access_token:
+          type: string
+          description: JWT access token (15 min expiry)
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyXzAxSEc0SzNWOFE5RjZaMk4xTTBFN1g1WTNXIN0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        refresh_token:
+          type: string
+          description: Refresh token (7 day expiry)
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        expires_in:
+          type: integer
+          description: Access token expiry in seconds
+          example: 900
+        token_type:
+          type: string
+          example: Bearer
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      required:
+        - id
+        - created_at
+      properties:
+        id:
+          type: string
+          example: user_01HG4K3V8Q9F6Z2N1M0E7X5Y3W
+        email:
+          type: string
+          format: email
+          example: user@example.com
+        full_name:
+          type: string
+          example: John Doe
+        created_at:
+          type: string
+          format: date-time
+          example: '2025-01-15T10:30:00Z'
+        preferences:
+          type: object
+          properties:
+            sync_enabled:
+              type: boolean
+              example: false
+            notification_radius_meters:
+              type: integer
+              example: 100
+
+    Card:
+      type: object
+      required:
+        - id
+        - user_id
+        - name
+        - barcode_type
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+          example: card_01HG4K3V8Q9F6Z2N1M0E7X5Y3W
+        user_id:
+          type: string
+          example: user_01HG4K3V8Q9F6Z2N1M0E7X5Y3W
+        name:
+          type: string
+          example: John's Costco Card
+        barcode_type:
+          type: string
+          enum: [qr, code128, pdf417, aztec, ean13, upc_a, code39, itf]
+          example: code128
+        payload_encrypted:
+          type: string
+          description: Base64-encoded encrypted payload (E2E encrypted, server cannot decrypt)
+          example: AES256-GCM:nonce:ciphertext:tag
+        tags:
+          type: array
+          items:
+            type: string
+          example: [grocery, membership, family]
+        network_ids:
+          type: array
+          items:
+            type: string
+          example: [costco]
+        valid_from:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2025-01-01T00:00:00Z'
+        valid_to:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2026-01-01T00:00:00Z'
+        one_time:
+          type: boolean
+          description: Is this a one-time use pass? (e.g., Amazon return)
+          example: false
+        used_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Timestamp when one-time pass was used
+          example: null
+        metadata:
+          type: object
+          additionalProperties: true
+          description: User-defined metadata
+          example:
+            owner: John Doe
+            member_number: '123456789'
+            card_color: blue
+        created_at:
+          type: string
+          format: date-time
+          example: '2025-01-15T10:30:00Z'
+        updated_at:
+          type: string
+          format: date-time
+          example: '2025-01-15T10:30:00Z'
+        archived_at:
+          type: string
+          format: date-time
+          nullable: true
+          example: null
+
+    CardCreateRequest:
+      type: object
+      required:
+        - name
+        - barcode_type
+        - payload_encrypted
+      properties:
+        name:
+          type: string
+          example: John's Costco Card
+        barcode_type:
+          type: string
+          enum: [qr, code128, pdf417, aztec, ean13, upc_a, code39, itf]
+          example: code128
+        payload_encrypted:
+          type: string
+          description: Base64-encoded encrypted payload
+          example: AES256-GCM:nonce:ciphertext:tag
+        tags:
+          type: array
+          items:
+            type: string
+          example: [grocery, membership]
+        network_ids:
+          type: array
+          items:
+            type: string
+          example: [costco]
+        valid_from:
+          type: string
+          format: date-time
+          nullable: true
+        valid_to:
+          type: string
+          format: date-time
+          nullable: true
+        one_time:
+          type: boolean
+          default: false
+        metadata:
+          type: object
+          additionalProperties: true
+
+    Location:
+      type: object
+      required:
+        - id
+        - network_id
+        - lat
+        - lon
+        - name
+      properties:
+        id:
+          type: string
+          example: loc_costco_sf_001
+        network_id:
+          type: string
+          example: costco
+        network_name:
+          type: string
+          example: Costco Wholesale
+        name:
+          type: string
+          example: Costco Wholesale - San Francisco
+        address:
+          type: string
+          example: 450 10th St, San Francisco, CA 94103
+        lat:
+          type: number
+          format: float
+          example: 37.7749
+        lon:
+          type: number
+          format: float
+          example: -122.4194
+        radius_meters:
+          type: number
+          description: Suggested monitoring radius
+          example: 100
+        distance_meters:
+          type: number
+          description: Distance from query point (only in nearby queries)
+          example: 245.7
+        phone:
+          type: string
+          nullable: true
+          example: '+1-415-555-0123'
+        hours:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: string
+          example:
+            monday: '10:00-20:30'
+            tuesday: '10:00-20:30'
+
+    Network:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          example: costco
+        name:
+          type: string
+          example: Costco Wholesale
+        canonical_names:
+          type: array
+          items:
+            type: string
+          example: [Costco, Costco Wholesale, Costco Warehouse]
+        category:
+          type: string
+          enum: [grocery, retail, library, entertainment, one-time, other]
+          example: grocery
+        is_large_area:
+          type: boolean
+          example: false
+        default_radius_meters:
+          type: number
+          example: 100
+        tags:
+          type: array
+          items:
+            type: string
+          example: [membership, grocery, wholesale]
+        location_count:
+          type: integer
+          description: Total number of locations in this network
+          example: 523
+
+    RegionRefreshRequest:
+      type: object
+      required:
+        - lat
+        - lon
+      properties:
+        lat:
+          type: number
+          format: float
+          minimum: -90
+          maximum: 90
+          example: 37.7749
+        lon:
+          type: number
+          format: float
+          minimum: -180
+          maximum: 180
+          example: -122.4194
+        accuracy:
+          type: number
+          description: Location accuracy in meters
+          example: 65.0
+        radius_km:
+          type: number
+          description: Search radius in kilometers
+          minimum: 1
+          maximum: 100
+          default: 50
+          example: 50
+        user_networks:
+          type: array
+          items:
+            type: string
+          description: Networks user has cards for (prioritized)
+          example: [costco, whole-foods, sfpl]
+        max_regions:
+          type: integer
+          description: Maximum regions to return (iOS limit is ~20)
+          minimum: 1
+          maximum: 20
+          default: 20
+          example: 20
+
+    RegionRefreshResponse:
+      type: object
+      required:
+        - regions
+        - refresh_after_meters
+        - cache_ttl_seconds
+        - server_time
+      properties:
+        regions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MonitoredRegion'
+          description: Top K nearest regions to monitor
+        refresh_after_meters:
+          type: number
+          description: Client should refresh when moved this far
+          example: 500
+        cache_ttl_seconds:
+          type: integer
+          description: Cache validity period
+          example: 21600
+        server_time:
+          type: string
+          format: date-time
+          example: '2025-11-22T10:30:00Z'
+
+    MonitoredRegion:
+      type: object
+      required:
+        - id
+        - network_id
+        - lat
+        - lon
+        - radius_meters
+        - priority
+      properties:
+        id:
+          type: string
+          example: loc_costco_sf_001
+        network_id:
+          type: string
+          example: costco
+        network_name:
+          type: string
+          example: Costco Wholesale
+        name:
+          type: string
+          example: Costco Wholesale - San Francisco
+        address:
+          type: string
+          example: 450 10th St, San Francisco, CA 94103
+        lat:
+          type: number
+          format: float
+          example: 37.7849
+        lon:
+          type: number
+          format: float
+          example: -122.4094
+        radius_meters:
+          type: number
+          description: Radius to monitor for region entry
+          example: 100
+        priority:
+          type: integer
+          description: Priority (1 = highest, for user's networks)
+          minimum: 1
+          example: 1
+        distance_meters:
+          type: number
+          description: Distance from current location
+          example: 245.7
+
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          example: invalid_request
+        message:
+          type: string
+          example: Missing required field 'lat'
+        details:
+          type: object
+          additionalProperties: true
+          example:
+            field: lat
+            reason: required
+
+  responses:
+    BadRequest:
+      description: Bad request (invalid parameters)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: invalid_request
+            message: Missing required field 'lat'
+
+    Unauthorized:
+      description: Unauthorized (invalid or missing token)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: unauthorized
+            message: Invalid or expired access token
+
+    Forbidden:
+      description: Forbidden (insufficient permissions)
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: forbidden
+            message: Admin access required
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: not_found
+            message: Card not found
+
+    RateLimited:
+      description: Rate limit exceeded
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+          example:
+            error: rate_limited
+            message: Too many requests. Try again in 60 seconds.
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+            example: 60
+          description: Seconds to wait before retrying
