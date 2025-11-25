@@ -213,7 +213,7 @@ BEGIN
     FROM locations l
     WHERE haversine_distance(search_lat, search_lon, l.latitude::DOUBLE PRECISION, l.longitude::DOUBLE PRECISION) <= search_radius_meters
     ORDER BY 7
-    LIMIT limit_count;
+    FETCH FIRST limit_count ROWS ONLY;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -260,7 +260,7 @@ BEGIN
     )
     SELECT * FROM nearby
     ORDER BY 9, 10  -- priority (col 9), distance_meters (col 10)
-    LIMIT max_regions;
+    FETCH FIRST max_regions ROWS ONLY;
 END;
 $$ LANGUAGE plpgsql;
 
