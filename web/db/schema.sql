@@ -259,7 +259,7 @@ BEGIN
         WHERE haversine_distance(search_lat, search_lon, l.latitude::DOUBLE PRECISION, l.longitude::DOUBLE PRECISION) <= radius_km * 1000
     )
     SELECT * FROM nearby
-    ORDER BY priority, distance_meters
+    ORDER BY 9, 10  -- priority (col 9), distance_meters (col 10)
     LIMIT max_regions;
 END;
 $$ LANGUAGE plpgsql;
