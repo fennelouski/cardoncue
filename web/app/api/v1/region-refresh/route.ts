@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         source: 'curated' as const,
         notes: loc.notes
       })),
-      ...apiResults.map(place => ({
+      ...apiResults.results.map(place => ({
         id: place.id,
         networkId: undefined, // API results may not have network info
         name: place.name,
