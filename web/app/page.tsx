@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Header } from './components/Header'
 import { Footer } from './components/Footer'
+import GeofenceDemo from '@/components/GeofenceDemo'
 
 export default function HomePage() {
   return (
@@ -100,6 +101,65 @@ export default function HomePage() {
                 </motion.div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* Geofence Demo Section */}
+        <section className="py-20 bg-white dark:bg-gray-900">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+                See How It Works
+              </h2>
+              <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+                Watch as you approach different locations - your cards automatically appear when you need them
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              className="max-w-6xl mx-auto"
+            >
+              <div className="relative bg-gray-100 dark:bg-gray-800 rounded-2xl p-6 shadow-lg overflow-hidden">
+                {/* Interactive Demo */}
+                <div className="relative w-full h-[600px] rounded-xl overflow-hidden">
+                  <GeofenceDemo />
+                </div>
+
+                {/* Legend */}
+                <div className="mt-6 flex flex-wrap gap-4 justify-center text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-[#0070f3] rounded-full" />
+                    <span className="text-gray-700 dark:text-gray-300">Costco</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-[#8b5cf6] rounded-full" />
+                    <span className="text-gray-700 dark:text-gray-300">Library</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-[#f59e0b] rounded-full" />
+                    <span className="text-gray-700 dark:text-gray-300">Gym</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 bg-[#10b981] rounded-full" />
+                    <span className="text-gray-700 dark:text-gray-300">Your Position</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-0.5 border-t-2 border-[#0070f3] border-dashed opacity-30" />
+                    <span className="text-gray-700 dark:text-gray-300">Geofence Zone</span>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 

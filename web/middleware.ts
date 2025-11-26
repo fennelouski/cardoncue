@@ -17,6 +17,7 @@ export default authMiddleware({
     '/api/contact',
     '/api/android-request',
     '/api/debug-schema',
+    '/api/v1/admin/setup-and-test-queue',
   ],
 })
 
