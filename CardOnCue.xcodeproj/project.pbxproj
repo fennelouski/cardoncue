@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		80B975532ED2CE8E00185D8D /* Clerk in Frameworks */ = {isa = PBXBuildFile; productRef = 80B975522ED2CE8E00185D8D /* Clerk */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		80B975112ED25A8800185D8D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80B975532ED2CE8E00185D8D /* Clerk in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = CardOnCue;
 			packageProductDependencies = (
+				80B975522ED2CE8E00185D8D /* Clerk */,
 			);
 			productName = CardOnCue;
 			productReference = 80B974FF2ED25A8600185D8D /* CardOnCue.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = 80B974F62ED25A8600185D8D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				80B975512ED2CE8E00185D8D /* XCRemoteSwiftPackageReference "clerk-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 80B975002ED25A8600185D8D /* Products */;
 			projectDirPath = "";
@@ -294,11 +303,16 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CardOnCue/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "CardOnCue needs your location to automatically show your membership cards when you arrive at stores, gyms, and other locations.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -328,11 +342,16 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CardOnCue/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "CardOnCue needs your location to automatically show your membership cards when you arrive at stores, gyms, and other locations.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -595,6 +614,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		80B975512ED2CE8E00185D8D /* XCRemoteSwiftPackageReference "clerk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/clerk/clerk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.71.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		80B975522ED2CE8E00185D8D /* Clerk */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 80B975512ED2CE8E00185D8D /* XCRemoteSwiftPackageReference "clerk-ios" */;
+			productName = Clerk;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 80B974F72ED25A8600185D8D /* Project object */;
 }

@@ -45,41 +45,19 @@ export async function GET(request: NextRequest) {
       throw error;
     }
 
-    // Split schema into individual statements for better error reporting
-    const statements = schemaSQL
-      .split(/;\s*$/gm)
-      .map(s => s.trim())
-      .filter(s => s.length > 0 && !s.startsWith('--'));
-
-    results.push({
-      step: 'Schema parsed',
-      success: true,
-      statementCount: statements.length
-    });
-
-    // Execute each statement individually
-    for (let i = 0; i < statements.length; i++) {
-      const statement = statements[i];
-      const preview = statement.substring(0, 100).replace(/\s+/g, ' ');
-
-      try {
-        await pool.query(statement + ';');
-        results.push({
-          step: `Statement ${i + 1}`,
-          success: true,
-          preview
-        });
-      } catch (error: any) {
-        results.push({
-          step: `Statement ${i + 1}`,
-          success: false,
-          error: error.message,
-          preview,
-          fullStatement: statement
-        });
-
-        // Continue to see all errors, don't stop at first one
-      }
+    // Execute entire schema as a single transaction
+    try {
+      await pool.query(schemaSQL);
+      results.push({
+        step: 'Execute full schema',
+        success: true
+      });
+    } catch (error: any) {
+      results.push({
+        step: 'Execute full schema',
+        success: false,
+        error: error.message
+      });
     }
 
     // Test the functions

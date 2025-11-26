@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "WebFetch(domain:clerk.com)",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "Bash(find:*)",
+      "Bash(xcodebuild clean:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(dig:*)",
+      "Bash(cat:*)",
+      "Bash(npx vercel:*)",
+      "Bash(curl:*)",
+      "WebFetch(domain:cardoncue.com)",
+      "WebFetch(domain:cardoncue.vercel.app)",
+      "WebFetch(domain:www.cardoncue.com)",
+      "Bash(whois:*)",
+      "WebFetch(domain:cardoncue-bus654jxy-nathan-fennels-projects.vercel.app)",
+      "Bash(python3:*)",
+      "WebFetch(domain:web-ebon-pi.vercel.app)",
+      "Bash(npm run build:*)",
+      "Bash(tee:*)",
+      "WebFetch(domain:cardoncue-bsrdz4il4-nathan-fennels-projects.vercel.app)",
+      "Bash(if [ -f .env.local ])",
+      "Bash(then grep \"CLERK\" .env.local)",
+      "Bash(fi)",
+      "Bash(identify:*)",
+      "Bash(convert:*)",
+      "Bash(cd:*)",
+      "Bash(pkill:*)",
+      "Bash(npx tsx scripts/migrate-ai-cache.ts)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

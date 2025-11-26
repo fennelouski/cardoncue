@@ -24,19 +24,24 @@ struct ContentView: View {
                 }
                 .onDelete(perform: deleteItems)
             }
+            .background(Color.appBackground)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
+                        .foregroundColor(.appPrimary)
                 }
                 ToolbarItem {
                     Button(action: addItem) {
                         Label("Add Item", systemImage: "plus")
                     }
+                    .foregroundColor(.appPrimary)
                 }
             }
         } detail: {
             Text("Select an item")
+                .foregroundColor(.appBeige)
         }
+        .background(Color.appBackground)
     }
 
     private func addItem() {

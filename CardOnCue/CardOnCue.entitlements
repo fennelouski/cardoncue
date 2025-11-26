@@ -4,8 +4,14 @@
 <dict>
 	<key>aps-environment</key>
 	<string>development</string>
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>webcredentials:guiding-wren-94.clerk.accounts.dev</string>
+	</array>
 	<key>com.apple.developer.icloud-container-identifiers</key>
-	<array/>
+	<array>
+		<string>iCloud.com.cardoncue.app</string>
+	</array>
 	<key>com.apple.developer.icloud-services</key>
 	<array>
 		<string>CloudKit</string>
