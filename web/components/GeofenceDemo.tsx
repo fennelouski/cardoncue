@@ -376,17 +376,29 @@ export default function GeofenceDemo() {
   }, [cityData, COSTCO, LIBRARY, GYM, isMapLoaded]);
 
   return (
-    <div className="relative w-full h-full flex gap-6 items-start justify-center">
-      {/* Map Section - Same size as phone */}
-      <div className="w-[280px] flex-shrink-0">
-        <div className="relative bg-gray-200 dark:bg-gray-700 rounded-[40px] p-3 shadow-2xl" style={{ aspectRatio: '9/19.5' }}>
-          <div ref={mapRef} className="w-full h-full rounded-[32px]" />
-        </div>
+    <div className="relative w-full py-8 flex flex-col items-center gap-6">
+      {/* Header */}
+      <div className="text-center max-w-2xl">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+          See Geofencing in Action
+        </h3>
+        <p className="text-gray-600 dark:text-gray-400">
+          Watch how CardOnCue automatically presents the right membership card as you approach different locations
+        </p>
       </div>
 
-      {/* Mock iPhone Section */}
-      <div className="w-[280px] flex-shrink-0">
-        <div className="relative bg-black rounded-[40px] p-3 shadow-2xl" style={{ aspectRatio: '9/19.5' }}>
+      {/* Demo Container */}
+      <div className="flex gap-6 items-center justify-center">
+        {/* Map Section */}
+        <div className="w-[240px] flex-shrink-0">
+          <div className="relative bg-gray-200 dark:bg-gray-700 rounded-[40px] p-3 shadow-2xl" style={{ aspectRatio: '9/16' }}>
+            <div ref={mapRef} className="w-full h-full rounded-[32px]" />
+          </div>
+        </div>
+
+        {/* Mock iPhone Section */}
+        <div className="w-[240px] flex-shrink-0">
+          <div className="relative bg-black rounded-[40px] p-3 shadow-2xl" style={{ aspectRatio: '9/16' }}>
           {/* Dynamic Island */}
           <div className="absolute top-3 left-1/2 -translate-x-1/2 w-32 h-8 bg-black rounded-full z-10" />
 
@@ -481,6 +493,7 @@ export default function GeofenceDemo() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

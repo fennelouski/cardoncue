@@ -131,7 +131,7 @@ export default function HomePage() {
             >
               <div className="relative bg-gray-100 dark:bg-gray-800 rounded-2xl p-6 shadow-lg overflow-hidden">
                 {/* Interactive Demo */}
-                <div className="relative w-full h-[600px] rounded-xl overflow-hidden">
+                <div className="relative w-full rounded-xl">
                   <GeofenceDemo />
                 </div>
 
