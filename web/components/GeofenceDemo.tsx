@@ -392,7 +392,7 @@ export default function GeofenceDemo() {
         {/* Map Section */}
         <div className="w-[240px] flex-shrink-0">
           <div className="relative bg-gray-200 dark:bg-gray-700 rounded-[40px] p-3 shadow-2xl" style={{ aspectRatio: '9/16' }}>
-            <div ref={mapRef} className="absolute inset-3 rounded-[32px]" />
+            <div ref={mapRef} className="w-full h-full rounded-[32px]" />
           </div>
         </div>
 
