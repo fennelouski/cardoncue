@@ -104,7 +104,8 @@ export function importCSV(csvContent: string, networkId: string, networkName: st
 
     return { success: true, imported: importedLocations.length, errors };
   } catch (error) {
-    return { success: false, imported: 0, errors: [`Import failed: ${error.message}`] };
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return { success: false, imported: 0, errors: [`Import failed: ${message}`] };
   }
 }
 
