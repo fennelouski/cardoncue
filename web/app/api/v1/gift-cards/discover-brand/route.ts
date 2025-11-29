@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
           name = ${brandInfo.name},
           issuer = ${brandInfo.issuer},
           description = ${brandInfo.description},
-          accepted_network_ids = ${sql.array(networkIds)},
+          accepted_network_ids = ARRAY[${sql.join(networkIds.map(id => sql`${id}`), sql`, `)}]::text[],
           category = ${brandInfo.category},
           auto_discovered = true,
           updated_at = NOW()
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
           ${brandInfo.name},
           ${brandInfo.issuer},
           ${brandInfo.description},
-          ${sql.array(networkIds)},
+          ARRAY[${sql.join(networkIds.map(id => sql`${id}`), sql`, `)}]::text[],
           ${brandInfo.category},
           true
         )
