@@ -11,6 +11,9 @@ import Clerk
 
 @main
 struct CardOnCueApp: App {
+    // App Delegate for notification handling
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     // Clerk authentication (official SDK)
     @State private var clerk = Clerk.shared
 

@@ -2,8 +2,12 @@ import SwiftUI
 
 struct CardListView: View {
     @EnvironmentObject var storageService: StorageService
+    @StateObject private var locationCardService = LocationCardService.shared
     @State private var showingScanner = false
     @State private var showingManualEntry = false
+    @State private var showingDeleteAlert = false
+    @State private var showingLocationSelector = false
+    @State private var indexSetToDelete: IndexSet?
 
     var body: some View {
         NavigationStack {
@@ -48,23 +52,87 @@ struct CardListView: View {
                 Text("Manual Entry View - Coming Soon")
                     .presentationDetents([.large])
             }
+            .alert("Delete Card", isPresented: $showingDeleteAlert) {
+                Button("Cancel", role: .cancel) {
+                    indexSetToDelete = nil
+                }
+                Button("Delete", role: .destructive) {
+                    if let indexSet = indexSetToDelete {
+                        storageService.deleteCards(at: indexSet)
+                        indexSetToDelete = nil
+                    }
+                }
+            } message: {
+                Text("This card will be moved to trash and can be restored within 7 days.")
+            }
+            .sheet(isPresented: $showingLocationSelector) {
+                LocationCardSelectorView(locationCardService: locationCardService)
+            }
         }
     }
 
     private var cardListView: some View {
         List {
+            // Location banner (only show if cards nearby)
+            if locationCardService.isNearLocation && !locationCardService.cardsAtCurrentLocation.isEmpty {
+                locationBanner
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 8, leading: 16, bottom: 8, trailing: 16))
+            }
+
             ForEach(storageService.cards) { card in
-                CardRowView(card: card)
-                    .listRowBackground(Color.appBackground)
+                NavigationLink(destination: CardDetailView(card: card)) {
+                    CardRowView(card: card)
+                }
+                .listRowBackground(Color.appBackground)
             }
             .onDelete { indexSet in
-                // TODO: Implement delete functionality
-                print("Delete cards at indices: \(indexSet)")
+                indexSetToDelete = indexSet
+                showingDeleteAlert = true
             }
         }
         .listStyle(.insetGrouped)
         .background(Color.appBackground)
         .scrollContentBackground(.hidden)
+    }
+
+    private var locationBanner: some View {
+        Button {
+            showingLocationSelector = true
+        } label: {
+            HStack(spacing: 12) {
+                Image(systemName: "mappin.circle.fill")
+                    .foregroundColor(.appPrimary)
+                    .font(.system(size: 24))
+
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("\(locationCardService.cardsAtCurrentLocation.count) card\(locationCardService.cardsAtCurrentLocation.count == 1 ? "" : "s") available nearby")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.appBlue)
+
+                    if let firstNetwork = locationCardService.nearbyNetworks.first {
+                        Text(firstNetwork.name + (locationCardService.nearbyNetworks.count > 1 ? " and \(locationCardService.nearbyNetworks.count - 1) more" : ""))
+                            .font(.caption)
+                            .foregroundColor(.appLightGray)
+                    }
+                }
+
+                Spacer()
+
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.appLightGray)
+                    .font(.system(size: 14))
+            }
+            .padding(12)
+            .background(Color.appPrimary.opacity(0.1))
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.appPrimary.opacity(0.3), lineWidth: 1)
+            )
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 
@@ -73,16 +141,8 @@ struct CardRowView: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            // Card icon/type indicator
-            ZStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.appLightGray.opacity(0.2))
-                    .frame(width: 50, height: 35)
-
-                Image(systemName: barcodeIcon(for: card.barcodeType))
-                    .foregroundColor(.appBlue)
-                    .font(.system(size: 16))
-            }
+            // Card icon
+            CardIconView(card: card, size: 50)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(card.name)
@@ -114,21 +174,6 @@ struct CardRowView: View {
             }
         }
         .padding(.vertical, 8)
-    }
-
-    private func barcodeIcon(for type: BarcodeType) -> String {
-        switch type {
-        case .qr:
-            return "qrcode"
-        case .code128, .ean13, .upcA:
-            return "barcode"
-        case .pdf417:
-            return "doc.text"
-        case .aztec:
-            return "square.grid.2x2"
-        case .code39, .itf:
-            return "barcode"
-        }
     }
 }
 

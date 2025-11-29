@@ -414,77 +414,176 @@ export default function GeofenceDemo() {
               </div>
             </div>
 
-            {/* Notifications - All appear in same position */}
-            <div className="absolute top-48 left-4 right-4">
-              {/* Costco Notification */}
+            {/* iOS Notification Banner at top */}
+            <div className="absolute top-12 left-4 right-4">
+              {/* Costco Notification Banner */}
               <div
-                className={`absolute inset-0 transform transition-all duration-500 ${
+                className={`transform transition-all duration-300 ${
                   notification === 'costco'
                     ? 'translate-y-0 opacity-100'
-                    : '-translate-y-4 opacity-0 pointer-events-none'
+                    : '-translate-y-20 opacity-0 pointer-events-none'
                 }`}
               >
-                <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-4 shadow-lg">
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-xl">🏪</span>
+                <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-3 shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-base">🏪</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-gray-900 text-sm">CardOnCue</div>
-                      <div className="text-gray-600 text-xs mt-0.5">Your Costco membership card is ready</div>
-                      <div className="mt-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-3 text-white">
-                        <div className="text-xs font-medium">COSTCO WHOLESALE</div>
-                        <div className="text-lg font-bold mt-1">**** **** 1234</div>
-                      </div>
+                      <div className="font-semibold text-gray-900 text-xs">CardOnCue</div>
+                      <div className="text-gray-600 text-[10px] mt-0.5">📍 You're near {COSTCO.name}</div>
                     </div>
+                    <div className="text-[10px] text-gray-500">now</div>
                   </div>
                 </div>
               </div>
 
-              {/* Library Notification */}
+              {/* Library Notification Banner */}
               <div
-                className={`absolute inset-0 transform transition-all duration-500 ${
+                className={`transform transition-all duration-300 ${
                   notification === 'library'
                     ? 'translate-y-0 opacity-100'
-                    : '-translate-y-4 opacity-0 pointer-events-none'
+                    : '-translate-y-20 opacity-0 pointer-events-none'
                 }`}
               >
-                <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-4 shadow-lg">
-                  <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-xl">📚</span>
+                <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-3 shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-base">📚</span>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-gray-900 text-sm">CardOnCue</div>
-                      <div className="text-gray-600 text-xs mt-0.5">Your library card is ready</div>
-                      <div className="mt-2 bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-3 text-white">
-                        <div className="text-xs font-medium">{LIBRARY.name.toUpperCase()}</div>
-                        <div className="text-lg font-bold mt-1">**** **** 5678</div>
+                      <div className="font-semibold text-gray-900 text-xs">CardOnCue</div>
+                      <div className="text-gray-600 text-[10px] mt-0.5">📍 You're near {LIBRARY.name}</div>
+                    </div>
+                    <div className="text-[10px] text-gray-500">now</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Gym Notification Banner */}
+              <div
+                className={`transform transition-all duration-300 ${
+                  notification === 'gym'
+                    ? 'translate-y-0 opacity-100'
+                    : '-translate-y-20 opacity-0 pointer-events-none'
+                }`}
+              >
+                <div className="bg-white/90 backdrop-blur-xl rounded-2xl p-3 shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <span className="text-white text-base">💪</span>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="font-semibold text-gray-900 text-xs">CardOnCue</div>
+                      <div className="text-gray-600 text-[10px] mt-0.5">📍 You're near {GYM.name}</div>
+                    </div>
+                    <div className="text-[10px] text-gray-500">now</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Live Activity on Lock Screen */}
+            <div className="absolute bottom-32 left-4 right-4">
+              {/* Costco Live Activity */}
+              <div
+                className={`transform transition-all duration-500 ${
+                  notification === 'costco'
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-4 opacity-0 pointer-events-none'
+                }`}
+              >
+                <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-white/20">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                        </div>
+                        <div className="text-green-400 text-[10px] font-medium">{COSTCO.name}</div>
+                      </div>
+                      <div className="text-white text-xs font-semibold mb-1">COSTCO WHOLESALE</div>
+                      <div className="text-white/70 text-[10px]">Member #1234567890</div>
+                    </div>
+                    <div className="bg-white rounded-lg p-2 flex items-center justify-center w-16 h-16">
+                      {/* QR Code simulation */}
+                      <div className="grid grid-cols-5 gap-[1px]">
+                        {[...Array(25)].map((_, i) => (
+                          <div
+                            key={i}
+                            className={`w-1.5 h-1.5 ${
+                              [0,1,2,3,4,5,9,10,14,15,19,20,21,22,23,24].includes(i)
+                                ? 'bg-black'
+                                : 'bg-white'
+                            }`}
+                          />
+                        ))}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Gym Notification */}
+              {/* Library Live Activity */}
               <div
-                className={`absolute inset-0 transform transition-all duration-500 ${
-                  notification === 'gym'
+                className={`transform transition-all duration-500 ${
+                  notification === 'library'
                     ? 'translate-y-0 opacity-100'
-                    : '-translate-y-4 opacity-0 pointer-events-none'
+                    : 'translate-y-4 opacity-0 pointer-events-none'
                 }`}
               >
-                <div className="bg-white/95 backdrop-blur-xl rounded-2xl p-4 shadow-lg">
+                <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-white/20">
                   <div className="flex items-start gap-3">
-                    <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <span className="text-white text-xl">💪</span>
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                        </div>
+                        <div className="text-green-400 text-[10px] font-medium">{LIBRARY.name}</div>
+                      </div>
+                      <div className="text-white text-xs font-semibold mb-1">LIBRARY CARD</div>
+                      <div className="bg-white/10 rounded h-8 mt-2 relative overflow-hidden">
+                        <div className="absolute inset-0 flex items-center">
+                          {[...Array(40)].map((_, i) => (
+                            <div
+                              key={i}
+                              className={`flex-shrink-0 ${i % 2 === 0 ? 'w-[2px] bg-white' : 'w-1 bg-transparent'} h-full`}
+                            />
+                          ))}
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-semibold text-gray-900 text-sm">CardOnCue</div>
-                      <div className="text-gray-600 text-xs mt-0.5">Your gym membership is ready</div>
-                      <div className="mt-2 bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-3 text-white">
-                        <div className="text-xs font-medium">{GYM.name.toUpperCase()}</div>
-                        <div className="text-lg font-bold mt-1">**** **** 9012</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Gym Live Activity */}
+              <div
+                className={`transform transition-all duration-500 ${
+                  notification === 'gym'
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-4 opacity-0 pointer-events-none'
+                }`}
+              >
+                <div className="bg-gray-900/80 backdrop-blur-xl rounded-2xl p-4 shadow-2xl border border-white/20">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center">
+                          <div className="w-1.5 h-1.5 rounded-full bg-white"></div>
+                        </div>
+                        <div className="text-green-400 text-[10px] font-medium">{GYM.name}</div>
+                      </div>
+                      <div className="text-white text-xs font-semibold mb-1">GYM MEMBERSHIP</div>
+                      <div className="bg-white/10 rounded h-8 mt-2 relative overflow-hidden">
+                        <div className="absolute inset-0 flex items-center">
+                          {[...Array(45)].map((_, i) => (
+                            <div
+                              key={i}
+                              className={`flex-shrink-0 ${[0,2,3,5,6,8,10,12,13,15,17,18,20,22,23,25,27,28,30,32,33,35,37,38,40,42,43].includes(i) ? 'w-1 bg-white' : 'w-[2px] bg-transparent'} h-full`}
+                            />
+                          ))}
+                        </div>
                       </div>
                     </div>
                   </div>

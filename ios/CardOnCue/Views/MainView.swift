@@ -4,7 +4,16 @@ import Clerk
 struct MainView: View {
     @Environment(\.clerk) private var clerk
     @EnvironmentObject var onboardingService: OnboardingService
+    @StateObject private var storageService = StorageService()
+    @StateObject private var geofenceActivityCoordinator: GeofenceActivityCoordinator
     @AppStorage("hasSkippedAuth") private var hasSkippedAuth = false
+
+    init() {
+        // Initialize coordinator with storageService
+        let storage = StorageService()
+        _storageService = StateObject(wrappedValue: storage)
+        _geofenceActivityCoordinator = StateObject(wrappedValue: GeofenceActivityCoordinator(storageService: storage))
+    }
 
     var body: some View {
         Group {
@@ -15,8 +24,59 @@ struct MainView: View {
                 // Show onboarding
                 OnboardingView()
             } else {
-                // Show main app
-                CardListView()
+                // Show main app with tab navigation
+                MainTabView()
+                    .environmentObject(storageService)
+            }
+        }
+    }
+}
+
+struct MainTabView: View {
+    @EnvironmentObject var storageService: StorageService
+    @State private var selectedTab = 0
+    @State private var showingCardDetail = false
+    @State private var showingCardSelector = false
+    @State private var selectedCardId: String?
+
+    var body: some View {
+        TabView(selection: $selectedTab) {
+            CardListView()
+                .tabItem {
+                    Label("Cards", systemImage: "creditcard")
+                }
+                .tag(0)
+
+            SettingsView()
+                .tabItem {
+                    Label("Settings", systemImage: "gearshape")
+                }
+                .tag(1)
+                .badge(storageService.deletedCardsCount > 0 ? storageService.deletedCardsCount : nil)
+        }
+        .tint(.appPrimary)
+        .sheet(isPresented: $showingCardDetail) {
+            if let cardId = selectedCardId,
+               let card = storageService.getCard(by: cardId) {
+                CardDetailView(card: card)
+            }
+        }
+        .sheet(isPresented: $showingCardSelector) {
+            LocationCardSelectorView(locationCardService: LocationCardService.shared)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("OpenCardFromNotification"))) { notification in
+            if let cardId = notification.userInfo?["cardId"] as? String {
+                selectedCardId = cardId
+                selectedTab = 0 // Switch to Cards tab
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    showingCardDetail = true
+                }
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ShowCardSelectorFromNotification"))) { _ in
+            selectedTab = 0 // Switch to Cards tab
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                showingCardSelector = true
             }
         }
     }

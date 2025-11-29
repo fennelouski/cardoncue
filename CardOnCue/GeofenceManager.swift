@@ -170,26 +170,31 @@ final class GeofenceManager: NSObject, ObservableObject {
         }
     }
 
-    private func sendLocationNotification(for card: CardModel) {
+    private func sendGeofenceNotification(for card: CardModel) {
         let content = UNMutableNotificationContent()
         content.title = "📍 You're near \(card.locationName ?? card.name)"
-        content.body = "Tap to open your \(card.name) card"
+        content.body = "Your card is ready to use"
         content.sound = .default
-        content.userInfo = ["cardId": card.id]
+        content.categoryIdentifier = "GEOFENCE_CARD"
+        content.userInfo = [
+            "action": "startLiveActivity",
+            "cardId": card.id,
+            "locationName": card.locationName ?? "",
+            "availableCardsCount": 1
+        ]
 
         let request = UNNotificationRequest(
-            identifier: "geofence_\(card.id)",
+            identifier: "geofence_\(card.id)_\(Date().timeIntervalSince1970)",
             content: content,
-            trigger: nil // Deliver immediately
+            trigger: nil
         )
 
-        // Capture only what's needed to avoid Sendable issue
         let cardName = card.name
         UNUserNotificationCenter.current().add(request) { error in
             if let error = error {
                 print("❌ Failed to send notification: \(error)")
             } else {
-                print("✅ Sent notification for: \(cardName)")
+                print("✅ Sent geofence notification for: \(cardName)")
             }
         }
     }
@@ -255,8 +260,20 @@ extension GeofenceManager: CLLocationManagerDelegate {
 
             print("✅ Entered geofence for: \(card.name)")
 
-            // Send notification
-            sendLocationNotification(for: card)
+            // Send notification for user visibility
+            sendGeofenceNotification(for: card)
+
+            // ALSO post directly to NotificationCenter to trigger automatic Live Activity
+            NotificationCenter.default.post(
+                name: NSNotification.Name("StartLiveActivityFromGeofence"),
+                object: nil,
+                userInfo: [
+                    "cardId": card.id,
+                    "locationName": card.locationName ?? "",
+                    "availableCardsCount": 1
+                ]
+            )
+            print("📡 Posted geofence event to NotificationCenter for automatic Live Activity")
 
             // Update last used timestamp (optional)
             card.metadata["lastGeofenceEntry"] = ISO8601DateFormatter().string(from: Date())
