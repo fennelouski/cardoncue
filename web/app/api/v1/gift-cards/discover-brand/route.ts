@@ -54,42 +54,40 @@ export async function POST(req: NextRequest) {
     `;
 
     let brand;
-    const networkIds = brandInfo.acceptedNetworks.map(n => n.networkId);
 
     if (existingBrand.rows.length > 0) {
       // Update existing brand
-      const updated = await sql`
-        UPDATE gift_card_brands
-        SET
-          name = ${brandInfo.name},
-          issuer = ${brandInfo.issuer},
-          description = ${brandInfo.description},
-          accepted_network_ids = ARRAY[${sql.join(networkIds.map(id => sql`${id}`), sql`, `)}]::text[],
-          category = ${brandInfo.category},
-          auto_discovered = true,
-          updated_at = NOW()
-        WHERE id = ${brandInfo.brandId}
-        RETURNING *
-      `;
+      // Build network IDs array for SQL
+      const networkIds = brandInfo.acceptedNetworks.map(n => n.networkId);
+
+      const updated = await pool.query(
+        `UPDATE gift_card_brands
+         SET
+           name = $1,
+           issuer = $2,
+           description = $3,
+           accepted_network_ids = $4,
+           category = $5,
+           auto_discovered = true,
+           updated_at = NOW()
+         WHERE id = $6
+         RETURNING *`,
+        [brandInfo.name, brandInfo.issuer, brandInfo.description, networkIds, brandInfo.category, brandInfo.brandId]
+      );
       brand = updated.rows[0];
       console.log(`[Gift Card Discovery] Updated existing brand: ${brandInfo.brandId}`);
     } else {
       // Create new brand
-      const inserted = await sql`
-        INSERT INTO gift_card_brands (
-          id, name, issuer, description, accepted_network_ids, category, auto_discovered
-        )
-        VALUES (
-          ${brandInfo.brandId},
-          ${brandInfo.name},
-          ${brandInfo.issuer},
-          ${brandInfo.description},
-          ARRAY[${sql.join(networkIds.map(id => sql`${id}`), sql`, `)}]::text[],
-          ${brandInfo.category},
-          true
-        )
-        RETURNING *
-      `;
+      const networkIds = brandInfo.acceptedNetworks.map(n => n.networkId);
+
+      const inserted = await pool.query(
+        `INSERT INTO gift_card_brands (
+           id, name, issuer, description, accepted_network_ids, category, auto_discovered
+         )
+         VALUES ($1, $2, $3, $4, $5, $6, true)
+         RETURNING *`,
+        [brandInfo.brandId, brandInfo.name, brandInfo.issuer, brandInfo.description, networkIds, brandInfo.category]
+      );
       brand = inserted.rows[0];
       console.log(`[Gift Card Discovery] Created new brand: ${brandInfo.brandId}`);
     }
