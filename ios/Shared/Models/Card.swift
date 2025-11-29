@@ -17,6 +17,11 @@ struct Card: Identifiable, Codable, Hashable {
     var updatedAt: Date
     var defaultIconUrl: String?
     var customIconUrl: String?
+    var cardType: CardType
+    var giftCardBrandId: String?
+    var currentBalance: Decimal?
+    var balanceCurrency: String?
+    var balanceLastUpdated: Date?
 
     var isExpired: Bool {
         guard let validTo = validTo else { return false }
@@ -34,11 +39,20 @@ struct Card: Identifiable, Codable, Hashable {
         return customIconUrl ?? defaultIconUrl
     }
 
+    var isGiftCard: Bool {
+        return cardType == .giftCard
+    }
+
     enum CodingKeys: String, CodingKey {
         case id, userId, name, barcodeType, payload, tags, networkIds
         case validFrom, validTo, oneTime, usedAt, metadata, createdAt, updatedAt
         case defaultIconUrl = "default_icon_url"
         case customIconUrl = "custom_icon_url"
+        case cardType = "card_type"
+        case giftCardBrandId = "gift_card_brand_id"
+        case currentBalance = "current_balance"
+        case balanceCurrency = "balance_currency"
+        case balanceLastUpdated = "balance_last_updated"
     }
 }
 
