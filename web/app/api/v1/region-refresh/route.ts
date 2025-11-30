@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { searchPlaces } from '@/lib/places/search';
 import { getCuratedLocationsNearby } from '@/lib/places/csvImporter';
 import { RegionRefreshRequest, RegionRefreshResponse } from '@/lib/places/types';
+import { sql, pool } from '@/lib/db';
 
 function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
   const toRad = (d: number) => d * Math.PI / 180;
@@ -21,8 +22,8 @@ function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 
 export async function POST(request: NextRequest) {
   try {
-    const body: RegionRefreshRequest = await request.json();
-    const { lat, lon, limit = 20 } = body;
+    const body: RegionRefreshRequest & { userId?: string; giftCardBrandIds?: string[] } = await request.json();
+    const { lat, lon, limit = 20, userId, giftCardBrandIds } = body;
 
     // Validate input
     if (typeof lat !== 'number' || typeof lon !== 'number' ||
@@ -40,8 +41,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Get relevant network IDs from user's gift cards
+    let relevantNetworkIds: Set<string> = new Set();
+
+    if (giftCardBrandIds && giftCardBrandIds.length > 0) {
+      const brands = await pool.query(
+        `SELECT accepted_network_ids
+         FROM gift_card_brands
+         WHERE id = ANY($1)`,
+        [giftCardBrandIds]
+      );
+
+      for (const brand of brands.rows) {
+        if (brand.accepted_network_ids) {
+          brand.accepted_network_ids.forEach((networkId: string) => relevantNetworkIds.add(networkId));
+        }
+      }
+
+      console.log(`[Region Refresh] Gift cards accept networks: ${Array.from(relevantNetworkIds).join(', ')}`);
+    }
+
     // Get curated locations nearby
     const curatedLocations = getCuratedLocationsNearby(lat, lon, limit * 2); // Get more to allow for deduplication
+
+    // Filter curated locations by relevant networks if gift cards provided
+    const filteredCuratedLocations = relevantNetworkIds.size > 0
+      ? curatedLocations.filter(loc => relevantNetworkIds.has(loc.network_id))
+      : curatedLocations;
 
     // Also search for places using external APIs (without query to get general POIs)
     const apiResults = await searchPlaces('', {
@@ -53,7 +79,7 @@ export async function POST(request: NextRequest) {
 
     // Combine and deduplicate
     const allLocations = [
-      ...curatedLocations.map(loc => ({
+      ...filteredCuratedLocations.map(loc => ({
         id: `curated:${loc.network_id}:${loc.lat}:${loc.lon}`,
         networkId: loc.network_id,
         name: loc.network_name,
@@ -61,7 +87,8 @@ export async function POST(request: NextRequest) {
         lon: loc.lon,
         radiusMeters: loc.radius_meters,
         source: 'curated' as const,
-        notes: loc.notes
+        notes: loc.notes,
+        acceptedByGiftCards: giftCardBrandIds || [] // Track which gift cards work here
       })),
       ...apiResults.results.map(place => ({
         id: place.id,
@@ -71,7 +98,8 @@ export async function POST(request: NextRequest) {
         lon: place.lon,
         radiusMeters: estimateRadius(place),
         source: place.dataSource,
-        notes: place.address
+        notes: place.address,
+        acceptedByGiftCards: []
       }))
     ];
 
