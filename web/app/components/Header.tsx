@@ -3,14 +3,15 @@
 import Link from 'next/link'
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Menu, X, User } from 'lucide-react'
-import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { Menu, X } from 'lucide-react'
+import { ProfileButton } from './ProfileButton'
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const navigation = [
     { name: 'Home', href: '/' },
+    { name: 'Demo', href: '/demo' },
     { name: 'Features', href: '/features' },
     { name: 'Search', href: '/search' },
     { name: 'Support', href: '/support' },
@@ -46,25 +47,7 @@ export function Header() {
 
           {/* Auth & Mobile Menu */}
           <div className="flex items-center space-x-4">
-            <SignedOut>
-              <Link
-                href="/sign-in"
-                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
-              >
-                Sign In
-              </Link>
-            </SignedOut>
-
-            <SignedIn>
-              <Link
-                href="/account"
-                className="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200 flex items-center space-x-1"
-              >
-                <User className="w-4 h-4" />
-                <span>Account</span>
-              </Link>
-              <UserButton afterSignOutUrl="/" />
-            </SignedIn>
+            <ProfileButton />
 
             {/* Mobile menu button */}
             <button
@@ -96,16 +79,6 @@ export function Header() {
                     {item.name}
                   </Link>
                 ))}
-
-                <SignedOut>
-                  <Link
-                    href="/sign-in"
-                    className="block px-3 py-2 text-primary-600 hover:text-primary-700 font-medium"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Sign In
-                  </Link>
-                </SignedOut>
               </div>
             </motion.div>
           )}

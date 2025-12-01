@@ -8,6 +8,13 @@ struct CardListView: View {
     @State private var showingDeleteAlert = false
     @State private var showingLocationSelector = false
     @State private var indexSetToDelete: IndexSet?
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+
+    // Determine threshold based on device type
+    private var cardThresholdForPrompt: Int {
+        // iPad: show until 5 cards, iPhone: show until 3 cards
+        return horizontalSizeClass == .regular ? 5 : 3
+    }
 
     var body: some View {
         NavigationStack {
@@ -23,22 +30,25 @@ struct CardListView: View {
             .navigationTitle(NSLocalizedString("my_cards", comment: "My Cards navigation title"))
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Menu {
-                        Button(action: {
-                            showingScanner = true
-                        }) {
-                            Label(NSLocalizedString("scan_card", comment: "Scan card menu item"), systemImage: "camera.viewfinder")
-                        }
+                // Only show toolbar button when user has enough cards
+                if storageService.cards.count >= cardThresholdForPrompt {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Menu {
+                            Button(action: {
+                                showingScanner = true
+                            }) {
+                                Label(NSLocalizedString("scan_card", comment: "Scan card menu item"), systemImage: "camera.viewfinder")
+                            }
 
-                        Button(action: {
-                            showingManualEntry = true
-                        }) {
-                            Label(NSLocalizedString("add_manually", comment: "Add manually menu item"), systemImage: "keyboard")
+                            Button(action: {
+                                showingManualEntry = true
+                            }) {
+                                Label(NSLocalizedString("add_manually", comment: "Add manually menu item"), systemImage: "keyboard")
+                            }
+                        } label: {
+                            Image(systemName: "plus")
+                                .foregroundColor(.appPrimary)
                         }
-                    } label: {
-                        Image(systemName: "plus")
-                            .foregroundColor(.appPrimary)
                     }
                 }
             }
@@ -90,6 +100,13 @@ struct CardListView: View {
                 indexSetToDelete = indexSet
                 showingDeleteAlert = true
             }
+
+            // Show prominent "Add Card" section when user has few cards
+            if storageService.cards.count < cardThresholdForPrompt {
+                addCardPrompt
+                    .listRowBackground(Color.clear)
+                    .listRowInsets(EdgeInsets(top: 16, leading: 0, bottom: 16, trailing: 0))
+            }
         }
         .listStyle(.insetGrouped)
         .background(Color.appBackground)
@@ -133,6 +150,64 @@ struct CardListView: View {
             )
         }
         .buttonStyle(PlainButtonStyle())
+    }
+
+    private var addCardPrompt: some View {
+        VStack(spacing: 24) {
+            // Circular icon illustration (similar to EmptyStateView)
+            ZStack {
+                Circle()
+                    .fill(Color.appPrimary.opacity(0.1))
+                    .frame(width: 100, height: 100)
+
+                Image(systemName: "creditcard.viewfinder")
+                    .font(.system(size: 40))
+                    .foregroundColor(.appPrimary)
+            }
+
+            // Content
+            VStack(spacing: 12) {
+                Text("Add Another Card")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.appBlue)
+
+                Text("Scan or enter your gift card details")
+                    .font(.body)
+                    .foregroundColor(.appGreen)
+                    .multilineTextAlignment(.center)
+            }
+
+            // Action buttons (matching EmptyStateView style)
+            VStack(spacing: 12) {
+                Button(action: {
+                    showingScanner = true
+                }) {
+                    HStack {
+                        Image(systemName: "camera.viewfinder")
+                            .font(.headline)
+                        Text(NSLocalizedString("scan_card", comment: "Scan card menu item"))
+                            .font(.headline)
+                    }
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(Color.appPrimary)
+                    .cornerRadius(12)
+                }
+
+                Button(action: {
+                    showingManualEntry = true
+                }) {
+                    Text(NSLocalizedString("add_manually", comment: "Add manually button"))
+                        .font(.subheadline)
+                        .foregroundColor(.appBlue)
+                        .padding(.vertical, 12)
+                }
+            }
+        }
+        .padding(.horizontal, 24)
+        .padding(.vertical, 32)
     }
 }
 

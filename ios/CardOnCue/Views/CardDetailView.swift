@@ -7,6 +7,7 @@ struct CardDetailView: View {
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var showingIconPicker = false
+    @State private var showingAddLocation = false
     @State private var updatedCard: Card?
 
     var body: some View {
@@ -15,6 +16,8 @@ struct CardDetailView: View {
                 cardIconSection
 
                 cardInfoSection
+
+                locationSection
 
                 barcodeSection
 
@@ -32,6 +35,9 @@ struct CardDetailView: View {
             CardIconPickerView(card: updatedCard ?? card) { updated in
                 updatedCard = updated
             }
+        }
+        .sheet(isPresented: $showingAddLocation) {
+            AddCardLocationView(card: card)
         }
         .alert("Error", isPresented: $showError) {
             Button("OK", role: .cancel) {}
@@ -93,6 +99,37 @@ struct CardDetailView: View {
         .padding()
         .background(Color.gray.opacity(0.1))
         .cornerRadius(12)
+    }
+
+    private var locationSection: some View {
+        VStack(spacing: 12) {
+            Text("Help Improve Our Service")
+                .font(.headline)
+
+            VStack(spacing: 12) {
+                Text("Share where you use this card to help us understand how our users utilize their memberships and loyalty cards")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+
+                Button(action: {
+                    showingAddLocation = true
+                }) {
+                    HStack {
+                        Image(systemName: "mappin.and.ellipse")
+                        Text("Add Location")
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+                }
+            }
+            .padding()
+            .background(Color.gray.opacity(0.1))
+            .cornerRadius(12)
+        }
     }
 
     private var barcodeSection: some View {
