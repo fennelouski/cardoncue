@@ -1,4 +1,4 @@
-import { auth, clerkClient } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
@@ -9,8 +9,8 @@ async function checkAdminAuth() {
     redirect('/sign-in');
   }
 
-  const user = await clerkClient().users.getUser(userId);
-  const email = user.emailAddresses[0]?.emailAddress;
+  const user = await currentUser();
+  const email = user?.emailAddresses[0]?.emailAddress;
 
   if (!email || !email.endsWith('@100apps.studio')) {
     redirect('/');

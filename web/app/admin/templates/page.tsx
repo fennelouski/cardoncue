@@ -40,7 +40,7 @@ export default function TemplatesPage() {
         params.set('verified', filterVerified);
       }
 
-      const response = await fetch(\`/api/v1/admin/card-templates?\${params}\`);
+      const response = await fetch(`/api/v1/admin/card-templates?${params}`);
       if (!response.ok) throw new Error('Failed to fetch templates');
 
       const data = await response.json();
@@ -165,7 +165,7 @@ export default function TemplatesPage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="text-sm text-gray-900">
                         {template.confidenceScore
-                          ? \`\${(template.confidenceScore * 100).toFixed(0)}%\`
+                          ? `${(template.confidenceScore * 100).toFixed(0)}%`
                           : '-'}
                       </div>
                     </td>

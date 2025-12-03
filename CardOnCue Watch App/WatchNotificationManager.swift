@@ -1,6 +1,8 @@
 import Foundation
 import UserNotifications
+#if os(watchOS)
 import WatchKit
+#endif
 
 /// Manages notifications and card display on watchOS
 @MainActor
@@ -8,6 +10,8 @@ class WatchNotificationManager: NSObject, ObservableObject {
     static let shared = WatchNotificationManager()
     
     @Published var currentCard: WatchCardDisplay?
+    
+    private let persistenceKey = "watchLastDisplayedCard"
     
     private override init() {
         super.init()
@@ -22,6 +26,32 @@ class WatchNotificationManager: NSObject, ObservableObject {
                 print("⚠️ Watch notification permission denied: \(error?.localizedDescription ?? "unknown")")
             }
         }
+    }
+    
+    /// Persist current card to UserDefaults
+    func saveCurrentCard() {
+        guard let card = currentCard else { return }
+        
+        if let encoded = try? JSONEncoder().encode(card),
+           let jsonString = String(data: encoded, encoding: .utf8) {
+            UserDefaults.standard.set(jsonString, forKey: persistenceKey)
+        }
+    }
+    
+    /// Restore last displayed card from UserDefaults
+    func restoreLastCard() {
+        guard let jsonString = UserDefaults.standard.string(forKey: persistenceKey),
+              let data = jsonString.data(using: .utf8),
+              let card = try? JSONDecoder().decode(WatchCardDisplay.self, from: data) else {
+            return
+        }
+        
+        currentCard = card
+    }
+    
+    /// Clear persisted card
+    func clearPersistedCard() {
+        UserDefaults.standard.removeObject(forKey: persistenceKey)
     }
 }
 
@@ -80,6 +110,7 @@ extension WatchNotificationManager: UNUserNotificationCenterDelegate {
         )
         
         currentCard = card
+        saveCurrentCard() // Persist for next app launch
         
         // Post notification to update UI
         NotificationCenter.default.post(
@@ -89,6 +120,11 @@ extension WatchNotificationManager: UNUserNotificationCenterDelegate {
         )
         
         print("✅ Displaying card on watch: \(cardName)")
+        
+        // Haptic feedback
+        #if os(watchOS)
+        WKInterfaceDevice.current().play(.notification)
+        #endif
     }
 }
 

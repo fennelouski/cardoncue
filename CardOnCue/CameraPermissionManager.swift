@@ -11,10 +11,20 @@ class CameraPermissionManager: ObservableObject {
         case granted
         case denied
         case restricted
+        case unavailable  // Camera not available on this platform (e.g., visionOS)
 
         var isGranted: Bool {
             return self == .granted
         }
+    }
+
+    /// Check if camera is available on this platform
+    var isCameraAvailable: Bool {
+        #if os(visionOS)
+        return false
+        #else
+        return AVCaptureDevice.default(for: .video) != nil
+        #endif
     }
 
     init() {
@@ -23,6 +33,20 @@ class CameraPermissionManager: ObservableObject {
 
     /// Check current camera permission status
     func checkPermissionStatus() {
+        #if os(visionOS)
+        DispatchQueue.main.async {
+            self.permissionStatus = .unavailable
+        }
+        return
+        #endif
+        
+        guard isCameraAvailable else {
+            DispatchQueue.main.async {
+                self.permissionStatus = .unavailable
+            }
+            return
+        }
+        
         let status = AVCaptureDevice.authorizationStatus(for: .video)
 
         DispatchQueue.main.async {
@@ -43,6 +67,20 @@ class CameraPermissionManager: ObservableObject {
 
     /// Request camera permission
     func requestPermission(completion: @escaping (Bool) -> Void) {
+        #if os(visionOS)
+        DispatchQueue.main.async {
+            completion(false)
+        }
+        return
+        #endif
+        
+        guard isCameraAvailable else {
+            DispatchQueue.main.async {
+                completion(false)
+            }
+            return
+        }
+        
         AVCaptureDevice.requestAccess(for: .video) { [weak self] granted in
             DispatchQueue.main.async {
                 self?.checkPermissionStatus()

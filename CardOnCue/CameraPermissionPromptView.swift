@@ -1,4 +1,5 @@
 import SwiftUI
+#if !os(visionOS)
 import AVFoundation
 
 struct CameraPermissionPromptView: View {
@@ -198,3 +199,4 @@ struct BenefitRow: View {
         onPermissionDenied: {}
     )
 }
+#endif // !os(visionOS)

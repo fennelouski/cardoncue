@@ -1,5 +1,4 @@
-import { auth } from '@clerk/nextjs/server';
-import { clerkClient } from '@clerk/nextjs/server';
+import { auth, currentUser } from '@clerk/nextjs/server';
 
 export interface AdminUser {
   userId: string;
@@ -18,8 +17,8 @@ export async function requireAdminAuth(): Promise<AdminUser> {
   }
 
   // Get user from Clerk
-  const user = await clerkClient().users.getUser(userId);
-  const email = user.emailAddresses[0]?.emailAddress;
+  const user = await currentUser();
+  const email = user?.emailAddresses[0]?.emailAddress;
 
   if (!email) {
     throw new Error('Unauthorized: No email address found');

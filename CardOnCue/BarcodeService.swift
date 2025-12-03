@@ -1,5 +1,7 @@
 import Foundation
+#if !os(visionOS)
 @preconcurrency import AVFoundation
+#endif
 import Vision
 import Combine
 import UIKit
@@ -37,6 +39,7 @@ enum BarcodeError: LocalizedError {
 }
 
 /// Barcode scanning and rendering service
+#if !os(visionOS)
 @MainActor
 class BarcodeService: NSObject, ObservableObject {
     @Published var isScanning = false
@@ -241,3 +244,4 @@ extension BarcodeService {
         return UIImage(cgImage: cgImage)
     }
 }
+#endif // !os(visionOS)
