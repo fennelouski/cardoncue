@@ -74,13 +74,13 @@ struct CardDataPreviewView: View {
             }
 
             if let barcode = selectedBarcode {
-                InfoRow(
+                PreviewInfoRow(
                     icon: "barcode",
                     label: "Barcode Type",
                     value: barcode.barcodeType.rawValue.uppercased()
                 )
 
-                InfoRow(
+                PreviewInfoRow(
                     icon: "number",
                     label: "Barcode Number",
                     value: barcode.payload
@@ -189,7 +189,7 @@ struct CardDataPreviewView: View {
     }
 }
 
-struct InfoRow: View {
+struct PreviewInfoRow: View {
     let icon: String
     let label: String
     let value: String

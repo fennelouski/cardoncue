@@ -1,5 +1,7 @@
 import SwiftUI
+#if !os(visionOS)
 import AVFoundation
+#endif
 import SwiftData
 import Combine
 import Vision
@@ -52,13 +54,13 @@ struct BarcodeQualityMetrics: Codable, Hashable {
 
 // MARK: - Captured Frame Model
 
-struct CapturedFrame {
+struct CapturedFrame: @unchecked Sendable {
     let image: UIImage
     let timestamp: Date
     var barcodeData: DetectedBarcodeData?
     var qualityScore: Double
 
-    init(image: UIImage, timestamp: Date, barcodeData: DetectedBarcodeData? = nil, qualityScore: Double = 0.0) {
+    nonisolated init(image: UIImage, timestamp: Date, barcodeData: DetectedBarcodeData? = nil, qualityScore: Double = 0.0) {
         self.image = image
         self.timestamp = timestamp
         self.barcodeData = barcodeData
@@ -66,6 +68,7 @@ struct CapturedFrame {
     }
 }
 
+#if !os(visionOS)
 struct BarcodeScannerView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
@@ -267,6 +270,7 @@ struct BarcodeScannerView: View {
 
 // MARK: - Scanner View Model
 
+#if !os(visionOS)
 class BarcodeScannerViewModel: NSObject, ObservableObject {
     @Published var scannedCode: String?
     @Published var detectedType: BarcodeType?
@@ -295,11 +299,15 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
     private var autoSelectTimer: Timer?
 
     // Dynamic frame throttling for performance
-    private var frameCounter = 0
-    private var frameSkipCount = 3  // Initial value, will be adjusted dynamically
+    // These are accessed from nonisolated delegate methods, so marked as nonisolated(unsafe)
+    nonisolated(unsafe) private var frameCounter = 0
+    nonisolated(unsafe) private var frameSkipCount = 3  // Initial value, will be adjusted dynamically
     private var lastFrameProcessTime: Date?
-    private var averageProcessingTime: TimeInterval = 0.0
+    nonisolated(unsafe) private var averageProcessingTime: TimeInterval = 0.0
     private let maxProcessingTime: TimeInterval = 0.1  // 100ms budget per frame
+    
+    // Flag to check if scanning is complete (accessed from nonisolated context)
+    nonisolated(unsafe) private var isScanComplete = false
 
     override init() {
         super.init()
@@ -514,6 +522,7 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
         frameBuffer.removeAll()
         autoSelectTimer?.invalidate()
         autoSelectTimer = nil
+        isScanComplete = false
         startScanning()
     }
 
@@ -534,23 +543,21 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
 
         // Select the frame with the highest quality score
         if let bestFrame = framesInWindow.max(by: { $0.qualityScore < $1.qualityScore }) {
-            DispatchQueue.main.async {
-                self.bestCapturedImage = bestFrame.image
-                self.scannedCode = payload
-                self.detectedType = bestFrame.barcodeData?.barcodeType
-                self.scanSuccess = true
-                self.stopScanning()
-            }
+            bestCapturedImage = bestFrame.image
+            scannedCode = payload
+            detectedType = bestFrame.barcodeData?.barcodeType
+            scanSuccess = true
+            isScanComplete = true
+            stopScanning()
         } else {
             // Fallback: use the best frame we have overall
             if let bestFrame = frameBuffer.filter({ $0.barcodeData?.payload == payload }).max(by: { $0.qualityScore < $1.qualityScore }) {
-                DispatchQueue.main.async {
-                    self.bestCapturedImage = bestFrame.image
-                    self.scannedCode = payload
-                    self.detectedType = bestFrame.barcodeData?.barcodeType
-                    self.scanSuccess = true
-                    self.stopScanning()
-                }
+                bestCapturedImage = bestFrame.image
+                scannedCode = payload
+                detectedType = bestFrame.barcodeData?.barcodeType
+                scanSuccess = true
+                isScanComplete = true
+                stopScanning()
             }
         }
     }
@@ -605,43 +612,55 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
 
 // MARK: - Video Data Delegate
 
-extension BarcodeScannerViewModel: @preconcurrency AVCaptureVideoDataOutputSampleBufferDelegate {
+extension BarcodeScannerViewModel: AVCaptureVideoDataOutputSampleBufferDelegate {
     nonisolated func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         // Don't process if we've already confirmed a selection
-        guard scannedCode == nil else { return }
-
+        guard !isScanComplete else { return }
+        
         // Adaptive frame throttling: only process every Nth frame
         frameCounter += 1
         guard frameCounter % (frameSkipCount + 1) == 0 else { return }
-
+        
         // Convert sample buffer to UIImage
-        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer),
-              let image = UIImage(pixelBuffer: pixelBuffer) else {
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
             return
         }
-
+        
+        // Create UIImage from pixel buffer (nonisolated operation)
+        CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
+        defer { CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly) }
+        
+        let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+        let context = CIContext()
+        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
+            return
+        }
+        
+        let image = UIImage(cgImage: cgImage)
         let timestamp = Date()
         let processingStartTime = Date()
-
+        
         // Evaluate barcode quality in this frame asynchronously
         Task {
             let barcodeData = await BarcodeQualityService.shared.detectBestBarcode(in: image)
-
+            
             // Calculate quality score based on barcode confidence
             let qualityScore = barcodeData?.confidence ?? 0.0
-
+            
             let frame = CapturedFrame(
                 image: image,
                 timestamp: timestamp,
                 barcodeData: barcodeData,
                 qualityScore: qualityScore
             )
-
+            
             // Measure processing time and adjust throttling
             let processingTime = Date().timeIntervalSince(processingStartTime)
-
-            // Add to buffer and adjust throttling on main queue
-            DispatchQueue.main.async {
+            
+            // Add to buffer and adjust throttling on main actor
+            await MainActor.run {
+                // Double-check we haven't completed scanning
+                guard !self.isScanComplete else { return }
                 self.addToFrameBuffer(frame)
                 self.adjustThrottlingBasedOnPerformance(processingTime)
             }
@@ -652,13 +671,13 @@ extension BarcodeScannerViewModel: @preconcurrency AVCaptureVideoDataOutputSampl
 // MARK: - Metadata Delegate
 
 extension BarcodeScannerViewModel: AVCaptureMetadataOutputObjectsDelegate {
-    func metadataOutput(
+    nonisolated func metadataOutput(
         _ output: AVCaptureMetadataOutput,
         didOutput metadataObjects: [AVMetadataObject],
         from connection: AVCaptureConnection
     ) {
-        // Ignore if already showing confirmation or completed
-        guard !barcodeDetected && scannedCode == nil else { return }
+        // Ignore if already completed
+        guard !isScanComplete else { return }
 
         // Get first barcode
         guard let metadataObject = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
@@ -674,20 +693,26 @@ extension BarcodeScannerViewModel: AVCaptureMetadataOutputObjectsDelegate {
         generator.notificationOccurred(.success)
 
         // Update state to show Continue button (but keep scanning!)
-        barcodeDetected = true
-        detectedBarcodePayload = code
-        detectedType = barcodeType
-        barcodeFirstDetectedAt = Date()
+        // Access MainActor-isolated properties from MainActor
+        Task { @MainActor in
+            // Double-check we haven't completed scanning
+            guard !self.barcodeDetected && self.scannedCode == nil else { return }
+            
+            self.barcodeDetected = true
+            self.detectedBarcodePayload = code
+            self.detectedType = barcodeType
+            self.barcodeFirstDetectedAt = Date()
 
-        // Start auto-select timer (3 seconds)
-        autoSelectTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
-            DispatchQueue.main.async {
-                self?.confirmBarcodeSelection()
+            // Start auto-select timer (3 seconds)
+            self.autoSelectTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+                Task { @MainActor in
+                    self?.confirmBarcodeSelection()
+                }
             }
         }
     }
 
-    private func mapToBarcodeType(_ type: AVMetadataObject.ObjectType) -> BarcodeType {
+    nonisolated private func mapToBarcodeType(_ type: AVMetadataObject.ObjectType) -> BarcodeType {
         switch type {
         case .qr:
             return .qr
@@ -745,6 +770,7 @@ struct CameraPreviewView: UIViewRepresentable {
         var previewLayer: AVCaptureVideoPreviewLayer?
     }
 }
+#endif // !os(visionOS)
 
 // MARK: - Scanner Corners
 
@@ -866,3 +892,4 @@ extension UIImage {
     BarcodeScannerView()
         .modelContainer(for: CardModel.self, inMemory: true)
 }
+#endif // !os(visionOS)

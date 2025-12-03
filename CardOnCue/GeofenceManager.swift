@@ -3,6 +3,7 @@ import CoreLocation
 import SwiftData
 import UserNotifications
 import Combine
+import CryptoKit
 
 /// Manages smart geofence rotation - monitors 20 nearest locations intelligently
 @MainActor
@@ -11,6 +12,7 @@ final class GeofenceManager: NSObject, ObservableObject {
 
     private let locationManager = CLLocationManager()
     private var modelContext: ModelContext?
+    private let keychainService = KeychainService()
 
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var isMonitoring = false
@@ -171,17 +173,38 @@ final class GeofenceManager: NSObject, ObservableObject {
     }
 
     private func sendGeofenceNotification(for card: CardModel) {
+        // Decrypt payload for watchOS display
+        var decryptedPayload: String?
+        do {
+            if let masterKey = try keychainService.getMasterKey() {
+                decryptedPayload = try card.decryptPayload(masterKey: masterKey)
+            }
+        } catch {
+            print("⚠️ Failed to decrypt payload for notification: \(error)")
+        }
+        
         let content = UNMutableNotificationContent()
         content.title = "📍 You're near \(card.locationName ?? card.name)"
         content.body = "Your card is ready to use"
         content.sound = .default
         content.categoryIdentifier = "GEOFENCE_CARD"
-        content.userInfo = [
+        
+        // Build userInfo with barcode data for watchOS
+        var userInfo: [String: Any] = [
             "action": "startLiveActivity",
             "cardId": card.id,
+            "cardName": card.name,
+            "barcodeType": card.barcodeType.rawValue,
             "locationName": card.locationName ?? "",
             "availableCardsCount": 1
         ]
+        
+        // Include decrypted payload if available (for watchOS barcode display)
+        if let payload = decryptedPayload {
+            userInfo["payload"] = payload
+        }
+
+        content.userInfo = userInfo
 
         let request = UNNotificationRequest(
             identifier: "geofence_\(card.id)_\(Date().timeIntervalSince1970)",
@@ -232,9 +255,17 @@ extension GeofenceManager: CLLocationManagerDelegate {
     }
 
     nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let newLocation = locations.last else { return }
+        
+        // Save location to UserDefaults for widget access (App Group)
+        if let userDefaults = UserDefaults(suiteName: "group.com.cardoncue.app") {
+            userDefaults.set(newLocation.coordinate.latitude, forKey: "lastKnownLatitude")
+            userDefaults.set(newLocation.coordinate.longitude, forKey: "lastKnownLongitude")
+            userDefaults.set(Date().timeIntervalSince1970, forKey: "lastLocationUpdate")
+            userDefaults.synchronize()
+        }
+        
         Task { @MainActor in
-            guard let newLocation = locations.last else { return }
-
             // Check if user has moved significantly
             let shouldUpdate: Bool
             if let current = currentLocation {

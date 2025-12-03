@@ -303,6 +303,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CardOnCue/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "CardOnCue needs your location to automatically show your membership cards when you arrive at stores, gyms, and other locations.";
@@ -326,7 +327,12 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Debug;
 		};
@@ -342,6 +348,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CardOnCue/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
 				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "CardOnCue needs your location to automatically show your membership cards when you arrive at stores, gyms, and other locations.";
@@ -365,7 +372,12 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.0;
 			};
 			name = Release;
 		};

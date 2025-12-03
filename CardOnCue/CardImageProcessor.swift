@@ -17,7 +17,7 @@ struct ProcessedCardImage {
 }
 
 /// Metadata about the image processing operation
-struct ProcessingMetadata: Codable {
+struct ProcessingMetadata: Codable, Sendable {
     let algorithmVersion: String
     let detectionConfidence: Float
     let cornersDetected: [[Double]]
@@ -27,7 +27,7 @@ struct ProcessingMetadata: Codable {
     let processedDimensions: ImageDimensions?
 }
 
-struct ImageDimensions: Codable {
+struct ImageDimensions: Codable, Sendable {
     let width: Int
     let height: Int
 }
@@ -270,9 +270,6 @@ class CardImageProcessor {
         let scaleY = targetHeight / outputExtent.height
         let scale = min(scaleX, scaleY)
         
-        let scaledWidth = outputExtent.width * scale
-        let scaledHeight = outputExtent.height * scale
-        
         // Apply scale transform
         guard let scaleFilter = CIFilter(name: "CIAffineTransform") else {
             return output
@@ -311,9 +308,7 @@ class CardImageProcessor {
         // Use Core Image's auto-adjustment filters
         let filters = image.autoAdjustmentFilters(options: [
             .enhance: true,
-            .redEye: false,
-            .faceBalance: false,
-            .vibrance: true
+            .redEye: false
         ])
         
         var enhanced = image

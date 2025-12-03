@@ -3,7 +3,14 @@ import WidgetKit
 import SwiftUI
 
 @main
-struct CardOnCueWidgets: Widget {
+struct CardOnCueWidgets: WidgetBundle {
+    var body: some Widget {
+        CardLiveActivityWidget()
+        ClosestCardWidget()
+    }
+}
+
+struct CardLiveActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: CardLiveActivityAttributes.self) { context in
             CardLiveActivityView(context: context)

@@ -12,6 +12,10 @@ struct CardListView: View {
     @State private var showingScanner = false
     @State private var showingManualEntry = false
     @State private var showingPermissionPrompt = false
+    
+    private var isCameraAvailable: Bool {
+        cameraPermission.isCameraAvailable && cameraPermission.permissionStatus != .unavailable
+    }
 
     var body: some View {
         NavigationStack {
@@ -24,7 +28,7 @@ struct CardListView: View {
                         onAddManually: {
                             showingManualEntry = true
                         },
-                        canScan: cameraPermission.permissionStatus != .denied
+                        canScan: isCameraAvailable && cameraPermission.permissionStatus != .denied
                     )
                 } else {
                     cardListView
@@ -33,7 +37,7 @@ struct CardListView: View {
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Menu {
-                                    if cameraPermission.permissionStatus != .denied {
+                                    if isCameraAvailable && cameraPermission.permissionStatus != .denied {
                                         Button(action: {
                                             handleScanRequest()
                                         }) {
@@ -66,7 +70,9 @@ struct CardListView: View {
                 )
             }
             .sheet(isPresented: $showingScanner) {
+                #if !os(visionOS)
                 BarcodeScannerView()
+                #endif
             }
             .sheet(isPresented: $showingManualEntry) {
                 ManualEntryView()
@@ -77,8 +83,10 @@ struct CardListView: View {
     private var cardListView: some View {
         List {
             ForEach(cards) { card in
-                CardRowView(card: card)
-                    .listRowBackground(Color.appBackground)
+                NavigationLink(destination: CardDetailView(card: card)) {
+                    CardRowView(card: card)
+                }
+                .listRowBackground(Color.appBackground)
             }
             .onDelete(perform: deleteCards)
         }
@@ -97,13 +105,18 @@ struct CardListView: View {
     }
 
     private func handleScanRequest() {
+        guard isCameraAvailable else {
+            // Camera not available (e.g., on visionOS)
+            return
+        }
+        
         switch cameraPermission.permissionStatus {
         case .granted:
             showingScanner = true
         case .notDetermined:
             showingPermissionPrompt = true
-        case .denied, .restricted:
-            // Camera access denied, do nothing (button should be hidden)
+        case .denied, .restricted, .unavailable:
+            // Camera access denied or unavailable, do nothing (button should be hidden)
             break
         }
     }
@@ -130,9 +143,15 @@ struct CardRowView: View {
                     .font(.headline)
                     .foregroundColor(.appBlue)
 
-                Text(card.barcodeType.displayName)
-                    .font(.caption)
-                    .foregroundColor(.appLightGray)
+                if let locationName = card.locationName, !locationName.isEmpty {
+                    Text(locationName)
+                        .font(.caption)
+                        .foregroundColor(.appLightGray)
+                } else {
+                    Text(card.barcodeType.displayName)
+                        .font(.caption)
+                        .foregroundColor(.appLightGray)
+                }
 
                 if let expiryInfo = card.expiryInfo {
                     Text(expiryInfo)
