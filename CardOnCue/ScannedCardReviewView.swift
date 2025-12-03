@@ -7,6 +7,7 @@ struct ScannedCardReviewView: View {
 
     let barcodeNumber: String
     let barcodeType: BarcodeType
+    let capturedImage: UIImage? // Optional captured card image
 
     var onSave: () -> Void
     var onRescan: () -> Void
@@ -20,8 +21,16 @@ struct ScannedCardReviewView: View {
     @State private var isLoading: Bool = false
     @State private var showingError: Bool = false
     @State private var errorMessage: String = ""
+    
+    // Image processing state
+    @State private var processedImage: ProcessedCardImage?
+    @State private var isProcessingImage: Bool = false
+    @State private var useProcessedImage: Bool = true
+    @State private var showingImagePreview: Bool = false
 
     private let keychainService = KeychainService()
+    private let imageProcessor = CardImageProcessor.shared
+    private let imageStorage = CardImageStorageService.shared
 
     var body: some View {
         NavigationStack {
@@ -67,6 +76,18 @@ struct ScannedCardReviewView: View {
                             .cornerRadius(12)
                         }
                         .padding(.top, 16)
+                        
+                        // Card image preview (if available)
+                        if let capturedImage = capturedImage {
+                            CardImagePreviewSection(
+                                originalImage: capturedImage,
+                                processedImage: processedImage,
+                                isProcessing: isProcessingImage,
+                                useProcessedImage: $useProcessedImage,
+                                showingPreview: $showingImagePreview
+                            )
+                            .padding(.horizontal, 24)
+                        }
 
                         // Form fields
                         VStack(spacing: 20) {
@@ -186,6 +207,39 @@ struct ScannedCardReviewView: View {
             } message: {
                 Text(errorMessage)
             }
+            .onAppear {
+                // Process image when view appears
+                if let image = capturedImage {
+                    processImage(image)
+                }
+            }
+        }
+    }
+    
+    private func processImage(_ image: UIImage) {
+        isProcessingImage = true
+        
+        Task {
+            do {
+                let result = try await imageProcessor.processCardImage(original: image)
+                await MainActor.run {
+                    processedImage = result
+                    useProcessedImage = result.isProcessed
+                    isProcessingImage = false
+                }
+            } catch {
+                // Silently fail - we'll just use the original image
+                await MainActor.run {
+                    processedImage = ProcessedCardImage(
+                        original: image,
+                        processed: nil,
+                        confidence: 0.0,
+                        processingMetadata: nil
+                    )
+                    useProcessedImage = false
+                    isProcessingImage = false
+                }
+            }
         }
     }
 
@@ -227,6 +281,38 @@ struct ScannedCardReviewView: View {
                     validTo: hasExpiryDate ? expiryDate : nil,
                     oneTime: isOneTime
                 )
+                
+                // Save images if available
+                if let processed = processedImage {
+                    // Save original image
+                    if let originalURL = try? imageStorage.saveImage(
+                        processed.original,
+                        cardId: card.id,
+                        isProcessed: false
+                    ) {
+                        card.originalImageURL = originalURL.path
+                    }
+                    
+                    // Save processed image if available
+                    if let processedImg = processed.processed,
+                       let processedURL = try? imageStorage.saveImage(
+                        processedImg,
+                        cardId: card.id,
+                        isProcessed: true
+                    ) {
+                        card.processedImageURL = processedURL.path
+                        card.processingConfidence = Double(processed.confidence)
+                        card.useProcessedImage = useProcessedImage && processed.isProcessed
+                        
+                        // Save processing metadata
+                        if let metadata = processed.processingMetadata {
+                            card.setProcessingMetadata(metadata)
+                        }
+                    } else {
+                        // No processed image, use original
+                        card.useProcessedImage = false
+                    }
+                }
 
                 // Save to SwiftData
                 await MainActor.run {
@@ -252,10 +338,192 @@ struct ScannedCardReviewView: View {
     }
 }
 
+// MARK: - Card Image Preview Section
+
+struct CardImagePreviewSection: View {
+    let originalImage: UIImage
+    let processedImage: ProcessedCardImage?
+    let isProcessing: Bool
+    @Binding var useProcessedImage: Bool
+    @Binding var showingPreview: Bool
+    
+    var body: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Image(systemName: "photo")
+                    .foregroundColor(.appBlue)
+                    .frame(width: 20)
+                Text("Card Image")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.appBlue)
+                Spacer()
+                
+                if let processed = processedImage, processed.isProcessed {
+                    Button(action: { showingPreview = true }) {
+                        Text("Preview")
+                            .font(.caption)
+                            .foregroundColor(.appBlue)
+                    }
+                }
+            }
+            
+            // Image preview
+            ZStack {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.white)
+                    .frame(height: 200)
+                
+                if isProcessing {
+                    VStack(spacing: 8) {
+                        ProgressView()
+                        Text("Processing image...")
+                            .font(.caption)
+                            .foregroundColor(.appLightGray)
+                    }
+                } else {
+                    let displayImage = useProcessedImage && processedImage?.processed != nil
+                        ? processedImage?.processed
+                        : originalImage
+                    
+                    if let image = displayImage {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxHeight: 200)
+                            .cornerRadius(12)
+                    }
+                }
+            }
+            
+            // Toggle between original and processed
+            if let processed = processedImage, processed.isProcessed {
+                Toggle(isOn: $useProcessedImage) {
+                    HStack(spacing: 8) {
+                        Image(systemName: "wand.and.stars")
+                            .foregroundColor(.appBlue)
+                            .frame(width: 20)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("Use processed image")
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundColor(.appBlue)
+                            if let confidence = processed.processingMetadata?.detectionConfidence {
+                                Text("Confidence: \(Int(confidence * 100))%")
+                                    .font(.caption)
+                                    .foregroundColor(.appLightGray)
+                            }
+                        }
+                    }
+                }
+                .tint(.appPrimary)
+            }
+        }
+        .sheet(isPresented: $showingPreview) {
+            CardImageComparisonView(
+                originalImage: originalImage,
+                processedImage: processedImage,
+                useProcessedImage: $useProcessedImage
+            )
+        }
+    }
+}
+
+// MARK: - Card Image Comparison View
+
+struct CardImageComparisonView: View {
+    @Environment(\.dismiss) private var dismiss
+    let originalImage: UIImage
+    let processedImage: ProcessedCardImage?
+    @Binding var useProcessedImage: Bool
+    
+    @State private var showingOriginal = false
+    
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                Color.appBackground
+                    .ignoresSafeArea()
+                
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Toggle button
+                        Picker("Image Version", selection: $showingOriginal) {
+                            Text("Processed").tag(false)
+                            Text("Original").tag(true)
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.horizontal, 24)
+                        .padding(.top, 16)
+                        
+                        // Image display
+                        let displayImage = showingOriginal
+                            ? originalImage
+                            : (processedImage?.processed ?? originalImage)
+                        
+                        Image(uiImage: displayImage)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .cornerRadius(12)
+                            .padding(.horizontal, 24)
+                        
+                        // Info
+                        if let processed = processedImage, !showingOriginal {
+                            VStack(alignment: .leading, spacing: 8) {
+                                if let metadata = processed.processingMetadata {
+                                    InfoRow(label: "Confidence", value: "\(Int(metadata.detectionConfidence * 100))%")
+                                    InfoRow(label: "Processing Time", value: "\(metadata.processingTimeMs)ms")
+                                    InfoRow(label: "Original Size", value: "\(metadata.originalDimensions.width)×\(metadata.originalDimensions.height)")
+                                    if let processedDims = metadata.processedDimensions {
+                                        InfoRow(label: "Processed Size", value: "\(processedDims.width)×\(processedDims.height)")
+                                    }
+                                }
+                            }
+                            .padding()
+                            .background(Color.white)
+                            .cornerRadius(12)
+                            .padding(.horizontal, 24)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Card Image")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                    .foregroundColor(.appBlue)
+                }
+            }
+        }
+    }
+}
+
+struct InfoRow: View {
+    let label: String
+    let value: String
+    
+    var body: some View {
+        HStack {
+            Text(label)
+                .font(.subheadline)
+                .foregroundColor(.appLightGray)
+            Spacer()
+            Text(value)
+                .font(.subheadline)
+                .fontWeight(.medium)
+                .foregroundColor(.appBlue)
+        }
+    }
+}
+
 #Preview {
     ScannedCardReviewView(
         barcodeNumber: "1234567890123",
         barcodeType: .qr,
+        capturedImage: nil,
         onSave: {},
         onRescan: {}
     )

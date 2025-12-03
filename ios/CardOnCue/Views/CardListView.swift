@@ -53,9 +53,8 @@ struct CardListView: View {
                 }
             }
             .sheet(isPresented: $showingScanner) {
-                // TODO: Implement scanner view
-                Text("Scanner View - Coming Soon")
-                    .presentationDetents([.large])
+                SmartCardScannerView()
+                    .environmentObject(storageService)
             }
             .sheet(isPresented: $showingManualEntry) {
                 // TODO: Implement manual entry view
@@ -224,9 +223,15 @@ struct CardRowView: View {
                     .font(.headline)
                     .foregroundColor(.appBlue)
 
-                Text(card.barcodeType.displayName)
-                    .font(.caption)
-                    .foregroundColor(.appLightGray)
+                if let personName = card.personName, !personName.isEmpty {
+                    Text(personName)
+                        .font(.caption)
+                        .foregroundColor(.appLightGray)
+                } else if let locationName = card.locationName, !locationName.isEmpty {
+                    Text(locationName)
+                        .font(.caption)
+                        .foregroundColor(.appLightGray)
+                }
 
                 if let expiryInfo = card.expiryInfo {
                     Text(expiryInfo)

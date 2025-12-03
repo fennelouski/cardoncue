@@ -26,6 +26,8 @@ struct Card: Identifiable, Codable, Hashable {
     var frontCardImage: CardFrontImage?
     var barcodeRepresentationPreference: BarcodeRepresentation
     var barcodeQualityMetrics: BarcodeQualityMetrics?
+    var personName: String?
+    var locationName: String?
 
     var isExpired: Bool {
         guard let validTo = validTo else { return false }
@@ -88,6 +90,8 @@ struct Card: Identifiable, Codable, Hashable {
         case frontCardImage = "front_card_image"
         case barcodeRepresentationPreference = "barcode_representation_preference"
         case barcodeQualityMetrics = "barcode_quality_metrics"
+        case personName = "person_name"
+        case locationName = "location_name"
     }
 }
 
@@ -117,7 +121,9 @@ extension Card {
         barcodeImageData: BarcodeImageData? = nil,
         frontCardImage: CardFrontImage? = nil,
         barcodeRepresentationPreference: BarcodeRepresentation = .automatic,
-        barcodeQualityMetrics: BarcodeQualityMetrics? = nil
+        barcodeQualityMetrics: BarcodeQualityMetrics? = nil,
+        personName: String? = nil,
+        locationName: String? = nil
     ) {
         self.id = id
         self.userId = userId
@@ -144,6 +150,8 @@ extension Card {
         self.frontCardImage = frontCardImage
         self.barcodeRepresentationPreference = barcodeRepresentationPreference
         self.barcodeQualityMetrics = barcodeQualityMetrics
+        self.personName = personName
+        self.locationName = locationName
     }
 }
 

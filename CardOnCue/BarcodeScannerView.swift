@@ -243,6 +243,7 @@ struct BarcodeScannerView: View {
                     ScannedCardReviewView(
                         barcodeNumber: code,
                         barcodeType: type,
+                        capturedImage: scanner.bestCapturedImage,
                         onSave: {
                             dismiss()
                         },

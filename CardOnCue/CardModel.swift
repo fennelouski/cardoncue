@@ -28,6 +28,13 @@ final class CardModel {
     var locationRadius: Double = 100.0 // Default 100m radius
     var locationName: String? = nil // e.g., "LA Fitness - Main St"
     var isGeofenceActive: Bool = false // Is this currently one of the 20 monitored?
+    
+    // Image data for card photos
+    var originalImageURL: String? = nil // File path to original image
+    var processedImageURL: String? = nil // File path to processed (cropped/straightened) image
+    var processingConfidence: Double? = nil // Confidence score from 0.0 to 1.0
+    var useProcessedImage: Bool = true // Whether to use processed image by default
+    var processingMetadataJSON: String? = nil // JSON-encoded ProcessingMetadata
 
     // Computed property for barcode type
     var barcodeType: BarcodeType {
@@ -122,6 +129,37 @@ final class CardModel {
             metadata.removeValue(forKey: key)
         }
         updatedAt = Date()
+    }
+    
+    // MARK: - Image Helpers
+    
+    /// Get the display image URL (processed if available and preferred, otherwise original)
+    var displayImageURL: String? {
+        if useProcessedImage, let processed = processedImageURL {
+            return processed
+        }
+        return originalImageURL
+    }
+    
+    /// Set processing metadata
+    func setProcessingMetadata(_ metadata: ProcessingMetadata?) {
+        if let metadata = metadata {
+            let encoder = JSONEncoder()
+            processingMetadataJSON = try? encoder.encode(metadata).base64EncodedString()
+        } else {
+            processingMetadataJSON = nil
+        }
+        updatedAt = Date()
+    }
+    
+    /// Get processing metadata
+    func getProcessingMetadata() -> ProcessingMetadata? {
+        guard let jsonString = processingMetadataJSON,
+              let data = Data(base64Encoded: jsonString) else {
+            return nil
+        }
+        let decoder = JSONDecoder()
+        return try? decoder.decode(ProcessingMetadata.self, from: data)
     }
 }
 

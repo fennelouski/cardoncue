@@ -2,6 +2,8 @@ import SwiftUI
 
 struct CardDetailView: View {
     let card: Card
+    @EnvironmentObject var storageService: StorageService
+    @StateObject private var locationSearch = LocationSearchService()
     @State private var brightness: Double = 1.0
     @State private var isLiveActivityActive = false
     @State private var showError = false
@@ -9,17 +11,22 @@ struct CardDetailView: View {
     @State private var showingIconPicker = false
     @State private var showingAddLocation = false
     @State private var updatedCard: Card?
+    @State private var editedName: String = ""
+    @State private var editedPersonName: String = ""
+    @State private var editedLocationName: String = ""
+    @State private var isEditing = false
+    @State private var showingLocationSuggestions = false
 
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
+                barcodeSection
+
                 cardIconSection
 
                 cardInfoSection
 
                 locationSection
-
-                barcodeSection
 
                 if #available(iOS 16.1, *) {
                     liveActivitySection
@@ -29,8 +36,18 @@ struct CardDetailView: View {
             }
             .padding()
         }
-        .navigationTitle(card.name)
-        .navigationBarTitleDisplayMode(.large)
+        .navigationTitle(isEditing ? "Edit Card" : card.name)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(isEditing ? "Done" : "Edit") {
+                    if isEditing {
+                        saveChanges()
+                    }
+                    isEditing.toggle()
+                }
+            }
+        }
         .sheet(isPresented: $showingIconPicker) {
             CardIconPickerView(card: updatedCard ?? card) { updated in
                 updatedCard = updated
@@ -45,6 +62,11 @@ struct CardDetailView: View {
             Text(errorMessage)
         }
         .onAppear {
+            editedName = (updatedCard ?? card).name
+            editedPersonName = (updatedCard ?? card).personName ?? ""
+            editedLocationName = (updatedCard ?? card).locationName ?? ""
+            locationSearch.searchQuery = (updatedCard ?? card).locationName ?? ""
+
             if #available(iOS 16.1, *) {
                 isLiveActivityActive = LiveActivityService.shared.isActivityActive
                 brightness = LiveActivityService.shared.currentBrightness
@@ -77,6 +99,91 @@ struct CardDetailView: View {
             Text("Card Information")
                 .font(.headline)
                 .foregroundColor(.primary)
+
+            if isEditing {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Card Name")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextField("Card Name", text: $editedName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Person Name (Optional)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    TextField("e.g., John Doe", text: $editedPersonName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Place Name (Optional)")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+
+                    ZStack(alignment: .topLeading) {
+                        TextField("e.g., Local Library", text: $locationSearch.searchQuery)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .onChange(of: locationSearch.searchQuery) { newValue in
+                                showingLocationSuggestions = !newValue.isEmpty && !locationSearch.suggestions.isEmpty
+                            }
+
+                        if showingLocationSuggestions {
+                            VStack(alignment: .leading, spacing: 0) {
+                                Spacer()
+                                    .frame(height: 35)
+
+                                ScrollView {
+                                    VStack(alignment: .leading, spacing: 0) {
+                                        ForEach(locationSearch.suggestions, id: \.self) { suggestion in
+                                            Button(action: {
+                                                let selectedLocation = locationSearch.selectLocation(suggestion)
+                                                editedLocationName = selectedLocation
+                                                locationSearch.searchQuery = selectedLocation
+                                                showingLocationSuggestions = false
+                                            }) {
+                                                VStack(alignment: .leading, spacing: 4) {
+                                                    Text(suggestion.title)
+                                                        .font(.body)
+                                                        .foregroundColor(.primary)
+                                                    if !suggestion.subtitle.isEmpty {
+                                                        Text(suggestion.subtitle)
+                                                            .font(.caption)
+                                                            .foregroundColor(.secondary)
+                                                    }
+                                                }
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .padding(.horizontal, 12)
+                                                .padding(.vertical, 8)
+                                            }
+                                            .buttonStyle(PlainButtonStyle())
+
+                                            if suggestion != locationSearch.suggestions.last {
+                                                Divider()
+                                            }
+                                        }
+                                    }
+                                }
+                                .frame(maxHeight: 200)
+                                .background(Color(.systemBackground))
+                                .cornerRadius(8)
+                                .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
+                            }
+                        }
+                    }
+                }
+            } else {
+                InfoRow(label: "Name", value: (updatedCard ?? card).name)
+
+                if let personName = (updatedCard ?? card).personName, !personName.isEmpty {
+                    InfoRow(label: "Person", value: personName)
+                }
+
+                if let locationName = (updatedCard ?? card).locationName, !locationName.isEmpty {
+                    InfoRow(label: "Place", value: locationName)
+                }
+            }
 
             InfoRow(label: "Type", value: card.barcodeType.displayName)
 
@@ -241,6 +348,17 @@ struct CardDetailView: View {
             print("Error generating barcode: \(error)")
             return nil
         }
+    }
+
+    private func saveChanges() {
+        var modified = updatedCard ?? card
+        modified.name = editedName
+        modified.personName = editedPersonName.isEmpty ? nil : editedPersonName
+        modified.locationName = editedLocationName.isEmpty ? nil : editedLocationName
+        modified.updatedAt = Date()
+
+        storageService.updateCard(modified)
+        updatedCard = modified
     }
 }
 
