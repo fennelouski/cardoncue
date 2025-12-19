@@ -68,14 +68,14 @@ export default function HomePage() {
             <div className="grid md:grid-cols-3 gap-8">
               {[
                 {
-                  title: 'Location Detection',
-                  description: 'Your iPhone knows when you enter stores, libraries, and other locations.',
-                  icon: '📍'
+                  title: 'Rapid Card Scanning',
+                  description: 'Add dozens of cards in seconds with intelligent OCR. High-confidence scans save instantly (<1 second per card).',
+                  icon: '⚡'
                 },
                 {
                   title: 'Automatic Display',
-                  description: 'Your relevant cards appear instantly on your lock screen or in the app.',
-                  icon: '⚡'
+                  description: 'Your relevant cards appear instantly on your lock screen when you enter locations.',
+                  icon: '📍'
                 },
                 {
                   title: 'Secure & Private',

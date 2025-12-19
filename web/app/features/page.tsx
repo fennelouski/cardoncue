@@ -18,6 +18,17 @@ import Link from 'next/link'
 export default function FeaturesPage() {
   const features = [
     {
+      icon: Clock,
+      title: 'Rapid Card Scanning (NEW)',
+      description: 'Add dozens of cards in seconds with intelligent OCR and auto-save. Perfect for families, group tickets, or batch card entry.',
+      details: [
+        'Instant save on high confidence (≥85%) - less than 1 second per card',
+        'Batch mode: Select location once, scan multiple cards',
+        'Automatic name generation from card text',
+        'Edit anytime after auto-save with quick access'
+      ]
+    },
+    {
       icon: MapPin,
       title: 'Location-Aware Card Surfacing',
       description: 'Your iPhone detects when you enter stores, libraries, and other locations. Relevant cards automatically appear on your lock screen or in the CardOnCue app.',
@@ -41,13 +52,13 @@ export default function FeaturesPage() {
     },
     {
       icon: Users,
-      title: 'Multi-Card Support',
-      description: 'Manage cards for your entire family - kids\' library cards, multiple memberships, and shared household accounts.',
+      title: 'Multi-Card & Family Support',
+      description: 'Manage cards for your entire family with rapid batch scanning. Add multiple library cards, memberships, and shared household accounts in seconds.',
       details: [
         'Unlimited cards per account',
-        'Family sharing capabilities',
-        'Card grouping and organization',
-        'Quick card switching'
+        'Family batch scanning (one location, multiple cards)',
+        'Automatic card grouping and organization',
+        'Quick card switching and editing'
       ]
     },
     {
@@ -126,8 +137,8 @@ export default function FeaturesPage() {
                 Powerful Features for <span className="text-primary-600">Modern Life</span>
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-                Discover how CardOnCue transforms the way you interact with digital cards,
-                making everyday activities seamless and secure.
+                Discover how CardOnCue transforms the way you interact with digital cards—
+                from rapid batch scanning to automatic location-aware display, making everyday activities seamless and secure.
               </p>
             </motion.div>
           </div>

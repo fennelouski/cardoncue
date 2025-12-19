@@ -38,11 +38,12 @@ CardOnCue automatically surfaces the correct barcode or QR code when you arrive 
 
 ### Core Features
 
+- **⚡ Rapid Card Scanning**: Add dozens of cards in seconds with intelligent OCR and auto-save (<1 second per card on high confidence ≥85%)
+- **👨‍👩‍👧‍👦 Batch Scanning Mode**: Select location once, scan multiple family cards or group tickets with automatic grouping
 - **📷 Barcode Scanning**: Scan membership cards using AVFoundation + Vision framework
 - **🎨 Barcode Rendering**: Generate crisp, scannable barcodes using CoreImage filters
 - **📍 Location-Aware**: Automatically surface cards when arriving at stores (region monitoring + dynamic refresh)
 - **🔒 Privacy & Security**: AES-256-GCM encryption, Keychain storage, no location tracking
-- **👨‍👩‍👧‍👦 Multi-Card Support**: Store multiple cards per location (family members, different accounts)
 - **⏱️ One-Time Passes**: Support for time-limited passes (Amazon returns, event tickets)
 - **🌐 Optional Sync**: E2E encrypted cloud backup (server cannot decrypt)
 
@@ -353,6 +354,8 @@ See [`docs/privacy-security.md`](docs/privacy-security.md) for threat model and 
 - [x] Encrypted local storage
 - [x] Sign in with Apple
 - [x] Backend API (Vercel)
+- [x] Rapid card scanning with auto-save (≥85% confidence)
+- [x] Batch scanning mode (location-first multi-card)
 
 ### v1.1 (Next)
 - [ ] Apple Wallet export (PKPass)
