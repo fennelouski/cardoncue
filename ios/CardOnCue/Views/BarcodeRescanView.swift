@@ -30,3 +30,4 @@ struct BarcodeRescanView: View {
     }
 }
 
+

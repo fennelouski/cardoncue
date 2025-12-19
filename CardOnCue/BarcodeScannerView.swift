@@ -5,6 +5,7 @@ import AVFoundation
 import SwiftData
 import Combine
 import Vision
+import CoreLocation
 
 // MARK: - Device Performance Tier
 
@@ -78,6 +79,18 @@ struct BarcodeScannerView: View {
     @State private var scannedCode: String?
     @State private var detectedBarcodeType: BarcodeType?
     @State private var showingSaveSheet = false
+    @State private var capturedImages: [UIImage] = []
+    @State private var showingCapturedImages = false
+    @State private var showingCapturePreview = false
+    @State private var capturedPreviewImage: UIImage?
+    @State private var previewImageRotation: Double = 0
+
+    // MARK: - Rapid Scanning Support
+    var rapidState: RapidScanningState? = nil
+    @State private var isProcessingRapidScan = false
+    @State private var rapidScanConfidence: Float = 0.0
+    @State private var showingEditSheet = false
+    @State private var savedCardToEdit: CardModel?
 
     var body: some View {
         NavigationStack {
@@ -87,109 +100,326 @@ struct BarcodeScannerView: View {
                     .ignoresSafeArea()
 
                 // Overlay
-                VStack {
-                    // Top gradient
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color.black.opacity(0.6),
-                            Color.clear
-                        ]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 120)
-
-                    Spacer()
-
-                    // Scanning frame
-                    VStack(spacing: 16) {
-                        Text("Position barcode within frame")
-                            .font(.subheadline)
-                            .foregroundColor(.white)
-                            .padding(.horizontal, 24)
-                            .padding(.vertical, 8)
-                            .background(Color.black.opacity(0.6))
-                            .cornerRadius(8)
-
-                        // Scanning rectangle
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(scanner.barcodeDetected ? Color.appGreen : (scanner.isScanning ? Color.white.opacity(0.8) : Color.white), lineWidth: 3)
-                                .frame(width: 280, height: 180)
-                                .animation(.easeInOut(duration: 0.3), value: scanner.barcodeDetected)
-
-                            // Corner indicators
-                            ScannerCorners(isDetected: scanner.barcodeDetected)
+                ZStack {
+                    VStack {
+                        // Top gradient with flashlight button
+                        ZStack(alignment: .topTrailing) {
+                            LinearGradient(
+                                gradient: Gradient(colors: [
+                                    Color.black.opacity(0.6),
+                                    Color.clear
+                                ]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                            .frame(height: 120)
+                            
+                            // Flashlight button in top corner
+                            if scanner.hasFlash {
+                                Button(action: { scanner.toggleFlash() }) {
+                                    Image(systemName: scanner.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
+                                        .font(.title2)
+                                        .foregroundColor(.white)
+                                        .frame(width: 44, height: 44)
+                                        .background(Color.black.opacity(0.5))
+                                        .clipShape(Circle())
+                                }
+                                .padding(.top, 8)
+                                .padding(.trailing, 16)
+                            }
                         }
-                        .frame(height: 200)
-                    }
 
-                    Spacer()
+                        Spacer()
 
-                    // Bottom controls gradient
-                    LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color.clear,
-                            Color.black.opacity(0.6)
-                        ]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    .frame(height: 180)
-                    .overlay(
+                        // Scanning frame
                         VStack(spacing: 16) {
+                            Text("Position barcode within frame")
+                                .font(.subheadline)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 8)
+                                .background(Color.black.opacity(0.6))
+                                .cornerRadius(8)
+
+                            // Scanning rectangle
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(scanner.barcodeDetected ? Color.appGreen : (scanner.isScanning ? Color.white.opacity(0.8) : Color.white), lineWidth: 3)
+                                    .frame(width: 280, height: 180)
+                                    .animation(.easeInOut(duration: 0.3), value: scanner.barcodeDetected)
+
+                                // Corner indicators
+                                ScannerCorners(isDetected: scanner.barcodeDetected)
+                            }
+                            .frame(height: 200)
+                        }
+
+                        Spacer()
+
+                        // Bottom controls gradient - extends into safe area
+                        GeometryReader { geometry in
+                            ZStack(alignment: .bottom) {
+                                // Gradient background
+                                VStack(spacing: 0) {
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color.clear,
+                                            Color.black.opacity(0.6)
+                                        ]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                    .frame(height: 180)
+                                    
+                                    // Solid extension into safe area
+                                    Color.black.opacity(0.6)
+                                        .frame(height: geometry.safeAreaInsets.bottom + 20)
+                                }
+                                
+                                // Controls overlay
+                                VStack(spacing: 16) {
+                                    Spacer()
+
+                                    if !scanner.scanSuccess {
+                                        // Show Continue button when barcode detected (only in standard mode)
+                                        if scanner.barcodeDetected && (rapidState?.mode == .standard || rapidState == nil) {
+                                            Button(action: {
+                                                scanner.confirmBarcodeSelection()
+                                            }) {
+                                                HStack(spacing: 12) {
+                                                    Image(systemName: "checkmark.circle.fill")
+                                                        .font(.title3)
+                                                    Text("Continue")
+                                                        .font(.headline)
+                                                }
+                                                .foregroundColor(.white)
+                                                .frame(maxWidth: .infinity)
+                                                .padding(.vertical, 16)
+                                                .background(Color.appPrimary)
+                                                .cornerRadius(12)
+                                            }
+                                            .padding(.horizontal, 24)
+                                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                                        }
+                                        
+                                        // Capture button - always visible
+                                        Button(action: {
+                                            captureImage()
+                                        }) {
+                                            Image(systemName: "camera.fill")
+                                                .font(.title2)
+                                                .foregroundColor(.white)
+                                                .frame(width: 60, height: 60)
+                                                .background(scanner.barcodeDetected ? Color.black.opacity(0.5) : Color.appPrimary)
+                                                .clipShape(Circle())
+                                                .overlay(
+                                                    Circle()
+                                                        .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                                                )
+                                        }
+                                        .padding(.bottom, scanner.barcodeDetected ? 8 : 8)
+
+                                        // Manual entry button
+                                        if !scanner.barcodeDetected {
+                                            Button(action: {
+                                                showingManualEntry = true
+                                            }) {
+                                                Text("Enter Manually")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.white)
+                                                    .padding(.horizontal, 20)
+                                                    .padding(.vertical, 10)
+                                                    .background(Color.black.opacity(0.5))
+                                                    .cornerRadius(20)
+                                            }
+                                        }
+                                    }
+
+                                    Spacer()
+                                        .frame(height: 32)
+                                }
+                                .padding(.bottom, geometry.safeAreaInsets.bottom)
+                            }
+                        }
+                        .frame(height: 180)
+                        .ignoresSafeArea(edges: .bottom)
+                    }
+                    
+                    // Confidence indicator (standard mode) or confidence meter (rapid mode)
+                    if rapidState?.mode == .rapid || rapidState?.mode == .batch {
+                        // New confidence meter for rapid/batch mode
+                        if isProcessingRapidScan || rapidScanConfidence > 0 {
+                            VStack {
+                                Spacer()
+
+                                HStack {
+                                    ConfidenceMeter(
+                                        confidence: rapidScanConfidence,
+                                        autoSaveThreshold: rapidState?.autoSaveThreshold ?? 0.85
+                                    )
+                                    .padding(.leading, 24)
+
+                                    Spacer()
+                                }
+                                .offset(y: -100)
+
+                                Spacer()
+                            }
+                        }
+                    } else if scanner.barcodeConfidence > 0.0 {
+                        // Original confidence indicator for standard mode
+                        VStack {
                             Spacer()
 
-                            // Show Continue button when barcode detected
-                            if scanner.barcodeDetected && !scanner.scanSuccess {
-                                Button(action: {
-                                    scanner.confirmBarcodeSelection()
-                                }) {
-                                    HStack(spacing: 12) {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .font(.title3)
-                                        Text("Continue")
-                                            .font(.headline)
-                                    }
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .font(.system(size: 32))
                                     .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 16)
-                                    .background(Color.appPrimary)
-                                    .cornerRadius(12)
+                                    .opacity(scanner.barcodeConfidence * 0.5) // Max 50% opacity
+                                    .padding(.leading, 24)
+
+                                Spacer()
+                            }
+                            .offset(y: -100) // Align with center of scanning frame
+
+                            Spacer()
+                        }
+                        .animation(.easeInOut(duration: 0.2), value: scanner.barcodeConfidence)
+                    }
+
+                    // Batch location badge (top center)
+                    if let batchLocation = rapidState?.batchLocation {
+                        VStack {
+                            BatchLocationBadge(
+                                locationName: batchLocation.locationName,
+                                cardCount: rapidState?.currentBatchCount ?? 0,
+                                onChangeLocation: {
+                                    // Allow changing location mid-batch
+                                    rapidState?.clearBatchLocation()
+                                    dismiss()
                                 }
-                                .padding(.horizontal, 24)
-                                .transition(.move(edge: .bottom).combined(with: .opacity))
-                            } else if !scanner.scanSuccess {
-                                // Flash toggle
-                                if scanner.hasFlash {
-                                    Button(action: { scanner.toggleFlash() }) {
-                                        Image(systemName: scanner.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
+                            )
+                            .padding(.top, 100)
+
+                            Spacer()
+                        }
+                    }
+                    
+                    // Thumbnail stack button in bottom corner
+                    if !capturedImages.isEmpty {
+                        GeometryReader { geometry in
+                            VStack {
+                                Spacer()
+                                
+                                HStack {
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        showingCapturedImages = true
+                                    }) {
+                                        ZStack(alignment: .topTrailing) {
+                                            // Show the most recent image as thumbnail
+                                            if let latestImage = capturedImages.last {
+                                                Image(uiImage: latestImage)
+                                                    .resizable()
+                                                    .aspectRatio(contentMode: .fill)
+                                                    .frame(width: 60, height: 60)
+                                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                                            }
+                                            
+                                            // Badge showing count
+                                            if capturedImages.count > 1 {
+                                                Text("\(capturedImages.count)")
+                                                    .font(.system(size: 12, weight: .bold))
+                                                    .foregroundColor(.white)
+                                                    .frame(width: 20, height: 20)
+                                                    .background(Color.appPrimary)
+                                                    .clipShape(Circle())
+                                                    .offset(x: 8, y: -8)
+                                            }
+                                        }
+                                        .frame(width: 60, height: 60)
+                                        .background(Color.black.opacity(0.6))
+                                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 8)
+                                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                        )
+                                    }
+                                    .padding(.trailing, 16)
+                                    .padding(.bottom, geometry.safeAreaInsets.bottom + 20)
+                                }
+                                
+                                Spacer()
+                            }
+                        }
+                    }
+                    
+                    // Capture preview overlay
+                    if showingCapturePreview, let previewImage = capturedPreviewImage {
+                        ZStack {
+                            Color.black.opacity(0.9)
+                                .ignoresSafeArea()
+
+                            VStack {
+                                // Close button
+                                HStack {
+                                    Spacer()
+                                    Button(action: {
+                                        withAnimation {
+                                            showingCapturePreview = false
+                                            previewImageRotation = 0
+                                        }
+                                    }) {
+                                        Image(systemName: "xmark.circle.fill")
+                                            .font(.title2)
+                                            .foregroundColor(.white)
+                                            .padding()
+                                    }
+                                }
+
+                                // Image with rotation
+                                Image(uiImage: previewImage)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .rotationEffect(.degrees(previewImageRotation))
+                                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                    .padding(40)
+
+                                // Rotation controls
+                                HStack(spacing: 40) {
+                                    Button(action: {
+                                        withAnimation(.spring()) {
+                                            previewImageRotation -= 90
+                                        }
+                                    }) {
+                                        Image(systemName: "rotate.left")
                                             .font(.title2)
                                             .foregroundColor(.white)
                                             .frame(width: 50, height: 50)
-                                            .background(Color.black.opacity(0.5))
+                                            .background(Color.white.opacity(0.2))
+                                            .clipShape(Circle())
+                                    }
+
+                                    Button(action: {
+                                        withAnimation(.spring()) {
+                                            previewImageRotation += 90
+                                        }
+                                    }) {
+                                        Image(systemName: "rotate.right")
+                                            .font(.title2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 50, height: 50)
+                                            .background(Color.white.opacity(0.2))
                                             .clipShape(Circle())
                                     }
                                 }
-
-                                // Manual entry button
-                                Button(action: {
-                                    showingManualEntry = true
-                                }) {
-                                    Text("Enter Manually")
-                                        .font(.subheadline)
-                                        .foregroundColor(.white)
-                                        .padding(.horizontal, 20)
-                                        .padding(.vertical, 10)
-                                        .background(Color.black.opacity(0.5))
-                                        .cornerRadius(20)
-                                }
+                                .padding(.bottom, 40)
                             }
-
-                            Spacer()
-                                .frame(height: 32)
                         }
-                    )
+                        .transition(.opacity)
+                        .zIndex(100)
+                    }
                 }
 
                 // Success overlay
@@ -228,16 +458,40 @@ struct BarcodeScannerView: View {
             .toolbarBackground(Color.black.opacity(0.6), for: .navigationBar)
             .toolbarBackground(.visible, for: .navigationBar)
             .onAppear {
-                scanner.startScanning()
+                // Ensure we reset and start scanning when view appears
+                scanner.resetScanning()
             }
             .onDisappear {
                 scanner.stopScanning()
             }
             .onChange(of: scanner.scannedCode) { oldValue, newValue in
                 if let code = newValue, let type = scanner.detectedType {
-                    handleScannedCode(code, type: type)
+                    // Check if we should use rapid mode
+                    if rapidState?.mode == .rapid || rapidState?.mode == .batch {
+                        handleRapidScan(code, type: type)
+                    } else {
+                        handleScannedCode(code, type: type)
+                    }
                 }
             }
+            .autoSaveToast(
+                isPresented: Binding(
+                    get: { rapidState?.showAutoSaveToast ?? false },
+                    set: { rapidState?.showAutoSaveToast = $0 }
+                ),
+                cardName: rapidState?.toastCard?.name ?? "",
+                confidence: rapidState?.toastCard?.confidence ?? 0,
+                onEdit: {
+                    // Navigate to edit the card
+                    if let cardId = rapidState?.toastCard?.id {
+                        showEditSheet(for: cardId)
+                    }
+                },
+                onUndo: {
+                    // Undo the last save
+                    rapidState?.undoLastScan(modelContext: modelContext)
+                }
+            )
             .sheet(isPresented: $showingManualEntry) {
                 ManualEntryView()
             }
@@ -247,6 +501,7 @@ struct BarcodeScannerView: View {
                         barcodeNumber: code,
                         barcodeType: type,
                         capturedImage: scanner.bestCapturedImage,
+                        barcodeBoundingBox: scanner.bestBarcodeBoundingBox,
                         onSave: {
                             dismiss()
                         },
@@ -257,6 +512,19 @@ struct BarcodeScannerView: View {
                     )
                 }
             }
+            .sheet(isPresented: $showingCapturedImages) {
+                CapturedImagesGalleryView(
+                    images: capturedImages,
+                    onSelect: { image in
+                        // Use selected image for barcode detection
+                        useCapturedImage(image)
+                        showingCapturedImages = false
+                    },
+                    onDelete: { index in
+                        capturedImages.remove(at: index)
+                    }
+                )
+            }
         }
         .preferredColorScheme(.dark)
     }
@@ -265,6 +533,286 @@ struct BarcodeScannerView: View {
         scannedCode = code
         detectedBarcodeType = type
         showingSaveSheet = true
+    }
+
+    // MARK: - Rapid Scan Handler
+
+    /// Handle barcode detection in rapid/batch mode
+    private func handleRapidScan(_ code: String, type: BarcodeType) {
+        guard !isProcessingRapidScan else { return }
+
+        isProcessingRapidScan = true
+        rapidScanConfidence = 0.0
+
+        Task {
+            do {
+                // Get the best captured image
+                guard let capturedImage = scanner.bestCapturedImage else {
+                    await showReviewScreen(code, type: type)
+                    return
+                }
+
+                // 1. Perform OCR
+                let ocrResult = try await VisionOCRService.shared.analyzeCardImage(capturedImage)
+
+                // Update confidence during processing
+                await MainActor.run {
+                    rapidScanConfidence = ocrResult.confidence
+                }
+
+                // 2. Parse data
+                let parsedData = await CardDataParser.shared.parseFromVisionOCR(
+                    ocrResult,
+                    userLocation: nil
+                )
+
+                // 3. Evaluate save decision
+                let decision = await RapidSaveService.shared.evaluateSave(
+                    ocrResult: ocrResult,
+                    parsedData: parsedData,
+                    batchContext: rapidState?.batchLocation,
+                    threshold: rapidState?.autoSaveThreshold ?? 0.85
+                )
+
+                await MainActor.run {
+                    rapidScanConfidence = decision.confidence
+                }
+
+                // 4. Route based on confidence
+                if decision.shouldAutoSave {
+                    // AUTO-SAVE PATH
+                    await performInstantSave(
+                        barcodePayload: code,
+                        barcodeType: type,
+                        cardName: decision.suggestedName,
+                        capturedImage: capturedImage,
+                        boundingBox: scanner.bestBarcodeBoundingBox,
+                        parsedData: parsedData,
+                        ocrResult: ocrResult,
+                        confidence: decision.confidence
+                    )
+                } else {
+                    // LOW CONFIDENCE - Fall back to manual review
+                    await showReviewScreen(code, type: type)
+                }
+
+            } catch {
+                print("Error in rapid scan: \(error)")
+                // Fall back to manual review on error
+                await showReviewScreen(code, type: type)
+            }
+
+            await MainActor.run {
+                isProcessingRapidScan = false
+            }
+        }
+    }
+
+    /// Show review screen for manual editing (fallback for low confidence)
+    @MainActor
+    private func showReviewScreen(_ code: String, type: BarcodeType) {
+        scannedCode = code
+        detectedBarcodeType = type
+        showingSaveSheet = true
+        rapidScanConfidence = 0.0
+    }
+
+    /// Show edit sheet for a saved card
+    private func showEditSheet(for cardId: String) {
+        let descriptor = FetchDescriptor<CardModel>(
+            predicate: #Predicate<CardModel> { card in
+                card.id == cardId
+            }
+        )
+
+        if let cards = try? modelContext.fetch(descriptor),
+           let card = cards.first {
+            savedCardToEdit = card
+            showingEditSheet = true
+        }
+    }
+
+    // MARK: - Instant Save
+
+    /// Perform instant save for high-confidence scans
+    private func performInstantSave(
+        barcodePayload: String,
+        barcodeType: BarcodeType,
+        cardName: String,
+        capturedImage: UIImage,
+        boundingBox: CGRect?,
+        parsedData: ParsedCardData,
+        ocrResult: VisionOCRService.OCRResult,
+        confidence: Float
+    ) async {
+        do {
+            let keychainService = KeychainService()
+
+            // Get or create master key
+            var masterKey = try keychainService.getMasterKey()
+            if masterKey == nil {
+                masterKey = try keychainService.generateAndStoreMasterKey()
+            }
+
+            guard let key = masterKey else {
+                throw NSError(domain: "CardOnCue", code: -1, userInfo: [
+                    NSLocalizedDescriptionKey: "Failed to get encryption key"
+                ])
+            }
+
+            // Extract OCR segments
+            let segments = OCRSegmentDetector.shared.detectSegments(from: ocrResult, parsedData: parsedData)
+
+            let ocrData = OCRData(
+                fullText: ocrResult.allText,
+                segments: segments,
+                confidence: ocrResult.confidence
+            )
+
+            // Determine icon (use batch location icon if available)
+            var cardIcon: CardIcon
+            if let batchIcon = rapidState?.batchLocation?.icon {
+                cardIcon = batchIcon
+            } else {
+                // Auto-assign SF Symbol
+                let iconName = await CardIconService.shared.assignIconForCard(
+                    name: cardName,
+                    locationName: parsedData.suggestedLocations.first?.name
+                )
+                cardIcon = CardIcon.sfSymbol(iconName)
+            }
+
+            // Get location data (from batch context or parsed data)
+            let locationName: String?
+            let latitude: Double?
+            let longitude: Double?
+            let address: String?
+
+            if let batchLoc = rapidState?.batchLocation {
+                locationName = batchLoc.locationName
+                latitude = batchLoc.latitude
+                longitude = batchLoc.longitude
+                address = batchLoc.address
+            } else if let firstLocation = parsedData.suggestedLocations.first {
+                locationName = firstLocation.name
+                latitude = firstLocation.coordinate?.latitude
+                longitude = firstLocation.coordinate?.longitude
+                address = firstLocation.address
+            } else {
+                locationName = nil
+                latitude = nil
+                longitude = nil
+                address = nil
+            }
+
+            // Create card
+            let card = try CardModel.createWithEncryptedPayload(
+                userId: "local",
+                name: cardName,
+                barcodeType: barcodeType,
+                payload: barcodePayload,
+                masterKey: key,
+                tags: [],
+                validTo: nil,
+                oneTime: false,
+                iconName: cardIcon.type == .sfSymbol ? cardIcon.value : "creditcard.fill"
+            )
+
+            // Set additional fields
+            if let personName = parsedData.personName {
+                card.metadata["personName"] = personName
+            }
+            card.locationName = locationName
+            card.locationLatitude = latitude
+            card.locationLongitude = longitude
+            if let addr = address {
+                card.metadata["locationAddress"] = addr
+            }
+
+            // Store OCR data as JSON
+            if let ocrJSON = try? JSONEncoder().encode(ocrData) {
+                card.ocrDataJSON = String(data: ocrJSON, encoding: .utf8)
+            }
+
+            // Store icon data as JSON
+            if let iconJSON = try? JSONEncoder().encode(cardIcon) {
+                card.iconDataJSON = String(data: iconJSON, encoding: .utf8)
+            }
+
+            // Save images
+            let imageStorage = CardImageStorageService.shared
+            if let originalURL = try? imageStorage.saveImage(capturedImage, cardId: card.id, isProcessed: false) {
+                card.originalImageURL = originalURL.lastPathComponent
+            }
+
+            // Save card to SwiftData
+            await MainActor.run {
+                modelContext.insert(card)
+                try? modelContext.save()
+
+                // Add to recent scans
+                let autoSavedCard = AutoSavedCard(
+                    id: card.id,
+                    name: cardName,
+                    timestamp: Date(),
+                    confidence: confidence
+                )
+                rapidState?.addRecentScan(autoSavedCard)
+
+                // Success feedback
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+
+                // If in batch mode, reset scanner for next card
+                if rapidState?.mode == .batch {
+                    scanner.resetScanning()
+                    rapidScanConfidence = 0.0
+                } else {
+                    // In rapid mode (not batch), close scanner after delay
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                        dismiss()
+                    }
+                }
+            }
+
+        } catch {
+            print("Error saving card: \(error)")
+            // Show error and fall back to review screen
+            await MainActor.run {
+                showingSaveSheet = true
+            }
+        }
+    }
+
+    private func captureImage() {
+        guard let image = scanner.captureCurrentFrame() else { return }
+
+        // Add to captured images
+        capturedImages.append(image)
+
+        // Show preview (stays open until user closes it)
+        capturedPreviewImage = image
+        previewImageRotation = 0  // Reset rotation for new image
+        showingCapturePreview = true
+
+        // Haptic feedback
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+    }
+    
+    private func useCapturedImage(_ image: UIImage) {
+        // Process the selected image for barcode detection
+        Task {
+            let barcodeData = await BarcodeQualityService.shared.detectBestBarcode(in: image)
+            
+            if let barcode = barcodeData {
+                await MainActor.run {
+                    scannedCode = barcode.payload
+                    detectedBarcodeType = barcode.barcodeType
+                    scanner.bestCapturedImage = image
+                    showingSaveSheet = true
+                }
+            }
+        }
     }
 }
 
@@ -280,6 +828,8 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
     @Published var hasFlash = false
     @Published var barcodeDetected = false  // New: indicates barcode found, awaiting user confirmation
     @Published var bestCapturedImage: UIImage?  // New: best quality frame captured
+    @Published var barcodeConfidence: Double = 0.0  // Current barcode detection confidence (0.0 to 1.0)
+    @Published var bestBarcodeBoundingBox: CGRect?  // Bounding box of detected barcode for auto-crop fallback
 
     let session = AVCaptureSession()
     private var videoDevice: AVCaptureDevice?
@@ -486,15 +1036,31 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
     }
 
     func startScanning() {
+        // Reset scanning state first
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            // Reset all state flags to ensure fresh start
+            self.isScanComplete = false
+            self.scannedCode = nil
+            self.detectedType = nil
+            self.scanSuccess = false
+            self.barcodeDetected = false
+            self.bestCapturedImage = nil
+            self.bestBarcodeBoundingBox = nil
+            self.barcodeFirstDetectedAt = nil
+            self.detectedBarcodePayload = nil
+            self.frameBuffer.removeAll()
+            self.autoSelectTimer?.invalidate()
+            self.autoSelectTimer = nil
+            self.barcodeConfidence = 0.0
+            self.isScanning = true
+        }
+        
         sessionQueue.async { [weak self] in
             guard let self = self else { return }
             if !self.session.isRunning {
                 self.session.startRunning()
             }
-        }
-
-        DispatchQueue.main.async {
-            self.isScanning = true
         }
     }
 
@@ -506,8 +1072,11 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
             }
         }
 
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.isScanning = false
+            // Reset completion flag so scanner can be restarted
+            self.isScanComplete = false
         }
     }
 
@@ -517,12 +1086,14 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
         scanSuccess = false
         barcodeDetected = false
         bestCapturedImage = nil
+        bestBarcodeBoundingBox = nil
         barcodeFirstDetectedAt = nil
         detectedBarcodePayload = nil
         frameBuffer.removeAll()
         autoSelectTimer?.invalidate()
         autoSelectTimer = nil
         isScanComplete = false
+        barcodeConfidence = 0.0
         startScanning()
     }
 
@@ -530,31 +1101,29 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
     func confirmBarcodeSelection() {
         guard let payload = detectedBarcodePayload else { return }
 
-        // Find the best frame within ±500ms of now
-        let now = Date()
-        let windowStart = now.addingTimeInterval(-0.5)
-        let windowEnd = now.addingTimeInterval(0.5)
-
-        let framesInWindow = frameBuffer.filter { frame in
-            frame.timestamp >= windowStart && frame.timestamp <= windowEnd &&
-            frame.barcodeData != nil &&
+        // Find all frames with matching barcode payload
+        let matchingFrames = frameBuffer.filter { frame in
             frame.barcodeData?.payload == payload
         }
 
-        // Select the frame with the highest quality score
-        if let bestFrame = framesInWindow.max(by: { $0.qualityScore < $1.qualityScore }) {
+        // If we have matching frames, select the one with highest quality
+        if let bestFrame = matchingFrames.max(by: { $0.qualityScore < $1.qualityScore }) {
             bestCapturedImage = bestFrame.image
+            bestBarcodeBoundingBox = bestFrame.barcodeData?.boundingBox
             scannedCode = payload
             detectedType = bestFrame.barcodeData?.barcodeType
             scanSuccess = true
             isScanComplete = true
             stopScanning()
         } else {
-            // Fallback: use the best frame we have overall
-            if let bestFrame = frameBuffer.filter({ $0.barcodeData?.payload == payload }).max(by: { $0.qualityScore < $1.qualityScore }) {
-                bestCapturedImage = bestFrame.image
+            // Fallback: use the most recent frame even without barcode data
+            // This handles cases where Vision framework hasn't detected the barcode yet
+            // but AVFoundation metadata output has
+            if let recentFrame = frameBuffer.last {
+                bestCapturedImage = recentFrame.image
+                bestBarcodeBoundingBox = recentFrame.barcodeData?.boundingBox
                 scannedCode = payload
-                detectedType = bestFrame.barcodeData?.barcodeType
+                detectedType = detectedType  // Use the type from metadata detection
                 scanSuccess = true
                 isScanComplete = true
                 stopScanning()
@@ -608,6 +1177,35 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
             }
         }
     }
+    
+    /// Capture the current frame from the camera
+    func captureCurrentFrame() -> UIImage? {
+        // Get the best frame from the buffer, or the most recent one
+        if let bestFrame = frameBuffer.max(by: { ($0.qualityScore) < ($1.qualityScore) }) {
+            return bestFrame.image
+        }
+        // Fallback to most recent frame
+        return frameBuffer.last?.image
+    }
+
+    /// Get the correct image orientation based on device orientation (nonisolated)
+    nonisolated private func getImageOrientationNonisolated() -> UIImage.Orientation {
+        let deviceOrientation = UIDevice.current.orientation
+
+        switch deviceOrientation {
+        case .portrait:
+            return .right
+        case .portraitUpsideDown:
+            return .left
+        case .landscapeLeft:
+            return .up
+        case .landscapeRight:
+            return .down
+        default:
+            // Default to portrait if orientation is unknown/face up/face down
+            return .right
+        }
+    }
 }
 
 // MARK: - Video Data Delegate
@@ -629,14 +1227,16 @@ extension BarcodeScannerViewModel: AVCaptureVideoDataOutputSampleBufferDelegate 
         // Create UIImage from pixel buffer (nonisolated operation)
         CVPixelBufferLockBaseAddress(pixelBuffer, .readOnly)
         defer { CVPixelBufferUnlockBaseAddress(pixelBuffer, .readOnly) }
-        
+
         let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
         let context = CIContext()
         guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else {
             return
         }
-        
-        let image = UIImage(cgImage: cgImage)
+
+        // Get correct orientation based on device orientation (nonisolated access)
+        let orientation = self.getImageOrientationNonisolated()
+        let image = UIImage(cgImage: cgImage, scale: 1.0, orientation: orientation)
         let timestamp = Date()
         let processingStartTime = Date()
         
@@ -663,6 +1263,19 @@ extension BarcodeScannerViewModel: AVCaptureVideoDataOutputSampleBufferDelegate 
                 guard !self.isScanComplete else { return }
                 self.addToFrameBuffer(frame)
                 self.adjustThrottlingBasedOnPerformance(processingTime)
+                
+                // Update confidence based on latest frame
+                if let barcodeData = frame.barcodeData {
+                    // Use exponential moving average for smooth confidence updates
+                    let alpha = 0.3
+                    self.barcodeConfidence = alpha * barcodeData.confidence + (1 - alpha) * self.barcodeConfidence
+                } else {
+                    // Decay confidence when no barcode detected
+                    self.barcodeConfidence *= 0.9
+                    if self.barcodeConfidence < 0.05 {
+                        self.barcodeConfidence = 0.0
+                    }
+                }
             }
         }
     }
@@ -688,13 +1301,13 @@ extension BarcodeScannerViewModel: AVCaptureMetadataOutputObjectsDelegate {
         // Map AVMetadataObject type to BarcodeType
         let barcodeType = mapToBarcodeType(metadataObject.type)
 
-        // Haptic feedback
-        let generator = UINotificationFeedbackGenerator()
-        generator.notificationOccurred(.success)
-
         // Update state to show Continue button (but keep scanning!)
         // Access MainActor-isolated properties from MainActor
         Task { @MainActor in
+            // Haptic feedback
+            let generator = UINotificationFeedbackGenerator()
+            generator.notificationOccurred(.success)
+            
             // Double-check we haven't completed scanning
             guard !self.barcodeDetected && self.scannedCode == nil else { return }
             
@@ -703,10 +1316,14 @@ extension BarcodeScannerViewModel: AVCaptureMetadataOutputObjectsDelegate {
             self.detectedType = barcodeType
             self.barcodeFirstDetectedAt = Date()
 
-            // Start auto-select timer (3 seconds)
-            self.autoSelectTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+            // Start auto-select timer
+            // Use instant confirmation (0.1s) for rapid/batch mode to minimize delays
+            // Use 1.5s for standard mode to give user time to see the Continue button
+            let timerInterval: TimeInterval = 0.1  // Instant for all modes now
+            self.autoSelectTimer = Timer.scheduledTimer(withTimeInterval: timerInterval, repeats: false) { [weak self] _ in
+                guard let self = self else { return }
                 Task { @MainActor in
-                    self?.confirmBarcodeSelection()
+                    self.confirmBarcodeSelection()
                 }
             }
         }
@@ -885,6 +1502,68 @@ extension UIImage {
         }
 
         self.init(cgImage: cgImage)
+    }
+}
+
+// MARK: - Captured Images Gallery View
+
+struct CapturedImagesGalleryView: View {
+    @Environment(\.dismiss) var dismiss
+    let images: [UIImage]
+    let onSelect: (UIImage) -> Void
+    let onDelete: (Int) -> Void
+    
+    @State private var selectedIndex: Int?
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: [
+                    GridItem(.flexible(), spacing: 12),
+                    GridItem(.flexible(), spacing: 12),
+                    GridItem(.flexible(), spacing: 12)
+                ], spacing: 12) {
+                    ForEach(Array(images.enumerated()), id: \.offset) { index, image in
+                        Button(action: {
+                            selectedIndex = index
+                            onSelect(image)
+                        }) {
+                            ZStack(alignment: .topTrailing) {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 100, height: 100)
+                                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                                
+                                // Delete button
+                                Button(action: {
+                                    onDelete(index)
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.white)
+                                        .background(Color.red)
+                                        .clipShape(Circle())
+                                }
+                                .offset(x: 8, y: -8)
+                            }
+                            .frame(width: 100, height: 100)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Captured Images")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 }
 

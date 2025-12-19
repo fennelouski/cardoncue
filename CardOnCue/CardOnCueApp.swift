@@ -26,7 +26,10 @@ struct CardOnCueApp: App {
     init() {
         do {
             // Configure SwiftData with CloudKit
-            let schema = Schema([CardModel.self])
+            let schema = Schema([
+                CardModel.self,
+                SavedLocation.self
+            ])
 
             // Try CloudKit configuration first
             let modelConfiguration = ModelConfiguration(
@@ -47,7 +50,10 @@ struct CardOnCueApp: App {
             print("⚠️ Falling back to local-only storage")
 
             do {
-                let schema = Schema([CardModel.self])
+                let schema = Schema([
+                    CardModel.self,
+                    SavedLocation.self
+                ])
                 let localConfiguration = ModelConfiguration(
                     schema: schema,
                     isStoredInMemoryOnly: false

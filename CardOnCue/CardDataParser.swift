@@ -7,16 +7,14 @@ struct ParsedCardData {
     var personName: String?
     var personNameConfidence: Float?
     var extractedLocationNames: [String]
-    var cardType: CardType?
     var suggestedLocations: [LocationSuggestion]
     var rawText: [String]
 
-    init(cardName: String? = nil, personName: String? = nil, personNameConfidence: Float? = nil, extractedLocationNames: [String] = [], cardType: CardType? = nil, suggestedLocations: [LocationSuggestion] = [], rawText: [String] = []) {
+    init(cardName: String? = nil, personName: String? = nil, personNameConfidence: Float? = nil, extractedLocationNames: [String] = [], suggestedLocations: [LocationSuggestion] = [], rawText: [String] = []) {
         self.cardName = cardName
         self.personName = personName
         self.personNameConfidence = personNameConfidence
         self.extractedLocationNames = extractedLocationNames
-        self.cardType = cardType
         self.suggestedLocations = suggestedLocations
         self.rawText = rawText
     }
@@ -41,13 +39,9 @@ struct LocationSuggestion: Identifiable, Hashable {
 class CardDataParser {
     static let shared = CardDataParser()
 
-    private let nameKeywords = ["member", "name", "cardholder", "belongs to", "issued to"]
-    private let libraryKeywords = ["library", "libraries", "public library", "branch"]
-    private let membershipKeywords = ["member", "membership", "club", "association"]
-    private let loyaltyKeywords = ["rewards", "loyalty", "points", "club card", "perks"]
-    private let giftCardKeywords = ["gift card", "gift", "balance", "merchandise"]
+    private let nameKeywords = ["name", "cardholder", "belongs to", "issued to"]
 
-    private let commonBusinessChains = [
+    let commonBusinessChains = [
         "Costco", "Sam's Club", "BJ's", "BJ's Wholesale",
         "LA Fitness", "24 Hour Fitness", "Planet Fitness", "Anytime Fitness", "Gold's Gym",
         "Kroger", "Safeway", "Albertsons", "Publix", "Whole Foods", "Trader Joe's",
@@ -59,20 +53,26 @@ class CardDataParser {
 
     private let locationKeywords = ["branch", "store", "location", "at"]
     private let companySuffixes = ["LLC", "Inc", "Corp", "Corporation", "Ltd", "Limited", "Co"]
+    private let invalidNameWords = ["membership", "member", "gold", "silver", "bronze", "platinum", "level", "tier", "card", "program", "rewards", "points", "club", "account", "status", "ship"]
 
     private init() {}
 
-    func parseCard(extractedText: ExtractedCardText, userLocation: CLLocation?) async -> ParsedCardData {
-        var parsed = ParsedCardData(rawText: extractedText.allText)
+    func parseFromVisionOCR(_ ocrResult: VisionOCRService.OCRResult, userLocation: CLLocation?) async -> ParsedCardData {
+        let textLines = ocrResult.allText.components(separatedBy: .newlines)
+        var parsed = ParsedCardData(
+            cardName: ocrResult.cardName,
+            rawText: textLines
+        )
 
-        parsed.cardName = inferCardName(from: extractedText)
-
-        let personNameResult = inferPersonNameWithConfidence(from: extractedText)
+        let personNameResult = inferPersonNameWithConfidence(from: textLines)
         parsed.personName = personNameResult.name
         parsed.personNameConfidence = personNameResult.confidence
 
-        parsed.extractedLocationNames = extractLocationNames(from: extractedText)
-        parsed.cardType = inferCardType(from: extractedText)
+        parsed.extractedLocationNames = extractLocationNames(from: textLines)
+
+        // Detect address first using OCRSegmentDetector
+        let segments = OCRSegmentDetector.shared.detectSegments(from: ocrResult, parsedData: parsed)
+        let detectedAddress = segments.first { $0.type == .address }?.value
 
         // Find locations based on card name and extracted location names
         var allLocationQueries = [String]()
@@ -83,30 +83,19 @@ class CardDataParser {
 
         parsed.suggestedLocations = await findLocations(
             for: allLocationQueries,
-            near: userLocation
+            near: userLocation,
+            detectedAddress: detectedAddress
         )
 
         return parsed
     }
 
-    private func inferCardName(from text: ExtractedCardText) -> String? {
-        if let largestText = text.organizedBySize["large"]?.first, !largestText.isEmpty {
-            return cleanCardName(largestText)
-        }
-
-        if let topText = text.organizedByPosition["top"]?.first, !topText.isEmpty {
-            return cleanCardName(topText)
-        }
-
-        return nil
-    }
-
     /// Extract person name with confidence score using multi-heuristic approach
-    private func inferPersonNameWithConfidence(from text: ExtractedCardText) -> (name: String?, confidence: Float) {
+    private func inferPersonNameWithConfidence(from textLines: [String]) -> (name: String?, confidence: Float) {
         var candidates: [(name: String, confidence: Float)] = []
 
         // Heuristic 1: Keyword proximity (highest confidence)
-        for line in text.allText {
+        for (index, line) in textLines.enumerated() {
             let lowercased = line.lowercased()
 
             for keyword in nameKeywords {
@@ -126,19 +115,28 @@ class CardDataParser {
                     if isValidPersonName(withoutKeyword) {
                         candidates.append((name: withoutKeyword, confidence: 0.85))
                     }
+
+                    // NEW: Check next line if current line is just the keyword
+                    let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
+                    if trimmedLine.lowercased() == keyword.lowercased() || trimmedLine.count < 15 {
+                        // This line might be just a label, check next line
+                        if index + 1 < textLines.count {
+                            let nextLine = textLines[index + 1].trimmingCharacters(in: .whitespacesAndNewlines)
+                            if isValidPersonName(nextLine) {
+                                candidates.append((name: nextLine, confidence: 0.95))
+                            }
+                        }
+                    }
                 }
             }
         }
 
-        // Heuristic 2: Text characteristics (proper case, medium size, middle position)
-        if let mediumTexts = text.organizedBySize["medium"], let middleTexts = text.organizedByPosition["middle"] {
-            let mediumMiddleTexts = Set(mediumTexts).intersection(Set(middleTexts))
-            for textLine in mediumMiddleTexts {
-                if isValidPersonName(textLine) && isProperCase(textLine) {
-                    let score = scorePersonNameCandidate(textLine)
-                    if score > 0.5 {
-                        candidates.append((name: textLine, confidence: score))
-                    }
+        // Heuristic 2: Look for proper case names (but with lower priority than keyword-based)
+        for textLine in textLines {
+            if isValidPersonName(textLine) && isProperCase(textLine) {
+                let score = scorePersonNameCandidate(textLine)
+                if score > 0.5 {
+                    candidates.append((name: textLine, confidence: score * 0.8)) // Reduced priority
                 }
             }
         }
@@ -155,12 +153,12 @@ class CardDataParser {
     private func isValidPersonName(_ text: String) -> Bool {
         let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
 
-        // Length check: 3-50 characters
-        guard trimmed.count >= 3 && trimmed.count <= 50 else { return false }
+        // Length check: 2-50 characters (allow single letter last names like "Emma F")
+        guard trimmed.count >= 2 && trimmed.count <= 50 else { return false }
 
-        // Word count: 2-5 words typical for names
+        // Word count: 1-5 words typical for names (allow single letter abbreviations)
         let words = trimmed.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
-        guard words.count >= 2 && words.count <= 5 else { return false }
+        guard words.count >= 1 && words.count <= 5 else { return false }
 
         // Filter out: numbers
         guard trimmed.rangeOfCharacter(from: .decimalDigits) == nil else { return false }
@@ -168,6 +166,14 @@ class CardDataParser {
         // Filter out: company suffixes
         for suffix in companySuffixes {
             if trimmed.hasSuffix(suffix) {
+                return false
+            }
+        }
+
+        // Filter out: invalid name words (membership-related terms)
+        let lowercased = trimmed.lowercased()
+        for invalidWord in invalidNameWords {
+            if lowercased.contains(invalidWord) {
                 return false
             }
         }
@@ -212,11 +218,11 @@ class CardDataParser {
     }
 
     /// Extract location names from card text
-    private func extractLocationNames(from text: ExtractedCardText) -> [String] {
+    private func extractLocationNames(from textLines: [String]) -> [String] {
         var locations = Set<String>()
 
         // Search for common business chains
-        for line in text.allText {
+        for line in textLines {
             for chain in commonBusinessChains {
                 if line.localizedCaseInsensitiveContains(chain) {
                     locations.insert(chain)
@@ -225,7 +231,7 @@ class CardDataParser {
         }
 
         // Search for location keywords
-        for line in text.allText {
+        for line in textLines {
             let lowercased = line.lowercased()
             for keyword in locationKeywords {
                 if lowercased.contains(keyword) {
@@ -242,47 +248,19 @@ class CardDataParser {
         return Array(locations)
     }
 
-    private func inferCardType(from text: ExtractedCardText) -> CardType? {
-        let allTextLower = text.allText.map { $0.lowercased() }.joined(separator: " ")
-
-        if libraryKeywords.contains(where: { allTextLower.contains($0) }) {
-            return .membership
-        }
-
-        if membershipKeywords.contains(where: { allTextLower.contains($0) }) {
-            return .membership
-        }
-
-        if loyaltyKeywords.contains(where: { allTextLower.contains($0) }) {
-            return .loyalty
-        }
-
-        if giftCardKeywords.contains(where: { allTextLower.contains($0) }) {
-            return .giftCard
-        }
-
-        return .membership
-    }
-
-    private func cleanCardName(_ name: String) -> String {
-        var cleaned = name
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-            .replacingOccurrences(of: "\\s+", with: " ", options: .regularExpression)
-
-        if cleaned.count > 40 {
-            cleaned = String(cleaned.prefix(40))
-        }
-
-        return cleaned
-    }
-
     /// Find locations based on multiple query strings
-    private func findLocations(for queries: [String], near location: CLLocation?) async -> [LocationSuggestion] {
-        guard !queries.isEmpty else { return [] }
+    private func findLocations(for queries: [String], near location: CLLocation?, detectedAddress: String?) async -> [LocationSuggestion] {
+        guard !queries.isEmpty || detectedAddress != nil else { return [] }
 
         var allSuggestions: [LocationSuggestion] = []
 
-        // Search for each query
+        // PRIORITY 1: Geocode detected address first
+        if let address = detectedAddress {
+            let addressSuggestions = await geocodeAddress(address, near: location)
+            allSuggestions.append(contentsOf: addressSuggestions)
+        }
+
+        // PRIORITY 2: Search for each query
         for query in queries {
             let suggestions = await searchLocation(query: query, near: location)
             allSuggestions.append(contentsOf: suggestions)
@@ -353,6 +331,47 @@ class CardDataParser {
                         name: name,
                         address: address,
                         coordinate: item.placemark.coordinate,
+                        distance: distance
+                    )
+                }
+
+                continuation.resume(returning: Array(suggestions))
+            }
+        }
+    }
+
+    /// Geocode a full address string
+    private func geocodeAddress(_ address: String, near location: CLLocation?) async -> [LocationSuggestion] {
+        return await withCheckedContinuation { continuation in
+            let geocoder = CLGeocoder()
+
+            geocoder.geocodeAddressString(address) { placemarks, error in
+                guard let placemarks = placemarks, error == nil else {
+                    continuation.resume(returning: [])
+                    return
+                }
+
+                let suggestions = placemarks.prefix(3).compactMap { placemark -> LocationSuggestion? in
+                    let name = [placemark.name, placemark.thoroughfare].compactMap { $0 }.first ?? "Unknown"
+
+                    let address = [
+                        placemark.thoroughfare,
+                        placemark.locality,
+                        placemark.administrativeArea,
+                        placemark.postalCode
+                    ].compactMap { $0 }.joined(separator: ", ")
+
+                    let distance: Double? = {
+                        if let location = location, let placemarkLocation = placemark.location {
+                            return placemarkLocation.distance(from: location)
+                        }
+                        return nil
+                    }()
+
+                    return LocationSuggestion(
+                        name: name,
+                        address: address,
+                        coordinate: placemark.location?.coordinate,
                         distance: distance
                     )
                 }

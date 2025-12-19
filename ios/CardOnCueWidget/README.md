@@ -71,3 +71,4 @@ The widget matches the app's design system:
 
 See `WIDGET_SETUP.md` for detailed troubleshooting steps.
 
+

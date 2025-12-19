@@ -58,11 +58,11 @@ class BarcodeQualityService {
     // MARK: - Quality Evaluation
 
     func evaluateImage(_ image: UIImage, expectedBarcodeType: BarcodeType) async -> BarcodeQualityMetrics {
-        let readabilityScore = await evaluateReadability(image, expectedType: expectedBarcodeType)
-        let sharpnessScore = evaluateSharpness(image)
-        let contrastScore = evaluateContrast(image)
+        async let readabilityScore = evaluateReadability(image, expectedType: expectedBarcodeType)
+        async let sharpnessScore = evaluateSharpness(image)
+        async let contrastScore = evaluateContrast(image)
 
-        return BarcodeQualityMetrics(
+        return await BarcodeQualityMetrics(
             readabilityScore: readabilityScore,
             imageSharpness: sharpnessScore,
             contrastScore: contrastScore
@@ -130,104 +130,108 @@ class BarcodeQualityService {
         return convertedType == expectedType
     }
 
-    private func evaluateSharpness(_ image: UIImage) -> Double {
-        guard let ciImage = CIImage(image: image) else { return 0.0 }
+    private func evaluateSharpness(_ image: UIImage) async -> Double {
+        return await Task.detached(priority: .userInitiated) {
+            guard let ciImage = CIImage(image: image) else { return 0.0 }
 
-        let filter = CIFilter(name: "CIEdges")
-        filter?.setValue(ciImage, forKey: kCIInputImageKey)
-        filter?.setValue(1.0, forKey: kCIInputIntensityKey)
+            let filter = CIFilter(name: "CIEdges")
+            filter?.setValue(ciImage, forKey: kCIInputImageKey)
+            filter?.setValue(1.0, forKey: kCIInputIntensityKey)
 
-        guard let outputImage = filter?.outputImage else { return 0.0 }
+            guard let outputImage = filter?.outputImage else { return 0.0 }
 
-        let context = CIContext()
-        let extent = outputImage.extent
+            let context = CIContext()
+            let extent = outputImage.extent
 
-        let inputExtent = CIVector(
-            x: extent.origin.x,
-            y: extent.origin.y,
-            z: extent.size.width,
-            w: extent.size.height
-        )
+            let inputExtent = CIVector(
+                x: extent.origin.x,
+                y: extent.origin.y,
+                z: extent.size.width,
+                w: extent.size.height
+            )
 
-        guard let averageFilter = CIFilter(name: "CIAreaAverage", parameters: [
-            kCIInputImageKey: outputImage,
-            kCIInputExtentKey: inputExtent
-        ]),
-        let outputImage = averageFilter.outputImage else {
-            return 0.0
-        }
+            guard let averageFilter = CIFilter(name: "CIAreaAverage", parameters: [
+                kCIInputImageKey: outputImage,
+                kCIInputExtentKey: inputExtent
+            ]),
+            let outputImage = averageFilter.outputImage else {
+                return 0.0
+            }
 
-        var bitmap = [UInt8](repeating: 0, count: 4)
-        context.render(
-            outputImage,
-            toBitmap: &bitmap,
-            rowBytes: 4,
-            bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
-            format: .RGBA8,
-            colorSpace: nil
-        )
+            var bitmap = [UInt8](repeating: 0, count: 4)
+            context.render(
+                outputImage,
+                toBitmap: &bitmap,
+                rowBytes: 4,
+                bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
+                format: .RGBA8,
+                colorSpace: nil
+            )
 
-        let averageEdgeStrength = Double(bitmap[0]) / 255.0
-        return min(averageEdgeStrength * 2.0, 1.0)
+            let averageEdgeStrength = Double(bitmap[0]) / 255.0
+            return min(averageEdgeStrength * 2.0, 1.0)
+        }.value
     }
 
-    private func evaluateContrast(_ image: UIImage) -> Double {
-        guard let ciImage = CIImage(image: image) else { return 0.0 }
+    private func evaluateContrast(_ image: UIImage) async -> Double {
+        return await Task.detached(priority: .userInitiated) {
+            guard let ciImage = CIImage(image: image) else { return 0.0 }
 
-        let extent = ciImage.extent
-        let inputExtent = CIVector(
-            x: extent.origin.x,
-            y: extent.origin.y,
-            z: extent.size.width,
-            w: extent.size.height
-        )
-
-        guard let minFilter = CIFilter(name: "CIAreaMinimum", parameters: [
-            kCIInputImageKey: ciImage,
-            kCIInputExtentKey: inputExtent
-        ]),
-        let maxFilter = CIFilter(name: "CIAreaMaximum", parameters: [
-            kCIInputImageKey: ciImage,
-            kCIInputExtentKey: inputExtent
-        ]) else {
-            return 0.0
-        }
-
-        let context = CIContext()
-
-        var minBitmap = [UInt8](repeating: 0, count: 4)
-        var maxBitmap = [UInt8](repeating: 0, count: 4)
-
-        if let minOutput = minFilter.outputImage {
-            context.render(
-                minOutput,
-                toBitmap: &minBitmap,
-                rowBytes: 4,
-                bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
-                format: .RGBA8,
-                colorSpace: nil
+            let extent = ciImage.extent
+            let inputExtent = CIVector(
+                x: extent.origin.x,
+                y: extent.origin.y,
+                z: extent.size.width,
+                w: extent.size.height
             )
-        }
 
-        if let maxOutput = maxFilter.outputImage {
-            context.render(
-                maxOutput,
-                toBitmap: &maxBitmap,
-                rowBytes: 4,
-                bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
-                format: .RGBA8,
-                colorSpace: nil
-            )
-        }
+            guard let minFilter = CIFilter(name: "CIAreaMinimum", parameters: [
+                kCIInputImageKey: ciImage,
+                kCIInputExtentKey: inputExtent
+            ]),
+            let maxFilter = CIFilter(name: "CIAreaMaximum", parameters: [
+                kCIInputImageKey: ciImage,
+                kCIInputExtentKey: inputExtent
+            ]) else {
+                return 0.0
+            }
 
-        let minLuminance = Double(minBitmap[0])
-        let maxLuminance = Double(maxBitmap[0])
+            let context = CIContext()
 
-        if maxLuminance == 0 { return 0.0 }
+            var minBitmap = [UInt8](repeating: 0, count: 4)
+            var maxBitmap = [UInt8](repeating: 0, count: 4)
 
-        let contrastRatio = (maxLuminance - minLuminance) / maxLuminance
+            if let minOutput = minFilter.outputImage {
+                context.render(
+                    minOutput,
+                    toBitmap: &minBitmap,
+                    rowBytes: 4,
+                    bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
+                    format: .RGBA8,
+                    colorSpace: nil
+                )
+            }
 
-        return min(contrastRatio * 1.5, 1.0)
+            if let maxOutput = maxFilter.outputImage {
+                context.render(
+                    maxOutput,
+                    toBitmap: &maxBitmap,
+                    rowBytes: 4,
+                    bounds: CGRect(x: 0, y: 0, width: 1, height: 1),
+                    format: .RGBA8,
+                    colorSpace: nil
+                )
+            }
+
+            let minLuminance = Double(minBitmap[0])
+            let maxLuminance = Double(maxBitmap[0])
+
+            if maxLuminance == 0 { return 0.0 }
+
+            let contrastRatio = (maxLuminance - minLuminance) / maxLuminance
+
+            return min(contrastRatio * 1.5, 1.0)
+        }.value
     }
 
     func suggestImprovements(for metrics: BarcodeQualityMetrics) -> [String] {

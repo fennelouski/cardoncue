@@ -36,6 +36,19 @@ final class CardModel {
     var useProcessedImage: Bool = true // Whether to use processed image by default
     var processingMetadataJSON: String? = nil // JSON-encoded ProcessingMetadata
 
+    // Barcode cropping support
+    var barcodeBoundingBox: CGRect? = nil // Normalized (0-1) coords from Vision
+    var croppedBarcodeImageURL: String? = nil // Cached cropped barcode image
+    var prefersCroppedBarcode: Bool = false // User's toggle preference
+    
+    // Icon for card display
+    var iconName: String? = nil // Legacy: SF Symbol name (for backward compatibility)
+    var iconDataJSON: String? = nil // JSON-encoded CardIcon data
+    var drawingDataURL: String? = nil // File path to PKDrawing data for editing
+
+    // OCR extracted text data
+    var ocrDataJSON: String? = nil // JSON-encoded OCRData
+
     // Computed property for barcode type
     var barcodeType: BarcodeType {
         get { BarcodeType(rawValue: barcodeTypeRaw) ?? .qr }
@@ -57,7 +70,8 @@ final class CardModel {
         metadata: [String: String] = [:],
         createdAt: Date = Date(),
         updatedAt: Date = Date(),
-        archivedAt: Date? = nil
+        archivedAt: Date? = nil,
+        iconName: String? = nil
     ) {
         self.id = id
         self.userId = userId
@@ -74,6 +88,7 @@ final class CardModel {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.archivedAt = archivedAt
+        self.iconName = iconName
     }
 
     /// Is this card currently valid?
@@ -143,23 +158,146 @@ final class CardModel {
     
     /// Set processing metadata
     func setProcessingMetadata(_ metadata: ProcessingMetadata?) {
-        if let metadata = metadata {
-            let encoder = JSONEncoder()
-            processingMetadataJSON = try? encoder.encode(metadata).base64EncodedString()
-        } else {
-            processingMetadataJSON = nil
-        }
+        // Encode in nonisolated context since ProcessingMetadata is Sendable
+        let jsonString = Self.encodeProcessingMetadata(metadata)
+        processingMetadataJSON = jsonString
         updatedAt = Date()
     }
     
     /// Get processing metadata
     func getProcessingMetadata() -> ProcessingMetadata? {
-        guard let jsonString = processingMetadataJSON,
-              let data = Data(base64Encoded: jsonString) else {
+        guard let jsonString = processingMetadataJSON else {
             return nil
         }
-        let decoder = JSONDecoder()
-        return try? decoder.decode(ProcessingMetadata.self, from: data)
+        // Decode in nonisolated context since ProcessingMetadata is Sendable
+        return Self.decodeProcessingMetadata(jsonString)
+    }
+    
+    /// Nonisolated helper to encode ProcessingMetadata
+    nonisolated private static func encodeProcessingMetadata(_ metadata: ProcessingMetadata?) -> String? {
+        guard let metadata = metadata else { return nil }
+        // Manually serialize to avoid Codable main actor isolation
+        let dict: [String: Any] = [
+            "algorithmVersion": metadata.algorithmVersion,
+            "detectionConfidence": metadata.detectionConfidence,
+            "cornersDetected": metadata.cornersDetected,
+            "processingTimeMs": metadata.processingTimeMs,
+            "enhancementsApplied": metadata.enhancementsApplied,
+            "originalDimensions": ["width": metadata.originalDimensions.width, "height": metadata.originalDimensions.height],
+            "processedDimensions": metadata.processedDimensions.map { ["width": $0.width, "height": $0.height] } as Any
+        ]
+        guard let data = try? JSONSerialization.data(withJSONObject: dict) else { return nil }
+        return data.base64EncodedString()
+    }
+
+    /// Nonisolated helper to decode ProcessingMetadata
+    nonisolated private static func decodeProcessingMetadata(_ jsonString: String) -> ProcessingMetadata? {
+        guard let data = Data(base64Encoded: jsonString),
+              let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let algorithmVersion = dict["algorithmVersion"] as? String,
+              let detectionConfidence = dict["detectionConfidence"] as? Float,
+              let cornersDetected = dict["cornersDetected"] as? [[Double]],
+              let processingTimeMs = dict["processingTimeMs"] as? Int,
+              let enhancementsApplied = dict["enhancementsApplied"] as? [String],
+              let originalDimDict = dict["originalDimensions"] as? [String: Int],
+              let origWidth = originalDimDict["width"],
+              let origHeight = originalDimDict["height"] else {
+            return nil
+        }
+
+        let processedDimensions: ImageDimensions?
+        if let procDimDict = dict["processedDimensions"] as? [String: Int],
+           let procWidth = procDimDict["width"],
+           let procHeight = procDimDict["height"] {
+            processedDimensions = ImageDimensions(width: procWidth, height: procHeight)
+        } else {
+            processedDimensions = nil
+        }
+
+        return ProcessingMetadata(
+            algorithmVersion: algorithmVersion,
+            detectionConfidence: detectionConfidence,
+            cornersDetected: cornersDetected,
+            processingTimeMs: processingTimeMs,
+            enhancementsApplied: enhancementsApplied,
+            originalDimensions: ImageDimensions(width: origWidth, height: origHeight),
+            processedDimensions: processedDimensions
+        )
+    }
+    
+    // MARK: - Icon Helpers
+    
+    /// Get the card icon
+    func getIcon() -> CardIcon? {
+        // Try new icon format first
+        if let jsonString = iconDataJSON {
+            if let icon = Self.decodeCardIcon(jsonString) {
+                return icon
+            }
+        }
+        
+        // Fall back to legacy iconName
+        if let iconName = iconName, !iconName.isEmpty {
+            return CardIcon.sfSymbol(iconName)
+        }
+        
+        return nil
+    }
+    
+    /// Set the card icon
+    func setIcon(_ icon: CardIcon?) {
+        if let icon = icon {
+            let jsonString = Self.encodeCardIcon(icon)
+            iconDataJSON = jsonString
+            // Also update legacy iconName for backward compatibility
+            if icon.type == .sfSymbol {
+                iconName = icon.value
+            } else {
+                iconName = nil
+            }
+        } else {
+            iconDataJSON = nil
+            iconName = nil
+        }
+        updatedAt = Date()
+    }
+    
+    /// Nonisolated helper to encode CardIcon
+    nonisolated private static func encodeCardIcon(_ icon: CardIcon) -> String? {
+        // Manually serialize to avoid Codable main actor isolation
+        var dict: [String: Any] = [
+            "type": icon.type.rawValue,
+            "value": icon.value
+        ]
+        if let colorHex = icon.colorHex {
+            dict["colorHex"] = colorHex
+        }
+        if let backgroundColorHex = icon.backgroundColorHex {
+            dict["backgroundColorHex"] = backgroundColorHex
+        }
+        guard let data = try? JSONSerialization.data(withJSONObject: dict) else { return nil }
+        return data.base64EncodedString()
+    }
+
+    /// Nonisolated helper to decode CardIcon
+    nonisolated private static func decodeCardIcon(_ jsonString: String) -> CardIcon? {
+        guard let data = Data(base64Encoded: jsonString),
+              let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let typeString = dict["type"] as? String,
+              let type = CardIconType(rawValue: typeString),
+              let value = dict["value"] as? String else {
+            return nil
+        }
+
+        let colorHex = dict["colorHex"] as? String
+        let backgroundColorHex = dict["backgroundColorHex"] as? String
+
+        return CardIcon(
+            type: type,
+            value: value,
+            colorHex: colorHex,
+            backgroundColorHex: backgroundColorHex
+        )
     }
 }
 
@@ -179,6 +317,99 @@ extension CardModel {
     }
 }
 
+// MARK: - Brand Name Extraction
+extension CardModel {
+    /// Extract brand name from card name for grouping
+    var brandName: String {
+        // Check metadata for explicit override
+        if let explicitBrand = metadata["brandName"], !explicitBrand.isEmpty {
+            return explicitBrand
+        }
+
+        // Auto-extract from name
+        return Self.extractBrandName(from: name, locationName: locationName)
+    }
+
+    /// Static helper for brand extraction
+    static func extractBrandName(from cardName: String, locationName: String?) -> String {
+        // Priority 1: Use locationName if it looks like a business
+        if let location = locationName, !location.isEmpty {
+            let locationLower = location.lowercased()
+            // Exclude generic location terms
+            let genericTerms = ["card", "membership", "library", "gym", "fitness", "store"]
+            let hasGenericTerm = genericTerms.contains { locationLower.contains($0) }
+
+            if !hasGenericTerm {
+                // Clean up location name (e.g., "LA Fitness - Main St" → "LA Fitness")
+                let cleaned = cleanBrandName(location)
+                if !cleaned.isEmpty {
+                    return cleaned
+                }
+            }
+        }
+
+        // Priority 2: Extract from card name
+        var cleaned = cardName
+
+        // Remove possessive forms: "Luke's Louisville Library Card" → "Louisville Library Card"
+        cleaned = cleaned.replacingOccurrences(
+            of: #"^[A-Za-z]+'s\s+"#,
+            with: "",
+            options: .regularExpression
+        )
+
+        // Remove common suffixes
+        let suffixes = [
+            " Card", " Membership", " Member", " Loyalty",
+            " Rewards", " Account", " Pass", " Program"
+        ]
+        for suffix in suffixes {
+            cleaned = cleaned.replacingOccurrences(of: suffix, with: "", options: .caseInsensitive)
+        }
+
+        // Remove common prefixes
+        let prefixes = ["My ", "The ", "A "]
+        for prefix in prefixes {
+            if cleaned.lowercased().hasPrefix(prefix.lowercased()) {
+                cleaned = String(cleaned.dropFirst(prefix.count))
+            }
+        }
+
+        // Split by separators and take first part
+        let separators = [" - ", " – ", " — ", " | ", " / ", " at "]
+        for separator in separators {
+            if let firstPart = cleaned.components(separatedBy: separator).first,
+               !firstPart.isEmpty {
+                cleaned = firstPart.trimmingCharacters(in: .whitespaces)
+                break
+            }
+        }
+
+        let result = cleaned.trimmingCharacters(in: .whitespaces)
+        return result.isEmpty ? "Other" : result
+    }
+
+    private static func cleanBrandName(_ name: String) -> String {
+        // Remove location-specific suffixes like " - Main St", " Downtown"
+        var cleaned = name
+        let locationSuffixes = [
+            #"\s+-\s+[A-Za-z0-9\s]+"#,  // " - Main St"
+            #"\s+Downtown$"#,
+            #"\s+\([^)]+\)$"#  // " (Location)"
+        ]
+
+        for pattern in locationSuffixes {
+            cleaned = cleaned.replacingOccurrences(
+                of: pattern,
+                with: "",
+                options: .regularExpression
+            )
+        }
+
+        return cleaned.trimmingCharacters(in: .whitespaces)
+    }
+}
+
 // MARK: - Encryption Helper
 extension CardModel {
     /// Encrypt a payload and create a CardModel
@@ -193,7 +424,8 @@ extension CardModel {
         validFrom: Date? = nil,
         validTo: Date? = nil,
         oneTime: Bool = false,
-        metadata: [String: String] = [:]
+        metadata: [String: String] = [:],
+        iconName: String? = nil
     ) throws -> CardModel {
         // Encrypt the payload
         guard let data = payload.data(using: .utf8) else {
@@ -219,7 +451,8 @@ extension CardModel {
             validFrom: validFrom,
             validTo: validTo,
             oneTime: oneTime,
-            metadata: metadata
+            metadata: metadata,
+            iconName: iconName
         )
     }
 
@@ -265,6 +498,81 @@ enum CardEncryptionError: LocalizedError {
         case .decryptionFailed:
             return "Failed to decrypt card payload"
         }
+    }
+}
+
+// MARK: - OCR Data Helpers
+extension CardModel {
+    /// Get OCR data
+    func getOCRData() -> OCRData? {
+        guard let jsonString = ocrDataJSON else { return nil }
+        return Self.decodeOCRData(jsonString)
+    }
+
+    /// Set OCR data
+    func setOCRData(_ data: OCRData?) {
+        ocrDataJSON = Self.encodeOCRData(data)
+        updatedAt = Date()
+    }
+
+    /// Nonisolated helper to encode OCRData
+    nonisolated private static func encodeOCRData(_ data: OCRData?) -> String? {
+        guard let data = data else { return nil }
+
+        let dict: [String: Any] = [
+            "fullText": data.fullText,
+            "segments": data.segments.map { segment in
+                var segmentDict: [String: Any] = [
+                    "id": segment.id,
+                    "type": segment.type.rawValue,
+                    "value": segment.value
+                ]
+                if let confidence = segment.confidence {
+                    segmentDict["confidence"] = confidence
+                }
+                if let sourceLineIndex = segment.sourceLineIndex {
+                    segmentDict["sourceLineIndex"] = sourceLineIndex
+                }
+                return segmentDict
+            },
+            "extractedAt": data.extractedAt.timeIntervalSince1970,
+            "confidence": data.confidence,
+            "algorithmVersion": data.algorithmVersion
+        ]
+
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: dict) else { return nil }
+        return jsonData.base64EncodedString()
+    }
+
+    /// Nonisolated helper to decode OCRData
+    nonisolated private static func decodeOCRData(_ jsonString: String) -> OCRData? {
+        guard let data = Data(base64Encoded: jsonString),
+              let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+              let fullText = dict["fullText"] as? String,
+              let segmentsArray = dict["segments"] as? [[String: Any]],
+              let extractedAtTimestamp = dict["extractedAt"] as? TimeInterval,
+              let confidence = dict["confidence"] as? Float,
+              let algorithmVersion = dict["algorithmVersion"] as? String else {
+            return nil
+        }
+
+        let segments = segmentsArray.compactMap { segmentDict -> OCRField? in
+            guard let id = segmentDict["id"] as? String,
+                  let typeRaw = segmentDict["type"] as? String,
+                  let type = OCRFieldType(rawValue: typeRaw),
+                  let value = segmentDict["value"] as? String else {
+                return nil
+            }
+
+            let confidence = segmentDict["confidence"] as? Float
+            let sourceLineIndex = segmentDict["sourceLineIndex"] as? Int
+
+            return OCRField(id: id, type: type, value: value, confidence: confidence, sourceLineIndex: sourceLineIndex)
+        }
+
+        let extractedAt = Date(timeIntervalSince1970: extractedAtTimestamp)
+
+        return OCRData(fullText: fullText, segments: segments, extractedAt: extractedAt, confidence: confidence, algorithmVersion: algorithmVersion)
     }
 }
 

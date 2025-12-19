@@ -9,12 +9,29 @@ struct CardListView: View {
     private var cards: [CardModel]
 
     @StateObject private var cameraPermission = CameraPermissionManager()
-    @State private var showingScanner = false
-    @State private var showingManualEntry = false
-    @State private var showingPermissionPrompt = false
+    @State private var showingAddCardView = false
     
     private var isCameraAvailable: Bool {
         cameraPermission.isCameraAvailable && cameraPermission.permissionStatus != .unavailable
+    }
+
+    // Computed property for grouped cards
+    private var groupedCards: [(brand: String, cards: [CardModel])] {
+        let grouped = Dictionary(grouping: cards) { $0.brandName }
+
+        // Sort groups alphabetically
+        let sorted = grouped.sorted { $0.key < $1.key }
+
+        // Move "Other" to end
+        var result = sorted.filter { $0.key != "Other" }
+        if let other = sorted.first(where: { $0.key == "Other" }) {
+            result.append(other)
+        }
+
+        // Within each group, sort by createdAt (newest first)
+        return result.map { (brand, cards) in
+            (brand, cards.sorted { $0.createdAt > $1.createdAt })
+        }
     }
 
     var body: some View {
@@ -22,11 +39,8 @@ struct CardListView: View {
             Group {
                 if cards.isEmpty {
                     EmptyStateView(
-                        onScanCard: {
-                            handleScanRequest()
-                        },
-                        onAddManually: {
-                            showingManualEntry = true
+                        onAddCard: {
+                            showingAddCardView = true
                         },
                         canScan: isCameraAvailable && cameraPermission.permissionStatus != .denied
                     )
@@ -36,21 +50,10 @@ struct CardListView: View {
                         .navigationBarTitleDisplayMode(.large)
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
-                                Menu {
-                                    if isCameraAvailable && cameraPermission.permissionStatus != .denied {
-                                        Button(action: {
-                                            handleScanRequest()
-                                        }) {
-                                            Label(NSLocalizedString("scan_card", comment: "Scan card menu item"), systemImage: "camera.viewfinder")
-                                        }
-                                    }
-
-                                    Button(action: {
-                                        showingManualEntry = true
-                                    }) {
-                                        Label(NSLocalizedString("add_manually", comment: "Add manually menu item"), systemImage: "keyboard")
-                                    }
-                                } label: {
+                                Button(action: {
+                                    // Show swipeable add card view
+                                    showingAddCardView = true
+                                }) {
                                     Image(systemName: "plus")
                                         .foregroundColor(.appPrimary)
                                 }
@@ -58,84 +61,80 @@ struct CardListView: View {
                         }
                 }
             }
-            .sheet(isPresented: $showingPermissionPrompt) {
-                CameraPermissionPromptView(
-                    onPermissionGranted: {
-                        cameraPermission.checkPermissionStatus()
-                        showingScanner = true
-                    },
-                    onPermissionDenied: {
-                        cameraPermission.markAsDenied()
-                    }
+            .sheet(isPresented: $showingAddCardView) {
+                AddCardSwipeableView(
+                    canScan: isCameraAvailable && cameraPermission.permissionStatus != .denied
                 )
-            }
-            .sheet(isPresented: $showingScanner) {
-                #if !os(visionOS)
-                BarcodeScannerView()
-                #endif
-            }
-            .sheet(isPresented: $showingManualEntry) {
-                ManualEntryView()
+                .presentationDragIndicator(.visible)
             }
         }
     }
 
     private var cardListView: some View {
         List {
-            ForEach(cards) { card in
-                NavigationLink(destination: CardDetailView(card: card)) {
-                    CardRowView(card: card)
+            ForEach(groupedCards, id: \.brand) { group in
+                Section(header: BrandSectionHeader(
+                    brandName: group.brand,
+                    cardCount: group.cards.count
+                )) {
+                    ForEach(group.cards) { card in
+                        NavigationLink(destination: CardDetailView(card: card)) {
+                            CardRowView(card: card)
+                        }
+                        .listRowBackground(Color.appBackground)
+                    }
+                    .onDelete { offsets in
+                        deleteCards(in: group.cards, at: offsets)
+                    }
                 }
-                .listRowBackground(Color.appBackground)
             }
-            .onDelete(perform: deleteCards)
         }
         .listStyle(.insetGrouped)
         .background(Color.appBackground)
         .scrollContentBackground(.hidden)
     }
 
-    private func deleteCards(at offsets: IndexSet) {
+    private func deleteCards(in groupCards: [CardModel], at offsets: IndexSet) {
         for index in offsets {
-            let card = cards[index]
+            let card = groupCards[index]
             // Soft delete - set archivedAt instead of actually deleting
             card.archivedAt = Date()
             card.updatedAt = Date()
         }
     }
 
-    private func handleScanRequest() {
-        guard isCameraAvailable else {
-            // Camera not available (e.g., on visionOS)
-            return
-        }
-        
-        switch cameraPermission.permissionStatus {
-        case .granted:
-            showingScanner = true
-        case .notDetermined:
-            showingPermissionPrompt = true
-        case .denied, .restricted, .unavailable:
-            // Camera access denied or unavailable, do nothing (button should be hidden)
-            break
-        }
-    }
 }
 
 struct CardRowView: View {
     let card: CardModel
 
+    @State private var brandLogo: UIImage? = nil
+    @State private var isLoadingLogo = true
+
     var body: some View {
         HStack(spacing: 16) {
-            // Card icon/type indicator
+            // Brand logo or card icon
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.appLightGray.opacity(0.2))
-                    .frame(width: 50, height: 35)
+                    .frame(width: 50, height: 50)  // Increased from 35 to 50
 
-                Image(systemName: barcodeIcon(for: card.barcodeType))
-                    .foregroundColor(.appBlue)
-                    .font(.system(size: 16))
+                if isLoadingLogo {
+                    ProgressView()
+                        .frame(width: 50, height: 50)
+                } else if let logo = brandLogo {
+                    Image(uiImage: logo)
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 48, height: 48)
+                        .cornerRadius(8)
+                } else {
+                    // Fallback to existing icon
+                    CardIconDisplay(
+                        icon: card.getIcon() ?? CardIcon.sfSymbol(barcodeIcon(for: card.barcodeType)),
+                        size: 35
+                    )
+                }
             }
 
             VStack(alignment: .leading, spacing: 4) {
@@ -174,6 +173,17 @@ struct CardRowView: View {
             }
         }
         .padding(.vertical, 8)
+        .task {
+            await loadBrandLogo()
+        }
+    }
+
+    private func loadBrandLogo() async {
+        let logo = await BrandLogoService.shared.fetchLogo(for: card.brandName)
+        await MainActor.run {
+            brandLogo = logo
+            isLoadingLogo = false
+        }
     }
 
     private func barcodeIcon(for type: BarcodeType) -> String {
@@ -188,6 +198,24 @@ struct CardRowView: View {
             return "square.grid.2x2"
         case .code39, .itf:
             return "barcode"
+        }
+    }
+}
+
+// MARK: - Brand Section Header
+struct BrandSectionHeader: View {
+    let brandName: String
+    let cardCount: Int
+
+    var body: some View {
+        HStack(spacing: 8) {
+            Text(brandName)
+                .font(.headline)
+                .foregroundColor(.primary)
+
+            Text("(\(cardCount))")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
         }
     }
 }

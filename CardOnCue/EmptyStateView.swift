@@ -1,8 +1,7 @@
 import SwiftUI
 
 struct EmptyStateView: View {
-    var onScanCard: () -> Void
-    var onAddManually: () -> Void
+    var onAddCard: () -> Void
     var canScan: Bool = true
 
     var body: some View {
@@ -43,6 +42,12 @@ struct EmptyStateView: View {
                                 icon: "camera.fill",
                                 title: NSLocalizedString("scan_camera_title", comment: "Scan with camera feature title"),
                                 description: NSLocalizedString("scan_camera_description", comment: "Scan with camera feature description")
+                            )
+
+                            FeatureRow(
+                                icon: "photo.fill",
+                                title: NSLocalizedString("import_photo_title", comment: "Import from photo feature title"),
+                                description: NSLocalizedString("import_photo_description", comment: "Import from photo feature description")
                             )
 
                             FeatureRow(
@@ -94,45 +99,22 @@ struct EmptyStateView: View {
                     }
                 }
 
-                // Fixed bottom section - Action buttons
-                VStack(spacing: 16) {
-                    if canScan {
-                        Button(action: onScanCard) {
-                            HStack {
-                                Image(systemName: "camera.viewfinder")
-                                    .font(.headline)
-                                Text(NSLocalizedString("scan_first_card", comment: "Scan first card button"))
-                                    .font(.headline)
-                            }
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(Color.appPrimary)
-                            .cornerRadius(12)
-                        }
-
-                        Button(action: onAddManually) {
-                            Text(NSLocalizedString("add_manually", comment: "Add manually button"))
-                                .font(.subheadline)
-                                .foregroundColor(.appBlue)
-                                .padding(.vertical, 12)
-                        }
-                    } else {
-                        // Only show manual entry if camera is denied
-                        Button(action: onAddManually) {
-                            HStack {
-                                Image(systemName: "keyboard")
-                                    .font(.headline)
-                                Text(NSLocalizedString("add_manually", comment: "Add manually button"))
-                                    .font(.headline)
-                            }
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding(.vertical, 16)
-                            .background(Color.appPrimary)
-                            .cornerRadius(12)
-                        }
+                // Fixed bottom section - Single action button
+                Button(action: {
+                    // Show swipeable add card view
+                    onAddCard()
+                }) {
+                    HStack {
+                        Image(systemName: "plus.circle.fill")
+                            .font(.headline)
+                        Text(NSLocalizedString("add_first_card", comment: "Add first card button"))
+                            .font(.headline)
                     }
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(Color.appPrimary)
+                    .cornerRadius(12)
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 16)
@@ -144,5 +126,5 @@ struct EmptyStateView: View {
 }
 
 #Preview {
-    EmptyStateView(onScanCard: {}, onAddManually: {}, canScan: true)
+    EmptyStateView(onAddCard: {}, canScan: true)
 }

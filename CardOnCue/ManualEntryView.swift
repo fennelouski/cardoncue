@@ -14,6 +14,13 @@ struct ManualEntryView: View {
     @State private var isOneTime: Bool = false
     @State private var tags: String = ""
 
+    // New fields
+    @State private var personName: String = ""
+    @State private var locationName: String = ""
+    @State private var locationLatitude: Double? = nil
+    @State private var locationLongitude: Double? = nil
+    @State private var locationAddress: String? = nil
+
     // State
     @State private var isLoading: Bool = false
     @State private var showingError: Bool = false
@@ -92,6 +99,24 @@ struct ManualEntryView: View {
                                     .keyboardType(.numbersAndPunctuation)
                                     .autocapitalization(.none)
                                     .autocorrectionDisabled()
+                            }
+
+                            // Cardholder Name (Optional)
+                            FormSection(title: "Cardholder Name (Optional)", icon: "person.fill") {
+                                TextField("e.g., John Smith", text: $personName)
+                                    .textFieldStyle(CustomTextFieldStyle())
+                                    .autocapitalization(.words)
+                            }
+
+                            // Location (Optional)
+                            FormSection(title: "Location (Optional)", icon: "location.fill") {
+                                LocationSearchField(
+                                    locationName: $locationName,
+                                    latitude: $locationLatitude,
+                                    longitude: $locationLongitude,
+                                    address: $locationAddress,
+                                    modelContext: modelContext
+                                )
                             }
 
                             // Optional: Expiry Date
@@ -223,17 +248,71 @@ struct ManualEntryView: View {
                     .map { $0.trimmingCharacters(in: .whitespaces) }
                     .filter { !$0.isEmpty }
 
+                // Automatically assign icon based on card name and location
+                let trimmedCardName = cardName.trimmingCharacters(in: .whitespacesAndNewlines)
+                let trimmedLocationName = locationName.trimmingCharacters(in: .whitespacesAndNewlines)
+
+                // Try to reuse icon from cached location first
+                var autoIcon: CardIcon
+                if !trimmedLocationName.isEmpty,
+                   let cachedLocation = LocationCacheService.shared.findMatches(
+                       for: trimmedLocationName,
+                       address: locationAddress,
+                       userLocation: nil,
+                       context: modelContext
+                   ).first,
+                   let cachedIcon = cachedLocation.cardIcon {
+                    autoIcon = cachedIcon
+                    print("✨ Reusing icon from cached location: \(trimmedLocationName)")
+                } else {
+                    let iconName = await CardIconService.shared.assignIconForCard(
+                        name: trimmedCardName,
+                        locationName: trimmedLocationName.isEmpty ? nil : trimmedLocationName
+                    )
+                    autoIcon = CardIcon.sfSymbol(iconName)
+                }
+
+                // Extract iconName for backward compatibility with CardModel
+                let iconName = autoIcon.type == .sfSymbol ? autoIcon.value : "creditcard.fill"
+
                 // Create card with encrypted payload
                 let card = try CardModel.createWithEncryptedPayload(
                     userId: "local", // TODO: Replace with actual user ID when auth is implemented
-                    name: cardName.trimmingCharacters(in: .whitespacesAndNewlines),
+                    name: trimmedCardName,
                     barcodeType: selectedBarcodeType,
                     payload: barcodeNumber.trimmingCharacters(in: .whitespacesAndNewlines),
                     masterKey: key,
                     tags: tagArray,
                     validTo: hasExpiryDate ? expiryDate : nil,
-                    oneTime: isOneTime
+                    oneTime: isOneTime,
+                    iconName: iconName
                 )
+
+                // Set icon using new system
+                card.setIcon(autoIcon)
+
+                // Save person name if provided
+                let trimmedPersonName = personName.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !trimmedPersonName.isEmpty {
+                    card.setMetadata(trimmedPersonName, for: "personName")
+                }
+
+                // Save location data if provided
+                if !trimmedLocationName.isEmpty {
+                    card.locationName = trimmedLocationName
+                    card.locationLatitude = locationLatitude
+                    card.locationLongitude = locationLongitude
+
+                    // Save to location cache with icon and available metadata
+                    LocationCacheService.shared.saveLocation(
+                        name: trimmedLocationName,
+                        address: locationAddress,
+                        latitude: locationLatitude,
+                        longitude: locationLongitude,
+                        icon: autoIcon,  // Save the icon to cache for reuse
+                        context: modelContext
+                    )
+                }
 
                 // Save to SwiftData
                 await MainActor.run {

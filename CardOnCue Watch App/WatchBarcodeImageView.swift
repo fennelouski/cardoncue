@@ -15,33 +15,49 @@ struct WatchBarcodeImageView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // White background for barcode scanning
+                // White background for barcode scanning with subtle gradient
                 Rectangle()
-                    .fill(Color.white)
-                    .cornerRadius(4)
+                    .fill(
+                        LinearGradient(
+                            colors: [Color.white, Color.white.opacity(0.98)],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        )
+                    )
+                    .cornerRadius(8)
                 
                 if isLoading {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                        .scaleEffect(0.8)
+                    VStack(spacing: 8) {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .tint(.watchPrimary)
+                            .scaleEffect(0.9)
+                        Text("Generating...")
+                            .font(.system(size: 10, weight: .medium))
+                            .foregroundColor(.secondary)
+                    }
                 } else if let image = barcodeImage {
                     Image(uiImage: image)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .padding(8)
+                        .padding(10)
                         .brightness(brightness - 1.0)
-                        .transition(.opacity)
+                        .transition(.asymmetric(
+                            insertion: .opacity.combined(with: .scale(scale: 0.95)),
+                            removal: .opacity
+                        ))
                 } else if let error = error {
-                    VStack(spacing: 4) {
-                        Image(systemName: "exclamationmark.triangle")
-                            .font(.caption)
+                    VStack(spacing: 8) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .font(.system(size: 20))
                             .foregroundColor(.orange)
                         Text(error)
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
+                            .font(.system(size: 11, weight: .medium))
+                            .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
+                            .lineLimit(2)
                     }
-                    .padding(8)
+                    .padding(12)
                 }
             }
         }

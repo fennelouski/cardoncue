@@ -17,7 +17,7 @@ struct ProcessedCardImage {
 }
 
 /// Metadata about the image processing operation
-struct ProcessingMetadata: Codable, Sendable {
+struct ProcessingMetadata: Sendable {
     let algorithmVersion: String
     let detectionConfidence: Float
     let cornersDetected: [[Double]]
@@ -25,6 +25,35 @@ struct ProcessingMetadata: Codable, Sendable {
     let enhancementsApplied: [String]
     let originalDimensions: ImageDimensions
     let processedDimensions: ImageDimensions?
+}
+
+// MARK: - Codable Conformance
+extension ProcessingMetadata: Codable {
+    enum CodingKeys: String, CodingKey {
+        case algorithmVersion, detectionConfidence, cornersDetected, processingTimeMs, enhancementsApplied, originalDimensions, processedDimensions
+    }
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        algorithmVersion = try container.decode(String.self, forKey: .algorithmVersion)
+        detectionConfidence = try container.decode(Float.self, forKey: .detectionConfidence)
+        cornersDetected = try container.decode([[Double]].self, forKey: .cornersDetected)
+        processingTimeMs = try container.decode(Int.self, forKey: .processingTimeMs)
+        enhancementsApplied = try container.decode([String].self, forKey: .enhancementsApplied)
+        originalDimensions = try container.decode(ImageDimensions.self, forKey: .originalDimensions)
+        processedDimensions = try container.decodeIfPresent(ImageDimensions.self, forKey: .processedDimensions)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(algorithmVersion, forKey: .algorithmVersion)
+        try container.encode(detectionConfidence, forKey: .detectionConfidence)
+        try container.encode(cornersDetected, forKey: .cornersDetected)
+        try container.encode(processingTimeMs, forKey: .processingTimeMs)
+        try container.encode(enhancementsApplied, forKey: .enhancementsApplied)
+        try container.encode(originalDimensions, forKey: .originalDimensions)
+        try container.encodeIfPresent(processedDimensions, forKey: .processedDimensions)
+    }
 }
 
 struct ImageDimensions: Codable, Sendable {
@@ -56,17 +85,35 @@ enum CardProcessingError: LocalizedError {
 /// Service for automatically cropping and straightening card images
 class CardImageProcessor {
     static let shared = CardImageProcessor()
-    
+
     private let algorithmVersion = "1.0"
-    private let context: CIContext
-    
+
     private init() {
-        // Use hardware-accelerated rendering when available
+        // Register for memory warnings to clear any cached contexts
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleMemoryWarning),
+            name: UIApplication.didReceiveMemoryWarningNotification,
+            object: nil
+        )
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc private func handleMemoryWarning() {
+        // Context will be recreated on next use
+    }
+
+    /// Create a context on-demand and let it be released after use
+    private func createContext() -> CIContext {
         let options: [CIContextOption: Any] = [
             .useSoftwareRenderer: false,
-            .workingColorSpace: CGColorSpaceCreateDeviceRGB()
+            .workingColorSpace: CGColorSpace(name: CGColorSpace.sRGB) as Any,
+            .cacheIntermediates: false  // Don't cache intermediates to save memory
         ]
-        self.context = CIContext(options: options)
+        return CIContext(options: options)
     }
     
     // MARK: - Main Processing Pipeline
@@ -118,12 +165,14 @@ class CardImageProcessor {
         
         // Step 3: Optional enhancements
         let enhanced = enhanceCard(image: straightened)
-        
+
         // Step 4: Convert back to UIImage
+        // Create context on-demand for rendering
+        let context = createContext()
         guard let cgImage = context.createCGImage(enhanced, from: enhanced.extent) else {
             throw CardProcessingError.processingFailed("Failed to create CGImage from processed image")
         }
-        
+
         let processedImage = UIImage(cgImage: cgImage)
         let processingTimeMs = Int(Date().timeIntervalSince(startTime) * 1000)
         
@@ -205,24 +254,25 @@ class CardImageProcessor {
         }
         
         // Convert Vision coordinates (normalized 0-1, origin bottom-left)
-        // to Core Image coordinates (pixels, origin top-left)
+        // to Core Image coordinates (pixels, also origin bottom-left)
+        // Both use the same coordinate system, so just scale by image size
         let imageSize = image.extent.size
-        
+
         let topLeft = CGPoint(
             x: rectangle.topLeft.x * imageSize.width,
-            y: (1.0 - rectangle.topLeft.y) * imageSize.height
+            y: rectangle.topLeft.y * imageSize.height
         )
         let topRight = CGPoint(
             x: rectangle.topRight.x * imageSize.width,
-            y: (1.0 - rectangle.topRight.y) * imageSize.height
+            y: rectangle.topRight.y * imageSize.height
         )
         let bottomLeft = CGPoint(
             x: rectangle.bottomLeft.x * imageSize.width,
-            y: (1.0 - rectangle.bottomLeft.y) * imageSize.height
+            y: rectangle.bottomLeft.y * imageSize.height
         )
         let bottomRight = CGPoint(
             x: rectangle.bottomRight.x * imageSize.width,
-            y: (1.0 - rectangle.bottomRight.y) * imageSize.height
+            y: rectangle.bottomRight.y * imageSize.height
         )
         
         // Calculate target dimensions based on detected card size

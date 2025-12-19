@@ -117,3 +117,4 @@ The `Info.plist` should already be configured with:
 - **iOS**: 14.0 or later (for companion app)
 - **Xcode**: 12.0 or later
 
+

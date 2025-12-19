@@ -161,11 +161,64 @@ class VisionOCRService {
         var memberId: String?
         var barcodeNumber: String?
 
-        // Look for card name (usually first or second line)
-        if textLines.count > 0 {
-            let firstLine = textLines[0]
-            if firstLine.count > 3 && firstLine.count < 50 {
-                cardName = firstLine
+        // Look for card name - check first few lines for valid brand names
+        // Skip lines that are clearly not card names (membership levels, person names, etc.)
+        // But recognize organization names (libraries, museums, schools, etc.)
+        let invalidStandaloneWords = ["membership", "member", "gold", "silver", "bronze", "platinum", "level", "season", "cardholder", "name", "card"]
+        let organizationIndicators = ["library", "museum", "school", "university", "college", "hospital", "medical center", "public", "community", "center"]
+
+        // Card type keywords to skip (these are not brand names)
+        let cardTypeKeywords = ["pass", "ticket", "entry", "rewards", "loyalty", "fun pass", "gold card", "silver card"]
+
+        for (index, line) in textLines.prefix(7).enumerated() {
+            let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+
+            // Skip if too short or too long
+            guard trimmed.count >= 3 && trimmed.count < 60 else { continue }
+
+            let lowercased = trimmed.lowercased()
+            let hasNumbers = trimmed.rangeOfCharacter(from: .decimalDigits) != nil
+
+            // Skip card type keywords (e.g., "FUN PASS")
+            let isCardType = cardTypeKeywords.contains { lowercased == $0 || lowercased.contains($0 + " ") || lowercased.contains(" " + $0) }
+            if isCardType {
+                continue
+            }
+
+            // Check if this is an organization name
+            let isOrganization = organizationIndicators.contains { lowercased.contains($0) }
+
+            // Skip lines with numbers unless it's an organization
+            if hasNumbers && !isOrganization {
+                continue
+            }
+
+            // Skip standalone invalid words
+            let words = trimmed.components(separatedBy: .whitespaces).filter { !$0.isEmpty }
+            let hasOnlyInvalidWords = words.allSatisfy { word in
+                invalidStandaloneWords.contains(word.lowercased())
+            }
+            guard !hasOnlyInvalidWords else { continue }
+
+            // Prioritize organization names (libraries, museums, etc.)
+            if isOrganization {
+                cardName = trimmed
+                break
+            }
+
+            // Look for known brand patterns (e.g., "Chuck E. Cheese" - has periods, Title Case)
+            let hasProperCase = words.allSatisfy { word in
+                word.first?.isUppercase == true || word.count <= 2 // Allow short words like "E."
+            }
+
+            // Prefer lines with proper case and at least 2 words (brand names)
+            if hasProperCase && words.count >= 2 && cardName == nil {
+                cardName = trimmed
+            }
+
+            // Fallback: Prefer lines at the top (index 0-4)
+            if index < 4 && cardName == nil && hasProperCase {
+                cardName = trimmed
             }
         }
 

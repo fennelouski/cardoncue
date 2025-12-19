@@ -25,3 +25,4 @@ enum BarcodeType: String, Codable {
     }
 }
 
+

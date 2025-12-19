@@ -34,12 +34,19 @@
 "secure_private_title" = "Secure & Private";
 "secure_private_description" = "Your cards are encrypted and stored locally";
 "scan_first_card" = "Scan Your First Card";
+"add_first_card" = "Add Your First Card";
 "add_manually" = "Enter Card Manually";
+"camera_permission_required" = "Camera permission is required to scan cards";
 
 /* Navigation */
 "my_cards" = "My Cards";
 "scan_card" = "Scan Card";
 "add_manually" = "Add Manually";
+"import_photo" = "Import from Photos";
+
+/* Photo Import */
+"import_photo_title" = "Import from Photos";
+"import_photo_description" = "Select an existing photo with a barcode";
 
 /* Common */
 "next_button" = "Next";
