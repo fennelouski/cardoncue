@@ -3,6 +3,8 @@ import { sql, pool } from '@/lib/db';
 import fs from 'fs';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Admin endpoint to run database migrations
  * POST /api/v1/admin/run-migration

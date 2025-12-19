@@ -1,5 +1,7 @@
 import { pool } from '@/lib/db';
 
+export const dynamic = 'force-dynamic';
+
 async function getDashboardMetrics() {
   try {
     const [brandsResult, locationsResult, templatesResult, associationsResult] = await Promise.all([

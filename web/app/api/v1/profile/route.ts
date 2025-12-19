@@ -3,6 +3,7 @@ import { auth } from '@clerk/nextjs/server'
 import { pool } from '@/lib/db'
 
 export const runtime = 'nodejs'
+export const dynamic = 'force-dynamic'
 
 // GET /api/v1/profile - Get user profile
 export async function GET(request: NextRequest) {
