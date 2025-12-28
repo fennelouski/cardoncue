@@ -1,6 +1,85 @@
 import Foundation
 import CryptoKit
 
+// MARK: - Card Template Matching
+
+struct CardTemplateMatchRequest: Codable {
+    let imageHash: String
+    let textSignature: String?
+    let limit: Int
+}
+
+struct CardTemplateMatchResponse: Codable {
+    let matches: [CardTemplate]
+    let count: Int
+
+    struct CardTemplate: Codable {
+        let id: String
+        let imageHash: String
+        let textSignature: String?
+        let cardName: String
+        let cardType: String?
+        let locationName: String?
+        let locationAddress: String?
+        let locationLat: Double?
+        let locationLng: Double?
+        let confidenceScore: Double
+        let usageCount: Int
+        let verified: Bool
+        let designVariant: String?
+    }
+}
+
+// MARK: - Gift Card Brand Discovery
+
+struct GiftCardDiscoveryRequest: Codable {
+    let cardName: String
+    let barcode: String?
+    let metadata: [String: String]?
+}
+
+struct GiftCardBrandResponse: Codable {
+    let ok: Bool
+    let brand: GiftCardBrand
+    let acceptedNetworks: [AcceptedNetwork]
+
+    struct GiftCardBrand: Codable {
+        let id: String
+        let name: String
+        let issuer: String
+        let description: String
+        let acceptedNetworkIds: [String]
+        let category: String
+        let autoDiscovered: Bool
+    }
+
+    struct AcceptedNetwork: Codable {
+        let networkId: String
+        let networkName: String
+    }
+}
+
+// MARK: - Network Locations
+
+struct NetworkLocationsResponse: Codable {
+    let network: Network
+    let locations: [NetworkLocation]
+
+    struct Network: Codable {
+        let id: String
+        let name: String
+    }
+
+    struct NetworkLocation: Codable {
+        let id: String
+        let name: String
+        let lat: Double
+        let lon: Double
+        let radiusMeters: Double
+        let notes: String?
+    }
+}
+
 /// HTTP client for CardOnCue API
 class APIClient {
     private let baseURL: URL
@@ -129,10 +208,44 @@ class APIClient {
         )
     }
 
+    // MARK: - Card Template Matching
+
+    func matchCardTemplate(imageHash: String, textSignature: String?, limit: Int = 5) async throws -> CardTemplateMatchResponse {
+        let endpoint = "/v1/card-templates/match"
+        let request = CardTemplateMatchRequest(
+            imageHash: imageHash,
+            textSignature: textSignature,
+            limit: limit
+        )
+        return try await post(endpoint, body: request)
+    }
+
+    // MARK: - Brand Discovery
+
+    func discoverGiftCardBrand(cardName: String, barcode: String?, metadata: [String: String]?) async throws -> GiftCardBrandResponse {
+        let endpoint = "/v1/gift-cards/discover-brand"
+        let request = GiftCardDiscoveryRequest(
+            cardName: cardName,
+            barcode: barcode,
+            metadata: metadata
+        )
+        return try await post(endpoint, body: request)
+    }
+
+    // MARK: - Network Locations
+
+    func getNetworkLocations(networkId: String, near: (lat: Double, lon: Double)?, limit: Int = 50) async throws -> NetworkLocationsResponse {
+        var endpoint = "/v1/networks/\(networkId)/locations?limit=\(limit)"
+        if let near = near {
+            endpoint += "&near=\(near.lat),\(near.lon)"
+        }
+        return try await get(endpoint)
+    }
+
     // MARK: - Region Refresh
 
     func refreshRegions(_ request: RegionRefreshRequest) async throws -> RegionRefreshResponse {
-        let endpoint = "/region-refresh"
+        let endpoint = "/v1/region-refresh"
         return try await post(endpoint, body: request)
     }
 

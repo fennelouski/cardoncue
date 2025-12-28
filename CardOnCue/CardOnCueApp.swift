@@ -19,6 +19,7 @@ struct CardOnCueApp: App {
 
     // Services
     @StateObject private var onboardingService = OnboardingService()
+    @State private var apiClient: APIClient?
 
     // SwiftData ModelContainer with CloudKit sync
     let modelContainer: ModelContainer
@@ -75,6 +76,7 @@ struct CardOnCueApp: App {
         WindowGroup {
             MainView()
                 .environment(\.clerk, clerk)
+                .environment(\.apiClient, apiClient)
                 .environmentObject(onboardingService)
                 .task {
                     // Configure Clerk with publishable key
@@ -82,6 +84,15 @@ struct CardOnCueApp: App {
 
                     // Load Clerk session
                     try? await clerk.load()
+
+                    // Initialize API client
+                    // TODO: Replace with production URL when deploying
+                    let keychainService = KeychainService()
+                    let client = APIClient(
+                        baseURL: "https://cardoncue.vercel.app/api",
+                        keychainService: keychainService
+                    )
+                    apiClient = client
 
                     // Configure geofence manager with model context (synchronous operation)
                     GeofenceManager.shared.configure(modelContext: modelContainer.mainContext)

@@ -4,6 +4,7 @@ import SwiftData
 struct ScannedCardReviewView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.apiClient) private var apiClient
 
     let barcodeNumber: String
     let barcodeType: BarcodeType
@@ -62,6 +63,11 @@ struct ScannedCardReviewView: View {
     @State private var cardType: String = ""
     @State private var isPinAutoPopulated = false
     @State private var isCardTypeAutoPopulated = false
+
+    // Template matching state
+    @State private var isMatchingTemplate: Bool = false
+    @State private var matchedTemplate: CardTemplateMatchResponse.CardTemplate?
+    @State private var discoveredBrand: GiftCardBrandResponse?
 
     private let keychainService = KeychainService()
     private let imageProcessor = CardImageProcessor.shared
@@ -480,6 +486,7 @@ struct ScannedCardReviewView: View {
                 if let image = capturedImage {
                     processImage(image)
                     performOCR(image)
+                    performTemplateMatching(image)
                 }
             }
         }
@@ -632,6 +639,141 @@ struct ScannedCardReviewView: View {
                 }
             }
         }
+    }
+
+    private func performTemplateMatching(_ image: UIImage) {
+        guard let apiClient = apiClient else {
+            print("⚠️ API client not available for template matching")
+            return
+        }
+
+        isMatchingTemplate = true
+
+        Task {
+            do {
+                // Generate image hash (perceptual hash)
+                let imageHash = generateImageHash(from: image)
+
+                // Extract OCR text for signature (we'll wait a bit for OCR to complete)
+                try? await Task.sleep(nanoseconds: 500_000_000) // Wait 0.5s for OCR
+                let textSignature = parsedCardData?.fullText
+                    .components(separatedBy: .whitespacesAndNewlines)
+                    .joined(separator: " ")
+                    .lowercased()
+
+                // Try template matching
+                let matchResponse = try await apiClient.matchCardTemplate(
+                    imageHash: imageHash,
+                    textSignature: textSignature,
+                    limit: 5
+                )
+
+                await MainActor.run {
+                    if let bestMatch = matchResponse.matches.first, bestMatch.confidenceScore > 0.6 {
+                        matchedTemplate = bestMatch
+
+                        // Auto-populate form with template data
+                        if cardName.isEmpty {
+                            cardName = bestMatch.cardName
+                        }
+
+                        if let locName = bestMatch.locationName, !locName.isEmpty {
+                            locationName = locName
+                            isLocationAutoPopulated = true
+                        }
+
+                        if let locAddress = bestMatch.locationAddress {
+                            locationAddress = locAddress
+                        }
+
+                        if let lat = bestMatch.locationLat, let lng = bestMatch.locationLng {
+                            locationLatitude = lat
+                            locationLongitude = lng
+                        }
+
+                        if let cardTypeFromTemplate = bestMatch.cardType {
+                            cardType = cardTypeFromTemplate
+                            isCardTypeAutoPopulated = true
+                        }
+
+                        print("✅ Matched template: \(bestMatch.cardName) (confidence: \(bestMatch.confidenceScore))")
+                    }
+
+                    isMatchingTemplate = false
+                }
+
+                // If it looks like a gift card, try brand discovery
+                if barcodeType == .code128 || barcodeType == .code39 || barcodeType == .ean13 {
+                    tryGiftCardBrandDiscovery()
+                }
+
+            } catch {
+                print("⚠️ Template matching failed: \(error)")
+                await MainActor.run {
+                    isMatchingTemplate = false
+                }
+            }
+        }
+    }
+
+    private func tryGiftCardBrandDiscovery() {
+        guard let apiClient = apiClient else { return }
+
+        Task {
+            do {
+                let response = try await apiClient.discoverGiftCardBrand(
+                    cardName: cardName.isEmpty ? "Gift Card" : cardName,
+                    barcode: barcodeNumber,
+                    metadata: nil
+                )
+
+                await MainActor.run {
+                    discoveredBrand = response
+
+                    // Update card name if brand discovered
+                    if cardName.isEmpty || cardName == "Gift Card" {
+                        cardName = response.brand.name
+                    }
+
+                    print("✅ Discovered gift card brand: \(response.brand.name)")
+                    print("   Accepted at: \(response.acceptedNetworks.map { $0.networkName }.joined(separator: ", "))")
+                }
+            } catch {
+                // Silently fail - not all cards are gift cards
+                print("ℹ️ Gift card discovery did not find a match")
+            }
+        }
+    }
+
+    private func generateImageHash(from image: UIImage) -> String {
+        // Simple image hashing - in production, use a proper perceptual hash algorithm
+        // For now, we'll create a hash based on resized grayscale image
+        guard let cgImage = image.cgImage else { return "" }
+
+        // Resize to 8x8
+        let size = CGSize(width: 8, height: 8)
+        UIGraphicsBeginImageContext(size)
+        UIImage(cgImage: cgImage).draw(in: CGRect(origin: .zero, size: size))
+        guard let resized = UIGraphicsGetImageFromCurrentImageContext() else {
+            UIGraphicsEndImageContext()
+            return ""
+        }
+        UIGraphicsEndImageContext()
+
+        // Convert to grayscale and generate hash
+        guard let pixelData = resized.cgImage?.dataProvider?.data,
+              let data = CFDataGetBytePtr(pixelData) else {
+            return ""
+        }
+
+        var hashString = ""
+        for i in 0..<64 {
+            let pixelIndex = i * 4 // RGBA
+            let gray = data[pixelIndex]
+            hashString += String(format: "%02x", gray)
+        }
+
+        return hashString
     }
 
     private var isFormValid: Bool {
