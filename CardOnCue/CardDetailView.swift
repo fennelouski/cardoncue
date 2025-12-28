@@ -33,6 +33,10 @@ struct CardDetailView: View {
     @State private var croppedBarcodeImage: UIImage? = nil
     @State private var isLoadingCroppedImage: Bool = false
 
+    // Multi-location support
+    @State private var showingLocations = false
+    @State private var selectedNetworkForLocations: (id: String, name: String)?
+
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -132,6 +136,15 @@ struct CardDetailView: View {
                         try? modelContext.save()
                     }
                 }
+        }
+        .sheet(isPresented: $showingLocations) {
+            if let selected = selectedNetworkForLocations {
+                CardLocationsView(
+                    card: card,
+                    networkId: selected.id,
+                    networkName: selected.name
+                )
+            }
         }
     }
     
@@ -576,25 +589,49 @@ struct CardDetailView: View {
 
                 // Show curated networks
                 ForEach(networks) { network in
-                    HStack(spacing: 12) {
-                        Image(systemName: network.category.icon)
-                            .foregroundColor(.appBlue)
-                            .font(.title3)
-                            .frame(width: 30)
+                    VStack(spacing: 8) {
+                        HStack(spacing: 12) {
+                            Image(systemName: network.category.icon)
+                                .foregroundColor(.appBlue)
+                                .font(.title3)
+                                .frame(width: 30)
 
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(network.name)
-                                .font(.body)
-                                .foregroundColor(.primary)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(network.name)
+                                    .font(.body)
+                                    .foregroundColor(.primary)
 
-                            Text(network.category.displayName)
-                                .font(.caption)
-                                .foregroundColor(.secondary)
+                                Text(network.category.displayName)
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
+
+                            Spacer()
                         }
+                        .padding(.vertical, 8)
 
-                        Spacer()
+                        // View All Locations button
+                        Button(action: {
+                            selectedNetworkForLocations = (id: network.id, name: network.name)
+                            showingLocations = true
+                        }) {
+                            HStack {
+                                Image(systemName: "mappin.and.ellipse")
+                                    .font(.caption)
+                                Text("View All Locations")
+                                    .font(.caption)
+                                    .fontWeight(.medium)
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption2)
+                            }
+                            .foregroundColor(.appBlue)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 8)
+                            .background(Color.appBlue.opacity(0.1))
+                            .cornerRadius(8)
+                        }
                     }
-                    .padding(.vertical, 8)
 
                     if network != networks.last {
                         Divider()
