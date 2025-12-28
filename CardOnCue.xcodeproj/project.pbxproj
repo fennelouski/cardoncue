@@ -7,388 +7,640 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		80B975532ED2CE8E00185D8D /* Clerk in Frameworks */ = {isa = PBXBuildFile; productRef = 80B975522ED2CE8E00185D8D /* Clerk */; };
+		02C326357EE6EF8DAFF1B83D /* WatchBarcodeImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B3E9CC92CD359CCE739A20 /* WatchBarcodeImageView.swift */; };
+		0A0A202E7EBDA3B422D5579A /* BarcodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DBC2369A35FCEE5D1DFE7E6 /* BarcodeType.swift */; };
+		0A3093F93C73C8A05C1E90DD /* CameraPermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4AB9A3E803F2A45C3EEF91 /* CameraPermissionManager.swift */; };
+		0D1782590D7484A0820D07D7 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BA26D39560DAB3283B5E498 /* Network.swift */; };
+		0E611F9B1F1FAEF336CEAB21 /* CardDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334A437789120201E165EDB8 /* CardDataParser.swift */; };
+		1082738660F19B36D46D8DDB /* WatchAppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87A9EEF1E0135B32D8A92E2 /* WatchAppColors.swift */; };
+		1308D851E10BDD5342DDD50F /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD80F0C53F1039B9BB9D104 /* StorageService.swift */; };
+		16B562BA91B324C184F6E421 /* SavedLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58F522E185E493BA527369E /* SavedLocation.swift */; };
+		195A04929DD6A66C6C61DFBC /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E23050A66A78F0FE1E538E1 /* CardDetailView.swift */; };
+		1EE98AC3E24BCD1D1F73389F /* AutoSaveToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB9C90938097C830D34FD6 /* AutoSaveToast.swift */; };
+		1F42BF65CC8D9361C9128CF8 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F6AFEC3601BD3738C80A29 /* Location.swift */; };
+		26555077EDC6AD222151F4A5 /* DrawingTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0EE6124D9CF274461C9A3F1 /* DrawingTools.swift */; };
+		2D661BDEBB9EE047F73CDA6D /* DrawingPadSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87642FC54B09C4095BAAC15 /* DrawingPadSettingsView.swift */; };
+		331A68C4BAB1C41FE24DE70C /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE87D01EE38614D078379113 /* EmptyStateView.swift */; };
+		33C65E5460D9F19B39E8F556 /* DrawingPadHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643136C170BE1C07C2EAAC8C /* DrawingPadHaptics.swift */; };
+		362FE5657615F80D653A532D /* CardLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DC91F4E616D6D7EFD36949 /* CardLocationsView.swift */; };
+		37A6A19D72E052B16134390F /* GeofenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F81221F3F9D7ADDA2699905 /* GeofenceManager.swift */; };
+		3E5CE9A84530B509231C2623 /* IconSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E547A49B563DB378CC25A8 /* IconSelectionView.swift */; };
+		44BAEFA2695F760FFBC8DF12 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58717726551F2801E364383A /* ContentView.swift */; };
+		48312CCE647AD0F32D1DF2CD /* WatchNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178316BE5A8320947DD5CF4E /* WatchNotificationManager.swift */; };
+		4EE2E99FB12F57598609F1AA /* OCRFieldRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A58C43F6EC54E51FC4A3C91 /* OCRFieldRow.swift */; };
+		4FC85110FBF3DDC4D9E5EC47 /* RapidSaveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21603A38A3B4D599B263DC91 /* RapidSaveService.swift */; };
+		51B6F9A602B7BA47F95E3EB9 /* OCRData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EB80C574DE1821E83D1E74 /* OCRData.swift */; };
+		552A24EF1F79B6A04DF126E6 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3318942B2C28EB4E863C7 /* OnboardingService.swift */; };
+		5A10CFC341CD6C5408768E0D /* WatchBarcodeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DC707B8ED857962020D5C8 /* WatchBarcodeRenderer.swift */; };
+		5B08A47F95CBAB86C0CFF123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB61694DAAC3BB4C25A6C13 /* Assets.xcassets */; };
+		5B7746313CC9BFE6F472F8F6 /* LocationPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F9355AA6292D771E3C670C /* LocationPermissionView.swift */; };
+		5F7DF3C267FE04A36362568E /* LocationSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E8C6490938862FC2B75D5E /* LocationSearchService.swift */; };
+		601FA54BF9C0ED2EF87DD938 /* APIClientEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D985E45CAD719FB034DD0FC9 /* APIClientEnvironment.swift */; };
+		618A3164EA88E5D936935848 /* BatchLocationBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9176C634A2324D36E0525340 /* BatchLocationBadge.swift */; };
+		62DF345BCEBD8F2F66102537 /* FeatureRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BF330BAA377AECE54D5E8F /* FeatureRow.swift */; };
+		6DDD11A5B51660DF0F379B79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8867038AC4CCE1F6960B0BC2 /* AppDelegate.swift */; };
+		6F22B8AB8A590C94C90F9AAE /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E689CF3FDE82C8283958E33 /* Card.swift */; };
+		73F4A5BBAAEF6352D09B654F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 470CBC9EEAD7ADD38BCF21DE /* Localizable.strings */; };
+		7487FF7FACC8C06348CA9070 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B136A3ACB99C94790E77E721 /* APIClient.swift */; };
+		77597BAFC0D160F8D404D2BE /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BBC988E4433EC684EA52B8 /* OnboardingView.swift */; };
+		79CED62F4A7F1F5E1213E1E7 /* CardOnCueUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCF7F704A96224CB23A33D9 /* CardOnCueUITests.swift */; };
+		7AB6B1ECB70B1D3884DC0B78 /* BarcodeDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95594807A829CFA2F2BF0AD /* BarcodeDisplayView.swift */; };
+		7B380704A98628A097F1C33E /* ConfidenceMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FF01F09AFD46BE6193037 /* ConfidenceMeter.swift */; };
+		8044FF28B913432CCB7E21E2 /* OCRExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9F4766EB84E8A9F4FC0272 /* OCRExtractionTests.swift */; };
+		83C8305617C44F9668A218D2 /* BrandLogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E0EA242CA84336C9824C9C /* BrandLogoService.swift */; };
+		868DE566ED30130E51DB9F62 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F57E1BE137EC09BBCB9D5C9 /* KeychainService.swift */; };
+		8855FD31EF8FD709B0CFA324 /* BarcodeQualityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EEA307738C59C562519D23 /* BarcodeQualityService.swift */; };
+		8B1533AF1DB183060D4E6454 /* CardListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42380183E05A9FBCB3120C6 /* CardListView.swift */; };
+		8C1F7A5783A1CCE86FA5B9AA /* CardOnCueApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51503CEB261161B228C2C594 /* CardOnCueApp.swift */; };
+		8E4DE86CE0A15B1FC6C2DA42 /* CardOnCueUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189FA4FB36884B61D25703D6 /* CardOnCueUITestsLaunchTests.swift */; };
+		90BA33493B99EF4285FA2FB9 /* BarcodeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7575561BC8C1F0D68611B369 /* BarcodeType.swift */; };
+		9146687BF2341EC894BEAA0B /* CardOnCue Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 975A5FEED983FECBD9A059B8 /* CardOnCue Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		930C346736115F1748985E03 /* ManualEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AD2DDE34A702A843F6E8040 /* ManualEntryView.swift */; };
+		968AB2FAC57795D558516460 /* CardOnCueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D356CD07E3E38B7414529032 /* CardOnCueTests.swift */; };
+		99D47AD3F37B66D9AFF62C3D /* AddCardOptionsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8CE976710F6AD10DC47E9 /* AddCardOptionsSheet.swift */; };
+		9CF41FBECF10B5D0EE9D4120 /* BarcodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A88347F45C20F4D2C57CDD /* BarcodeScannerView.swift */; };
+		A2FE68464688D9754B7C515C /* BarcodeImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB917918451A80A707FDFEA /* BarcodeImageCropper.swift */; };
+		A9E1BBCD277DCA303FD83F6C /* AddCardSwipeableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D5BF8FA7538F42E90B1D5E /* AddCardSwipeableView.swift */; };
+		ACA0EC1605654E226DE1AEF5 /* CardOnCueWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE86996120C8B02FFAB805D4 /* CardOnCueWatchApp.swift */; };
+		B22C4B3E86DAAE0F2A865490 /* CardIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7B7F76D53E0163B53279B6 /* CardIcon.swift */; };
+		B7B31C48BAE739AB27CF7886 /* OCRSegmentDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D9486BBE8935E02690AFDC /* OCRSegmentDetector.swift */; };
+		B867BD70E6556F37501A1B30 /* LocationSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B620D35B64596A5F81CB2462 /* LocationSearchField.swift */; };
+		B8EC78F3CB2EE5BD7522C052 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4DD3822F228D018F9ADCCF /* MainView.swift */; };
+		B94458C6AAEC2AB0D3E64B40 /* CardImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10294E4FEA8699DFEE0D563A /* CardImageStorageService.swift */; };
+		C48F3A9612C45E4EFF89F62E /* ScannedCardReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BFBA6B9958544C449BAABA /* ScannedCardReviewView.swift */; };
+		C4FE6C43E3A05C0944E857C8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853D9248CC90D503A1926F0E /* ContentView.swift */; };
+		C9A1B95089B1C7871191937C /* BatchLocationPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333280C5C1B8A48B9D2C6753 /* BatchLocationPickerSheet.swift */; };
+		CAE28E62D886F6293A690679 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A63E2964A14B7130056FC /* AppColors.swift */; };
+		D4A5A94308D1E3AEDBF74DBE /* LocationCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF814D5C3D35DC2EA28429E2 /* LocationCacheService.swift */; };
+		DF976C02B2E8AD90F224E056 /* RapidScanningState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44698902D69AABCD60105F6 /* RapidScanningState.swift */; };
+		E007A8110F63514CDB9799EA /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36EC12F63B12F28C8E3B107 /* Item.swift */; };
+		E67974EA5E45928B8196C109 /* IconSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB3A9AF5FAC17F84E42BC73 /* IconSelectionSheet.swift */; };
+		E7BB34F0781A82C56D3274C3 /* DrawingPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F203612E1E177E7A244A120 /* DrawingPadView.swift */; };
+		EEDD3343AD049615026E6104 /* PhotoLibraryImportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A5F8405D48F8D6641F394B8 /* PhotoLibraryImportView.swift */; };
+		EFE1CD535CDB82573DD3730C /* IconCropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F9CAFA2E6CCF42AA0B0C50D /* IconCropView.swift */; };
+		F213B7FE84CED02916930E24 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCE93D779A2B5D10C49EAB1 /* CardModel.swift */; };
+		F3293B8617BBBC66310A5504 /* AutoPopulatedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F630E95A6C37A3E9755F187 /* AutoPopulatedTextFieldStyle.swift */; };
+		F506CB6533330250045CF17E /* BarcodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C3B0A251DE6E634FAA0418 /* BarcodeService.swift */; };
+		F62528614A8A7B9A3264610C /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A10E250A85806A612106D0 /* LocationService.swift */; };
+		F639D34FBFBBDCA5D410009F /* NotificationEducationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D3DEF31255334C60FB24C6 /* NotificationEducationView.swift */; };
+		F8E5C545733F81EC4FB1CDE9 /* CameraPermissionPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8822C9FD89264E18159BFF5 /* CameraPermissionPromptView.swift */; };
+		FBBA2E780E9653433A81ECD4 /* CardImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8FE82F7545B11015F0AD7F /* CardImageProcessor.swift */; };
+		FC070687F5BDE1E28D6BA14B /* CardIconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1F7FAD025EA658C143FDD5 /* CardIconService.swift */; };
+		FEF61ACE482483C24BD2BBA0 /* VisionOCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0A137BE73184773FDB75E3 /* VisionOCRService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		80B975112ED25A8800185D8D /* PBXContainerItemProxy */ = {
+		56C6269DCFE582FBF1D6726F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 80B974F72ED25A8600185D8D /* Project object */;
+			containerPortal = 870B0520418244ED11C9F670 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 80B974FE2ED25A8600185D8D;
+			remoteGlobalIDString = 4BD7016FA96DBAD217037426;
 			remoteInfo = CardOnCue;
 		};
-		80B9751B2ED25A8800185D8D /* PBXContainerItemProxy */ = {
+		8C24F638154D9150AAAE7B90 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 80B974F72ED25A8600185D8D /* Project object */;
+			containerPortal = 870B0520418244ED11C9F670 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 80B974FE2ED25A8600185D8D;
+			remoteGlobalIDString = 4BD7016FA96DBAD217037426;
 			remoteInfo = CardOnCue;
+		};
+		C20A2D4B299E75F3299C6F72 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 870B0520418244ED11C9F670 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09BFA6ED21C7DD528F490471;
+			remoteInfo = "CardOnCue Watch App";
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C6A2BEADA43C6E67E7E2D710 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				9146687BF2341EC894BEAA0B /* CardOnCue Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		80B974FF2ED25A8600185D8D /* CardOnCue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardOnCue.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		80B975102ED25A8800185D8D /* CardOnCueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardOnCueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		80B9751A2ED25A8800185D8D /* CardOnCueUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardOnCueUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		01C3B0A251DE6E634FAA0418 /* BarcodeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeService.swift; sourceTree = "<group>"; };
+		01D3DEF31255334C60FB24C6 /* NotificationEducationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEducationView.swift; sourceTree = "<group>"; };
+		02D9486BBE8935E02690AFDC /* OCRSegmentDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRSegmentDetector.swift; sourceTree = "<group>"; };
+		08312BFDFC2802950F6CC599 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0BA26D39560DAB3283B5E498 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		0CB8CE976710F6AD10DC47E9 /* AddCardOptionsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardOptionsSheet.swift; sourceTree = "<group>"; };
+		0D7B7F76D53E0163B53279B6 /* CardIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIcon.swift; sourceTree = "<group>"; };
+		0F9CAFA2E6CCF42AA0B0C50D /* IconCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCropView.swift; sourceTree = "<group>"; };
+		10294E4FEA8699DFEE0D563A /* CardImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageStorageService.swift; sourceTree = "<group>"; };
+		178316BE5A8320947DD5CF4E /* WatchNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNotificationManager.swift; sourceTree = "<group>"; };
+		186FF01F09AFD46BE6193037 /* ConfidenceMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidenceMeter.swift; sourceTree = "<group>"; };
+		189FA4FB36884B61D25703D6 /* CardOnCueUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1A58C43F6EC54E51FC4A3C91 /* OCRFieldRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRFieldRow.swift; sourceTree = "<group>"; };
+		1F81221F3F9D7ADDA2699905 /* GeofenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofenceManager.swift; sourceTree = "<group>"; };
+		21603A38A3B4D599B263DC91 /* RapidSaveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidSaveService.swift; sourceTree = "<group>"; };
+		22E547A49B563DB378CC25A8 /* IconSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelectionView.swift; sourceTree = "<group>"; };
+		28DC91F4E616D6D7EFD36949 /* CardLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLocationsView.swift; sourceTree = "<group>"; };
+		2A5F8405D48F8D6641F394B8 /* PhotoLibraryImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryImportView.swift; sourceTree = "<group>"; };
+		2DBC2369A35FCEE5D1DFE7E6 /* BarcodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeType.swift; sourceTree = "<group>"; };
+		2DCE93D779A2B5D10C49EAB1 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		2E23050A66A78F0FE1E538E1 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
+		2F203612E1E177E7A244A120 /* DrawingPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPadView.swift; sourceTree = "<group>"; };
+		32A10E250A85806A612106D0 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		333280C5C1B8A48B9D2C6753 /* BatchLocationPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchLocationPickerSheet.swift; sourceTree = "<group>"; };
+		334A437789120201E165EDB8 /* CardDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDataParser.swift; sourceTree = "<group>"; };
+		3ACB9C90938097C830D34FD6 /* AutoSaveToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSaveToast.swift; sourceTree = "<group>"; };
+		44DC707B8ED857962020D5C8 /* WatchBarcodeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchBarcodeRenderer.swift; sourceTree = "<group>"; };
+		4A9F4766EB84E8A9F4FC0272 /* OCRExtractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractionTests.swift; sourceTree = "<group>"; };
+		4DCF7F704A96224CB23A33D9 /* CardOnCueUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueUITests.swift; sourceTree = "<group>"; };
+		50A3318942B2C28EB4E863C7 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
+		50A88347F45C20F4D2C57CDD /* BarcodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerView.swift; sourceTree = "<group>"; };
+		51503CEB261161B228C2C594 /* CardOnCueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueApp.swift; sourceTree = "<group>"; };
+		58717726551F2801E364383A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		5EB917918451A80A707FDFEA /* BarcodeImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeImageCropper.swift; sourceTree = "<group>"; };
+		5F630E95A6C37A3E9755F187 /* AutoPopulatedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoPopulatedTextFieldStyle.swift; sourceTree = "<group>"; };
+		643136C170BE1C07C2EAAC8C /* DrawingPadHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPadHaptics.swift; sourceTree = "<group>"; };
+		6AD2DDE34A702A843F6E8040 /* ManualEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualEntryView.swift; sourceTree = "<group>"; };
+		6EA014EE5BD7A439269EA927 /* CardOnCueUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CardOnCueUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7575561BC8C1F0D68611B369 /* BarcodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeType.swift; sourceTree = "<group>"; };
+		76BFBA6B9958544C449BAABA /* ScannedCardReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedCardReviewView.swift; sourceTree = "<group>"; };
+		77BF330BAA377AECE54D5E8F /* FeatureRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureRow.swift; sourceTree = "<group>"; };
+		79BEA75F5CF1884B215D3389 /* CardOnCueTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CardOnCueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A0A137BE73184773FDB75E3 /* VisionOCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionOCRService.swift; sourceTree = "<group>"; };
+		7AB3A9AF5FAC17F84E42BC73 /* IconSelectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelectionSheet.swift; sourceTree = "<group>"; };
+		7E689CF3FDE82C8283958E33 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		7F4DD3822F228D018F9ADCCF /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		8425858FAD9005E285259E1C /* CardOnCue.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CardOnCue.entitlements; sourceTree = "<group>"; };
+		853D9248CC90D503A1926F0E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8867038AC4CCE1F6960B0BC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		8B3A63E2964A14B7130056FC /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		8F57E1BE137EC09BBCB9D5C9 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		9176C634A2324D36E0525340 /* BatchLocationBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchLocationBadge.swift; sourceTree = "<group>"; };
+		93B3E9CC92CD359CCE739A20 /* WatchBarcodeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchBarcodeImageView.swift; sourceTree = "<group>"; };
+		96BBC988E4433EC684EA52B8 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		975A5FEED983FECBD9A059B8 /* CardOnCue Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CardOnCue Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A4DAB9D1D650D7C93E28016F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		A7EB80C574DE1821E83D1E74 /* OCRData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRData.swift; sourceTree = "<group>"; };
+		A95594807A829CFA2F2BF0AD /* BarcodeDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeDisplayView.swift; sourceTree = "<group>"; };
+		A9D5BF8FA7538F42E90B1D5E /* AddCardSwipeableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardSwipeableView.swift; sourceTree = "<group>"; };
+		ABB61694DAAC3BB4C25A6C13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AE86996120C8B02FFAB805D4 /* CardOnCueWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueWatchApp.swift; sourceTree = "<group>"; };
+		B136A3ACB99C94790E77E721 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		B1F6AFEC3601BD3738C80A29 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		B620D35B64596A5F81CB2462 /* LocationSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchField.swift; sourceTree = "<group>"; };
+		B7E8C6490938862FC2B75D5E /* LocationSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchService.swift; sourceTree = "<group>"; };
+		C0EE6124D9CF274461C9A3F1 /* DrawingTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTools.swift; sourceTree = "<group>"; };
+		C58F522E185E493BA527369E /* SavedLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedLocation.swift; sourceTree = "<group>"; };
+		C87642FC54B09C4095BAAC15 /* DrawingPadSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPadSettingsView.swift; sourceTree = "<group>"; };
+		C8822C9FD89264E18159BFF5 /* CameraPermissionPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionPromptView.swift; sourceTree = "<group>"; };
+		CC8FE82F7545B11015F0AD7F /* CardImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageProcessor.swift; sourceTree = "<group>"; };
+		CF814D5C3D35DC2EA28429E2 /* LocationCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCacheService.swift; sourceTree = "<group>"; };
+		D356CD07E3E38B7414529032 /* CardOnCueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueTests.swift; sourceTree = "<group>"; };
+		D4BE04FE32056A8436EFF24B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D87A9EEF1E0135B32D8A92E2 /* WatchAppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppColors.swift; sourceTree = "<group>"; };
+		D985E45CAD719FB034DD0FC9 /* APIClientEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientEnvironment.swift; sourceTree = "<group>"; };
+		DB1F7FAD025EA658C143FDD5 /* CardIconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIconService.swift; sourceTree = "<group>"; };
+		DFD80F0C53F1039B9BB9D104 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		E1F9355AA6292D771E3C670C /* LocationPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionView.swift; sourceTree = "<group>"; };
+		E36EC12F63B12F28C8E3B107 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		E3E0EA242CA84336C9824C9C /* BrandLogoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandLogoService.swift; sourceTree = "<group>"; };
+		E44698902D69AABCD60105F6 /* RapidScanningState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidScanningState.swift; sourceTree = "<group>"; };
+		EA91E3F7AEC160D0E9422DC5 /* CardOnCue.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CardOnCue.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1EEA307738C59C562519D23 /* BarcodeQualityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeQualityService.swift; sourceTree = "<group>"; };
+		F42380183E05A9FBCB3120C6 /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
+		FA4AB9A3E803F2A45C3EEF91 /* CameraPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionManager.swift; sourceTree = "<group>"; };
+		FE87D01EE38614D078379113 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		80B975222ED25A8800185D8D /* Exceptions for "CardOnCue" folder in "CardOnCue" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 80B974FE2ED25A8600185D8D /* CardOnCue */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		80B975012ED25A8600185D8D /* CardOnCue */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				80B975222ED25A8800185D8D /* Exceptions for "CardOnCue" folder in "CardOnCue" target */,
+/* Begin PBXGroup section */
+		7BB1B169106CCE6F81B52CFB /* CardOnCue */ = {
+			isa = PBXGroup;
+			children = (
+				0CB8CE976710F6AD10DC47E9 /* AddCardOptionsSheet.swift */,
+				A9D5BF8FA7538F42E90B1D5E /* AddCardSwipeableView.swift */,
+				B136A3ACB99C94790E77E721 /* APIClient.swift */,
+				D985E45CAD719FB034DD0FC9 /* APIClientEnvironment.swift */,
+				8B3A63E2964A14B7130056FC /* AppColors.swift */,
+				8867038AC4CCE1F6960B0BC2 /* AppDelegate.swift */,
+				ABB61694DAAC3BB4C25A6C13 /* Assets.xcassets */,
+				5F630E95A6C37A3E9755F187 /* AutoPopulatedTextFieldStyle.swift */,
+				3ACB9C90938097C830D34FD6 /* AutoSaveToast.swift */,
+				5EB917918451A80A707FDFEA /* BarcodeImageCropper.swift */,
+				50A88347F45C20F4D2C57CDD /* BarcodeScannerView.swift */,
+				01C3B0A251DE6E634FAA0418 /* BarcodeService.swift */,
+				7575561BC8C1F0D68611B369 /* BarcodeType.swift */,
+				9176C634A2324D36E0525340 /* BatchLocationBadge.swift */,
+				333280C5C1B8A48B9D2C6753 /* BatchLocationPickerSheet.swift */,
+				E3E0EA242CA84336C9824C9C /* BrandLogoService.swift */,
+				FA4AB9A3E803F2A45C3EEF91 /* CameraPermissionManager.swift */,
+				C8822C9FD89264E18159BFF5 /* CameraPermissionPromptView.swift */,
+				7E689CF3FDE82C8283958E33 /* Card.swift */,
+				334A437789120201E165EDB8 /* CardDataParser.swift */,
+				2E23050A66A78F0FE1E538E1 /* CardDetailView.swift */,
+				0D7B7F76D53E0163B53279B6 /* CardIcon.swift */,
+				DB1F7FAD025EA658C143FDD5 /* CardIconService.swift */,
+				CC8FE82F7545B11015F0AD7F /* CardImageProcessor.swift */,
+				10294E4FEA8699DFEE0D563A /* CardImageStorageService.swift */,
+				F42380183E05A9FBCB3120C6 /* CardListView.swift */,
+				28DC91F4E616D6D7EFD36949 /* CardLocationsView.swift */,
+				2DCE93D779A2B5D10C49EAB1 /* CardModel.swift */,
+				8425858FAD9005E285259E1C /* CardOnCue.entitlements */,
+				51503CEB261161B228C2C594 /* CardOnCueApp.swift */,
+				186FF01F09AFD46BE6193037 /* ConfidenceMeter.swift */,
+				58717726551F2801E364383A /* ContentView.swift */,
+				643136C170BE1C07C2EAAC8C /* DrawingPadHaptics.swift */,
+				C87642FC54B09C4095BAAC15 /* DrawingPadSettingsView.swift */,
+				2F203612E1E177E7A244A120 /* DrawingPadView.swift */,
+				C0EE6124D9CF274461C9A3F1 /* DrawingTools.swift */,
+				FE87D01EE38614D078379113 /* EmptyStateView.swift */,
+				77BF330BAA377AECE54D5E8F /* FeatureRow.swift */,
+				1F81221F3F9D7ADDA2699905 /* GeofenceManager.swift */,
+				0F9CAFA2E6CCF42AA0B0C50D /* IconCropView.swift */,
+				7AB3A9AF5FAC17F84E42BC73 /* IconSelectionSheet.swift */,
+				22E547A49B563DB378CC25A8 /* IconSelectionView.swift */,
+				D4BE04FE32056A8436EFF24B /* Info.plist */,
+				E36EC12F63B12F28C8E3B107 /* Item.swift */,
+				8F57E1BE137EC09BBCB9D5C9 /* KeychainService.swift */,
+				470CBC9EEAD7ADD38BCF21DE /* Localizable.strings */,
+				B1F6AFEC3601BD3738C80A29 /* Location.swift */,
+				CF814D5C3D35DC2EA28429E2 /* LocationCacheService.swift */,
+				E1F9355AA6292D771E3C670C /* LocationPermissionView.swift */,
+				B620D35B64596A5F81CB2462 /* LocationSearchField.swift */,
+				B7E8C6490938862FC2B75D5E /* LocationSearchService.swift */,
+				32A10E250A85806A612106D0 /* LocationService.swift */,
+				7F4DD3822F228D018F9ADCCF /* MainView.swift */,
+				6AD2DDE34A702A843F6E8040 /* ManualEntryView.swift */,
+				0BA26D39560DAB3283B5E498 /* Network.swift */,
+				01D3DEF31255334C60FB24C6 /* NotificationEducationView.swift */,
+				A7EB80C574DE1821E83D1E74 /* OCRData.swift */,
+				1A58C43F6EC54E51FC4A3C91 /* OCRFieldRow.swift */,
+				02D9486BBE8935E02690AFDC /* OCRSegmentDetector.swift */,
+				50A3318942B2C28EB4E863C7 /* OnboardingService.swift */,
+				96BBC988E4433EC684EA52B8 /* OnboardingView.swift */,
+				2A5F8405D48F8D6641F394B8 /* PhotoLibraryImportView.swift */,
+				21603A38A3B4D599B263DC91 /* RapidSaveService.swift */,
+				E44698902D69AABCD60105F6 /* RapidScanningState.swift */,
+				C58F522E185E493BA527369E /* SavedLocation.swift */,
+				76BFBA6B9958544C449BAABA /* ScannedCardReviewView.swift */,
+				DFD80F0C53F1039B9BB9D104 /* StorageService.swift */,
+				7A0A137BE73184773FDB75E3 /* VisionOCRService.swift */,
+				8F0045ED7BD9CD310BAA3934 /* Services */,
 			);
 			path = CardOnCue;
 			sourceTree = "<group>";
 		};
-		80B975132ED25A8800185D8D /* CardOnCueTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = CardOnCueTests;
+		8037291A0B3D1CC03C5DA822 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				975A5FEED983FECBD9A059B8 /* CardOnCue Watch App.app */,
+				EA91E3F7AEC160D0E9422DC5 /* CardOnCue.app */,
+				79BEA75F5CF1884B215D3389 /* CardOnCueTests.xctest */,
+				6EA014EE5BD7A439269EA927 /* CardOnCueUITests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
-		80B9751D2ED25A8800185D8D /* CardOnCueUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
+		8F0045ED7BD9CD310BAA3934 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F1EEA307738C59C562519D23 /* BarcodeQualityService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		BAA4710CCB0CF6840B35CCC7 /* CardOnCue Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				A95594807A829CFA2F2BF0AD /* BarcodeDisplayView.swift */,
+				2DBC2369A35FCEE5D1DFE7E6 /* BarcodeType.swift */,
+				AE86996120C8B02FFAB805D4 /* CardOnCueWatchApp.swift */,
+				853D9248CC90D503A1926F0E /* ContentView.swift */,
+				A4DAB9D1D650D7C93E28016F /* Info.plist */,
+				D87A9EEF1E0135B32D8A92E2 /* WatchAppColors.swift */,
+				93B3E9CC92CD359CCE739A20 /* WatchBarcodeImageView.swift */,
+				44DC707B8ED857962020D5C8 /* WatchBarcodeRenderer.swift */,
+				178316BE5A8320947DD5CF4E /* WatchNotificationManager.swift */,
+			);
+			path = "CardOnCue Watch App";
+			sourceTree = "<group>";
+		};
+		DE12448DDFFA703BF9685BA2 = {
+			isa = PBXGroup;
+			children = (
+				7BB1B169106CCE6F81B52CFB /* CardOnCue */,
+				BAA4710CCB0CF6840B35CCC7 /* CardOnCue Watch App */,
+				F48E4DADAC4862B00E3C407B /* CardOnCueTests */,
+				E188F01011BC016E72BD721B /* CardOnCueUITests */,
+				8037291A0B3D1CC03C5DA822 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E188F01011BC016E72BD721B /* CardOnCueUITests */ = {
+			isa = PBXGroup;
+			children = (
+				4DCF7F704A96224CB23A33D9 /* CardOnCueUITests.swift */,
+				189FA4FB36884B61D25703D6 /* CardOnCueUITestsLaunchTests.swift */,
+			);
 			path = CardOnCueUITests;
 			sourceTree = "<group>";
 		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
-/* Begin PBXFrameworksBuildPhase section */
-		80B974FC2ED25A8600185D8D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				80B975532ED2CE8E00185D8D /* Clerk in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		80B9750D2ED25A8800185D8D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		80B975172ED25A8800185D8D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXFrameworksBuildPhase section */
-
-/* Begin PBXGroup section */
-		80B974F62ED25A8600185D8D = {
+		F48E4DADAC4862B00E3C407B /* CardOnCueTests */ = {
 			isa = PBXGroup;
 			children = (
-				80B975012ED25A8600185D8D /* CardOnCue */,
-				80B975132ED25A8800185D8D /* CardOnCueTests */,
-				80B9751D2ED25A8800185D8D /* CardOnCueUITests */,
-				80B975002ED25A8600185D8D /* Products */,
+				D356CD07E3E38B7414529032 /* CardOnCueTests.swift */,
+				4A9F4766EB84E8A9F4FC0272 /* OCRExtractionTests.swift */,
 			);
-			sourceTree = "<group>";
-		};
-		80B975002ED25A8600185D8D /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				80B974FF2ED25A8600185D8D /* CardOnCue.app */,
-				80B975102ED25A8800185D8D /* CardOnCueTests.xctest */,
-				80B9751A2ED25A8800185D8D /* CardOnCueUITests.xctest */,
-			);
-			name = Products;
+			path = CardOnCueTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		80B974FE2ED25A8600185D8D /* CardOnCue */ = {
+		09BFA6ED21C7DD528F490471 /* CardOnCue Watch App */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 80B975232ED25A8800185D8D /* Build configuration list for PBXNativeTarget "CardOnCue" */;
+			buildConfigurationList = 90FC94625F1947F5579B9D48 /* Build configuration list for PBXNativeTarget "CardOnCue Watch App" */;
 			buildPhases = (
-				80B974FB2ED25A8600185D8D /* Sources */,
-				80B974FC2ED25A8600185D8D /* Frameworks */,
-				80B974FD2ED25A8600185D8D /* Resources */,
+				ADD63171E380FC384FA3CDBE /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				80B975012ED25A8600185D8D /* CardOnCue */,
-			);
-			name = CardOnCue;
+			name = "CardOnCue Watch App";
 			packageProductDependencies = (
-				80B975522ED2CE8E00185D8D /* Clerk */,
 			);
-			productName = CardOnCue;
-			productReference = 80B974FF2ED25A8600185D8D /* CardOnCue.app */;
-			productType = "com.apple.product-type.application";
+			productName = "CardOnCue Watch App";
+			productReference = 975A5FEED983FECBD9A059B8 /* CardOnCue Watch App.app */;
+			productType = "com.apple.product-type.application.watchapp2";
 		};
-		80B9750F2ED25A8800185D8D /* CardOnCueTests */ = {
+		3F026D40DCBE795246104A3F /* CardOnCueTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 80B975282ED25A8800185D8D /* Build configuration list for PBXNativeTarget "CardOnCueTests" */;
+			buildConfigurationList = 1E5A8A67B4EE203EACDB179D /* Build configuration list for PBXNativeTarget "CardOnCueTests" */;
 			buildPhases = (
-				80B9750C2ED25A8800185D8D /* Sources */,
-				80B9750D2ED25A8800185D8D /* Frameworks */,
-				80B9750E2ED25A8800185D8D /* Resources */,
+				EFA1B2C35E10B3CAD7555BF8 /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				80B975122ED25A8800185D8D /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				80B975132ED25A8800185D8D /* CardOnCueTests */,
+				05343255673C64BBC642B2DB /* PBXTargetDependency */,
 			);
 			name = CardOnCueTests;
 			packageProductDependencies = (
 			);
 			productName = CardOnCueTests;
-			productReference = 80B975102ED25A8800185D8D /* CardOnCueTests.xctest */;
+			productReference = 79BEA75F5CF1884B215D3389 /* CardOnCueTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		80B975192ED25A8800185D8D /* CardOnCueUITests */ = {
+		4BD7016FA96DBAD217037426 /* CardOnCue */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 80B9752B2ED25A8800185D8D /* Build configuration list for PBXNativeTarget "CardOnCueUITests" */;
+			buildConfigurationList = B4122CDA6E4ED5C6754CEC3B /* Build configuration list for PBXNativeTarget "CardOnCue" */;
 			buildPhases = (
-				80B975162ED25A8800185D8D /* Sources */,
-				80B975172ED25A8800185D8D /* Frameworks */,
-				80B975182ED25A8800185D8D /* Resources */,
+				9281FA3316F29F3D10B7534B /* Sources */,
+				33E60FBA8153D5F5F65F4EF2 /* Resources */,
+				C6A2BEADA43C6E67E7E2D710 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				80B9751C2ED25A8800185D8D /* PBXTargetDependency */,
+				4728E849EC2964FBC4C222B1 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				80B9751D2ED25A8800185D8D /* CardOnCueUITests */,
+			name = CardOnCue;
+			packageProductDependencies = (
+			);
+			productName = CardOnCue;
+			productReference = EA91E3F7AEC160D0E9422DC5 /* CardOnCue.app */;
+			productType = "com.apple.product-type.application";
+		};
+		C97E7F59B525E44500238205 /* CardOnCueUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 21877AE3FBCB2687398564BB /* Build configuration list for PBXNativeTarget "CardOnCueUITests" */;
+			buildPhases = (
+				BC6A34FE680218C7F43443E3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A7D44CE42C9B56004A6C1C91 /* PBXTargetDependency */,
 			);
 			name = CardOnCueUITests;
 			packageProductDependencies = (
 			);
 			productName = CardOnCueUITests;
-			productReference = 80B9751A2ED25A8800185D8D /* CardOnCueUITests.xctest */;
+			productReference = 6EA014EE5BD7A439269EA927 /* CardOnCueUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		80B974F72ED25A8600185D8D /* Project object */ = {
+		870B0520418244ED11C9F670 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 2610;
-				LastUpgradeCheck = 2610;
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					80B974FE2ED25A8600185D8D = {
-						CreatedOnToolsVersion = 26.1.1;
+					09BFA6ED21C7DD528F490471 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
 					};
-					80B9750F2ED25A8800185D8D = {
-						CreatedOnToolsVersion = 26.1.1;
-						TestTargetID = 80B974FE2ED25A8600185D8D;
+					3F026D40DCBE795246104A3F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
 					};
-					80B975192ED25A8800185D8D = {
-						CreatedOnToolsVersion = 26.1.1;
-						TestTargetID = 80B974FE2ED25A8600185D8D;
+					4BD7016FA96DBAD217037426 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					C97E7F59B525E44500238205 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+						TestTargetID = 4BD7016FA96DBAD217037426;
 					};
 				};
 			};
-			buildConfigurationList = 80B974FA2ED25A8600185D8D /* Build configuration list for PBXProject "CardOnCue" */;
+			buildConfigurationList = B302D33DB53D73ECA0C01641 /* Build configuration list for PBXProject "CardOnCue" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
-			mainGroup = 80B974F62ED25A8600185D8D;
+			mainGroup = DE12448DDFFA703BF9685BA2;
 			minimizedProjectReferenceProxies = 1;
-			packageReferences = (
-				80B975512ED2CE8E00185D8D /* XCRemoteSwiftPackageReference "clerk-ios" */,
-			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 80B975002ED25A8600185D8D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				80B974FE2ED25A8600185D8D /* CardOnCue */,
-				80B9750F2ED25A8800185D8D /* CardOnCueTests */,
-				80B975192ED25A8800185D8D /* CardOnCueUITests */,
+				4BD7016FA96DBAD217037426 /* CardOnCue */,
+				09BFA6ED21C7DD528F490471 /* CardOnCue Watch App */,
+				3F026D40DCBE795246104A3F /* CardOnCueTests */,
+				C97E7F59B525E44500238205 /* CardOnCueUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		80B974FD2ED25A8600185D8D /* Resources */ = {
+		33E60FBA8153D5F5F65F4EF2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		80B9750E2ED25A8800185D8D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		80B975182ED25A8800185D8D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				5B08A47F95CBAB86C0CFF123 /* Assets.xcassets in Resources */,
+				73F4A5BBAAEF6352D09B654F /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		80B974FB2ED25A8600185D8D /* Sources */ = {
+		9281FA3316F29F3D10B7534B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7487FF7FACC8C06348CA9070 /* APIClient.swift in Sources */,
+				601FA54BF9C0ED2EF87DD938 /* APIClientEnvironment.swift in Sources */,
+				99D47AD3F37B66D9AFF62C3D /* AddCardOptionsSheet.swift in Sources */,
+				A9E1BBCD277DCA303FD83F6C /* AddCardSwipeableView.swift in Sources */,
+				CAE28E62D886F6293A690679 /* AppColors.swift in Sources */,
+				6DDD11A5B51660DF0F379B79 /* AppDelegate.swift in Sources */,
+				F3293B8617BBBC66310A5504 /* AutoPopulatedTextFieldStyle.swift in Sources */,
+				1EE98AC3E24BCD1D1F73389F /* AutoSaveToast.swift in Sources */,
+				A2FE68464688D9754B7C515C /* BarcodeImageCropper.swift in Sources */,
+				8855FD31EF8FD709B0CFA324 /* BarcodeQualityService.swift in Sources */,
+				9CF41FBECF10B5D0EE9D4120 /* BarcodeScannerView.swift in Sources */,
+				F506CB6533330250045CF17E /* BarcodeService.swift in Sources */,
+				90BA33493B99EF4285FA2FB9 /* BarcodeType.swift in Sources */,
+				618A3164EA88E5D936935848 /* BatchLocationBadge.swift in Sources */,
+				C9A1B95089B1C7871191937C /* BatchLocationPickerSheet.swift in Sources */,
+				83C8305617C44F9668A218D2 /* BrandLogoService.swift in Sources */,
+				0A3093F93C73C8A05C1E90DD /* CameraPermissionManager.swift in Sources */,
+				F8E5C545733F81EC4FB1CDE9 /* CameraPermissionPromptView.swift in Sources */,
+				6F22B8AB8A590C94C90F9AAE /* Card.swift in Sources */,
+				0E611F9B1F1FAEF336CEAB21 /* CardDataParser.swift in Sources */,
+				195A04929DD6A66C6C61DFBC /* CardDetailView.swift in Sources */,
+				B22C4B3E86DAAE0F2A865490 /* CardIcon.swift in Sources */,
+				FC070687F5BDE1E28D6BA14B /* CardIconService.swift in Sources */,
+				FBBA2E780E9653433A81ECD4 /* CardImageProcessor.swift in Sources */,
+				B94458C6AAEC2AB0D3E64B40 /* CardImageStorageService.swift in Sources */,
+				8B1533AF1DB183060D4E6454 /* CardListView.swift in Sources */,
+				362FE5657615F80D653A532D /* CardLocationsView.swift in Sources */,
+				F213B7FE84CED02916930E24 /* CardModel.swift in Sources */,
+				8C1F7A5783A1CCE86FA5B9AA /* CardOnCueApp.swift in Sources */,
+				7B380704A98628A097F1C33E /* ConfidenceMeter.swift in Sources */,
+				44BAEFA2695F760FFBC8DF12 /* ContentView.swift in Sources */,
+				33C65E5460D9F19B39E8F556 /* DrawingPadHaptics.swift in Sources */,
+				2D661BDEBB9EE047F73CDA6D /* DrawingPadSettingsView.swift in Sources */,
+				E7BB34F0781A82C56D3274C3 /* DrawingPadView.swift in Sources */,
+				26555077EDC6AD222151F4A5 /* DrawingTools.swift in Sources */,
+				331A68C4BAB1C41FE24DE70C /* EmptyStateView.swift in Sources */,
+				62DF345BCEBD8F2F66102537 /* FeatureRow.swift in Sources */,
+				37A6A19D72E052B16134390F /* GeofenceManager.swift in Sources */,
+				EFE1CD535CDB82573DD3730C /* IconCropView.swift in Sources */,
+				E67974EA5E45928B8196C109 /* IconSelectionSheet.swift in Sources */,
+				3E5CE9A84530B509231C2623 /* IconSelectionView.swift in Sources */,
+				E007A8110F63514CDB9799EA /* Item.swift in Sources */,
+				868DE566ED30130E51DB9F62 /* KeychainService.swift in Sources */,
+				1F42BF65CC8D9361C9128CF8 /* Location.swift in Sources */,
+				D4A5A94308D1E3AEDBF74DBE /* LocationCacheService.swift in Sources */,
+				5B7746313CC9BFE6F472F8F6 /* LocationPermissionView.swift in Sources */,
+				B867BD70E6556F37501A1B30 /* LocationSearchField.swift in Sources */,
+				5F7DF3C267FE04A36362568E /* LocationSearchService.swift in Sources */,
+				F62528614A8A7B9A3264610C /* LocationService.swift in Sources */,
+				B8EC78F3CB2EE5BD7522C052 /* MainView.swift in Sources */,
+				930C346736115F1748985E03 /* ManualEntryView.swift in Sources */,
+				0D1782590D7484A0820D07D7 /* Network.swift in Sources */,
+				F639D34FBFBBDCA5D410009F /* NotificationEducationView.swift in Sources */,
+				51B6F9A602B7BA47F95E3EB9 /* OCRData.swift in Sources */,
+				4EE2E99FB12F57598609F1AA /* OCRFieldRow.swift in Sources */,
+				B7B31C48BAE739AB27CF7886 /* OCRSegmentDetector.swift in Sources */,
+				552A24EF1F79B6A04DF126E6 /* OnboardingService.swift in Sources */,
+				77597BAFC0D160F8D404D2BE /* OnboardingView.swift in Sources */,
+				EEDD3343AD049615026E6104 /* PhotoLibraryImportView.swift in Sources */,
+				4FC85110FBF3DDC4D9E5EC47 /* RapidSaveService.swift in Sources */,
+				DF976C02B2E8AD90F224E056 /* RapidScanningState.swift in Sources */,
+				16B562BA91B324C184F6E421 /* SavedLocation.swift in Sources */,
+				C48F3A9612C45E4EFF89F62E /* ScannedCardReviewView.swift in Sources */,
+				1308D851E10BDD5342DDD50F /* StorageService.swift in Sources */,
+				FEF61ACE482483C24BD2BBA0 /* VisionOCRService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		80B9750C2ED25A8800185D8D /* Sources */ = {
+		ADD63171E380FC384FA3CDBE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AB6B1ECB70B1D3884DC0B78 /* BarcodeDisplayView.swift in Sources */,
+				0A0A202E7EBDA3B422D5579A /* BarcodeType.swift in Sources */,
+				ACA0EC1605654E226DE1AEF5 /* CardOnCueWatchApp.swift in Sources */,
+				C4FE6C43E3A05C0944E857C8 /* ContentView.swift in Sources */,
+				1082738660F19B36D46D8DDB /* WatchAppColors.swift in Sources */,
+				02C326357EE6EF8DAFF1B83D /* WatchBarcodeImageView.swift in Sources */,
+				5A10CFC341CD6C5408768E0D /* WatchBarcodeRenderer.swift in Sources */,
+				48312CCE647AD0F32D1DF2CD /* WatchNotificationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		80B975162ED25A8800185D8D /* Sources */ = {
+		BC6A34FE680218C7F43443E3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				79CED62F4A7F1F5E1213E1E7 /* CardOnCueUITests.swift in Sources */,
+				8E4DE86CE0A15B1FC6C2DA42 /* CardOnCueUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFA1B2C35E10B3CAD7555BF8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				968AB2FAC57795D558516460 /* CardOnCueTests.swift in Sources */,
+				8044FF28B913432CCB7E21E2 /* OCRExtractionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		80B975122ED25A8800185D8D /* PBXTargetDependency */ = {
+		05343255673C64BBC642B2DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 80B974FE2ED25A8600185D8D /* CardOnCue */;
-			targetProxy = 80B975112ED25A8800185D8D /* PBXContainerItemProxy */;
+			target = 4BD7016FA96DBAD217037426 /* CardOnCue */;
+			targetProxy = 8C24F638154D9150AAAE7B90 /* PBXContainerItemProxy */;
 		};
-		80B9751C2ED25A8800185D8D /* PBXTargetDependency */ = {
+		4728E849EC2964FBC4C222B1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 80B974FE2ED25A8600185D8D /* CardOnCue */;
-			targetProxy = 80B9751B2ED25A8800185D8D /* PBXContainerItemProxy */;
+			target = 09BFA6ED21C7DD528F490471 /* CardOnCue Watch App */;
+			targetProxy = C20A2D4B299E75F3299C6F72 /* PBXContainerItemProxy */;
+		};
+		A7D44CE42C9B56004A6C1C91 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4BD7016FA96DBAD217037426 /* CardOnCue */;
+			targetProxy = 56C6269DCFE582FBF1D6726F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		470CBC9EEAD7ADD38BCF21DE /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				08312BFDFC2802950F6CC599 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
-		80B975242ED25A8800185D8D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = CardOnCue/CardOnCue.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EJLR2RPSV2;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CardOnCue/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "CardOnCue needs your location to automatically show your membership cards when you arrive at stores, gyms, and other locations.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Debug;
-		};
-		80B975252ED25A8800185D8D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = CardOnCue/CardOnCue.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EJLR2RPSV2;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = CardOnCue/Info.plist;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
-				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "CardOnCue uses your location in the background to automatically notify you when you're near a saved location, so your membership cards are ready when you need them.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "CardOnCue needs your location to automatically show your membership cards when you arrive at stores, gyms, and other locations.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2,7";
-				XROS_DEPLOYMENT_TARGET = 2.0;
-			};
-			name = Release;
-		};
-		80B975262ED25A8800185D8D /* Debug */ = {
+		197C44013A8C1EF3F8FDD398 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -415,18 +667,17 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = EJLR2RPSV2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
+					"DEBUG=1",
 				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -434,25 +685,27 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = iphoneos;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Debug;
 		};
-		80B975272ED25A8800185D8D /* Release */ = {
+		4DF0BE94FE83DB22511A4CBC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -479,12 +732,11 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = EJLR2RPSV2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -492,159 +744,217 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SDKROOT = iphoneos;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_COMPILATION_MODE = wholemodule;
-				VALIDATE_PRODUCT = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
 			};
 			name = Release;
 		};
-		80B975292ED25A8800185D8D /* Debug */ = {
+		7FF95FA97A2F6548E63F50E6 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EJLR2RPSV2;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
-				MARKETING_VERSION = 1.0;
+				DEVELOPMENT_TEAM = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCueTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardOnCue.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CardOnCue";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardOnCue.app/CardOnCue";
 			};
 			name = Debug;
 		};
-		80B9752A2ED25A8800185D8D /* Release */ = {
+		91718BFD7FC87C782CFF14F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "CardOnCue Watch App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 4;
+				WK_APPLICATION_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue;
+			};
+			name = Debug;
+		};
+		9D7D39982F1A39396F6C6156 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EJLR2RPSV2;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCueTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardOnCue.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CardOnCue";
-			};
-			name = Release;
-		};
-		80B9752C2ED25A8800185D8D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EJLR2RPSV2;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				DEVELOPMENT_TEAM = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCueUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CardOnCue;
 			};
 			name = Debug;
 		};
-		80B9752D2ED25A8800185D8D /* Release */ = {
+		AF0AA2D9A2762F850D09B968 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = EJLR2RPSV2;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = CardOnCue/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B32991E48F3BC78EAD94C39F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCueUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = NO;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = CardOnCue;
 			};
 			name = Release;
+		};
+		B9057EEF734CFC7E6000FE93 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCueTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CardOnCue.app/CardOnCue";
+			};
+			name = Release;
+		};
+		BD0E3ED0CFE34CC7CD9F5B46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "CardOnCue Watch App/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue.watchkitapp;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = 4;
+				WK_APPLICATION_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue;
+			};
+			name = Release;
+		};
+		FA4919260FD729E1BA695433 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = CardOnCue/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue;
+				SDKROOT = iphoneos;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		80B974FA2ED25A8600185D8D /* Build configuration list for PBXProject "CardOnCue" */ = {
+		1E5A8A67B4EE203EACDB179D /* Build configuration list for PBXNativeTarget "CardOnCueTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				80B975262ED25A8800185D8D /* Debug */,
-				80B975272ED25A8800185D8D /* Release */,
+				7FF95FA97A2F6548E63F50E6 /* Debug */,
+				B9057EEF734CFC7E6000FE93 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		80B975232ED25A8800185D8D /* Build configuration list for PBXNativeTarget "CardOnCue" */ = {
+		21877AE3FBCB2687398564BB /* Build configuration list for PBXNativeTarget "CardOnCueUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				80B975242ED25A8800185D8D /* Debug */,
-				80B975252ED25A8800185D8D /* Release */,
+				9D7D39982F1A39396F6C6156 /* Debug */,
+				B32991E48F3BC78EAD94C39F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		80B975282ED25A8800185D8D /* Build configuration list for PBXNativeTarget "CardOnCueTests" */ = {
+		90FC94625F1947F5579B9D48 /* Build configuration list for PBXNativeTarget "CardOnCue Watch App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				80B975292ED25A8800185D8D /* Debug */,
-				80B9752A2ED25A8800185D8D /* Release */,
+				91718BFD7FC87C782CFF14F0 /* Debug */,
+				BD0E3ED0CFE34CC7CD9F5B46 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
-		80B9752B2ED25A8800185D8D /* Build configuration list for PBXNativeTarget "CardOnCueUITests" */ = {
+		B302D33DB53D73ECA0C01641 /* Build configuration list for PBXProject "CardOnCue" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				80B9752C2ED25A8800185D8D /* Debug */,
-				80B9752D2ED25A8800185D8D /* Release */,
+				197C44013A8C1EF3F8FDD398 /* Debug */,
+				4DF0BE94FE83DB22511A4CBC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
+		};
+		B4122CDA6E4ED5C6754CEC3B /* Build configuration list for PBXNativeTarget "CardOnCue" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FA4919260FD729E1BA695433 /* Debug */,
+				AF0AA2D9A2762F850D09B968 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		80B975512ED2CE8E00185D8D /* XCRemoteSwiftPackageReference "clerk-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/clerk/clerk-ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.71.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		80B975522ED2CE8E00185D8D /* Clerk */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 80B975512ED2CE8E00185D8D /* XCRemoteSwiftPackageReference "clerk-ios" */;
-			productName = Clerk;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 80B974F72ED25A8600185D8D /* Project object */;
+	rootObject = 870B0520418244ED11C9F670 /* Project object */;
 }
