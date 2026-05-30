@@ -203,7 +203,7 @@ class OCRSegmentDetector {
 
     private func detectPhoneNumber(in text: String) -> String? {
         // Normalize text: replace common OCR mistakes
-        var normalized = text.replacingOccurrences(of: "O", with: "0", options: .literal)
+        let normalized = text.replacingOccurrences(of: "O", with: "0", options: .literal)
 
         // Patterns for various phone formats
         let patterns = [

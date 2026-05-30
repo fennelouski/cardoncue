@@ -350,7 +350,7 @@ actor CardIconService {
             // Check if website URLs match
             var urlsMatch = false
             if let websiteUrl = websiteUrl,
-               let existingWebsiteUrl = existingCard.metadata["websiteUrl"] as? String {
+               let existingWebsiteUrl = existingCard.metadata["websiteUrl"] {
                 urlsMatch = normalizeURL(websiteUrl) == normalizeURL(existingWebsiteUrl)
             }
 

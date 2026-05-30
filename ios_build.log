@@ -1,0 +1,3 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project CardOnCue.xcodeproj -scheme CardOnCue -destination "platform=iOS Simulator,name=iPhone 15" clean build
+

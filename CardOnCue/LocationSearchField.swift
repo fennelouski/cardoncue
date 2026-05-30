@@ -108,7 +108,7 @@ struct LocationSearchField: View {
                                                 .font(.caption)
                                                 .foregroundColor(.secondary)
                                                 .lineLimit(1)
-                                        } else if let coordinate = location.coordinate {
+                                        } else if location.coordinate != nil {
                                             if let distance = location.distance(from: userLocation?.coordinate) {
                                                 Text(String(format: "%.1f km away", distance / 1000))
                                                     .font(.caption)

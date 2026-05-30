@@ -544,8 +544,8 @@ extension CardModel {
         return jsonData.base64EncodedString()
     }
 
-    /// Nonisolated helper to decode OCRData
-    nonisolated private static func decodeOCRData(_ jsonString: String) -> OCRData? {
+    /// Helper to decode OCRData
+    private static func decodeOCRData(_ jsonString: String) -> OCRData? {
         guard let data = Data(base64Encoded: jsonString),
               let dict = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
               let fullText = dict["fullText"] as? String,

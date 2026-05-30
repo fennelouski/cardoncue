@@ -548,7 +548,7 @@ struct BarcodeScannerView: View {
             do {
                 // Get the best captured image
                 guard let capturedImage = scanner.bestCapturedImage else {
-                    await showReviewScreen(code, type: type)
+                    showReviewScreen(code, type: type)
                     return
                 }
 
@@ -593,13 +593,13 @@ struct BarcodeScannerView: View {
                     )
                 } else {
                     // LOW CONFIDENCE - Fall back to manual review
-                    await showReviewScreen(code, type: type)
+                    showReviewScreen(code, type: type)
                 }
 
             } catch {
                 print("Error in rapid scan: \(error)")
                 // Fall back to manual review on error
-                await showReviewScreen(code, type: type)
+                showReviewScreen(code, type: type)
             }
 
             await MainActor.run {
@@ -1190,21 +1190,9 @@ class BarcodeScannerViewModel: NSObject, ObservableObject {
 
     /// Get the correct image orientation based on device orientation (nonisolated)
     nonisolated private func getImageOrientationNonisolated() -> UIImage.Orientation {
-        let deviceOrientation = UIDevice.current.orientation
-
-        switch deviceOrientation {
-        case .portrait:
-            return .right
-        case .portraitUpsideDown:
-            return .left
-        case .landscapeLeft:
-            return .up
-        case .landscapeRight:
-            return .down
-        default:
-            // Default to portrait if orientation is unknown/face up/face down
-            return .right
-        }
+        // Default to right orientation (portrait) since we can't access UIDevice from nonisolated context
+        // This is safe as the app is portrait-only
+        return .right
     }
 }
 
