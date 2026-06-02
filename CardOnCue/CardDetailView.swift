@@ -28,6 +28,11 @@ struct CardDetailView: View {
     @State private var isExtractingText: Bool = false
     @State private var editedPin: String = ""
     @State private var editedCardType: String = ""
+    @State private var editedTags: String = ""
+    @State private var editedHasExpiry: Bool = false
+    @State private var editedExpiry: Date = Date()
+    @State private var editedOneTime: Bool = false
+    @State private var showingDeleteConfirm = false
 
     // Cropped barcode image state
     @State private var croppedBarcodeImage: UIImage? = nil
@@ -62,6 +67,10 @@ struct CardDetailView: View {
                 if !(card.locationName ?? "").isEmpty || isEditing {
                     websiteSection
                 }
+
+                if isEditing {
+                    cardManagementSection
+                }
             }
             .padding()
         }
@@ -80,6 +89,16 @@ struct CardDetailView: View {
             Button("OK", role: .cancel) {}
         } message: {
             Text(errorMessage)
+        }
+        .alert("Delete Card?", isPresented: $showingDeleteConfirm) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                modelContext.delete(card)
+                PersistenceHelper.save(modelContext, label: "CardDetailView.delete")
+                dismiss()
+            }
+        } message: {
+            Text("This permanently deletes \"\(card.name)\" and its data. This cannot be undone.")
         }
         .alert("Apply to All \(card.brandName) Cards?", isPresented: $showingUrlShareAlert) {
             Button("This Card Only", role: .cancel) { }
@@ -120,6 +139,10 @@ struct CardDetailView: View {
             editedWebsiteUrl = card.metadata["websiteUrl"] ?? ""
             editedPin = card.metadata["pin"] ?? ""
             editedCardType = card.metadata["cardType"] ?? ""
+            editedTags = card.tags.joined(separator: ", ")
+            editedHasExpiry = card.validTo != nil
+            editedExpiry = card.validTo ?? Date().addingTimeInterval(365 * 24 * 60 * 60)
+            editedOneTime = card.oneTime
 
             // Load OCR data if available
             if let ocrData = card.getOCRData() {
@@ -133,7 +156,7 @@ struct CardDetailView: View {
                     // Update card icon immediately when user selects one
                     if let icon = editedIcon {
                         card.setIcon(icon)
-                        try? modelContext.save()
+                        PersistenceHelper.save(modelContext, label: "CardDetailView.icon")
                     }
                 }
         }
@@ -526,7 +549,107 @@ struct CardDetailView: View {
         .background(Color.gray.opacity(0.1))
         .cornerRadius(12)
     }
-    
+
+    private var cardManagementSection: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("Settings")
+                .font(.headline)
+
+            // Tags
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Tags (comma separated)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                TextField("e.g., Grocery, Membership", text: $editedTags)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .autocapitalization(.words)
+            }
+
+            // Card type
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Card Type (Optional)")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                TextField("e.g., Gift Card", text: $editedCardType)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            }
+
+            // Expiry date
+            Toggle("Has Expiry Date", isOn: $editedHasExpiry)
+                .tint(.appPrimary)
+            if editedHasExpiry {
+                DatePicker("Expires On", selection: $editedExpiry, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+            }
+
+            // One-time use + used reset
+            Toggle("One-Time Use Card", isOn: $editedOneTime)
+                .tint(.appPrimary)
+            if card.oneTime {
+                HStack {
+                    Text("Status")
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    Text(card.usedAt != nil ? "Used" : "Available")
+                        .foregroundColor(card.usedAt != nil ? .red : .green)
+                    Button(card.usedAt != nil ? "Mark Unused" : "Mark Used") {
+                        card.usedAt = card.usedAt == nil ? Date() : nil
+                        card.updatedAt = Date()
+                        PersistenceHelper.save(modelContext, label: "CardDetailView.toggleUsed")
+                    }
+                    .font(.caption)
+                    .buttonStyle(.bordered)
+                }
+            }
+
+            // Location notifications opt-out
+            Toggle("Location Notifications", isOn: Binding(
+                get: { card.isGeofenceEnabled },
+                set: { newValue in
+                    card.isGeofenceEnabled = newValue
+                    PersistenceHelper.save(modelContext, label: "CardDetailView.geofenceToggle")
+                }
+            ))
+            .tint(.appPrimary)
+
+            // Geofence radius for the primary location
+            if card.locationLatitude != nil {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Notification Radius: \(Int(card.locationRadius)) m")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Slider(
+                        value: Binding(
+                            get: { card.locationRadius },
+                            set: { card.locationRadius = $0 }
+                        ),
+                        in: 50...1000,
+                        step: 50
+                    )
+                    .tint(.appPrimary)
+                }
+            }
+
+            Divider()
+
+            // Permanent delete
+            Button(role: .destructive) {
+                showingDeleteConfirm = true
+            } label: {
+                HStack {
+                    Image(systemName: "trash")
+                    Text("Delete Card")
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.bordered)
+            .tint(.red)
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(12)
+    }
+
     private var networksSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Where This Card Can Be Used")
@@ -711,6 +834,18 @@ struct CardDetailView: View {
 
                 Spacer()
 
+                // Clear all extracted text
+                Button(role: .destructive) {
+                    card.setOCRData(nil)
+                    editedFullText = ""
+                    editedOCRSegments = []
+                    PersistenceHelper.save(modelContext, label: "CardDetailView.clearOCR")
+                } label: {
+                    Image(systemName: "trash")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                }
+
                 // Show extraction date and confidence
                 VStack(alignment: .trailing, spacing: 2) {
                     Text("Extracted: \(ocrData.extractedAt.formatted(date: .abbreviated, time: .omitted))")
@@ -871,7 +1006,7 @@ struct CardDetailView: View {
                     isExtractingText = false
 
                     // Save to context
-                    try? modelContext.save()
+                    PersistenceHelper.save(modelContext, label: "CardDetailView.extractText")
                 }
             } catch {
                 await MainActor.run {
@@ -1021,6 +1156,16 @@ struct CardDetailView: View {
             card.setOCRData(ocrData)
         }
 
+        // Save tags
+        card.tags = editedTags
+            .split(separator: ",")
+            .map { $0.trimmingCharacters(in: .whitespaces) }
+            .filter { !$0.isEmpty }
+
+        // Save expiry and one-time flag
+        card.validTo = editedHasExpiry ? editedExpiry : nil
+        card.oneTime = editedOneTime
+
         card.updatedAt = Date()
 
         // Check database for matching networks after updating place name
@@ -1031,7 +1176,7 @@ struct CardDetailView: View {
         }
         
         // Save to SwiftData context
-        try? modelContext.save()
+        PersistenceHelper.save(modelContext, label: "CardDetailView.saveChanges")
     }
     
     private func checkDatabaseForPlace(_ placeName: String) async {
@@ -1090,7 +1235,7 @@ struct CardDetailView: View {
             decryptedPayload = payload
 
             // Save to SwiftData context
-            try? modelContext.save()
+            PersistenceHelper.save(modelContext, label: "CardDetailView.updateBarcode")
         } catch {
             errorMessage = "Failed to update barcode: \(error.localizedDescription)"
             showingError = true
@@ -1121,7 +1266,7 @@ struct CardDetailView: View {
             }
         }
 
-        try? modelContext.save()
+        PersistenceHelper.save(modelContext, label: "CardDetailView.propagateWebsite")
     }
 }
 

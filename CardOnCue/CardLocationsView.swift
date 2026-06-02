@@ -16,7 +16,6 @@ struct CardLocationsView: View {
     @State private var isLoading = false
     @State private var errorMessage: String?
     @State private var userLocation: CLLocation?
-    @State private var selectedLocationId: String?
 
     private let locationManager = CLLocationManager()
 
@@ -83,14 +82,31 @@ struct CardLocationsView: View {
                             .padding(.top, 16)
                             .padding(.bottom, 8)
 
+                            // Add-all shortcut
+                            Button {
+                                addAllNearby()
+                            } label: {
+                                Label("Add all \(networkName) locations nearby", systemImage: "plus.circle.fill")
+                                    .font(.subheadline)
+                                    .foregroundColor(.appBlue)
+                            }
+                            .padding(.bottom, 8)
+
                             // Locations list
                             ForEach(locations) { location in
-                                LocationRow(
+                                NetworkLocationRow(
                                     location: location,
-                                    isSelected: selectedLocationId == location.id,
-                                    isPrimary: card.locationLatitude == location.lat && card.locationLongitude == location.lon
+                                    isSelected: isAdded(location),
+                                    isPrimary: isPrimary(location)
                                 ) {
-                                    selectLocation(location)
+                                    toggle(location)
+                                }
+                                .contextMenu {
+                                    Button {
+                                        makePrimary(location)
+                                    } label: {
+                                        Label("Make Primary Location", systemImage: "star")
+                                    }
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -173,33 +189,104 @@ struct CardLocationsView: View {
         }
     }
 
-    private func selectLocation(_ location: NetworkLocationWithDistance) {
-        selectedLocationId = location.id
+    // MARK: - Location membership
 
-        // Update card with selected location
+    /// Is this location currently attached to the card (primary or additional)?
+    private func isAdded(_ location: NetworkLocationWithDistance) -> Bool {
+        if isPrimary(location) { return true }
+        return card.locations?.contains(where: { $0.id == location.id }) ?? false
+    }
+
+    private func isPrimary(_ location: NetworkLocationWithDistance) -> Bool {
+        card.locationLatitude == location.lat && card.locationLongitude == location.lon
+    }
+
+    /// Add or remove a location from the card's geofenced set.
+    private func toggle(_ location: NetworkLocationWithDistance) {
+        if let existing = card.locations?.first(where: { $0.id == location.id }) {
+            modelContext.delete(existing)
+        } else if isPrimary(location) {
+            // Remove the primary location.
+            card.locationName = nil
+            card.locationLatitude = nil
+            card.locationLongitude = nil
+        } else {
+            attach(location)
+            // First location added also becomes the primary.
+            if card.locationLatitude == nil {
+                applyAsPrimary(location)
+            }
+        }
+        recordNetworkId()
+        card.updatedAt = Date()
+        PersistenceHelper.save(modelContext, label: "CardLocationsView.toggle")
+        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    }
+
+    /// Promote a location to be the card's primary location.
+    private func makePrimary(_ location: NetworkLocationWithDistance) {
+        applyAsPrimary(location)
+        // Ensure it's also in the additional set so it stays listed as added.
+        if card.locations?.contains(where: { $0.id == location.id }) != true {
+            attach(location)
+        }
+        recordNetworkId()
+        card.updatedAt = Date()
+        PersistenceHelper.save(modelContext, label: "CardLocationsView.makePrimary")
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+    }
+
+    /// Add every nearby location that isn't already attached.
+    private func addAllNearby() {
+        for location in locations where !isAdded(location) {
+            attach(location)
+        }
+        if card.locationLatitude == nil, let first = locations.first {
+            applyAsPrimary(first)
+        }
+        recordNetworkId()
+        card.updatedAt = Date()
+        PersistenceHelper.save(modelContext, label: "CardLocationsView.addAll")
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+    }
+
+    private func attach(_ location: NetworkLocationWithDistance) {
+        let newLoc = CardLocation(
+            id: location.id,
+            latitude: location.lat,
+            longitude: location.lon,
+            name: location.name,
+            address: location.notes,
+            radius: location.radiusMeters,
+            networkId: networkId
+        )
+        modelContext.insert(newLoc)
+        newLoc.card = card
+    }
+
+    private func applyAsPrimary(_ location: NetworkLocationWithDistance) {
         card.locationName = location.name
         card.locationLatitude = location.lat
         card.locationLongitude = location.lon
         card.locationRadius = location.radiusMeters
-
         if let address = location.notes {
             card.setMetadata(address, for: "locationAddress")
         }
+    }
 
-        // Save changes
-        try? modelContext.save()
-
-        // Show confirmation
-        let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
-        impactFeedback.impactOccurred()
-
-        print("✅ Set primary location: \(location.name)")
+    private func recordNetworkId() {
+        if card.metadata["networkId"] == nil {
+            card.setMetadata(networkId, for: "networkId")
+        }
+        if !card.networkIds.contains(networkId) {
+            card.networkIds.append(networkId)
+        }
     }
 }
 
 // MARK: - Location Row
 
-struct LocationRow: View {
+struct NetworkLocationRow: View {
     let location: NetworkLocationWithDistance
     let isSelected: Bool
     let isPrimary: Bool

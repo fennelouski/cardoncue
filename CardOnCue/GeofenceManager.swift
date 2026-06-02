@@ -27,6 +27,10 @@ final class GeofenceManager: NSObject, ObservableObject {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 100 // Update every 100m
+        // Required for region-entry delivery while backgrounded (needs the
+        // "location" UIBackgroundMode, which is declared in Info.plist).
+        locationManager.allowsBackgroundLocationUpdates = true
+        locationManager.pausesLocationUpdatesAutomatically = false
         authorizationStatus = locationManager.authorizationStatus
     }
 
@@ -92,71 +96,68 @@ final class GeofenceManager: NSObject, ObservableObject {
         }
 
         do {
-            // Fetch all cards with locations
+            // Fetch all active cards and flatten every location they're valid at
+            // (primary + additional brand locations) into geofence targets.
             let descriptor = FetchDescriptor<CardModel>(
                 predicate: #Predicate { card in
-                    card.locationLatitude != nil && card.archivedAt == nil
+                    card.archivedAt == nil
                 }
             )
-            let cardsWithLocations = try modelContext.fetch(descriptor)
+            let cards = try modelContext.fetch(descriptor)
+            // Only monitor cards the user hasn't opted out of.
+            let allTargets = cards.filter { $0.isGeofenceEnabled }.flatMap { $0.geofenceTargets }
 
-            // Calculate distances and sort by nearest
-            let cardsWithDistances = cardsWithLocations.compactMap { card -> (CardModel, Double)? in
-                guard let lat = card.locationLatitude,
-                      let lon = card.locationLongitude else { return nil }
+            // Sort all targets by distance and take the 20 nearest (iOS limit).
+            let nearest = allTargets
+                .map { target -> (CardGeofenceTarget, Double) in
+                    let targetLocation = CLLocation(latitude: target.latitude, longitude: target.longitude)
+                    return (target, location.distance(from: targetLocation))
+                }
+                .sorted { $0.1 < $1.1 }
+                .prefix(maxGeofences)
+                .map { $0.0 }
 
-                let cardLocation = CLLocation(latitude: lat, longitude: lon)
-                let distance = location.distance(from: cardLocation)
-                return (card, distance)
-            }
-            .sorted { $0.1 < $1.1 } // Sort by distance
-
-            // Select the 20 nearest
-            let nearest20 = Array(cardsWithDistances.prefix(maxGeofences))
-
-            // Mark which cards should be actively monitored
-            for card in cardsWithLocations {
-                let shouldBeActive = nearest20.contains { $0.0.id == card.id }
+            // Mark which cards have at least one actively-monitored location.
+            let activeCardIds = Set(nearest.map { $0.cardId })
+            for card in cards {
+                let shouldBeActive = activeCardIds.contains(card.id)
                 if card.isGeofenceActive != shouldBeActive {
                     card.isGeofenceActive = shouldBeActive
                 }
             }
 
-            try modelContext.save()
+            PersistenceHelper.save(modelContext, label: "GeofenceManager.updateActiveGeofences")
 
             // Update iOS geofences
-            updateIOSGeofences(for: nearest20.map { $0.0 })
+            updateIOSGeofences(for: Array(nearest))
 
-            print("✅ Updated geofences: monitoring \(nearest20.count) locations")
+            print("✅ Updated geofences: monitoring \(nearest.count) locations")
 
         } catch {
             print("❌ Failed to update geofences: \(error)")
         }
     }
 
-    private func updateIOSGeofences(for cards: [CardModel]) {
+    private func updateIOSGeofences(for targets: [CardGeofenceTarget]) {
         // Remove all existing geofences
         for region in locationManager.monitoredRegions {
             locationManager.stopMonitoring(for: region)
         }
 
-        // Add new geofences
-        for card in cards {
-            guard let lat = card.locationLatitude,
-                  let lon = card.locationLongitude else { continue }
-
-            let center = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        // Add new geofences. Identifier encodes "<cardId>|<locationId>".
+        for target in targets {
+            let center = CLLocationCoordinate2D(latitude: target.latitude, longitude: target.longitude)
             let region = CLCircularRegion(
                 center: center,
-                radius: card.locationRadius,
-                identifier: card.id
+                radius: target.radius,
+                identifier: target.id
             )
 
             region.notifyOnEntry = true
             region.notifyOnExit = false // Only notify on entry
 
             locationManager.startMonitoring(for: region)
-            print("📍 Monitoring geofence for: \(card.name)")
+            print("📍 Monitoring geofence for: \(target.name)")
         }
     }
 
@@ -286,8 +287,9 @@ extension GeofenceManager: CLLocationManagerDelegate {
 
     nonisolated func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         Task { @MainActor in
-            guard let circularRegion = region as? CLCircularRegion,
-                  let card = getCard(for: circularRegion.identifier) else { return }
+            guard let circularRegion = region as? CLCircularRegion else { return }
+            let cardId = String(circularRegion.identifier.split(separator: "|").first ?? Substring(circularRegion.identifier))
+            guard let card = getCard(for: cardId) else { return }
 
             print("✅ Entered geofence for: \(card.name)")
 
@@ -309,13 +311,15 @@ extension GeofenceManager: CLLocationManagerDelegate {
             // Update last used timestamp (optional)
             card.metadata["lastGeofenceEntry"] = ISO8601DateFormatter().string(from: Date())
             card.updatedAt = Date()
+            if let modelContext { PersistenceHelper.save(modelContext, label: "GeofenceManager.didEnterRegion") }
         }
     }
 
     nonisolated func locationManager(_ manager: CLLocationManager, didExitRegion region: CLRegion) {
         Task { @MainActor in
-            guard let circularRegion = region as? CLCircularRegion,
-                  let card = getCard(for: circularRegion.identifier) else { return }
+            guard let circularRegion = region as? CLCircularRegion else { return }
+            let cardId = String(circularRegion.identifier.split(separator: "|").first ?? Substring(circularRegion.identifier))
+            guard let card = getCard(for: cardId) else { return }
 
             print("🚶 Exited geofence for: \(card.name)")
         }

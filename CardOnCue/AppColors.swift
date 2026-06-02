@@ -20,9 +20,16 @@ import SwiftUI
 
 extension Color {
     /// Primary red color from the app icon (location pin)
-    /// Alias for the auto-generated accentColor
-    static var appPrimary: Color {
-        .accentColor
-    }
+    /// Alias for the AccentColor asset.
+    static var appPrimary: Color { .accentColor }
+
+    // Named color sets from Assets.xcassets. Loaded by name so they work
+    // regardless of whether Xcode asset-symbol generation is enabled.
+    static let appBlue = Color("AppBlue")
+    static let appGreen = Color("AppGreen")
+    static let appBeige = Color("AppBeige")
+    static let appCream = Color("AppCream")
+    static let appLightGray = Color("AppLightGray")
+    static let appBackground = Color("AppBackground")
 }
 

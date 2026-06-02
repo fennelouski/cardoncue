@@ -198,7 +198,7 @@ struct BatchLocationPickerSheet: View {
         // Update usage stats
         location.lastUsedDate = Date()
         location.usageCount += 1
-        try? modelContext.save()
+        PersistenceHelper.save(modelContext, label: "BatchLocationPickerSheet")
 
         dismiss()
     }

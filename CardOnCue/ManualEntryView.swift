@@ -277,7 +277,7 @@ struct ManualEntryView: View {
 
                 // Create card with encrypted payload
                 let card = try CardModel.createWithEncryptedPayload(
-                    userId: "local", // TODO: Replace with actual user ID when auth is implemented
+                    userId: AppUser.id,
                     name: trimmedCardName,
                     barcodeType: selectedBarcodeType,
                     payload: barcodeNumber.trimmingCharacters(in: .whitespacesAndNewlines),
@@ -317,7 +317,7 @@ struct ManualEntryView: View {
                 // Save to SwiftData
                 await MainActor.run {
                     modelContext.insert(card)
-                    try? modelContext.save()
+                    PersistenceHelper.save(modelContext, label: "ManualEntryView.save")
                 }
 
                 // Success! Dismiss the view

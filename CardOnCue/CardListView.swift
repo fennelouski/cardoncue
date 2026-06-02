@@ -15,23 +15,28 @@ struct CardListView: View {
         cameraPermission.isCameraAvailable && cameraPermission.permissionStatus != .unavailable
     }
 
-    // Computed property for grouped cards
-    private var groupedCards: [(brand: String, cards: [CardModel])] {
-        let grouped = Dictionary(grouping: cards) { $0.brandName }
+    // Computed property for grouped cards.
+    // Cards are grouped by a stable place/brand key (network id when known,
+    // else normalized brand) so the same place groups across cardholders.
+    private var groupedCards: [(key: String, brand: String, cards: [CardModel])] {
+        let grouped = Dictionary(grouping: cards) { $0.groupKey }
 
-        // Sort groups alphabetically
-        let sorted = grouped.sorted { $0.key < $1.key }
-
-        // Move "Other" to end
-        var result = sorted.filter { $0.key != "Other" }
-        if let other = sorted.first(where: { $0.key == "Other" }) {
-            result.append(other)
+        var groups: [(key: String, brand: String, cards: [CardModel])] = grouped.map { (key, cards) in
+            let sortedCards = cards.sorted { $0.createdAt > $1.createdAt }
+            // Display title: prefer a non-"Other" brand name from the group.
+            let title = sortedCards.first(where: { $0.brandName != "Other" })?.brandName
+                ?? sortedCards.first?.brandName
+                ?? "Other"
+            return (key, title, sortedCards)
         }
 
-        // Within each group, sort by createdAt (newest first)
-        return result.map { (brand, cards) in
-            (brand, cards.sorted { $0.createdAt > $1.createdAt })
+        // Sort groups alphabetically by title, with "Other" last.
+        groups.sort { lhs, rhs in
+            if lhs.brand == "Other" { return false }
+            if rhs.brand == "Other" { return true }
+            return lhs.brand.localizedCaseInsensitiveCompare(rhs.brand) == .orderedAscending
         }
+        return groups
     }
 
     var body: some View {
@@ -72,7 +77,7 @@ struct CardListView: View {
 
     private var cardListView: some View {
         List {
-            ForEach(groupedCards, id: \.brand) { group in
+            ForEach(groupedCards, id: \.key) { group in
                 Section(header: BrandSectionHeader(
                     brandName: group.brand,
                     cardCount: group.cards.count
@@ -101,6 +106,7 @@ struct CardListView: View {
             card.archivedAt = Date()
             card.updatedAt = Date()
         }
+        PersistenceHelper.save(modelContext, label: "CardListView.deleteCards")
     }
 
 }
@@ -142,7 +148,11 @@ struct CardRowView: View {
                     .font(.headline)
                     .foregroundColor(.appBlue)
 
-                if let locationName = card.locationName, !locationName.isEmpty {
+                if let cardholder = card.cardholderName {
+                    Text(cardholder)
+                        .font(.caption)
+                        .foregroundColor(.appLightGray)
+                } else if let locationName = card.locationName, !locationName.isEmpty {
                     Text(locationName)
                         .font(.caption)
                         .foregroundColor(.appLightGray)

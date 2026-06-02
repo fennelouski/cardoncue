@@ -112,8 +112,12 @@ class APIClient {
         }
     }
 
+    /// Production base URL, used as a safe fallback for an invalid override.
+    static let defaultBaseURL = "https://cardoncue.vercel.app/api"
+
     init(baseURL: String, keychainService: KeychainService) {
-        self.baseURL = URL(string: baseURL)!
+        // Never crash on a malformed base URL; fall back to the known-good default.
+        self.baseURL = URL(string: baseURL) ?? URL(string: APIClient.defaultBaseURL)!
         self.keychainService = keychainService
         self.session = URLSession.shared
     }

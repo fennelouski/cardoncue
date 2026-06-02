@@ -2,14 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CLERK_PUBLISHABLE_KEY</key>
-	<string>pk_test_Z3VpZGluZy13cmVuLTk0LmNsZXJrLmFjY291bnRzLmRldiQ</string>
+	<key>API_BASE_URL</key>
+	<string>https://cardoncue.vercel.app/api</string>
 	<key>NSCameraUsageDescription</key>
 	<string>CardOnCue needs access to your camera to scan barcodes on your membership and loyalty cards. Your photos are never saved.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>CardOnCue needs access to your photo library so you can import pictures of your membership and loyalty cards.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>CardOnCue uses your location to find nearby stores for your cards and to remind you when a saved card is ready to use.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>CardOnCue uses your location in the background to notify you when you arrive at a store where you have a saved card.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 		<string>location</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIColorName</key>
+		<string>AppBackground</string>
+	</dict>
 </dict>
 </plist>

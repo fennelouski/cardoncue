@@ -656,8 +656,10 @@ struct ScannedCardReviewView: View {
 
                 // Extract OCR text for signature (we'll wait a bit for OCR to complete)
                 try? await Task.sleep(nanoseconds: 500_000_000) // Wait 0.5s for OCR
-                let textSignature = parsedCardData?.fullText
+                let textSignature = parsedCardData?.rawText
+                    .joined(separator: " ")
                     .components(separatedBy: .whitespacesAndNewlines)
+                    .filter { !$0.isEmpty }
                     .joined(separator: " ")
                     .lowercased()
 
@@ -872,7 +874,7 @@ struct ScannedCardReviewView: View {
 
                 // Create card with encrypted payload
                 let card = try CardModel.createWithEncryptedPayload(
-                    userId: "local",
+                    userId: AppUser.id,
                     name: trimmedCardName,
                     barcodeType: barcodeType,
                     payload: barcodeNumber,
@@ -924,64 +926,67 @@ struct ScannedCardReviewView: View {
                     )
                 }
                 
-                // Save images if available
-                if let processed = processedImage {
-                    // Save original image
+                // ALWAYS persist the original image, independent of whether
+                // background processing has finished (or succeeded). The user
+                // may tap Save before `processImage` completes, in which case
+                // `processedImage` is still nil but `capturedImage` is not.
+                let originalToSave = capturedImage ?? processedImage?.original
+                if let original = originalToSave {
                     if let originalURL = try? imageStorage.saveImage(
-                        processed.original,
+                        original,
                         cardId: card.id,
                         isProcessed: false
                     ) {
                         card.originalImageURL = originalURL.path
                     }
-                    
-                    // Save processed image if available
-                    if let processedImg = processed.processed,
-                       let processedURL = try? imageStorage.saveImage(
-                        processedImg,
-                        cardId: card.id,
-                        isProcessed: true
-                    ) {
-                        card.processedImageURL = processedURL.path
-                        card.processingConfidence = Double(processed.confidence)
-                        card.useProcessedImage = useProcessedImage && processed.isProcessed
-                        
-                        // Save processing metadata
-                        if let metadata = processed.processingMetadata {
-                            card.setProcessingMetadata(metadata)
-                        }
-                    } else {
-                        // No processed image, use original
-                        card.useProcessedImage = false
+                }
+
+                // Save processed image if available
+                if let processed = processedImage,
+                   let processedImg = processed.processed,
+                   let processedURL = try? imageStorage.saveImage(
+                    processedImg,
+                    cardId: card.id,
+                    isProcessed: true
+                ) {
+                    card.processedImageURL = processedURL.path
+                    card.processingConfidence = Double(processed.confidence)
+                    card.useProcessedImage = useProcessedImage && processed.isProcessed
+
+                    // Save processing metadata
+                    if let metadata = processed.processingMetadata {
+                        card.setProcessingMetadata(metadata)
                     }
+                } else {
+                    // No processed image, use original
+                    card.useProcessedImage = false
+                }
 
-                    // Save OCR data if it was extracted
-                    if let ocrData = ocrDataToSave {
-                        card.setOCRData(ocrData)
+                // Save OCR data if it was extracted (independent of processing)
+                if let ocrData = ocrDataToSave {
+                    card.setOCRData(ocrData)
 
-                        // Save website URL to metadata
-                        if let websiteUrl = websiteUrl {
-                            card.setMetadata(websiteUrl, for: "websiteUrl")
-                        }
+                    // Save website URL to metadata
+                    if let websiteUrl = websiteUrl {
+                        card.setMetadata(websiteUrl, for: "websiteUrl")
                     }
+                }
 
-                    // Save barcode bounding box for auto-crop fallback
-                    if let boundingBox = barcodeBoundingBox {
-                        // Use provided bounding box from scanner
-                        card.barcodeBoundingBox = boundingBox
-                    } else {
-                        // Try to detect barcode bounding box from image
-                        let imageToAnalyze = processed.processed ?? processed.original
-                        if let detected = await BarcodeQualityService.shared.detectBestBarcode(in: imageToAnalyze) {
-                            card.barcodeBoundingBox = detected.boundingBox
-                        }
+                // Save barcode bounding box for auto-crop fallback
+                if let boundingBox = barcodeBoundingBox {
+                    // Use provided bounding box from scanner
+                    card.barcodeBoundingBox = boundingBox
+                } else if let imageToAnalyze = processedImage?.processed ?? originalToSave {
+                    // Try to detect barcode bounding box from image
+                    if let detected = await BarcodeQualityService.shared.detectBestBarcode(in: imageToAnalyze) {
+                        card.barcodeBoundingBox = detected.boundingBox
                     }
                 }
 
                 // Save to SwiftData
                 await MainActor.run {
                     modelContext.insert(card)
-                    try? modelContext.save()
+                    PersistenceHelper.save(modelContext, label: "ScannedCardReviewView.saveCard")
                 }
 
                 // Success! Dismiss and call completion

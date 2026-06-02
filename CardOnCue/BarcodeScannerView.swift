@@ -707,7 +707,7 @@ struct BarcodeScannerView: View {
 
             // Create card
             let card = try CardModel.createWithEncryptedPayload(
-                userId: "local",
+                userId: AppUser.id,
                 name: cardName,
                 barcodeType: barcodeType,
                 payload: barcodePayload,
@@ -748,7 +748,7 @@ struct BarcodeScannerView: View {
             // Save card to SwiftData
             await MainActor.run {
                 modelContext.insert(card)
-                try? modelContext.save()
+                PersistenceHelper.save(modelContext, label: "BarcodeScannerView.saveCard")
 
                 // Add to recent scans
                 let autoSavedCard = AutoSavedCard(

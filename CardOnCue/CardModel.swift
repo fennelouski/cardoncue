@@ -28,7 +28,12 @@ final class CardModel {
     var locationRadius: Double = 100.0 // Default 100m radius
     var locationName: String? = nil // e.g., "LA Fitness - Main St"
     var isGeofenceActive: Bool = false // Is this currently one of the 20 monitored?
-    
+
+    // Additional brand/network locations this card is valid at, beyond the
+    // primary location stored in the fields above (e.g. every branch of a chain).
+    @Relationship(deleteRule: .cascade, inverse: \CardLocation.card)
+    var locations: [CardLocation]? = nil
+
     // Image data for card photos
     var originalImageURL: String? = nil // File path to original image
     var processedImageURL: String? = nil // File path to processed (cropped/straightened) image
@@ -408,6 +413,104 @@ extension CardModel {
 
         return cleaned.trimmingCharacters(in: .whitespaces)
     }
+}
+
+// MARK: - Grouping & Locations
+extension CardModel {
+    /// Stable key used to group cards for the same place/brand across cardholders.
+    /// Prefers a backend-recognized network id; falls back to the normalized brand.
+    var groupKey: String {
+        if let networkId = metadata["networkId"], !networkId.isEmpty { return networkId }
+        if let first = networkIds.first, !first.isEmpty { return first }
+        return brandName.lowercased()
+    }
+
+    /// The cardholder this card belongs to (for family-grouping subtitles).
+    var cardholderName: String? {
+        let name = metadata["personName"] ?? ""
+        return name.isEmpty ? nil : name
+    }
+
+    /// Whether this card participates in location notifications (user toggle, default on).
+    var isGeofenceEnabled: Bool {
+        get { metadata["geofenceEnabled"] != "false" }
+        set {
+            metadata["geofenceEnabled"] = newValue ? "true" : "false"
+            updatedAt = Date()
+        }
+    }
+
+    /// All geofence-able locations for this card: the primary location (if set)
+    /// plus any additional brand locations.
+    var geofenceTargets: [CardGeofenceTarget] {
+        var targets: [CardGeofenceTarget] = []
+        if let lat = locationLatitude, let lon = locationLongitude {
+            targets.append(CardGeofenceTarget(
+                cardId: id,
+                locationId: "primary",
+                latitude: lat,
+                longitude: lon,
+                radius: locationRadius,
+                name: locationName ?? name
+            ))
+        }
+        for loc in locations ?? [] {
+            targets.append(CardGeofenceTarget(
+                cardId: id,
+                locationId: loc.id,
+                latitude: loc.latitude,
+                longitude: loc.longitude,
+                radius: loc.radius,
+                name: loc.name.isEmpty ? name : loc.name
+            ))
+        }
+        return targets
+    }
+}
+
+/// SwiftData model for an additional location a card is valid at.
+@Model
+final class CardLocation {
+    var id: String = UUID().uuidString
+    var latitude: Double = 0
+    var longitude: Double = 0
+    var name: String = ""
+    var address: String? = nil
+    var radius: Double = 100.0
+    var networkId: String? = nil
+    var isGeofenceActive: Bool = false
+    var card: CardModel? = nil
+
+    init(
+        id: String = UUID().uuidString,
+        latitude: Double,
+        longitude: Double,
+        name: String,
+        address: String? = nil,
+        radius: Double = 100.0,
+        networkId: String? = nil
+    ) {
+        self.id = id
+        self.latitude = latitude
+        self.longitude = longitude
+        self.name = name
+        self.address = address
+        self.radius = radius
+        self.networkId = networkId
+    }
+}
+
+/// A flattened geofence target (primary or additional location) for monitoring.
+struct CardGeofenceTarget: Identifiable {
+    let cardId: String
+    let locationId: String   // "primary" or a CardLocation id
+    let latitude: Double
+    let longitude: Double
+    let radius: Double
+    let name: String
+
+    /// Region identifier used with CLCircularRegion: "<cardId>|<locationId>".
+    var id: String { "\(cardId)|\(locationId)" }
 }
 
 // MARK: - Encryption Helper

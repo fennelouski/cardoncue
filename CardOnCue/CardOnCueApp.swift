@@ -7,15 +7,11 @@
 
 import SwiftUI
 import SwiftData
-import Clerk
 
 @main
 struct CardOnCueApp: App {
     // App Delegate for notification handling
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
-    // Clerk authentication (official SDK)
-    @State private var clerk = Clerk.shared
 
     // Services
     @StateObject private var onboardingService = OnboardingService()
@@ -29,14 +25,18 @@ struct CardOnCueApp: App {
             // Configure SwiftData with CloudKit
             let schema = Schema([
                 CardModel.self,
+                CardLocation.self,
                 SavedLocation.self
             ])
 
-            // Try CloudKit configuration first
+            // Use CloudKit automatically when the iCloud entitlement/container
+            // is present; otherwise SwiftData stays local. Forcing
+            // .private(...) without the entitlement crashes CloudKit mirroring
+            // asynchronously at launch, so .automatic is the safe choice.
             let modelConfiguration = ModelConfiguration(
                 schema: schema,
                 isStoredInMemoryOnly: false,
-                cloudKitDatabase: .private("iCloud.com.cardoncue.app")
+                cloudKitDatabase: .automatic
             )
 
             modelContainer = try ModelContainer(
@@ -53,6 +53,7 @@ struct CardOnCueApp: App {
             do {
                 let schema = Schema([
                     CardModel.self,
+                    CardLocation.self,
                     SavedLocation.self
                 ])
                 let localConfiguration = ModelConfiguration(
@@ -75,21 +76,17 @@ struct CardOnCueApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
-                .environment(\.clerk, clerk)
                 .environment(\.apiClient, apiClient)
                 .environmentObject(onboardingService)
                 .task {
-                    // Configure Clerk with publishable key
-                    clerk.configure(publishableKey: "pk_test_Z3VpZGluZy13cmVuLTk0LmNsZXJrLmFjY291bnRzLmRldiQ")
-
-                    // Load Clerk session
-                    try? await clerk.load()
-
-                    // Initialize API client
-                    // TODO: Replace with production URL when deploying
+                    // Initialize API client. Base URL is overridable via the
+                    // API_BASE_URL Info.plist key (per build config); otherwise
+                    // it uses the production default.
                     let keychainService = KeychainService()
+                    let configuredBaseURL = (Bundle.main.object(forInfoDictionaryKey: "API_BASE_URL") as? String)
+                        .flatMap { $0.isEmpty ? nil : $0 } ?? APIClient.defaultBaseURL
                     let client = APIClient(
-                        baseURL: "https://cardoncue.vercel.app/api",
+                        baseURL: configuredBaseURL,
                         keychainService: keychainService
                     )
                     apiClient = client

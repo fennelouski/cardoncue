@@ -1,5 +1,4 @@
 import SwiftUI
-import Clerk
 
 // PreferenceKey to track scroll offset
 struct ScrollOffsetPreferenceKey: PreferenceKey {
@@ -10,10 +9,8 @@ struct ScrollOffsetPreferenceKey: PreferenceKey {
 }
 
 struct OnboardingView: View {
-    @Environment(\.clerk) private var clerk
     @EnvironmentObject var onboardingService: OnboardingService
     @State private var currentPage = 0
-    @State private var showSignIn = false
     @State private var scrollOffset: CGFloat = 0
 
     private let pages = [
@@ -157,18 +154,6 @@ struct OnboardingView: View {
                 .padding(.bottom, 24)
             }
         }
-        .sheet(isPresented: $showSignIn) {
-            AuthView()
-                .environment(\.clerk, clerk)
-        }
-        .overlay(alignment: .topTrailing) {
-            if clerk.user == nil {
-                SignInButton(
-                    scrollOffset: scrollOffset,
-                    action: { showSignIn = true }
-                )
-            }
-        }
     }
 
     private func completeOnboarding() {
@@ -307,5 +292,4 @@ struct OnboardingPageView: View {
 #Preview {
     OnboardingView()
         .environmentObject(OnboardingService())
-        .environment(\.clerk, Clerk.shared)
 }
