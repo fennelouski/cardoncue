@@ -15,6 +15,7 @@
 		1082738660F19B36D46D8DDB /* WatchAppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87A9EEF1E0135B32D8A92E2 /* WatchAppColors.swift */; };
 		1308D851E10BDD5342DDD50F /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD80F0C53F1039B9BB9D104 /* StorageService.swift */; };
 		16B562BA91B324C184F6E421 /* SavedLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58F522E185E493BA527369E /* SavedLocation.swift */; };
+		B83DAC7B01FF48AA986AF54A /* ArchivedCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465FA411AE084BE19C97DE3B /* ArchivedCardsView.swift */; };
 		195A04929DD6A66C6C61DFBC /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E23050A66A78F0FE1E538E1 /* CardDetailView.swift */; };
 		1EE98AC3E24BCD1D1F73389F /* AutoSaveToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB9C90938097C830D34FD6 /* AutoSaveToast.swift */; };
 		1F42BF65CC8D9361C9128CF8 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F6AFEC3601BD3738C80A29 /* Location.swift */; };
@@ -83,7 +84,6 @@
 		F213B7FE84CED02916930E24 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCE93D779A2B5D10C49EAB1 /* CardModel.swift */; };
 		F3293B8617BBBC66310A5504 /* AutoPopulatedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F630E95A6C37A3E9755F187 /* AutoPopulatedTextFieldStyle.swift */; };
 		F506CB6533330250045CF17E /* BarcodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C3B0A251DE6E634FAA0418 /* BarcodeService.swift */; };
-		F62528614A8A7B9A3264610C /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32A10E250A85806A612106D0 /* LocationService.swift */; };
 		F639D34FBFBBDCA5D410009F /* NotificationEducationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D3DEF31255334C60FB24C6 /* NotificationEducationView.swift */; };
 		F8E5C545733F81EC4FB1CDE9 /* CameraPermissionPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8822C9FD89264E18159BFF5 /* CameraPermissionPromptView.swift */; };
 		FBBA2E780E9653433A81ECD4 /* CardImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8FE82F7545B11015F0AD7F /* CardImageProcessor.swift */; };
@@ -151,9 +151,9 @@
 		2A5F8405D48F8D6641F394B8 /* PhotoLibraryImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryImportView.swift; sourceTree = "<group>"; };
 		2DBC2369A35FCEE5D1DFE7E6 /* BarcodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeType.swift; sourceTree = "<group>"; };
 		2DCE93D779A2B5D10C49EAB1 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		465FA411AE084BE19C97DE3B /* ArchivedCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedCardsView.swift; sourceTree = "<group>"; };
 		2E23050A66A78F0FE1E538E1 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
 		2F203612E1E177E7A244A120 /* DrawingPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPadView.swift; sourceTree = "<group>"; };
-		32A10E250A85806A612106D0 /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		333280C5C1B8A48B9D2C6753 /* BatchLocationPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchLocationPickerSheet.swift; sourceTree = "<group>"; };
 		334A437789120201E165EDB8 /* CardDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDataParser.swift; sourceTree = "<group>"; };
 		3ACB9C90938097C830D34FD6 /* AutoSaveToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSaveToast.swift; sourceTree = "<group>"; };
@@ -244,6 +244,7 @@
 				C8822C9FD89264E18159BFF5 /* CameraPermissionPromptView.swift */,
 				7E689CF3FDE82C8283958E33 /* Card.swift */,
 				334A437789120201E165EDB8 /* CardDataParser.swift */,
+				465FA411AE084BE19C97DE3B /* ArchivedCardsView.swift */,
 				2E23050A66A78F0FE1E538E1 /* CardDetailView.swift */,
 				0D7B7F76D53E0163B53279B6 /* CardIcon.swift */,
 				DB1F7FAD025EA658C143FDD5 /* CardIconService.swift */,
@@ -276,7 +277,6 @@
 				E1F9355AA6292D771E3C670C /* LocationPermissionView.swift */,
 				B620D35B64596A5F81CB2462 /* LocationSearchField.swift */,
 				B7E8C6490938862FC2B75D5E /* LocationSearchService.swift */,
-				32A10E250A85806A612106D0 /* LocationService.swift */,
 				7F4DD3822F228D018F9ADCCF /* MainView.swift */,
 				6AD2DDE34A702A843F6E8040 /* ManualEntryView.swift */,
 				0BA26D39560DAB3283B5E498 /* Network.swift */,
@@ -524,6 +524,7 @@
 				F8E5C545733F81EC4FB1CDE9 /* CameraPermissionPromptView.swift in Sources */,
 				6F22B8AB8A590C94C90F9AAE /* Card.swift in Sources */,
 				0E611F9B1F1FAEF336CEAB21 /* CardDataParser.swift in Sources */,
+				B83DAC7B01FF48AA986AF54A /* ArchivedCardsView.swift in Sources */,
 				195A04929DD6A66C6C61DFBC /* CardDetailView.swift in Sources */,
 				B22C4B3E86DAAE0F2A865490 /* CardIcon.swift in Sources */,
 				FC070687F5BDE1E28D6BA14B /* CardIconService.swift in Sources */,
@@ -553,7 +554,6 @@
 				5B7746313CC9BFE6F472F8F6 /* LocationPermissionView.swift in Sources */,
 				B867BD70E6556F37501A1B30 /* LocationSearchField.swift in Sources */,
 				5F7DF3C267FE04A36362568E /* LocationSearchService.swift in Sources */,
-				F62528614A8A7B9A3264610C /* LocationService.swift in Sources */,
 				B8EC78F3CB2EE5BD7522C052 /* MainView.swift in Sources */,
 				930C346736115F1748985E03 /* ManualEntryView.swift in Sources */,
 				0D1782590D7484A0820D07D7 /* Network.swift in Sources */,

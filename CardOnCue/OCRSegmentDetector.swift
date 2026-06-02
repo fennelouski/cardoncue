@@ -8,9 +8,17 @@ class OCRSegmentDetector {
 
     /// Detect and segment text from OCR result
     func detectSegments(from ocrResult: VisionOCRService.OCRResult, parsedData: ParsedCardData?) -> [OCRField] {
+        // Split pipe-separated values onto their own lines so phone and website
+        // on the same line (e.g. "303.555.1234 | example.org") are each detected.
         let textLines = ocrResult.allText.components(separatedBy: .newlines)
             .map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }
             .filter { !$0.isEmpty }
+            .flatMap { line -> [String] in
+                let parts = line.components(separatedBy: " | ")
+                    .map { $0.trimmingCharacters(in: .whitespaces) }
+                    .filter { !$0.isEmpty }
+                return parts.count > 1 ? parts : [line]
+            }
 
         var segments: [OCRField] = []
         var usedLineIndices = Set<Int>()
@@ -98,24 +106,24 @@ class OCRSegmentDetector {
             }
         }
 
-        // 7. Card Type (e.g., "Fun Pass", "Gold Card", "Membership")
+        // 7. Membership level (before card type so "Gold Membership" isn't consumed as a card type)
         for (index, line) in textLines.enumerated() where !usedLineIndices.contains(index) {
-            if let cardType = detectCardType(in: line) {
+            if let membershipLevel = detectMembershipLevel(in: line) {
                 segments.append(OCRField(
-                    type: .cardType,
-                    value: cardType,
+                    type: .membershipLevel,
+                    value: membershipLevel,
                     sourceLineIndex: index
                 ))
                 usedLineIndices.insert(index)
             }
         }
 
-        // 8. Membership level
+        // 8. Card Type (e.g., "Fun Pass", "Gold Card", "Membership")
         for (index, line) in textLines.enumerated() where !usedLineIndices.contains(index) {
-            if let membershipLevel = detectMembershipLevel(in: line) {
+            if let cardType = detectCardType(in: line) {
                 segments.append(OCRField(
-                    type: .membershipLevel,
-                    value: membershipLevel,
+                    type: .cardType,
+                    value: cardType,
                     sourceLineIndex: index
                 ))
                 usedLineIndices.insert(index)
@@ -171,6 +179,11 @@ class OCRSegmentDetector {
     // MARK: - Pattern Detection
 
     private func detectMemberId(in text: String) -> String? {
+        // Skip URL-like or email-like lines so website/email detectors get priority.
+        if text.contains("@") || text.range(of: #"\.[a-zA-Z]{2,}$"#, options: .regularExpression) != nil {
+            return nil
+        }
+
         // Pattern: Look for "ID:", "Member:", "Number:", etc. followed by alphanumeric
         let patterns = [
             #"(?:ID|Member|Card|Account|Number)\s*[:#]?\s*([A-Z0-9-]{5,})"#,
@@ -178,14 +191,18 @@ class OCRSegmentDetector {
             #"\b(\d{8,})\b"# // Standalone long numeric (8+ digits)
         ]
 
-        for pattern in patterns {
+        for (i, pattern) in patterns.enumerated() {
             if let regex = try? NSRegularExpression(pattern: pattern, options: .caseInsensitive),
                let match = regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) {
                 // Try to get capture group first, fallback to full match
                 let captureRange = match.range(at: 1)
                 let rangeToUse = captureRange.location != NSNotFound ? captureRange : match.range
                 guard let range = Range(rangeToUse, in: text) else { continue }
-                return String(text[range])
+                let candidate = String(text[range])
+                // Pattern 2 (standalone long alphanumeric): require at least one digit
+                // so plain English words (e.g. "Louisville") aren't treated as IDs.
+                if i == 1 && !candidate.contains(where: { $0.isNumber }) { continue }
+                return candidate
             }
         }
         return nil
@@ -388,14 +405,17 @@ class OCRSegmentDetector {
             }
         }
 
-        // Pattern 2: Standalone 4 digit number (common for PINs) - be conservative
-        // Only match if the line is short and doesn't look like a longer ID
+        // Pattern 2: Standalone 4-digit number — be conservative.
+        // Exclude years (2000-2099) so they flow through to season detection.
         if text.count <= 15 && !lowercased.contains("member") && !lowercased.contains("card") {
             let pattern = #"^\s*(\d{4})\s*$"#
             if let regex = try? NSRegularExpression(pattern: pattern),
                let match = regex.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)),
                let range = Range(match.range(at: 1), in: text) {
-                return String(text[range])
+                let digits = String(text[range])
+                if let num = Int(digits), !(num >= 2000 && num <= 2099) {
+                    return digits
+                }
             }
         }
 

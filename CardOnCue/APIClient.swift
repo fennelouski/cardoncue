@@ -246,17 +246,17 @@ class APIClient {
         return try await get(endpoint)
     }
 
-    // MARK: - Region Refresh
-
-    func refreshRegions(_ request: RegionRefreshRequest) async throws -> RegionRefreshResponse {
-        let endpoint = "/v1/region-refresh"
-        return try await post(endpoint, body: request)
-    }
-
     // MARK: - Generic HTTP Methods
 
+    /// Build a URL preserving any query string in endpoint (appendingPathComponent percent-encodes "?").
+    private func buildURL(for endpoint: String) -> URL? {
+        let base = baseURL.absoluteString.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+        let path = endpoint.hasPrefix("/") ? endpoint : "/" + endpoint
+        return URL(string: base + path)
+    }
+
     private func get<T: Decodable>(_ endpoint: String, authenticated: Bool = true) async throws -> T {
-        let url = baseURL.appendingPathComponent(endpoint)
+        guard let url = buildURL(for: endpoint) else { throw APIError.invalidURL }
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
 
@@ -268,7 +268,7 @@ class APIClient {
     }
 
     private func post<T: Decodable, U: Encodable>(_ endpoint: String, body: U, authenticated: Bool = true) async throws -> T {
-        let url = baseURL.appendingPathComponent(endpoint)
+        guard let url = buildURL(for: endpoint) else { throw APIError.invalidURL }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -286,7 +286,7 @@ class APIClient {
     }
 
     private func post<T: Decodable>(_ endpoint: String, body: [String: Any], authenticated: Bool = true) async throws -> T {
-        let url = baseURL.appendingPathComponent(endpoint)
+        guard let url = buildURL(for: endpoint) else { throw APIError.invalidURL }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")

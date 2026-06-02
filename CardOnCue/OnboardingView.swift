@@ -163,53 +163,6 @@ struct OnboardingView: View {
     }
 }
 
-// Sign In button that responds to scroll offset
-struct SignInButton: View {
-    let scrollOffset: CGFloat
-    let action: () -> Void
-
-    private var scrollProgress: CGFloat {
-        // Progress from 0 (at top) to 1 (scrolled down)
-        // Transition happens over first 100 points of scroll
-        min(max(-scrollOffset / 100, 0), 1)
-    }
-
-    private var backgroundOpacity: CGFloat {
-        // Fade background from 0.1 to 0 as user scrolls
-        0.1 * (1 - scrollProgress)
-    }
-
-    private var horizontalPadding: CGFloat {
-        // Move from 24 to 16 as user scrolls
-        24 - (8 * scrollProgress)
-    }
-
-    private var verticalPadding: CGFloat {
-        // Move from 16 to 8 as user scrolls
-        16 - (8 * scrollProgress)
-    }
-
-    private var buttonPadding: CGFloat {
-        // Reduce button padding as user scrolls
-        16 - (4 * scrollProgress)
-    }
-
-    var body: some View {
-        Button(action: action) {
-            Text("Sign In")
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .foregroundColor(.appPrimary)
-                .padding(.horizontal, buttonPadding)
-                .padding(.vertical, 8)
-                .background(Color.appPrimary.opacity(backgroundOpacity))
-                .cornerRadius(8)
-        }
-        .padding(.horizontal, horizontalPadding)
-        .padding(.top, verticalPadding)
-        .animation(.easeOut(duration: 0.2), value: scrollOffset)
-    }
-}
 
 struct OnboardingPage {
     let title: String

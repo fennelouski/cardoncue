@@ -10,6 +10,7 @@ struct CardListView: View {
 
     @StateObject private var cameraPermission = CameraPermissionManager()
     @State private var showingAddCardView = false
+    @State private var showingArchivedCards = false
     
     private var isCameraAvailable: Bool {
         cameraPermission.isCameraAvailable && cameraPermission.permissionStatus != .unavailable
@@ -56,11 +57,18 @@ struct CardListView: View {
                         .toolbar {
                             ToolbarItem(placement: .navigationBarTrailing) {
                                 Button(action: {
-                                    // Show swipeable add card view
                                     showingAddCardView = true
                                 }) {
                                     Image(systemName: "plus")
                                         .foregroundColor(.appPrimary)
+                                }
+                            }
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Button(action: {
+                                    showingArchivedCards = true
+                                }) {
+                                    Image(systemName: "archivebox")
+                                        .foregroundColor(.secondary)
                                 }
                             }
                         }
@@ -71,6 +79,9 @@ struct CardListView: View {
                     canScan: isCameraAvailable && cameraPermission.permissionStatus != .denied
                 )
                 .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $showingArchivedCards) {
+                ArchivedCardsView()
             }
         }
     }

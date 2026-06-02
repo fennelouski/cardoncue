@@ -5,6 +5,7 @@
 //  Unit tests for card encryption, grouping, and geofence flattening.
 //
 
+import Foundation
 import Testing
 import CryptoKit
 import SwiftData
@@ -88,5 +89,39 @@ struct CardModelTests {
         #expect(card.isGeofenceEnabled == true)
         card.isGeofenceEnabled = false
         #expect(card.isGeofenceEnabled == false)
+    }
+
+    @Test func softDeleteHidesCardAndRestoreReveals() throws {
+        let key = SymmetricKey(size: .bits256)
+        let card = try CardModel.createWithEncryptedPayload(
+            userId: "u", name: "Test Card", barcodeType: .qr, payload: "x", masterKey: key
+        )
+        #expect(card.archivedAt == nil)
+
+        card.archivedAt = Date()
+        #expect(card.archivedAt != nil, "Card should be archived after soft delete")
+
+        card.archivedAt = nil
+        #expect(card.archivedAt == nil, "Card should be visible again after restore")
+    }
+
+    @Test func permanentDeleteRemovesFromContext() throws {
+        let container = try ModelContainer(
+            for: CardModel.self, CardLocation.self, SavedLocation.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+        )
+        let context = ModelContext(container)
+        let key = SymmetricKey(size: .bits256)
+        let card = try CardModel.createWithEncryptedPayload(
+            userId: "u", name: "Delete Me", barcodeType: .qr, payload: "x", masterKey: key
+        )
+        context.insert(card)
+        try context.save()
+
+        context.delete(card)
+        try context.save()
+
+        let remaining = try context.fetch(FetchDescriptor<CardModel>())
+        #expect(remaining.isEmpty, "Card should be gone after permanent delete")
     }
 }

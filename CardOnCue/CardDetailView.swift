@@ -90,15 +90,20 @@ struct CardDetailView: View {
         } message: {
             Text(errorMessage)
         }
-        .alert("Delete Card?", isPresented: $showingDeleteConfirm) {
+        .alert("Remove Card?", isPresented: $showingDeleteConfirm) {
             Button("Cancel", role: .cancel) { }
-            Button("Delete", role: .destructive) {
+            Button("Move to Archive", role: .destructive) {
+                card.archivedAt = Date()
+                PersistenceHelper.save(modelContext, label: "CardDetailView.archive")
+                dismiss()
+            }
+            Button("Permanently Delete", role: .destructive) {
                 modelContext.delete(card)
                 PersistenceHelper.save(modelContext, label: "CardDetailView.delete")
                 dismiss()
             }
         } message: {
-            Text("This permanently deletes \"\(card.name)\" and its data. This cannot be undone.")
+            Text("Move \"\(card.name)\" to the archive so you can restore it later, or permanently delete it.")
         }
         .alert("Apply to All \(card.brandName) Cards?", isPresented: $showingUrlShareAlert) {
             Button("This Card Only", role: .cancel) { }
