@@ -1,5 +1,6 @@
 import Foundation
 import UserNotifications
+import WatchConnectivity
 #if os(watchOS)
 import WatchKit
 #endif
@@ -9,13 +10,16 @@ import WatchKit
 class WatchNotificationManager: NSObject, ObservableObject {
     static let shared = WatchNotificationManager()
     
+    @Published private(set) var cards: [WatchCardDisplay] = []
     @Published var currentCard: WatchCardDisplay?
     
     private let persistenceKey = "watchLastDisplayedCard"
+    private let cardsPersistenceKey = "watchSyncedCards"
     
     private override init() {
         super.init()
         UNUserNotificationCenter.current().delegate = self
+        configureWatchConnectivity()
     }
     
     func requestNotificationPermission() {
@@ -48,10 +52,62 @@ class WatchNotificationManager: NSObject, ObservableObject {
         
         currentCard = card
     }
+
+    func saveCards() {
+        guard let encoded = try? JSONEncoder().encode(cards),
+              let jsonString = String(data: encoded, encoding: .utf8) else {
+            return
+        }
+        UserDefaults.standard.set(jsonString, forKey: cardsPersistenceKey)
+    }
+
+    func restoreCards() {
+        guard let jsonString = UserDefaults.standard.string(forKey: cardsPersistenceKey),
+              let data = jsonString.data(using: .utf8),
+              let restored = try? JSONDecoder().decode([WatchCardDisplay].self, from: data) else {
+            return
+        }
+        cards = restored
+        if currentCard == nil {
+            currentCard = cards.first
+        }
+    }
     
     /// Clear persisted card
     func clearPersistedCard() {
         UserDefaults.standard.removeObject(forKey: persistenceKey)
+        UserDefaults.standard.removeObject(forKey: cardsPersistenceKey)
+    }
+
+    func selectCard(_ card: WatchCardDisplay) {
+        currentCard = card
+        saveCurrentCard()
+    }
+
+    private func configureWatchConnectivity() {
+        guard WCSession.isSupported() else { return }
+        let session = WCSession.default
+        session.delegate = self
+        session.activate()
+    }
+
+    private func mergeSyncedCards(_ syncedCards: [WatchCardDisplay]) {
+        let previousCurrentId = currentCard?.id
+        cards = syncedCards
+
+        if let previousCurrentId,
+           let matched = cards.first(where: { $0.id == previousCurrentId }) {
+            currentCard = matched
+        } else if let currentCard,
+                  !cards.contains(where: { $0.id == currentCard.id }) {
+            // Preserve the notification-driven card until the next sync includes it.
+            cards.insert(currentCard, at: 0)
+        } else {
+            currentCard = cards.first
+        }
+
+        saveCards()
+        saveCurrentCard()
     }
 }
 
@@ -110,6 +166,12 @@ extension WatchNotificationManager: UNUserNotificationCenterDelegate {
         )
         
         currentCard = card
+        if let existingIndex = cards.firstIndex(where: { $0.id == card.id }) {
+            cards[existingIndex] = card
+        } else {
+            cards.insert(card, at: 0)
+        }
+        saveCards()
         saveCurrentCard() // Persist for next app launch
         
         // Post notification to update UI
@@ -125,6 +187,56 @@ extension WatchNotificationManager: UNUserNotificationCenterDelegate {
         #if os(watchOS)
         WKInterfaceDevice.current().play(.notification)
         #endif
+    }
+}
+
+// MARK: - WatchConnectivity
+
+extension WatchNotificationManager: WCSessionDelegate {
+    nonisolated func session(
+        _ session: WCSession,
+        activationDidCompleteWith activationState: WCSessionActivationState,
+        error: Error?
+    ) {
+        if let error {
+            print("⚠️ Watch WCSession activation failed: \(error.localizedDescription)")
+            return
+        }
+
+        guard activationState == .activated else { return }
+        if let cardsPayload = session.receivedApplicationContext["cardsPayload"] as? Data {
+            Task { @MainActor in
+                self.handleCardsPayload(cardsPayload)
+            }
+        }
+    }
+
+    nonisolated func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        guard let cardsPayload = applicationContext["cardsPayload"] as? Data else { return }
+        Task { @MainActor in
+            self.handleCardsPayload(cardsPayload)
+        }
+    }
+
+    @MainActor
+    private func handleCardsPayload(_ payloadData: Data) {
+        do {
+            let snapshot = try JSONDecoder().decode(WatchSyncSnapshotDTO.self, from: payloadData)
+            let syncedCards = snapshot.cards.map {
+                WatchCardDisplay(
+                    cardId: $0.id,
+                    cardName: $0.cardName,
+                    barcodeType: $0.barcodeType,
+                    payload: $0.payload,
+                    locationName: $0.locationName,
+                    availableCardsCount: $0.availableCardsCount
+                )
+            }
+            mergeSyncedCards(syncedCards)
+            print("✅ Watch received \(syncedCards.count) cards")
+        } catch {
+            print("⚠️ Failed to decode watch cards payload: \(error.localizedDescription)")
+        }
     }
 }
 
@@ -146,5 +258,19 @@ struct WatchCardDisplay: Codable, Identifiable {
         self.locationName = locationName
         self.availableCardsCount = availableCardsCount
     }
+}
+
+private struct WatchSyncSnapshotDTO: Codable {
+    let cards: [WatchSyncCardDTO]
+    let syncedAt: TimeInterval
+}
+
+private struct WatchSyncCardDTO: Codable {
+    let id: String
+    let cardName: String
+    let barcodeType: String
+    let payload: String
+    let locationName: String?
+    let availableCardsCount: Int
 }
 

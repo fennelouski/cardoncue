@@ -1,65 +1,60 @@
 import SwiftUI
-#if os(watchOS)
-import WatchKit
-#endif
 
 struct ContentView: View {
     @EnvironmentObject var notificationManager: WatchNotificationManager
-    @State private var lastCardId: String?
-    @State private var isTransitioning = false
+    @State private var path = NavigationPath()
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                if let card = notificationManager.currentCard {
-                    BarcodeDisplayView(card: card)
-                        .transition(.asymmetric(
-                            insertion: .opacity.combined(with: .move(edge: .bottom)).combined(with: .scale(scale: 0.95)),
-                            removal: .opacity.combined(with: .move(edge: .top))
-                        ))
-                        .zIndex(1)
-                } else {
+        NavigationStack(path: $path) {
+            Group {
+                if notificationManager.cards.isEmpty {
                     EmptyStateView()
-                        .transition(.opacity.combined(with: .scale(scale: 0.98)))
-                        .zIndex(0)
+                } else {
+                    List(notificationManager.cards) { card in
+                        NavigationLink(value: card.id) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(card.cardName)
+                                    .font(.headline)
+                                    .lineLimit(1)
+                                HStack(spacing: 6) {
+                                    Text(card.barcodeType.uppercased())
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
+                                    if let locationName = card.locationName, !locationName.isEmpty {
+                                        Text("• \(locationName)")
+                                            .font(.caption2)
+                                            .foregroundColor(.secondary)
+                                            .lineLimit(1)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .listStyle(.carousel)
                 }
             }
-            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: notificationManager.currentCard?.id)
+            .navigationTitle("Cards")
+            .navigationDestination(for: String.self) { cardId in
+                if let card = notificationManager.cards.first(where: { $0.id == cardId }) {
+                    BarcodeDisplayView(card: card)
+                } else {
+                    EmptyStateView()
+                }
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("WatchCardNotification"))) { notification in
             if let cardData = notification.userInfo?["card"] as? WatchCardDisplay {
-                // Only update if it's a different card
-                if lastCardId != cardData.id {
-                    isTransitioning = true
-                    
-                    // Animated transition
-                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
-                        notificationManager.currentCard = cardData
-                    }
-                    
-                    lastCardId = cardData.id
-                    
-                    // Haptic feedback for new card
-                    #if os(watchOS)
-                    WKInterfaceDevice.current().play(.notification)
-                    #endif
-                    
-                    // Reset transition flag
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        isTransitioning = false
-                    }
-                }
+                notificationManager.selectCard(cardData)
+                path = NavigationPath()
+                path.append(cardData.id)
             }
         }
         .onAppear {
-            // Try to restore last displayed card with animation
+            notificationManager.restoreCards()
             notificationManager.restoreLastCard()
-            if let card = notificationManager.currentCard {
-                lastCardId = card.id
-                // Fade in restored card
-                withAnimation(.easeIn(duration: 0.3)) {
-                    // Card will appear automatically
-                }
+            if let currentCard = notificationManager.currentCard {
+                path = NavigationPath()
+                path.append(currentCard.id)
             }
         }
     }

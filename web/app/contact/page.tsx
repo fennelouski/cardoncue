@@ -300,6 +300,9 @@ export default function ContactPage() {
                     <a href="/search" className="block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
                       Find Locations →
                     </a>
+                    <a href="/terms" className="block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
+                      Terms of Service →
+                    </a>
                     <a href="/android" className="block text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300">
                       Android Waitlist →
                     </a>

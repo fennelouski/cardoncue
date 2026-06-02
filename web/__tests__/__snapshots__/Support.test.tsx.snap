@@ -43,6 +43,12 @@ exports[`Support Page matches the snapshot 1`] = `
           </a>
           <a
             class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+            href="/demo"
+          >
+            Demo
+          </a>
+          <a
+            class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
             href="/features"
           >
             Features
@@ -69,32 +75,25 @@ exports[`Support Page matches the snapshot 1`] = `
         <div
           class="flex items-center space-x-4"
         >
-          <div>
-            <a
-              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
-              href="/sign-in"
-            >
-              Sign In
-            </a>
-          </div>
-          <div>
-            <a
-              class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200 flex items-center space-x-1"
-              href="/account"
-            >
-              <svg
-                data-testid="user-icon"
-              />
-              <span>
-                Account
-              </span>
-            </a>
+          <a
+            class="flex items-center space-x-2 hover:opacity-80 transition-opacity"
+            href="/settings"
+            title="Settings"
+          >
             <div
-              data-testid="user-button"
+              class="rounded-full overflow-hidden bg-gray-100 dark:bg-gray-800 p-0.5"
             >
-              User Button
+              <canvas
+                class=""
+                style="width: 32px; height: 32px; image-rendering: pixelated;"
+              />
             </div>
-          </div>
+            <span
+              class="hidden sm:inline text-gray-600 dark:text-gray-300"
+            >
+              Settings
+            </span>
+          </a>
           <button
             class="md:hidden p-2 rounded-md text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
           >
@@ -483,6 +482,18 @@ exports[`Support Page matches the snapshot 1`] = `
             <p>
               We typically respond within 24 hours during business days.
             </p>
+            <p
+              class="mt-2"
+            >
+              For legal terms that apply to your use of CardOnCue, see our 
+              <a
+                class="underline hover:no-underline"
+                href="/terms"
+              >
+                Terms of Service
+              </a>
+              .
+            </p>
           </div>
         </div>
       </div>
@@ -632,7 +643,7 @@ exports[`Support Page matches the snapshot 1`] = `
                 class="text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
                 href="/terms"
               >
-                Terms of Use
+                Terms of Service
               </a>
             </li>
           </ul>

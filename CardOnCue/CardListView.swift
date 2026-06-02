@@ -84,6 +84,12 @@ struct CardListView: View {
                 ArchivedCardsView()
             }
         }
+        .onAppear {
+            GeofenceManager.shared.syncCardsToWatch()
+        }
+        .onChange(of: cards.map(\.updatedAt)) { _ in
+            GeofenceManager.shared.syncCardsToWatch()
+        }
     }
 
     private var cardListView: some View {

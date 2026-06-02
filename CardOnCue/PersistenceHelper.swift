@@ -21,6 +21,7 @@ enum PersistenceHelper {
         guard context.hasChanges else { return true }
         do {
             try context.save()
+            GeofenceManager.shared.syncCardsToWatch()
             return true
         } catch {
             logger.error("SwiftData save failed [\(label, privacy: .public)]: \(error.localizedDescription, privacy: .public)")

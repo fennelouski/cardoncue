@@ -34,6 +34,7 @@
 		51B6F9A602B7BA47F95E3EB9 /* OCRData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EB80C574DE1821E83D1E74 /* OCRData.swift */; };
 		552A24EF1F79B6A04DF126E6 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3318942B2C28EB4E863C7 /* OnboardingService.swift */; };
 		5A10CFC341CD6C5408768E0D /* WatchBarcodeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DC707B8ED857962020D5C8 /* WatchBarcodeRenderer.swift */; };
+		5A10CFC341CD6C5408768E0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB61694DAAC3BB4C25A6C13 /* Assets.xcassets */; };
 		5B08A47F95CBAB86C0CFF123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB61694DAAC3BB4C25A6C13 /* Assets.xcassets */; };
 		5B7746313CC9BFE6F472F8F6 /* LocationPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F9355AA6292D771E3C670C /* LocationPermissionView.swift */; };
 		5F7DF3C267FE04A36362568E /* LocationSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E8C6490938862FC2B75D5E /* LocationSearchService.swift */; };
@@ -371,6 +372,7 @@
 			buildConfigurationList = 90FC94625F1947F5579B9D48 /* Build configuration list for PBXNativeTarget "CardOnCue Watch App" */;
 			buildPhases = (
 				ADD63171E380FC384FA3CDBE /* Sources */,
+				ADD63171E380FC384FA3CDC0 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -381,7 +383,7 @@
 			);
 			productName = "CardOnCue Watch App";
 			productReference = 975A5FEED983FECBD9A059B8 /* CardOnCue Watch App.app */;
-			productType = "com.apple.product-type.application";
+			productType = "com.apple.product-type.application.watchapp2";
 		};
 		3F026D40DCBE795246104A3F /* CardOnCueTests */ = {
 			isa = PBXNativeTarget;
@@ -407,10 +409,12 @@
 			buildPhases = (
 				9281FA3316F29F3D10B7534B /* Sources */,
 				33E60FBA8153D5F5F65F4EF2 /* Resources */,
+				C6A2BEADA43C6E67E7E2D710 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4728E849EC2964FBC4C222B1 /* PBXTargetDependency */,
 			);
 			name = CardOnCue;
 			packageProductDependencies = (
@@ -494,6 +498,14 @@
 			files = (
 				5B08A47F95CBAB86C0CFF123 /* Assets.xcassets in Resources */,
 				73F4A5BBAAEF6352D09B654F /* Localizable.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ADD63171E380FC384FA3CDC0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A10CFC341CD6C5408768E0E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

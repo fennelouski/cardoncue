@@ -4,6 +4,7 @@ import SwiftData
 import UserNotifications
 import Combine
 import CryptoKit
+import WatchConnectivity
 
 /// Manages smart geofence rotation - monitors 20 nearest locations intelligently
 @MainActor
@@ -32,10 +33,19 @@ final class GeofenceManager: NSObject, ObservableObject {
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.pausesLocationUpdatesAutomatically = false
         authorizationStatus = locationManager.authorizationStatus
+        configureWatchConnectivity()
     }
 
     func configure(modelContext: ModelContext) {
         self.modelContext = modelContext
+        syncCardsToWatch()
+    }
+
+    /// Public entrypoint for UI flows to push the latest read-only card snapshot to watch.
+    func syncCardsToWatch() {
+        guard WCSession.isSupported() else { return }
+        guard WCSession.default.activationState == .activated else { return }
+        pushCardsToWatch()
     }
 
     // MARK: - Permission Handling
@@ -223,6 +233,49 @@ final class GeofenceManager: NSObject, ObservableObject {
         }
     }
 
+    private func configureWatchConnectivity() {
+        guard WCSession.isSupported() else { return }
+        let session = WCSession.default
+        session.delegate = self
+        session.activate()
+    }
+
+    private func pushCardsToWatch() {
+        guard let modelContext else { return }
+
+        do {
+            let descriptor = FetchDescriptor<CardModel>(
+                predicate: #Predicate { card in
+                    card.archivedAt == nil
+                },
+                sortBy: [SortDescriptor(\CardModel.updatedAt, order: .reverse)]
+            )
+            let cards = try modelContext.fetch(descriptor)
+            let syncedCards = try cards.compactMap { card -> WatchSyncCardDTO? in
+                guard let masterKey = try keychainService.getMasterKey() else { return nil }
+                let payload = try card.decryptPayload(masterKey: masterKey)
+                return WatchSyncCardDTO(
+                    id: card.id,
+                    cardName: card.name,
+                    barcodeType: card.barcodeType.rawValue,
+                    payload: payload,
+                    locationName: card.locationName,
+                    availableCardsCount: cards.count
+                )
+            }
+
+            let snapshot = WatchSyncSnapshotDTO(cards: syncedCards, syncedAt: Date().timeIntervalSince1970)
+            let payloadData = try JSONEncoder().encode(snapshot)
+            let appContext: [String: Any] = [
+                "cardsPayload": payloadData
+            ]
+            try WCSession.default.updateApplicationContext(appContext)
+            print("✅ Synced \(syncedCards.count) cards to watch")
+        } catch {
+            print("⚠️ Failed to sync cards to watch: \(error.localizedDescription)")
+        }
+    }
+
     // MARK: - Helper Methods
 
     func getCard(for identifier: String) -> CardModel? {
@@ -240,6 +293,45 @@ final class GeofenceManager: NSObject, ObservableObject {
             return nil
         }
     }
+}
+
+extension GeofenceManager: WCSessionDelegate {
+    nonisolated func session(
+        _ session: WCSession,
+        activationDidCompleteWith activationState: WCSessionActivationState,
+        error: Error?
+    ) {
+        if let error {
+            print("⚠️ WCSession activation failed: \(error.localizedDescription)")
+            return
+        }
+
+        guard activationState == .activated else { return }
+        Task { @MainActor in
+            self.pushCardsToWatch()
+        }
+    }
+
+    #if os(iOS)
+    nonisolated func sessionDidBecomeInactive(_ session: WCSession) {}
+    nonisolated func sessionDidDeactivate(_ session: WCSession) {
+        session.activate()
+    }
+    #endif
+}
+
+private struct WatchSyncSnapshotDTO: Codable {
+    let cards: [WatchSyncCardDTO]
+    let syncedAt: TimeInterval
+}
+
+private struct WatchSyncCardDTO: Codable {
+    let id: String
+    let cardName: String
+    let barcodeType: String
+    let payload: String
+    let locationName: String?
+    let availableCardsCount: Int
 }
 
 // MARK: - CLLocationManagerDelegate

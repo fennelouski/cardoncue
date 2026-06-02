@@ -16,7 +16,7 @@ describe('Footer', () => {
 
     // Check for legal links
     expect(screen.getByText('Privacy Policy')).toBeInTheDocument()
-    expect(screen.getByText('Terms of Use')).toBeInTheDocument()
+    expect(screen.getByText('Terms of Service')).toBeInTheDocument()
 
     // Check for app store links
     expect(screen.getByText('Download on the App Store')).toBeInTheDocument()

@@ -29,6 +29,9 @@ export default function PrivacyPage() {
               <p className="text-gray-600 dark:text-gray-300 mb-4">
                 We aim to collect only the information reasonably needed to operate and secure the Service.
               </p>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                For terms that govern use of the Service, please review our <a href="/terms">Terms of Service</a>.
+              </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
                 2. Information We Collect

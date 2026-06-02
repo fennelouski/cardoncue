@@ -1,7 +1,7 @@
 import Foundation
 
 /// Supported barcode types (shared with iOS app)
-enum BarcodeType: String, Codable {
+enum BarcodeType: String, Codable, CaseIterable {
     case qr
     case code128
     case pdf417
@@ -21,6 +21,17 @@ enum BarcodeType: String, Codable {
         case .upcA: return "UPC-A"
         case .code39: return "Code 39"
         case .itf: return "ITF"
+        }
+    }
+
+    /// CoreImage filter name (if available)
+    var coreImageFilterName: String? {
+        switch self {
+        case .qr: return "CIQRCodeGenerator"
+        case .code128: return "CICode128BarcodeGenerator"
+        case .pdf417: return "CIPDF417BarcodeGenerator"
+        case .aztec: return "CIAztecCodeGenerator"
+        default: return nil
         }
     }
 }

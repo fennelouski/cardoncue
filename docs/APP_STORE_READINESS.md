@@ -13,13 +13,14 @@ ordered roughly by dependency.
 
 - [ ] **Set the Development Team.** `DEVELOPMENT_TEAM` is currently empty in the
   project. Select your team so the app can be signed.
-- [ ] **Confirm the bundle identifier.** The app target uses
-  `com.nathanfennel.CardOnCue`. ⚠️ The (deferred) watch app’s Info.plist sets
-  `WKCompanionAppBundleIdentifier = app.cardoncue.CardOnCue`, and the CloudKit
-  container is `iCloud.com.cardoncue.app` — the naming is inconsistent. Pick one
-  scheme and make the bundle id, container id, and app-group id consistent.
+- [ ] **Confirm the bundle identifier.** All identifiers have been standardised on
+  `com.nathanfennel.CardOnCue`:
+  - Main app: `com.nathanfennel.CardOnCue`
+  - Watch app: `com.nathanfennel.CardOnCue.watchkitapp`
+  - App Group: `group.com.nathanfennel.CardOnCue`
+  - CloudKit container: `iCloud.com.nathanfennel.CardOnCue`
 - [ ] **Add the iCloud capability** with **CloudKit** enabled and create the
-  container (e.g. `iCloud.com.cardoncue.app`) in the
+  container `iCloud.com.nathanfennel.CardOnCue` in the
   [CloudKit dashboard](https://icloud.developer.apple.com/). Until this exists,
   SwiftData stays local-only (the code uses `.automatic`, so it won’t crash —
   it just won’t sync).
@@ -29,8 +30,8 @@ ordered roughly by dependency.
   **Remote notifications** (Info.plist already lists them; the capability must
   also be enabled for the signed build).
 - [ ] **Add the App Groups capability** and create
-  `group.com.cardoncue.app`. `GeofenceManager` writes the last known location to
-  `UserDefaults(suiteName: "group.com.cardoncue.app")`; without the entitlement
+  `group.com.nathanfennel.CardOnCue`. `GeofenceManager` writes the last known location to
+  `UserDefaults(suiteName: "group.com.nathanfennel.CardOnCue")`; without the entitlement
   those writes silently fail (and any future widget can’t read them).
 - [ ] Adding these capabilities generates a `CardOnCue.entitlements` file and
   wires `CODE_SIGN_ENTITLEMENTS`. Commit it.

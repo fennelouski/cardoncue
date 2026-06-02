@@ -280,6 +280,9 @@ export default function SupportPage() {
 
               <div className="mt-8 text-sm text-gray-500 dark:text-gray-400">
                 <p>We typically respond within 24 hours during business days.</p>
+                <p className="mt-2">
+                  For legal terms that apply to your use of CardOnCue, see our <a href="/terms" className="underline hover:no-underline">Terms of Service</a>.
+                </p>
               </div>
             </motion.div>
           </div>

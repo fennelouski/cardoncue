@@ -1,5 +1,5 @@
-import UIKit
 import CoreImage
+import CoreGraphics
 #if os(watchOS)
 import WatchKit
 #endif
@@ -12,7 +12,7 @@ class WatchBarcodeRenderer {
     private let ciContext: CIContext
     
     // Cache for rendered barcode images (keyed by payload+type+size)
-    private var imageCache: [String: UIImage] = [:]
+    private var imageCache: [String: CGImage] = [:]
     private let cacheQueue = DispatchQueue(label: "com.cardoncue.barcodeCache", attributes: .concurrent)
     
     enum BarcodeError: Error {
@@ -30,7 +30,7 @@ class WatchBarcodeRenderer {
         self.ciContext = CIContext(options: options)
     }
     
-    func render(payload: String, type: BarcodeType, size: CGSize) throws -> UIImage {
+    func render(payload: String, type: BarcodeType, size: CGSize) throws -> CGImage {
         // Check cache first
         let cacheKey = "\(payload)_\(type.rawValue)_\(size.width)x\(size.height)"
         
@@ -73,8 +73,6 @@ class WatchBarcodeRenderer {
             throw BarcodeError.generationFailed
         }
         
-        let image = UIImage(cgImage: cgImage)
-        
         // Cache the image (limit cache size)
         cacheQueue.async(flags: .barrier) {
             // Limit cache to 5 images to save memory
@@ -84,10 +82,10 @@ class WatchBarcodeRenderer {
                     self.imageCache.removeValue(forKey: firstKey)
                 }
             }
-            self.imageCache[cacheKey] = image
+            self.imageCache[cacheKey] = cgImage
         }
         
-        return image
+        return cgImage
     }
     
     func clearCache() {

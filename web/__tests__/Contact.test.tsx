@@ -28,6 +28,7 @@ describe('Contact Page', () => {
     expect(screen.getByText('Support & FAQ →')).toBeInTheDocument()
     expect(screen.getByText('Features Overview →')).toBeInTheDocument()
     expect(screen.getByText('Find Locations →')).toBeInTheDocument()
+    expect(screen.getByText('Terms of Service →')).toBeInTheDocument()
   })
 
   it('matches the snapshot', () => {

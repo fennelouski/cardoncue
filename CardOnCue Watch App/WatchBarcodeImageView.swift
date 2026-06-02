@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreGraphics
 #if os(watchOS)
 import WatchKit
 #endif
@@ -8,7 +9,7 @@ struct WatchBarcodeImageView: View {
     let barcodeType: String
     let brightness: Double
     
-    @State private var barcodeImage: UIImage?
+    @State private var barcodeImage: CGImage?
     @State private var isLoading = true
     @State private var error: String?
     
@@ -37,7 +38,7 @@ struct WatchBarcodeImageView: View {
                             .foregroundColor(.secondary)
                     }
                 } else if let image = barcodeImage {
-                    Image(uiImage: image)
+                    Image(decorative: image, scale: 1.0)
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .padding(10)

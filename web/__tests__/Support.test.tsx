@@ -27,6 +27,7 @@ describe('Support Page', () => {
     // Check for help section
     expect(screen.getByText('Still Need Help?')).toBeInTheDocument()
     expect(screen.getByText('Email Us Directly')).toBeInTheDocument()
+    expect(screen.getAllByText('Terms of Service').length).toBeGreaterThanOrEqual(2)
   })
 
   it('matches the snapshot', () => {
