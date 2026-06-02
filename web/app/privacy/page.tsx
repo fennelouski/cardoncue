@@ -15,165 +15,214 @@ export default function PrivacyPage() {
 
             <div className="prose dark:prose-invert max-w-none">
               <p className="text-gray-600 dark:text-gray-300 mb-6">
-                <strong>Last updated:</strong> {new Date().toLocaleDateString()}
+                <strong>Last updated:</strong> June 2, 2026
               </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
                 1. Introduction
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                At CardOnCue, we take your privacy seriously. This Privacy Policy explains how we collect, use,
-                disclose, and safeguard your information when you use our location-aware digital card storage service.
+                This Privacy Policy explains how CardOnCue ("CardOnCue," "we," "us," and "our") collects, uses, discloses,
+                and protects personal information when you use our website, iOS application, and related services
+                (collectively, the "Service"). It also describes your choices and rights.
+              </p>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                We aim to collect only the information reasonably needed to operate and secure the Service.
               </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
                 2. Information We Collect
               </h2>
-
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
-                2.1 Information You Provide
+                2.1 Information You Provide Directly
               </h3>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-                <li>Account information (email, name) when you create an account</li>
-                <li>Card information (encrypted and stored securely)</li>
-                <li>Communications you send to us (support requests, feedback)</li>
+                <li>Account profile details, such as name and email address</li>
+                <li>Card content you upload or enter, including barcode or card-related information</li>
+                <li>Messages you send us, such as support requests or feedback</li>
               </ul>
 
               <h3 className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
                 2.2 Information Collected Automatically
               </h3>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-                <li>Device information (iOS version, device model)</li>
-                <li>App usage statistics (anonymized)</li>
-                <li>Location data (processed locally, never stored on our servers)</li>
+                <li>Technical and device data such as IP address, browser/app version, and operating system</li>
+                <li>Operational logs and diagnostics used to maintain performance, reliability, and security</li>
+                <li>Location-related signals needed to enable location-aware features, where permitted by your settings</li>
               </ul>
+
+              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mt-6 mb-3">
+                2.3 Information from Service Providers
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                We use third-party providers to support account access, hosting, storage, and infrastructure. These providers
+                may process personal information on our behalf under contractual obligations. Current categories include
+                authentication provider services (such as Clerk) and hosting or infrastructure providers
+                (such as Vercel-managed services).
+              </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
                 3. How We Use Your Information
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                We use the information we collect to:
+                We use personal information for legitimate business and operational purposes, including to:
               </p>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-                <li>Provide and maintain the CardOnCue service</li>
-                <li>Process your transactions and manage subscriptions</li>
-                <li>Send you important updates and notifications</li>
-                <li>Respond to your customer service requests</li>
-                <li>Improve our service through anonymized analytics</li>
-                <li>Ensure security and prevent fraud</li>
+                <li>Provide, personalize, and maintain core Service features</li>
+                <li>Authenticate users and secure accounts</li>
+                <li>Store and manage user-submitted card content and related settings</li>
+                <li>Respond to support requests and communicate service notices</li>
+                <li>Monitor performance, debug issues, and improve service stability</li>
+                <li>Detect, investigate, and prevent misuse, fraud, and security incidents</li>
+                <li>Comply with legal and regulatory obligations</li>
               </ul>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                4. Data Security and Encryption
+                4. Legal Bases (Where Applicable)
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Your card data is protected with industry-standard encryption:
+                Depending on your location, we process personal information on one or more of the following legal bases:
               </p>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-                <li>All card data is encrypted using AES-256-GCM encryption</li>
-                <li>Encryption keys are stored securely on your device</li>
-                <li>We cannot decrypt or access your actual card information</li>
-                <li>Location data is processed locally and never transmitted to our servers</li>
+                <li>Performance of a contract (for example, to provide requested Service functionality)</li>
+                <li>Legitimate interests (for example, securing and improving the Service)</li>
+                <li>Compliance with legal obligations</li>
+                <li>Consent, where required by law and requested by us</li>
               </ul>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                5. Location Data Handling
+                5. Data Security
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                CardOnCue requires location permissions to provide its core functionality:
+                We apply technical and organizational safeguards designed to protect personal information against unauthorized
+                access, loss, misuse, or disclosure.
               </p>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-                <li>Location data is used only for location detection on your device</li>
-                <li>No location history is stored or transmitted to our servers</li>
-                <li>Location detection uses efficient geofencing to minimize battery impact</li>
-                <li>You can disable location services in your device settings at any time</li>
+                <li>Encryption protections in transit and at rest where applicable</li>
+                <li>Access controls and restricted production access</li>
+                <li>Operational monitoring and incident response procedures</li>
+              </ul>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                No method of transmission or storage is completely secure, and we cannot guarantee absolute security.
+              </p>
+
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
+                6. Location Data Handling
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                Some Service features rely on location permissions. Location-related data is used to support those features,
+                subject to your device and app permission settings.
+              </p>
+              <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
+                <li>You can control location permissions through your device settings</li>
+                <li>Disabling location permissions may reduce or disable location-aware functionality</li>
+                <li>We design location processing with data minimization in mind</li>
               </ul>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                6. Information Sharing and Disclosure
+                7. How We Share Information
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                We do not sell, trade, or otherwise transfer your personal information to third parties, except in the following cases:
+                We do not sell personal information for money. We may share information in the following circumstances:
               </p>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-                <li>With your explicit consent</li>
-                <li>To comply with legal obligations</li>
-                <li>To protect our rights and prevent fraud</li>
-                <li>In connection with a business transfer (with notice)</li>
+                <li>With service providers and subprocessors supporting authentication, hosting, storage, and operations</li>
+                <li>With affiliates or advisors under confidentiality obligations</li>
+                <li>When required by law, legal process, or valid governmental request</li>
+                <li>To enforce terms, protect rights/safety/security, and prevent fraud or abuse</li>
+                <li>As part of a merger, acquisition, financing, or asset transaction (with notice where required)</li>
+                <li>With your direction or consent</li>
               </ul>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                7. Data Retention
+                8. Data Retention
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                We retain your information for as long as necessary to provide our services and comply with legal obligations:
+                We retain personal information for as long as reasonably necessary to provide the Service, fulfill the purposes
+                described in this policy, resolve disputes, enforce agreements, and comply with legal obligations.
               </p>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-                <li>Account data is retained while your account is active</li>
-                <li>Encrypted card data is deleted when you delete your account</li>
-                <li>Support communications may be retained for quality assurance</li>
-                <li>Anonymous analytics data is aggregated and retained indefinitely</li>
+                <li>Account/profile data while your account is active and for reasonable post-closure periods</li>
+                <li>User-submitted content according to account status, settings, and deletion workflows</li>
+                <li>Security and operational logs for service integrity and compliance needs</li>
               </ul>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                8. Your Rights and Choices
+                9. Your Rights and Choices
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                You have the following rights regarding your data:
+                Depending on your location, you may have rights to access, correct, delete, export, or object to certain
+                processing of your personal information.
               </p>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-                <li><strong>Access:</strong> Request a copy of your personal data</li>
-                <li><strong>Correction:</strong> Update inaccurate or incomplete data</li>
-                <li><strong>Deletion:</strong> Request deletion of your account and data</li>
-                <li><strong>Portability:</strong> Export your data in a portable format</li>
-                <li><strong>Opt-out:</strong> Unsubscribe from marketing communications</li>
+                <li><strong>Access:</strong> Request a copy of personal information we hold about you</li>
+                <li><strong>Correction:</strong> Ask us to fix inaccurate or incomplete information</li>
+                <li><strong>Deletion:</strong> Request deletion of personal information, subject to legal exceptions</li>
+                <li><strong>Portability:</strong> Request export where technically feasible and legally required</li>
+                <li><strong>Restriction/Objection:</strong> Request limits on certain processing where applicable</li>
+                <li><strong>Consent Withdrawal:</strong> Withdraw consent where processing is based on consent</li>
               </ul>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                9. Cookies and Tracking
+                10. Cookies and Similar Technologies
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Our website uses minimal cookies and tracking:
+                Our website and services may use cookies or similar technologies for authentication, session management,
+                security, and product operations.
               </p>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
-                <li>Essential cookies for website functionality</li>
-                <li>Anonymous analytics to improve user experience</li>
-                <li>No advertising or third-party tracking cookies</li>
-                <li>You can disable cookies in your browser settings</li>
+                <li>You can manage browser cookies through your browser settings</li>
+                <li>Blocking some cookies may impact functionality</li>
+                <li>Where required, we will request consent before using non-essential technologies</li>
               </ul>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                10. International Data Transfers
+                11. International Transfers
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                Your data may be transferred to and processed in countries other than your own. We ensure appropriate
-                safeguards are in place to protect your data in accordance with applicable privacy laws.
+                We and our service providers may process information in countries other than your own. Where required,
+                we use appropriate transfer safeguards.
               </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                11. Children's Privacy
+                12. Children&apos;s Privacy
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                CardOnCue is not intended for children under 13. We do not knowingly collect personal information
-                from children under 13. If we become aware of such collection, we will delete the information immediately.
+                The Service is not directed to children under 13 (or a higher age where required by local law). If we learn
+                we have collected personal information from a child without appropriate authorization, we will take steps to delete it.
               </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                12. Changes to This Policy
+                13. Changes to This Policy
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                We may update this Privacy Policy from time to time. We will notify you of any material changes
-                by posting the new policy on this page and updating the "Last updated" date.
+                We may update this policy periodically. Material updates will be posted on this page with an updated "Last updated"
+                date, and additional notice may be provided when required by law.
               </p>
 
               <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
-                13. Contact Us
+                14. Privacy Requests and Complaints
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-4">
-                If you have questions about this Privacy Policy or our data practices, please contact us at:
+                For privacy requests or complaints, contact us and include enough detail for verification and response,
+                such as your account email, region, and request type.
               </p>
               <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
                 <li>Email: privacy@cardoncue.com</li>
+                <li>General support: hello@cardoncue.com</li>
+                <li>We aim to acknowledge requests promptly and respond within legally required timelines</li>
+                <li>We may request additional information to verify identity before fulfilling certain requests</li>
+              </ul>
+
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mt-8 mb-4">
+                15. Contact Us
+              </h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-4">
+                If you have questions about this policy or our data practices, contact:
+              </p>
+              <ul className="list-disc pl-6 text-gray-600 dark:text-gray-300 mb-4">
+                <li>Email: privacy@cardoncue.com</li>
+                <li>Company: CardOnCue</li>
                 <li>Address: [Company Address]</li>
               </ul>
 
