@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "CardOnCue ਵਿੱਚ ਤੁਹਾਡਾ ਸਵਾਗਤ ਹੈ";
+"welcome_subtitle" = "ਮੈਂਬਰਸ਼ਿਪ ਕਾਰਡਾਂ ਲਈ ਤੁਹਾਡਾ ਡਿਜੀਟਲ ਵਾਲਿਟ";
+"welcome_description" = "ਆਪਣੇ ਮੈਂਬਰਸ਼ਿਪ ਕਾਰਡ ਕਦੇ ਨਾ ਭੁੱਲੋ। CardOnCue ਤੁਹਾਡੇ ਸਾਰੇ ਲੌਇਲਟੀ ਕਾਰਡ ਇੱਕ ਸੁਰੱਖਿਅਤ, ਨਿੱਜੀ ਥਾਂ 'ਤੇ ਰੱਖਦਾ ਹੈ।";
+
+"scan_store_title" = "ਸਕੈਨ ਅਤੇ ਸਟੋਰ";
+"scan_store_subtitle" = "ਆਪਣੇ ਕਾਰਡ ਆਸਾਨੀ ਨਾਲ ਜੋੜੋ";
+"scan_store_description" = "ਆਪਣੇ ਭੌਤਿਕ ਕਾਰਡਾਂ ਦੇ ਬਾਰਕੋਡ ਸਕੈਨ ਕਰਨ ਲਈ ਕੈਮਰਾ ਵਰਤੋ, ਜਾਂ ਹੱਥੋਂ ਦਰਜ ਕਰੋ। ਸਾਰਾ ਡਾਟਾ ਐਨਕ੍ਰਿਪਟ ਹੁੰਦਾ ਹੈ ਅਤੇ ਤੁਹਾਡੇ ਡਿਵਾਈਸ 'ਤੇ ਸੁਰੱਖਿਅਤ ਰੂਪ ਵਿੱਚ ਸਟੋਰ ਹੁੰਦਾ ਹੈ।";
+
+"location_aware_title" = "ਲੋਕੇਸ਼ਨ-ਅਵੇਅਰ";
+"location_aware_subtitle" = "ਆਟੋਮੈਟਿਕ ਕਾਰਡ ਸੁਝਾਅ";
+"location_aware_description" = "ਜਦੋਂ ਤੁਸੀਂ ਦੁਕਾਨ 'ਤੇ ਪਹੁੰਚਦੇ ਹੋ, CardOnCue ਸੰਬੰਧਿਤ ਮੈਂਬਰਸ਼ਿਪ ਕਾਰਡ ਆਟੋਮੈਟਿਕ ਦਿਖਾਏਗਾ। ਵਾਲਿਟ ਵਿੱਚ ਖੋਜਣ ਦੀ ਲੋੜ ਨਹੀਂ!";
+
+"privacy_first_title" = "ਪਰਾਈਵੇਸੀ ਪਹਿਲਾਂ";
+"privacy_first_subtitle" = "ਤੁਹਾਡਾ ਡਾਟਾ ਤੁਹਾਡਾ ਹੈ";
+"privacy_first_description" = "ਕਾਰਡ ਤੁਹਾਡੇ ਡਿਵਾਈਸ 'ਤੇ ਲੋਕਲੀ ਐਨਕ੍ਰਿਪਟ ਹੁੰਦੇ ਹਨ। ਲੋਕੇਸ਼ਨ ਡਾਟਾ ਕਦੇ ਸਟੋਰ ਜਾਂ ਟ੍ਰੈਕ ਨਹੀਂ ਹੁੰਦਾ। ਤੁਸੀਂ ਆਪਣੇ ਡਾਟੇ 'ਤੇ ਪੂਰਾ ਕੰਟਰੋਲ ਰੱਖਦੇ ਹੋ।";
+
+/* Authentication */
+"sign_in_title" = "ਸਾਈਨ ਇਨ";
+"email_placeholder" = "ਆਪਣਾ ਈਮੇਲ ਦਰਜ ਕਰੋ";
+"send_code_button" = "ਸਾਈਨ ਇਨ ਕੋਡ ਭੇਜੋ";
+"verification_title" = "ਤਸਦੀਕ ਕੋਡ ਦਰਜ ਕਰੋ";
+"code_placeholder" = "6-ਅੰਕ ਦਾ ਕੋਡ ਦਰਜ ਕਰੋ";
+"verify_button" = "ਤਸਦੀਕ ਕਰੋ";
+"back_button" = "ਪਿੱਛੇ";
+
+/* Empty State */
+"no_cards_title" = "ਅਜੇ ਕੋਈ ਕਾਰਡ ਨਹੀਂ";
+"no_cards_subtitle" = "ਆਪਣਾ ਪਹਿਲਾ ਮੈਂਬਰਸ਼ਿਪ ਕਾਰਡ ਸਕੈਨ ਕਰਕੇ ਸ਼ੁਰੂ ਕਰੋ";
+"scan_camera_title" = "ਕੈਮਰੇ ਨਾਲ ਸਕੈਨ ਕਰੋ";
+"scan_camera_description" = "ਕਿਸੇ ਵੀ ਬਾਰਕੋਡ ਜਾਂ QR ਕੋਡ 'ਤੇ ਕੈਮਰਾ ਪOINT ਕਰੋ";
+"enter_manually_title" = "ਹੱਥੋਂ ਦਰਜ ਕਰੋ";
+"enter_manually_description" = "ਜੇ ਸਕੈਨ ਕੰਮ ਨਾ ਕਰੇ ਤਾਂ ਕਾਰਡ ਨੰਬਰ ਟਾਈਪ ਕਰੋ";
+"secure_private_title" = "ਸੁਰੱਖਿਅਤ ਅਤੇ ਨਿੱਜੀ";
+"secure_private_description" = "ਤੁਹਾਡੇ ਕਾਰਡ ਐਨਕ੍ਰਿਪਟ ਹੁੰਦੇ ਹਨ ਅਤੇ ਲੋਕਲੀ ਸਟੋਰ ਹੁੰਦੇ ਹਨ";
+"scan_first_card" = "ਆਪਣਾ ਪਹਿਲਾ ਕਾਰਡ ਸਕੈਨ ਕਰੋ";
+"add_first_card" = "ਆਪਣਾ ਪਹਿਲਾ ਕਾਰਡ ਜੋੜੋ";
+"add_manually" = "ਕਾਰਡ ਹੱਥੋਂ ਦਰਜ ਕਰੋ";
+"camera_permission_required" = "ਕਾਰਡ ਸਕੈਨ ਕਰਨ ਲਈ ਕੈਮਰਾ ਇਜਾਜ਼ਤ ਲੋੜੀਂਦੀ ਹੈ";
+
+/* Navigation */
+"my_cards" = "ਮੇਰੇ ਕਾਰਡ";
+"scan_card" = "ਕਾਰਡ ਸਕੈਨ ਕਰੋ";
+"add_manually" = "ਹੱਥੋਂ ਸ਼ਾਮਲ ਕਰੋ";
+"import_photo" = "ਫੋਟੋਜ਼ ਤੋਂ ਇмпорт";
+
+/* Photo Import */
+"import_photo_title" = "ਫੋਟੋਜ਼ ਤੋਂ ਇмпорт";
+"import_photo_description" = "ਬਾਰਕੋਡ ਵਾਲੀ ਮੌਜੂਦਾ ਫੋਟੋ ਚੁਣੋ";
+
+/* Common */
+"next_button" = "ਅਗਲਾ";
+"skip_button" = "ਛੱਡੋ";
+"get_started" = "ਸ਼ੁਰੂ ਕਰੋ";
+

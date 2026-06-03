@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Dobrodošli v CardOnCue";
+"welcome_subtitle" = "Vaša digitalna denarnica za članske kartice";
+"welcome_description" = "Nikoli več ne pozabite svojih članskih kartic. CardOnCue hrani vse vaše kartice zvestobe na enem varnem in zasebnem mestu.";
+
+"scan_store_title" = "Skeniraj in shrani";
+"scan_store_subtitle" = "Enostavno dodajte svoje kartice";
+"scan_store_description" = "Uporabite kamero za skeniranje črtnih kod s fizičnih kartic ali jih vnesite ročno. Vsi podatki so šifrirani in varno shranjeni v vaši napravi.";
+
+"location_aware_title" = "Z zavedanjem lokacije";
+"location_aware_subtitle" = "Samodejni predlogi kartic";
+"location_aware_description" = "Ko prispete v trgovino, vam bo CardOnCue samodejno prikazal ustrezno člansko kartico. Ni več iskanja v denarnici!";
+
+"privacy_first_title" = "Zasebnost na prvem mestu";
+"privacy_first_subtitle" = "Vaši podatki ostanejo vaši";
+"privacy_first_description" = "Kartice so lokalno šifrirane v vaši napravi. Podatki o lokaciji se nikoli ne shranjujejo ali sledijo. Popolnoma nadzorujete svoje podatke.";
+
+/* Authentication */
+"sign_in_title" = "Prijava";
+"email_placeholder" = "Vnesite svoj e-poštni naslov";
+"send_code_button" = "Pošlji kodo za prijavo";
+"verification_title" = "Vnesite potrditveno kodo";
+"code_placeholder" = "Vnesite 6-mestno kodo";
+"verify_button" = "Potrdi";
+"back_button" = "Nazaj";
+
+/* Empty State */
+"no_cards_title" = "Še ni kartic";
+"no_cards_subtitle" = "Začnite s skeniranjem prve članske kartice";
+"scan_camera_title" = "Skeniraj s kamero";
+"scan_camera_description" = "Usmerite kamero na katero koli črtno ali QR kodo";
+"enter_manually_title" = "Vnesi ročno";
+"enter_manually_description" = "Vnesite številko kartice, če skeniranje ne deluje";
+"secure_private_title" = "Varno in zasebno";
+"secure_private_description" = "Vaše kartice so šifrirane in shranjene lokalno";
+"scan_first_card" = "Skenirajte svojo prvo kartico";
+"add_first_card" = "Dodajte svojo prvo kartico";
+"add_manually" = "Vnesi kartico ročno";
+"camera_permission_required" = "Za skeniranje kartic je potrebno dovoljenje kamere";
+
+/* Navigation */
+"my_cards" = "Moje kartice";
+"scan_card" = "Skeniraj kartico";
+"add_manually" = "Dodaj ročno";
+"import_photo" = "Uvozi iz Fotografij";
+
+/* Photo Import */
+"import_photo_title" = "Uvozi iz Fotografij";
+"import_photo_description" = "Izberite obstoječo fotografijo s črtno kodo";
+
+/* Common */
+"next_button" = "Naprej";
+"skip_button" = "Preskoči";
+"get_started" = "Začni";
+

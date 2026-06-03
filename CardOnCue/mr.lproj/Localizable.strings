@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "CardOnCue मध्ये आपले स्वागत आहे";
+"welcome_subtitle" = "सदस्यत्व कार्डसाठी तुमचे डिजिटल वॉलेट";
+"welcome_description" = "तumchya sadasyata cardanchi punha kadhi visaru naka. CardOnCue tumche sarve loyalty card ek surakshit, khasgi thikani thevatat.";
+
+"scan_store_title" = "स्कॅन आणि साठवा";
+"scan_store_subtitle" = "तुमची कार्डे सहज जोडा";
+"scan_store_description" = "तumchya bhautik cardanchya barcode scan karanyasathi camera vapra, kinva hatanepran pravishta kara. Sara data encrypt hoto ani tumchya devicevar surakshitpane sathavla jato.";
+
+"location_aware_title" = "स्थान-जागरूक";
+"location_aware_subtitle" = "स्वयंचलित कार्ड सूचना";
+"location_aware_description" = "जेव्हा तुम्ही दुकानात पोहोचाल, CardOnCue संबंधित सदस्यत्व कार्ड आपोआप दाखवेल. वॉलेटमध्ये शोधण्याची गरज नाही!";
+
+"privacy_first_title" = "गोपनीयता प्रथम";
+"privacy_first_subtitle" = "तुमचा डेटा तुमचाच आहे";
+"privacy_first_description" = "कार्डे तुमच्या डिव्हाइसवर स्थानिक एनक्रिप्ट केली जातात. स्थान डेटा कधीही साठवला किंवा ट्रॅक केला जात नाही. तुम्ही तुमच्या डेटावर पूर्ण नियंत्रण ठेवता.";
+
+/* Authentication */
+"sign_in_title" = "साइन इन";
+"email_placeholder" = "तुमचा ईमेल प्रविष्ट करा";
+"send_code_button" = "साइन इन कोड पाठवा";
+"verification_title" = "पडताळणी कोड प्रविष्ट करा";
+"code_placeholder" = "6-अंकी कोड प्रविष्ट करा";
+"verify_button" = "पडताळा";
+"back_button" = "मागे";
+
+/* Empty State */
+"no_cards_title" = "अद्याप कार्डे नाहीत";
+"no_cards_subtitle" = "तुमचे पहिले सदस्यत्व कार्ड स्कॅन करून सुरुवात करा";
+"scan_camera_title" = "कॅमेराने स्कॅन करा";
+"scan_camera_description" = "कोणत्याही बारकोड किंवा QR कोडवर कॅमेरा लक्ष्य करा";
+"enter_manually_title" = "मॅन्युअली प्रविष्ट करा";
+"enter_manually_description" = "स्कॅन काम करत नसेल तर कार्ड क्रमांक टाइप करा";
+"secure_private_title" = "सुरक्षित आणि खाजगी";
+"secure_private_description" = "तुमची कार्डे एनक्रिप्ट केली जातात आणि स्थानिक साठवली जातात";
+"scan_first_card" = "तुमचे पहिले कार्ड स्कॅन करा";
+"add_first_card" = "तुमचे पहिले कार्ड जोडा";
+"add_manually" = "कार्ड हाताने टाका";
+"camera_permission_required" = "कार्ड स्कॅन करण्यासाठी कॅमेरा परवानगी आवश्यक आहे";
+
+/* Navigation */
+"my_cards" = "माझी कार्डे";
+"scan_card" = "कार्ड स्कॅन करा";
+"add_manually" = "हाताने जोडा";
+"import_photo" = "फोटोमधून आयात";
+
+/* Photo Import */
+"import_photo_title" = "फोटोमधून आयात";
+"import_photo_description" = "बारकोड असलेला विद्यमान फोटो निवडा";
+
+/* Common */
+"next_button" = "पुढे";
+"skip_button" = "वगळा";
+"get_started" = "सुरू करा";
+

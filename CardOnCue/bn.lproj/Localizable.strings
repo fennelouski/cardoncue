@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "CardOnCue-এ স্বাগতম";
+"welcome_subtitle" = "সদস্যপদ কার্ডের জন্য আপনার ডিজিটাল ওয়ালেট";
+"welcome_description" = "আর কখনও সদস্যপদ কার্ড ভুলবেন না। CardOnCue আপনার সব লয়ালটি কার্ড একটি নিরাপদ, ব্যক্তিগত জায়গায় রাখে।";
+
+"scan_store_title" = "স্ক্যান ও সংরক্ষণ";
+"scan_store_subtitle" = "সহজে আপনার কার্ড যোগ করুন";
+"scan_store_description" = "আপনার ফিজিক্যাল কার্ডের বারকোড স্ক্যান করতে ক্যামেরা ব্যবহার করুন, অথবা ম্যানুয়ালি লিখুন। সব ডেটা এনক্রিপ্ট করা হয় এবং আপনার ডিভাইসে নিরাপদে সংরক্ষিত হয়।";
+
+"location_aware_title" = "অবস্থান-সচেতন";
+"location_aware_subtitle" = "স্বয়ংক্রিয় কার্ড পরামর্শ";
+"location_aware_description" = "আপনি দোকানে পৌঁছালে CardOnCue স্বয়ংক্রিয়ভাবে প্রাসঙ্গিক সদস্যপদ কার্ড দেখাবে। আর ওয়ালেটে খোঁজার দরকার নেই!";
+
+"privacy_first_title" = "গোপনীয়তা প্রথম";
+"privacy_first_subtitle" = "আপনার ডেটা আপনারই";
+"privacy_first_description" = "কার্ডগুলো আপনার ডিভাইসে স্থানীয়ভাবে এনক্রিপ্ট করা থাকে। অবস্থান ডেটা কখনও সংরক্ষিত বা ট্র্যাক করা হয় না। আপনি সম্পূর্ণ নিয়ন্ত্রণে থাকেন।";
+
+/* Authentication */
+"sign_in_title" = "সাইন ইন";
+"email_placeholder" = "আপনার ইমেল লিখুন";
+"send_code_button" = "সাইন ইন কোড পাঠান";
+"verification_title" = "যাচাইকরণ কোড লিখুন";
+"code_placeholder" = "৬-অঙ্কের কোড লিখুন";
+"verify_button" = "যাচাই করুন";
+"back_button" = "পিছনে";
+
+/* Empty State */
+"no_cards_title" = "এখনও কোনো কার্ড নেই";
+"no_cards_subtitle" = "আপনার প্রথম সদস্যপদ কার্ড স্ক্যান করে শুরু করুন";
+"scan_camera_title" = "ক্যামেরা দিয়ে স্ক্যান";
+"scan_camera_description" = "যেকোনো বারকোড বা QR কোডে ক্যামেরা তাক করুন";
+"enter_manually_title" = "ম্যানুয়ালি লিখুন";
+"enter_manually_description" = "স্ক্যান কাজ না করলে কার্ড নম্বর টাইপ করুন";
+"secure_private_title" = "নিরাপদ ও ব্যক্তিগত";
+"secure_private_description" = "আপনার কার্ডগুলো এনক্রিপ্ট করা এবং স্থানীয়ভাবে সংরক্ষিত";
+"scan_first_card" = "আপনার প্রথম কার্ড স্ক্যান করুন";
+"add_first_card" = "আপনার প্রথম কার্ড যোগ করুন";
+"add_manually" = "কার্ড ম্যানুয়ালি লিখুন";
+"camera_permission_required" = "কার্ড স্ক্যান করতে ক্যামেরার অনুমতি প্রয়োজন";
+
+/* Navigation */
+"my_cards" = "আমার কার্ড";
+"scan_card" = "কার্ড স্ক্যান";
+"add_manually" = "ম্যানুয়ালি যোগ করুন";
+"import_photo" = "ফটো থেকে আমদানি";
+
+/* Photo Import */
+"import_photo_title" = "ফটো থেকে আমদানি";
+"import_photo_description" = "বারকোডযুক্ত বিদ্যমান ফটো নির্বাচন করুন";
+
+/* Common */
+"next_button" = "পরবর্তী";
+"skip_button" = "এড়িয়ে যান";
+"get_started" = "শুরু করুন";
+

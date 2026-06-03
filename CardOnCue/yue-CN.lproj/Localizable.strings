@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "歡迎使用 CardOnCue";
+"welcome_subtitle" = "你嘅會員卡數碼銀包";
+"welcome_description" = "唔使再怕唔記得帶會員卡。CardOnCue 會將你所有會員卡安全又私密咁集中儲存。";
+
+"scan_store_title" = "掃描及儲存";
+"scan_store_subtitle" = "輕鬆加入卡片";
+"scan_store_description" = "用相機掃描實體卡條碼，或手動輸入。所有資料都會加密並安全儲存在你嘅裝置。";
+
+"location_aware_title" = "位置感知";
+"location_aware_subtitle" = "自動建議卡片";
+"location_aware_description" = "你去到店舖時，CardOnCue 會自動顯示相關會員卡，唔使再喺銀包搵。";
+
+"privacy_first_title" = "私隱優先";
+"privacy_first_subtitle" = "你嘅資料屬於你";
+"privacy_first_description" = "卡片只會喺你裝置本地加密。位置資料唔會被儲存或追蹤。";
+
+/* Authentication */
+"sign_in_title" = "登入";
+"email_placeholder" = "輸入電郵";
+"send_code_button" = "發送登入碼";
+"verification_title" = "輸入驗證碼";
+"code_placeholder" = "輸入 6 位驗證碼";
+"verify_button" = "驗證";
+"back_button" = "返回";
+
+/* Empty State */
+"no_cards_title" = "未有卡片";
+"no_cards_subtitle" = "先掃描你第一張會員卡";
+"scan_camera_title" = "用相機掃描";
+"scan_camera_description" = "將相機對準條碼或 QR Code";
+"enter_manually_title" = "手動輸入";
+"enter_manually_description" = "如果掃描失敗，請輸入卡號";
+"secure_private_title" = "安全又私密";
+"secure_private_description" = "你嘅卡片會加密並儲存喺本機";
+"scan_first_card" = "掃描你第一張卡";
+"add_first_card" = "加入你第一張卡";
+"add_manually" = "手動輸入卡片";
+"camera_permission_required" = "掃描卡片需要相機權限";
+
+/* Navigation */
+"my_cards" = "我嘅卡片";
+"scan_card" = "掃描卡片";
+"add_manually" = "手動加入";
+"import_photo" = "由相簿匯入";
+
+/* Photo Import */
+"import_photo_title" = "由相簿匯入";
+"import_photo_description" = "揀一張包含條碼嘅相片";
+
+/* Common */
+"next_button" = "下一步";
+"skip_button" = "略過";
+"get_started" = "開始使用";
+

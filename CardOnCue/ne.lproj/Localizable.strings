@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "CardOnCue मा स्वागत छ";
+"welcome_subtitle" = "सदस्यता कार्डहरूका लागि तपाईंको डिजिटल वालेट";
+"welcome_description" = "आफ्ना सदस्यता कार्डहरू फेरि कहिल्यै नबिर्सनुहोस्। CardOnCue ले तपाईंका सबै लoyalty कार्डहरू एक सुरक्षित, निजी ठाउँमा राख्छ।";
+
+"scan_store_title" = "स्क्यान र सुरक्षित गर्नुहोस्";
+"scan_store_subtitle" = "आफ्ना कार्डहरू सजिलै थप्नुहोस्";
+"scan_store_description" = "भौतिक कार्डहरूको बारकोड स्क्यान गर्न क्यामेरा प्रयोग गर्नुहोस्, वा हातले प्रविष्ट गर्नुहोस्। सबै डाटा इन्क्रिप्ट हुन्छ र तपाईंको यन्त्रमा सुरक्षित रूपमा भण्डारण हुन्छ।";
+
+"location_aware_title" = "स्थान-सचेत";
+"location_aware_subtitle" = "स्वचालित कार्ड सुझावहरू";
+"location_aware_description" = "पसलमा पुग्दा CardOnCue ले सम्बन्धित सदस्यता कार्ड स्वचालित रूपमा देखाउँछ। वालेटमा खोज्नु पर्दैन!";
+
+"privacy_first_title" = "गोपनीयता पहिले";
+"privacy_first_subtitle" = "तपाईंको डाटा तपाईंको हो";
+"privacy_first_description" = "कार्डहरू तपाईंको यन्त्रमा स्थानीय रूपमा इन्क्रिप्ट हुन्छन्। स्थान डाटा कहिल्यै भण्डारण वा ट्र्याक हुँदैन। तपाईंले आफ्नो डाटा पूर्ण रूपमा नियन्त्रण गर्नुहुन्छ।";
+
+/* Authentication */
+"sign_in_title" = "साइन इन";
+"email_placeholder" = "आफ्नो इमेल प्रविष्ट गर्नुहोस्";
+"send_code_button" = "साइन इन कोड पठाउनुहोस्";
+"verification_title" = "प्रमाणीकरण कोड प्रविष्ट गर्नुहोस्";
+"code_placeholder" = "६-अङ्कको कोड प्रविष्ट गर्नुहोस्";
+"verify_button" = "प्रमाणित गर्नुहोस्";
+"back_button" = "पछाडि";
+
+/* Empty State */
+"no_cards_title" = "अहिलेसम्म कुनै कार्ड छैन";
+"no_cards_subtitle" = "पहिलो सदस्यता कार्ड स्क्यान गरेर सुरु गर्नुहोस्";
+"scan_camera_title" = "क्यामेराले स्क्यान गर्नुहोस्";
+"scan_camera_description" = "कुनै पनि बारकोड वा QR कोडमा क्यामेरा देखाउनुहोस्";
+"enter_manually_title" = "हातले प्रविष्ट गर्नुहोस्";
+"enter_manually_description" = "स्क्यान काम नगरे कार्ड नम्बर टाइप गर्नुहोस्";
+"secure_private_title" = "सुरक्षित र निजी";
+"secure_private_description" = "तपाईंका कार्डहरू इन्क्रिप्ट हुन्छन् र स्थानीय रूपमा भण्डारण हुन्छन्";
+"scan_first_card" = "पहिलो कार्ड स्क्यान गर्नुहोस्";
+"add_first_card" = "पहिलो कार्ड थप्नुहोस्";
+"add_manually" = "कार्ड हातले प्रविष्ट गर्नुहोस्";
+"camera_permission_required" = "कार्ड स्क्यान गर्न क्यामेरा अनुमति आवश्यक छ";
+
+/* Navigation */
+"my_cards" = "मेरा कार्डहरू";
+"scan_card" = "कार्ड स्क्यान गर्नुहोस्";
+"add_manually" = "हातले थप्नुहोस्";
+"import_photo" = "फोटोबाट आयात";
+
+/* Photo Import */
+"import_photo_title" = "फोटोबाट आयात";
+"import_photo_description" = "बारकोड भएको अवस्थित फोटो छान्नुहोस्";
+
+/* Common */
+"next_button" = "अर्को";
+"skip_button" = "छोड्नुहोस्";
+"get_started" = "सुरु गर्नुहोस्";
+

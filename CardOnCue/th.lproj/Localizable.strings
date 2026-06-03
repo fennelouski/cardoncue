@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "ยินดีต้อนรับสู่ CardOnCue";
+"welcome_subtitle" = "กระเป๋าเงินดิจิทัลสำหรับบัตรสมาชิกของคุณ";
+"welcome_description" = "อย่าลืมบัตรสมาชิกของคุณอีกต่อไป CardOnCue เก็บบัตรสะสมแต้มทั้งหมดของคุณไว้ในที่เดียวที่ปลอดภัยและเป็นส่วนตัว";
+
+"scan_store_title" = "สแกนและจัดเก็บ";
+"scan_store_subtitle" = "เพิ่มบัตรของคุณได้อย่างง่ายดาย";
+"scan_store_description" = "ใช้กล้องสแกนบาร์โค้ดจากบัตรจริงของคุณ หรือป้อนด้วยตนเอง ข้อมูลทั้งหมดถูกเข้ารหัสและจัดเก็บอย่างปลอดภัยบนอุปกรณ์ของคุณ";
+
+"location_aware_title" = "รู้ตำแหน่ง";
+"location_aware_subtitle" = "คำแนะนำบัตรอัตโนมัติ";
+"location_aware_description" = "เมื่อคุณมาถึงร้าน CardOnCue จะแสดงบัตรสมาชิกที่เกี่ยวข้องโดยอัตโนมัติ ไม่ต้องค้นหาในกระเป๋าเงินอีกต่อไป!";
+
+"privacy_first_title" = "ความเป็นส่วนตัวเป็นอันดับแรก";
+"privacy_first_subtitle" = "ข้อมูลของคุณเป็นของคุณ";
+"privacy_first_description" = "บัตรถูกเข้ารหัสในเครื่องของคุณ ข้อมูลตำแหน่งจะไม่ถูกจัดเก็บหรือติดตาม คุณควบคุมข้อมูลของคุณได้อย่างสมบูรณ์";
+
+/* Authentication */
+"sign_in_title" = "ลงชื่อเข้าใช้";
+"email_placeholder" = "ป้อนอีเมลของคุณ";
+"send_code_button" = "ส่งรหัสลงชื่อเข้าใช้";
+"verification_title" = "ป้อนรหัสยืนยัน";
+"code_placeholder" = "ป้อนรหัส 6 หลัก";
+"verify_button" = "ยืนยัน";
+"back_button" = "ย้อนกลับ";
+
+/* Empty State */
+"no_cards_title" = "ยังไม่มีบัตร";
+"no_cards_subtitle" = "เริ่มต้นด้วยการสแกนบัตรสมาชิกใบแรกของคุณ";
+"scan_camera_title" = "สแกนด้วยกล้อง";
+"scan_camera_description" = "ชี้กล้องไปที่บาร์โค้ดหรือ QR code";
+"enter_manually_title" = "ป้อนด้วยตนเอง";
+"enter_manually_description" = "พิมพ์หมายเลขบัตรหากการสแกนไม่ทำงาน";
+"secure_private_title" = "ปลอดภัยและเป็นส่วนตัว";
+"secure_private_description" = "บัตรของคุณถูกเข้ารหัสและจัดเก็บในเครื่อง";
+"scan_first_card" = "สแกนบัตรใบแรกของคุณ";
+"add_first_card" = "เพิ่มบัตรใบแรกของคุณ";
+"add_manually" = "กรอกบัตรด้วยตนเอง";
+"camera_permission_required" = "ต้องได้รับอนุญาตกล้องเพื่อสแกนบัตร";
+
+/* Navigation */
+"my_cards" = "บัตรของฉัน";
+"scan_card" = "สแกนบัตร";
+"add_manually" = "เพิ่มด้วยตนเอง";
+"import_photo" = "นำเข้าจากรูปภาพ";
+
+/* Photo Import */
+"import_photo_title" = "นำเข้าจากรูปภาพ";
+"import_photo_description" = "เลือกรูปภาพที่มีบาร์โค้ด";
+
+/* Common */
+"next_button" = "ถัดไป";
+"skip_button" = "ข้าม";
+"get_started" = "เริ่มต้น";
+

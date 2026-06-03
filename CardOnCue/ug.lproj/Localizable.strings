@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "CardOnCue غا خۇش كەپسىز";
+"welcome_subtitle" = "ئەزالىق كارتلىرىڭىز ئۈچۈن رەقەملىك ھەميانىڭىز";
+"welcome_description" = "ئەزالىق كارتلىرىڭىزنى يana بىر قېتىممۇ ئۇنتۇماڭ. CardOnCue بارلىق سادىقلىق كارتلىرىڭىزنى بىر بىخەتەر، شەخسىي جايدا ساقلايدۇ.";
+
+"scan_store_title" = "سкан قىلىش ۋە ساقلاش";
+"scan_store_subtitle" = "كارتلىرىڭىزنى ئاسانلا قوشۇڭ";
+"scan_store_description" = "جismەن كارتلىرىڭىزدىكى شىفىر كودلىرىنى سкан قىلىش ئۈچۈن كامېرانى ئىشلىتىڭ ياكى قولدا كىرگۈزۈڭ. بارلىق سانلىق مەلۇماتلار شىفىrlanىدۇ ۋە ئۈسكۈنىڭىزدە بىخەتەر ساقلىنىدۇ.";
+
+"location_aware_title" = "ئورۇن ھېس قىلىش";
+"location_aware_subtitle" = "ئاپتومatik كارت تەklifلىرى";
+"location_aware_description" = "دۇككىنىڭىزگە يەتكەندە CardOnCue مۇناسىۋەتلىك ئەزالىق كارتنى ئاپتومatik كۆرسىتىدۇ. ھەميانىڭىزدىن ئىزدەش كېرەك ئەمەس!";
+
+"privacy_first_title" = "شەخسىيلىك بىirinچى";
+"privacy_first_subtitle" = "سانلىق مەلۇماتلىرىڭىز سىزنiki";
+"privacy_first_description" = "كارتلار ئۈسكۈنىڭىزدە يەرلىكتە شىفىrlanىدۇ. ئورۇن سانلىق مەلۇماتلىرى hechقachan ساقlanmaydۇ ياكى kuzatilmaydۇ. سانلىق مەلۇماتلىرىڭىزنى تولۇق كونترول قىلىسىز.";
+
+/* Authentication */
+"sign_in_title" = "كىرىش";
+"email_placeholder" = "ئېلېktrونlux پochtangizni kiriting";
+"send_code_button" = "كىرىش كودىنى yuborish";
+"verification_title" = "دەلىللەش كودىنى كىرگۈزۈڭ";
+"code_placeholder" = "6 خانىلىق كودنى كىرگۈزۈڭ";
+"verify_button" = "دەلىللەش";
+"back_button" = "قايتىش";
+
+/* Empty State */
+"no_cards_title" = "ھali كارت yoq";
+"no_cards_subtitle" = "بirinchi a'zolik kartingizni skan qilib boshlang";
+"scan_camera_title" = "كامېرا bilan skan qilish";
+"scan_camera_description" = "كامېرانى har qanday shtrix-kod yoki QR kodga qarating";
+"enter_manually_title" = "قولدا كىرگۈزۈش";
+"enter_manually_description" = "Skan ishlamasa karta raqamini yozing";
+"secure_private_title" = "بىخەتەر ۋە شەخسىي";
+"secure_private_description" = "كارتلىرىڭىز شىفىrlanىدۇ ۋە yerdə saqlanadi";
+"scan_first_card" = "Birinchi kartingizni skan qiling";
+"add_first_card" = "Birinchi kartingizni qo'shing";
+"add_manually" = "كارتىنى قولدا كىرگۈزۈش";
+"camera_permission_required" = "Kartalarni skan qilish uchun kamera ruxsati kerak";
+
+/* Navigation */
+"my_cards" = "كارتلىرىم";
+"scan_card" = "كارتنى skan qilish";
+"add_manually" = "قولدا قوشۇش";
+"import_photo" = "رەسىملەrdan import qilish";
+
+/* Photo Import */
+"import_photo_title" = "رەسىملەrdan import qilish";
+"import_photo_description" = "Shtrix-kodli mavjud rasmni tanlang";
+
+/* Common */
+"next_button" = "كېيىنكى";
+"skip_button" = "ئاتلاش";
+"get_started" = "باشlash";
+

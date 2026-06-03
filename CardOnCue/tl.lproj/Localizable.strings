@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Maligayang pagdating sa CardOnCue";
+"welcome_subtitle" = "Iyong digital wallet para sa membership cards";
+"welcome_description" = "Hindi mo na makakalimutan ang iyong membership cards. Pinapanatili ng CardOnCue ang lahat ng loyalty cards mo sa isang ligtas at pribadong lugar.";
+
+"scan_store_title" = "I-scan at I-save";
+"scan_store_subtitle" = "Madaling idagdag ang iyong cards";
+"scan_store_description" = "Gamitin ang camera para i-scan ang barcode ng physical cards o i-enter nang mano-mano. Lahat ng data ay encrypted at ligtas na naka-save sa device mo.";
+
+"location_aware_title" = "May location awareness";
+"location_aware_subtitle" = "Awtomatikong mungkahi ng card";
+"location_aware_description" = "Pagdating mo sa store, awtomatikong ipapakita ng CardOnCue ang tamang membership card.";
+
+"privacy_first_title" = "Privacy muna";
+"privacy_first_subtitle" = "Sa iyo ang data mo";
+"privacy_first_description" = "Encrypted nang lokal sa device mo ang cards. Hindi sine-save o tina-track ang location data.";
+
+/* Authentication */
+"sign_in_title" = "Mag-sign in";
+"email_placeholder" = "Ilagay ang email mo";
+"send_code_button" = "Ipadala ang sign in code";
+"verification_title" = "Ilagay ang verification code";
+"code_placeholder" = "Ilagay ang 6-digit code";
+"verify_button" = "I-verify";
+"back_button" = "Bumalik";
+
+/* Empty State */
+"no_cards_title" = "Wala pang cards";
+"no_cards_subtitle" = "Magsimula sa pag-scan ng una mong membership card";
+"scan_camera_title" = "I-scan gamit ang camera";
+"scan_camera_description" = "Itutok ang camera sa barcode o QR code";
+"enter_manually_title" = "Ilagay nang mano-mano";
+"enter_manually_description" = "I-type ang card number kung hindi gumana ang scan";
+"secure_private_title" = "Ligtas at pribado";
+"secure_private_description" = "Encrypted at lokal na naka-save ang cards mo";
+"scan_first_card" = "I-scan ang una mong card";
+"add_first_card" = "Idagdag ang una mong card";
+"add_manually" = "Ilagay ang card nang mano-mano";
+"camera_permission_required" = "Kailangan ang camera permission para mag-scan ng cards";
+
+/* Navigation */
+"my_cards" = "Aking Cards";
+"scan_card" = "I-scan ang Card";
+"add_manually" = "Magdagdag nang mano-mano";
+"import_photo" = "Mag-import mula sa Photos";
+
+/* Photo Import */
+"import_photo_title" = "Mag-import mula sa Photos";
+"import_photo_description" = "Pumili ng existing photo na may barcode";
+
+/* Common */
+"next_button" = "Susunod";
+"skip_button" = "Laktawan";
+"get_started" = "Magsimula";
+

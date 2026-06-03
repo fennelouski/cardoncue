@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "CardOnCue میں خوش آمدید";
+"welcome_subtitle" = "رکنیت کارڈز کے لیے آپ کا ڈیجیٹل والیٹ";
+"welcome_description" = "اپنے رکنیت کارڈز دوبارہ کبھی نہ بھولیں۔ CardOnCue آپ کے تمام لائلٹی کارڈز ایک محفوظ، نجی جگہ پر رکھتا ہے۔";
+
+"scan_store_title" = "اسکین اور محفوظ کریں";
+"scan_store_subtitle" = "آسانی سے اپنے کارڈز شامل کریں";
+"scan_store_description" = "اپنے جسمانی کارڈز کے بارکوڈز اسکین کرنے کے لیے کیمرہ استعمال کریں، یا دستی طور پر درج کریں۔ تمام ڈیٹا خفیہ کیا جاتا ہے اور آپ کے آلے پر محفوظ طریقے سے محفوظ ہوتا ہے۔";
+
+"location_aware_title" = "مقام سے آگاہ";
+"location_aware_subtitle" = "خودکار کارڈ تجاویز";
+"location_aware_description" = "جب آپ دکان پر پہنچیں، CardOnCue متعلقہ رکنیت کارڈ خودکار طور پر دکھائے گا۔ والیٹ میں تلاش کرنے کی ضرورت نہیں!";
+
+"privacy_first_title" = "رازداری پہلے";
+"privacy_first_subtitle" = "آپ کا ڈیٹا آپ کا ہے";
+"privacy_first_description" = "کارڈز آپ کے آلے پر مقامی طور پر خفیہ ہوتے ہیں۔ مقام کا ڈیٹا کبھی محفوظ یا ٹریک نہیں ہوتا۔ آپ اپنے ڈیٹا پر مکمل کنٹرول رکھتے ہیں۔";
+
+/* Authentication */
+"sign_in_title" = "سائن ان";
+"email_placeholder" = "اپنا ای میل درج کریں";
+"send_code_button" = "سائن ان کوڈ بھیجیں";
+"verification_title" = "تصدیقی کوڈ درج کریں";
+"code_placeholder" = "6 ہندسوں کا کوڈ درج کریں";
+"verify_button" = "تصدیق کریں";
+"back_button" = "واپس";
+
+/* Empty State */
+"no_cards_title" = "ابھی کوئی کارڈ نہیں";
+"no_cards_subtitle" = "اپنا پہلا رکنیت کارڈ اسکین کر کے شروع کریں";
+"scan_camera_title" = "کیمرے سے اسکین کریں";
+"scan_camera_description" = "کسی بھی بارکوڈ یا QR کوڈ پر کیمرہ رکھیں";
+"enter_manually_title" = "دستی طور پر درج کریں";
+"enter_manually_description" = "اگر اسکین کام نہ کرے تو کارڈ نمبر ٹائپ کریں";
+"secure_private_title" = "محفوظ اور نجی";
+"secure_private_description" = "آپ کے کارڈز خفیہ ہوتے ہیں اور مقامی طور پر محفوظ ہوتے ہیں";
+"scan_first_card" = "اپنا پہلا کارڈ اسکین کریں";
+"add_first_card" = "اپنا پہلا کارڈ شامل کریں";
+"add_manually" = "کارڈ دستی طور پر درج کریں";
+"camera_permission_required" = "کارڈز اسکین کرنے کے لیے کیمرے کی اجازت درکار ہے";
+
+/* Navigation */
+"my_cards" = "میرے کارڈز";
+"scan_card" = "کارڈ اسکین کریں";
+"add_manually" = "دستی شامل کریں";
+"import_photo" = "تصاویر سے درآمد";
+
+/* Photo Import */
+"import_photo_title" = "تصاویر سے درآمد";
+"import_photo_description" = "بارکوڈ والی موجودہ تصویر منتخب کریں";
+
+/* Common */
+"next_button" = "اگلا";
+"skip_button" = "چھوڑیں";
+"get_started" = "شروع کریں";
+

@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Willkommen bei CardOnCue";
+"welcome_subtitle" = "Ihre digitale Brieftasche für Mitgliedskarten";
+"welcome_description" = "Vergessen Sie Ihre Mitgliedskarten nie wieder. CardOnCue bewahrt alle Ihre Kundenkarten an einem sicheren, privaten Ort auf.";
+
+"scan_store_title" = "Scannen & Speichern";
+"scan_store_subtitle" = "Karten einfach hinzufügen";
+"scan_store_description" = "Scannen Sie Barcodes Ihrer physischen Karten mit der Kamera oder geben Sie sie manuell ein. Alle Daten werden verschlüsselt und sicher auf Ihrem Gerät gespeichert.";
+
+"location_aware_title" = "Standortbasiert";
+"location_aware_subtitle" = "Automatische Kartenvorschläge";
+"location_aware_description" = "Wenn Sie ein Geschäft erreichen, zeigt CardOnCue automatisch die passende Mitgliedskarte an. Kein Wühlen mehr in der Brieftasche!";
+
+"privacy_first_title" = "Datenschutz zuerst";
+"privacy_first_subtitle" = "Ihre Daten gehören Ihnen";
+"privacy_first_description" = "Karten werden lokal auf Ihrem Gerät verschlüsselt. Standortdaten werden nie gespeichert oder verfolgt. Sie behalten die volle Kontrolle.";
+
+/* Authentication */
+"sign_in_title" = "Anmelden";
+"email_placeholder" = "E-Mail eingeben";
+"send_code_button" = "Anmeldecode senden";
+"verification_title" = "Bestätigungscode eingeben";
+"code_placeholder" = "6-stelligen Code eingeben";
+"verify_button" = "Bestätigen";
+"back_button" = "Zurück";
+
+/* Empty State */
+"no_cards_title" = "Noch keine Karten";
+"no_cards_subtitle" = "Scannen Sie Ihre erste Mitgliedskarte, um zu starten";
+"scan_camera_title" = "Mit Kamera scannen";
+"scan_camera_description" = "Richten Sie die Kamera auf einen Barcode oder QR-Code";
+"enter_manually_title" = "Manuell eingeben";
+"enter_manually_description" = "Kartennummer eingeben, wenn das Scannen nicht funktioniert";
+"secure_private_title" = "Sicher & privat";
+"secure_private_description" = "Ihre Karten werden verschlüsselt und lokal gespeichert";
+"scan_first_card" = "Erste Karte scannen";
+"add_first_card" = "Erste Karte hinzufügen";
+"add_manually" = "Karte manuell eingeben";
+"camera_permission_required" = "Kamerazugriff ist zum Scannen von Karten erforderlich";
+
+/* Navigation */
+"my_cards" = "Meine Karten";
+"scan_card" = "Karte scannen";
+"add_manually" = "Manuell hinzufügen";
+"import_photo" = "Aus Fotos importieren";
+
+/* Photo Import */
+"import_photo_title" = "Aus Fotos importieren";
+"import_photo_description" = "Wählen Sie ein vorhandenes Foto mit Barcode";
+
+/* Common */
+"next_button" = "Weiter";
+"skip_button" = "Überspringen";
+"get_started" = "Loslegen";
+

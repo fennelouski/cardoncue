@@ -4,6 +4,7 @@ import { requireJwtAuth } from '@/lib/jwtAuth';
 import {
   firstNetworkId,
   findDuplicateSubmission,
+  type NearbySubmissionRow,
   type SubmissionSource,
 } from '@/lib/locationSubmissions';
 
@@ -88,7 +89,7 @@ export async function POST(
       `;
 
       const duplicate = findDuplicateSubmission(
-        candidates.rows,
+        candidates.rows as NearbySubmissionRow[],
         lat,
         lon,
         suggestedNetworkId

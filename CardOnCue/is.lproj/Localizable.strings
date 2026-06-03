@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Velkomin í CardOnCue";
+"welcome_subtitle" = "Stafræna veskið þitt fyrir félagskort";
+"welcome_description" = "Gleymdu aldrei félagskortunum þínum aftur. CardOnCue geymir öll tryggðarkortin þín á einum öruggum og einkaréttum stað.";
+
+"scan_store_title" = "Skanna og vista";
+"scan_store_subtitle" = "Bættu við kortum þínum auðveldlega";
+"scan_store_description" = "Notaðu myndavélina til að skanna strikamerki af líkamlegum kortum eða sláðu þau inn handvirkt. Öll gögn eru dulkóðuð og geymd örugglega í tækinu þínu.";
+
+"location_aware_title" = "Staðsetningarvænt";
+"location_aware_subtitle" = "Sjálfvirkar kortatillögur";
+"location_aware_description" = "Þegar þú kemur í verslun mun CardOnCue sjálfkrafa sýna viðeigandi félagskort. Ekki þarf lengur að leita í veskinu!";
+
+"privacy_first_title" = "Persónuvernd fyrst";
+"privacy_first_subtitle" = "Gögnin þín eru þín";
+"privacy_first_description" = "Kort eru dulkóðuð staðbundið í tækinu þínu. Staðsetningargögn eru aldrei geymd eða rakinn. Þú hefur fulla stjórn á gögnunum þínum.";
+
+/* Authentication */
+"sign_in_title" = "Skrá inn";
+"email_placeholder" = "Sláðu inn netfangið þitt";
+"send_code_button" = "Senda innskráningarkóða";
+"verification_title" = "Sláðu inn staðfestingarkóða";
+"code_placeholder" = "Sláðu inn 6 stafa kóða";
+"verify_button" = "Staðfesta";
+"back_button" = "Til baka";
+
+/* Empty State */
+"no_cards_title" = "Engin kort enn";
+"no_cards_subtitle" = "Byrjaðu á að skanna fyrsta félagskortið þitt";
+"scan_camera_title" = "Skanna með myndavél";
+"scan_camera_description" = "Beindu myndavélinni að strikamerki eða QR kóða";
+"enter_manually_title" = "Slá inn handvirkt";
+"enter_manually_description" = "Sláðu inn kortanúmer ef skönnun virkar ekki";
+"secure_private_title" = "Öruggt og einkarétt";
+"secure_private_description" = "Kortin þín eru dulkóðuð og geymd staðbundið";
+"scan_first_card" = "Skannaðu fyrsta kortið þitt";
+"add_first_card" = "Bættu við fyrsta kortinu þínu";
+"add_manually" = "Slá kort inn handvirkt";
+"camera_permission_required" = "Myndavélarheimild er nauðsynleg til að skanna kort";
+
+/* Navigation */
+"my_cards" = "Kortin mín";
+"scan_card" = "Skanna kort";
+"add_manually" = "Bæta við handvirkt";
+"import_photo" = "Flytja inn úr Myndum";
+
+/* Photo Import */
+"import_photo_title" = "Flytja inn úr Myndum";
+"import_photo_description" = "Veldu núverandi mynd með strikamerki";
+
+/* Common */
+"next_button" = "Næsta";
+"skip_button" = "Sleppa";
+"get_started" = "Byrja";
+

@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Siyakwamukela ku-CardOnCue";
+"welcome_subtitle" = "Isikhwama sakho sedijithali samakhadi obulungu";
+"welcome_description" = "Ungalokothi ukhohlwe amakhadi akho obulungu. I-CardOnCue igcina wonke amakhadi akho okutheni endaweni eyodwa ephephile neyangasese.";
+
+"scan_store_title" = "Skena & Gcina";
+"scan_store_subtitle" = "Engeza amakhadi akho kalula";
+"scan_store_description" = "Sebenzisa ikhamera ukuskena ama-barcode asemakhadini akho angokoqobo, noma uwafake ngesandla. Yonke idatha iyafihlwa futhi igcinwe ngokuphepha kudivayisi yakho.";
+
+"location_aware_title" = "Iqonda indawo";
+"location_aware_subtitle" = "Iziphakamiso zamakhadi ezenzakalelayo";
+"location_aware_description" = "Uma ufika esitolo, i-CardOnCue izokukhombisa ikhadi lobulungu elifanele ngokuzenzakalelayo. Akukho ukusesha esikhwameni!";
+
+"privacy_first_title" = "Ubumfihlo kuqala";
+"privacy_first_subtitle" = "Idatha yakho ihlala eyakho";
+"privacy_first_description" = "Amakhadi afihlwe endaweni yedivayisi yakho. Idatha yendawo ayigcinwa noma ilandwe. Ulawula idatha yakho ngokuphelele.";
+
+/* Authentication */
+"sign_in_title" = "Ngena";
+"email_placeholder" = "Faka i-imeyili yakho";
+"send_code_button" = "Thumela ikhodi yokungena";
+"verification_title" = "Faka ikhodi yokuqinisekisa";
+"code_placeholder" = "Faka ikhodi enezinombolo ezi-6";
+"verify_button" = "Qinisekisa";
+"back_button" = "Emuva";
+
+/* Empty State */
+"no_cards_title" = "Awukho amakhadi okwamanje";
+"no_cards_subtitle" = "Qala ngokuskena ikhadi lakho lokuqala lobulungu";
+"scan_camera_title" = "Skena ngekhamera";
+"scan_camera_description" = "Qondisa ikhamera kunoma yiliphi i-barcode noma i-QR code";
+"enter_manually_title" = "Faka ngesandla";
+"enter_manually_description" = "Thayipha inombolo yekhadi uma ukuskena kungasebenzi";
+"secure_private_title" = "Kuphephile & kuyimfihlo";
+"secure_private_description" = "Amakhadi akho afihlwe futhi agcinwe endaweni";
+"scan_first_card" = "Skena ikhadi lakho lokuqala";
+"add_first_card" = "Engeza ikhadi lakho lokuqala";
+"add_manually" = "Faka ikhadi mathupha";
+"camera_permission_required" = "Imvume yekhamera iyadingeka ukuze uskene amakhadi";
+
+/* Navigation */
+"my_cards" = "Amakhadi Ami";
+"scan_card" = "Skena Ikhadi";
+"add_manually" = "Engeza mathupha";
+"import_photo" = "Ngenisa Kusuka Kuzithombe";
+
+/* Photo Import */
+"import_photo_title" = "Ngenisa Kusuka Kuzithombe";
+"import_photo_description" = "Khetha isithombe esikhona esine-barcode";
+
+/* Common */
+"next_button" = "Okulandelayo";
+"skip_button" = "Yeqa";
+"get_started" = "Qala";
+

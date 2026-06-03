@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Üdvözöljük a CardOnCue-ban";
+"welcome_subtitle" = "Digitális pénztárcája tagsági kártyákhoz";
+"welcome_description" = "Soha ne felejtse el tagsági kártyáit. A CardOnCue az összes hűségkártyáját egy biztonságos, privát helyen tartja.";
+
+"scan_store_title" = "Szkennelés és mentés";
+"scan_store_subtitle" = "Könnyen adja hozzá kártyáit";
+"scan_store_description" = "Használja a kamerát a fizikai kártyák vonalkódjainak beolvasásához, vagy adja meg őket kézzel. Minden adat titkosítva van és biztonságosan tárolódik az eszközén.";
+
+"location_aware_title" = "Helymeghatározás-alapú";
+"location_aware_subtitle" = "Automatikus kártyajavaslatok";
+"location_aware_description" = "Amikor megérkezik egy üzletbe, a CardOnCue automatikusan megmutatja a megfelelő tagsági kártyát. Nincs több kutakodás a pénztárcában!";
+
+"privacy_first_title" = "Adatvédelem az első";
+"privacy_first_subtitle" = "Az adatai az önéi maradnak";
+"privacy_first_description" = "A kártyák helyileg titkosítva vannak az eszközén. A helyadatokat soha nem tároljuk vagy követjük. Ön teljes mértékben ellenőrzi adatait.";
+
+/* Authentication */
+"sign_in_title" = "Bejelentkezés";
+"email_placeholder" = "Adja meg e-mail címét";
+"send_code_button" = "Bejelentkezési kód küldése";
+"verification_title" = "Adja meg az ellenőrző kódot";
+"code_placeholder" = "Adja meg a 6 jegyű kódot";
+"verify_button" = "Ellenőrzés";
+"back_button" = "Vissza";
+
+/* Empty State */
+"no_cards_title" = "Még nincsenek kártyák";
+"no_cards_subtitle" = "Kezdje az első tagsági kártya beolvasásával";
+"scan_camera_title" = "Szkennelés kamerával";
+"scan_camera_description" = "Irányítsa a kamerát bármely vonalkódra vagy QR-kódra";
+"enter_manually_title" = "Kézi megadás";
+"enter_manually_description" = "Írja be a kártyaszámot, ha a szkennelés nem működik";
+"secure_private_title" = "Biztonságos és privát";
+"secure_private_description" = "Kártyái titkosítva vannak és helyileg tárolódnak";
+"scan_first_card" = "Szkennelje be első kártyáját";
+"add_first_card" = "Adja hozzá első kártyáját";
+"add_manually" = "Kártya kézi megadása";
+"camera_permission_required" = "Kamerához való hozzáférés szükséges a kártyák beolvasásához";
+
+/* Navigation */
+"my_cards" = "Kártyáim";
+"scan_card" = "Kártya szkennelése";
+"add_manually" = "Hozzáadás kézzel";
+"import_photo" = "Importálás a Fotókból";
+
+/* Photo Import */
+"import_photo_title" = "Importálás a Fotókból";
+"import_photo_description" = "Válasszon egy meglévő fotót vonalkóddal";
+
+/* Common */
+"next_button" = "Tovább";
+"skip_button" = "Kihagyás";
+"get_started" = "Kezdés";
+

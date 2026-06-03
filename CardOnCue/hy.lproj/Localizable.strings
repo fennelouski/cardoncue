@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Բարի գալուստ CardOnCue";
+"welcome_subtitle" = "Ձեր թվային դրամապանակը անդամակցության քարտերի համար";
+"welcome_description" = "Երբեք այլևս մի մոռացեք ձեր անդամակցության քարտերը։ CardOnCue-ն պահում է բոլոր հավատարիմության քարտերը մեկ անվտանգ և գաղտնի վայրում։";
+
+"scan_store_title" = "Սկանավորել և պահել";
+"scan_store_subtitle" = "Հեշտությամբ ավելացրեք ձեր քարտերը";
+"scan_store_description" = "Օգտագործեք տեսախցիկը ֆիզիկական քարտերի շտրիխ-կոդերը սկանավորելու համար կամ մուտքագրեք դրանք ձեռքով։ Բոլոր տվյալները կոդավորվում են և անվտանգ պահվում ձեր սարքում։";
+
+"location_aware_title" = "Տեղադրության հաշվառում";
+"location_aware_subtitle" = "Ավտոմատ քարտի առաջարկներ";
+"location_aware_description" = "Խանութ հասնելիս CardOnCue-ն ավտոմատ կցուցադրի համապատասխան անդամակցության քարտը։ Այլևս պետք չէ դրամապանակում փնտրել։";
+
+"privacy_first_title" = "Գաղտնիությունը առաջին հերթին";
+"privacy_first_subtitle" = "Ձեր տվյալները ձերն են";
+"privacy_first_description" = "Քարտերը կոդավորվում են տեղային ձեր սարքում։ Տեղադրության տվյալները երբեք չեն պահվում կամ հետևվում։ Դուք ամբողջությամբ վերահսկում եք ձեր տվյալները։";
+
+/* Authentication */
+"sign_in_title" = "Մուտք";
+"email_placeholder" = "Մուտքագրեք ձեր էլ. փոստը";
+"send_code_button" = "Ուղարկել մուտքի կոդ";
+"verification_title" = "Մուտքագրեք հաստատման կոդ";
+"code_placeholder" = "Մուտքագրեք 6-նիշ կոդ";
+"verify_button" = "Հաստատել";
+"back_button" = "Հետ";
+
+/* Empty State */
+"no_cards_title" = "Դեռ քարտեր չկան";
+"no_cards_subtitle" = "Սկսեք ձեր առաջին անդամակցության քարտը սկանավորելով";
+"scan_camera_title" = "Սկանավորել տեսախցիկով";
+"scan_camera_description" = "Ուղղեք տեսախցիկը ցանկացած շտրիխ-կոդի կամ QR կոդի վրա";
+"enter_manually_title" = "Մուտքագրել ձեռքով";
+"enter_manually_description" = "Մուտքագրեք քարտի համարը, եթե սկանավորումը չի աշխատում";
+"secure_private_title" = "Անվտանգ և գաղտնի";
+"secure_private_description" = "Ձեր քարտերը կոդավորվում են և պահվում են տեղային";
+"scan_first_card" = "Սկանավորեք ձեր առաջին քարտը";
+"add_first_card" = "Ավելացրեք ձեր առաջին քարտը";
+"add_manually" = "Մուտքագրել քարտը ձեռքով";
+"camera_permission_required" = "Քարտեր սկանավորելու համար անհրաժեշտ է տեսախցիկի թույլտվություն";
+
+/* Navigation */
+"my_cards" = "Իմ քարտերը";
+"scan_card" = "Սկանավորել քարտ";
+"add_manually" = "Ավելացնել ձեռքով";
+"import_photo" = "Ներմուծել Լուսանկարներից";
+
+/* Photo Import */
+"import_photo_title" = "Ներմուծել Լուսանկարներից";
+"import_photo_description" = "Ընտրեք առկա լուսանկար շտրիխ-կոդով";
+
+/* Common */
+"next_button" = "Հաջորդ";
+"skip_button" = "Բաց թողնել";
+"get_started" = "Սկսել";
+

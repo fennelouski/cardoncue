@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Selamat datang di CardOnCue";
+"welcome_subtitle" = "Dompet digital Anda untuk kartu keanggotaan";
+"welcome_description" = "Jangan pernah lupa kartu keanggotaan Anda lagi. CardOnCue menyimpan semua kartu loyalitas Anda di satu tempat yang aman dan pribadi.";
+
+"scan_store_title" = "Pindai & Simpan";
+"scan_store_subtitle" = "Tambahkan kartu dengan mudah";
+"scan_store_description" = "Gunakan kamera untuk memindai barcode dari kartu fisik Anda, atau masukkan secara manual. Semua data dienkripsi dan disimpan dengan aman di perangkat Anda.";
+
+"location_aware_title" = "Sadari lokasi";
+"location_aware_subtitle" = "Saran kartu otomatis";
+"location_aware_description" = "Saat Anda tiba di toko, CardOnCue akan otomatis menampilkan kartu keanggotaan yang relevan. Tidak perlu lagi mencari di dompet!";
+
+"privacy_first_title" = "Privasi utama";
+"privacy_first_subtitle" = "Data Anda tetap milik Anda";
+"privacy_first_description" = "Kartu dienkripsi secara lokal di perangkat Anda. Data lokasi tidak pernah disimpan atau dilacak. Anda mengontrol data sepenuhnya.";
+
+/* Authentication */
+"sign_in_title" = "Masuk";
+"email_placeholder" = "Masukkan email Anda";
+"send_code_button" = "Kirim kode masuk";
+"verification_title" = "Masukkan kode verifikasi";
+"code_placeholder" = "Masukkan kode 6 digit";
+"verify_button" = "Verifikasi";
+"back_button" = "Kembali";
+
+/* Empty State */
+"no_cards_title" = "Belum ada kartu";
+"no_cards_subtitle" = "Mulai dengan memindai kartu keanggotaan pertama Anda";
+"scan_camera_title" = "Pindai dengan kamera";
+"scan_camera_description" = "Arahkan kamera ke barcode atau QR code";
+"enter_manually_title" = "Masukkan manual";
+"enter_manually_description" = "Ketik nomor kartu jika pemindaian tidak berfungsi";
+"secure_private_title" = "Aman & pribadi";
+"secure_private_description" = "Kartu Anda dienkripsi dan disimpan secara lokal";
+"scan_first_card" = "Pindai kartu pertama Anda";
+"add_first_card" = "Tambahkan kartu pertama Anda";
+"add_manually" = "Masukkan kartu secara manual";
+"camera_permission_required" = "Izin kamera diperlukan untuk memindai kartu";
+
+/* Navigation */
+"my_cards" = "Kartu Saya";
+"scan_card" = "Pindai kartu";
+"add_manually" = "Tambah manual";
+"import_photo" = "Impor dari Foto";
+
+/* Photo Import */
+"import_photo_title" = "Impor dari Foto";
+"import_photo_description" = "Pilih foto yang ada dengan barcode";
+
+/* Common */
+"next_button" = "Berikutnya";
+"skip_button" = "Lewati";
+"get_started" = "Mulai";
+

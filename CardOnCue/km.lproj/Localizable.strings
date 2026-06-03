@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "សូមស្វាគមន៍មកកាន់ CardOnCue";
+"welcome_subtitle" = "កាបូបឌីជីថលរបស់អ្នកសម្រាប់កាតសមាជិក";
+"welcome_description" = "កុំភ្លេចកាតសមាជិករបស់អ្នកទៀតទេ។ CardOnCue រក្សាទុកកាតស្មោះត្រង់ទាំងអស់របស់អ្នកក្នុងកន្លែងមួយដែលមានសុវត្ថិភាព និងឯកជន។";
+
+"scan_store_title" = "សcan និងរក្សាទុក";
+"scan_store_subtitle" = "បន្ថែមកាតរបស់អ្នកបានងាយស្រួល";
+"scan_store_description" = "ប្រើកamera ដើម្បីសcan បាកូដពីកាតរូបវ័ន្ត ឬបញ្ចូលដោយដៃ។ ទិន្នន័យទាំងអស់ត្រូវបានអ៊ិនគ្រីប និងរក្សាទុកដោយសុវត្ថិភាពនៅលើឧបករណ៍របស់អ្នក។";
+
+"location_aware_title" = "ដឹងពីទីតាំង";
+"location_aware_subtitle" = "ការណែនាំកាតស្វ័យប្រវត្តិ";
+"location_aware_description" = "នៅពេលអ្នកមកដល់ហាង CardOnCue នឹងបង្ហាញកាតសមាជិកដែលពាក់ព័ន្ធដោយស្វ័យប្រវត្តិ។ មិនចាំបាច់រកក្នុងកាបូបទៀតទេ!";
+
+"privacy_first_title" = "ភាពឯកជនជាអាទិភាព";
+"privacy_first_subtitle" = "ទិន្នន័យរបស់អ្នកជារបស់អ្នក";
+"privacy_first_description" = "កាតត្រូវបានអ៊ិនគ្រីបក្នុងស្ថានីយឧបករណ៍របស់អ្នក។ ទិន្នន័យទីតាំងមិនត្រូវបានរក្សាទុក ឬតាមដានឡើយ។ អ្នកគ្រប់គ្រងទិន្នន័យរបស់អ្នកទាំងស្រុង។";
+
+/* Authentication */
+"sign_in_title" = "ចូល";
+"email_placeholder" = "បញ្ចូលអ៊ីមែលរបស់អ្នក";
+"send_code_button" = "ផ្ញើកូដចូល";
+"verification_title" = "បញ្ចូលកូដផ្ទៀងផ្ទាត់";
+"code_placeholder" = "បញ្ចូលកូដ 6 ខ្ទង់";
+"verify_button" = "ផ្ទៀងផ្ទាត់";
+"back_button" = "ត្រឡប់";
+
+/* Empty State */
+"no_cards_title" = "មិនទាន់មានកាត";
+"no_cards_subtitle" = "ចាប់ផ្តើមដោយសcan កាតសមាជិកដំបូងរបស់អ្នក";
+"scan_camera_title" = "សcan ដោយកamera";
+"scan_camera_description" = "ចង្អុលកamera ទៅបាកូដ ឬ QR code";
+"enter_manually_title" = "បញ្ចូលដោយដៃ";
+"enter_manually_description" = "វាយលេខកាតប្រសិនបើការសcan មិនដំណើរការ";
+"secure_private_title" = "មានសុវត្ថិភាព និងឯកជន";
+"secure_private_description" = "កាតរបស់អ្នកត្រូវបានអ៊ិនគ្រីប និងរក្សាទុកក្នុងស្ថានីយ";
+"scan_first_card" = "សcan កាតដំបូងរបស់អ្នក";
+"add_first_card" = "បន្ថែមកាតដំបូងរបស់អ្នក";
+"add_manually" = "បញ្ចូលកាតដោយដៃ";
+"camera_permission_required" = "ត្រូវការការអនុញ្ញាតកamera ដើម្បីសcan កាត";
+
+/* Navigation */
+"my_cards" = "កាតរបស់ខ្ញុំ";
+"scan_card" = "សcan កាត";
+"add_manually" = "បន្ថែមដោយដៃ";
+"import_photo" = "នាំចូលពីរូបថត";
+
+/* Photo Import */
+"import_photo_title" = "នាំចូលពីរូបថត";
+"import_photo_description" = "ជ្រើសរូបថតដែលមានបាកូដ";
+
+/* Common */
+"next_button" = "បន្ទាប់";
+"skip_button" = "រំលង";
+"get_started" = "ចាប់ផ្តើម";
+

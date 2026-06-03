@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "CardOnCue mein aapka swagat hai";
+"welcome_subtitle" = "Membership cards ke liye aapka digital wallet";
+"welcome_description" = "Apne membership cards kabhi mat bhooliye. CardOnCue aapke saare loyalty cards ko ek secure, private jagah par rakhta hai.";
+
+"scan_store_title" = "Scan aur Save";
+"scan_store_subtitle" = "Cards asaani se add karein";
+"scan_store_description" = "Physical cards ke barcode ko camera se scan karein ya manually enter karein. Saara data encrypted hota hai aur device par secure store hota hai.";
+
+"location_aware_title" = "Location aware";
+"location_aware_subtitle" = "Automatic card suggestions";
+"location_aware_description" = "Jab aap store par pahunchte hain, CardOnCue relevant membership card automatically dikhaata hai.";
+
+"privacy_first_title" = "Privacy pehle";
+"privacy_first_subtitle" = "Aapka data sirf aapka";
+"privacy_first_description" = "Cards aapke device par locally encrypted rehte hain. Location data kabhi store ya track nahin hota.";
+
+/* Authentication */
+"sign_in_title" = "Sign in";
+"email_placeholder" = "Apna email daalein";
+"send_code_button" = "Sign in code bhejein";
+"verification_title" = "Verification code daalein";
+"code_placeholder" = "6-digit code daalein";
+"verify_button" = "Verify";
+"back_button" = "Back";
+
+/* Empty State */
+"no_cards_title" = "Abhi koi card nahin";
+"no_cards_subtitle" = "Shuru karne ke liye apna pehla membership card scan karein";
+"scan_camera_title" = "Camera se scan karein";
+"scan_camera_description" = "Camera ko barcode ya QR code par point karein";
+"enter_manually_title" = "Manually enter karein";
+"enter_manually_description" = "Agar scan kaam na kare to card number type karein";
+"secure_private_title" = "Secure aur private";
+"secure_private_description" = "Aapke cards encrypted hote hain aur local store hote hain";
+"scan_first_card" = "Apna pehla card scan karein";
+"add_first_card" = "Apna pehla card add karein";
+"add_manually" = "Card manually enter karein";
+"camera_permission_required" = "Cards scan karne ke liye camera permission zaroori hai";
+
+/* Navigation */
+"my_cards" = "Mere Cards";
+"scan_card" = "Card Scan Karein";
+"add_manually" = "Manually add karein";
+"import_photo" = "Photos se import karein";
+
+/* Photo Import */
+"import_photo_title" = "Photos se import karein";
+"import_photo_description" = "Barcode wali photo select karein";
+
+/* Common */
+"next_button" = "Next";
+"skip_button" = "Skip";
+"get_started" = "Shuru karein";
+

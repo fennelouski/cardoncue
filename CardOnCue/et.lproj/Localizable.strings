@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Tere tulemast CardOnCue'i";
+"welcome_subtitle" = "Teie digitaalne rahakott liikmekaartide jaoks";
+"welcome_description" = "Ärge kunagi unustage oma liikmekaarte. CardOnCue hoiab kõiki teie püsikliendikaarte ühes turvalises ja privaatses kohas.";
+
+"scan_store_title" = "Skaneeri ja salvesta";
+"scan_store_subtitle" = "Lisage kaarte lihtsalt";
+"scan_store_description" = "Kasutage kaamerat füüsiliste kaartide vöötkoodide skaneerimiseks või sisestage need käsitsi. Kõik andmed krüpteeritakse ja salvestatakse turvaliselt teie seadmesse.";
+
+"location_aware_title" = "Asukohateadlik";
+"location_aware_subtitle" = "Automaatsed kaardisoovitused";
+"location_aware_description" = "Kui jõuate poodi, näitab CardOnCue automaatselt asjakohast liikmekaarti. Enam ei pea rahakotis otsima!";
+
+"privacy_first_title" = "Privaatsus esikohal";
+"privacy_first_subtitle" = "Teie andmed jäävad teie omaks";
+"privacy_first_description" = "Kaardid krüpteeritakse kohapeal teie seadmes. Asukohaandmeid ei salvestata ega jälgita kunagi. Te kontrollite oma andmeid täielikult.";
+
+/* Authentication */
+"sign_in_title" = "Logi sisse";
+"email_placeholder" = "Sisestage oma e-post";
+"send_code_button" = "Saada sisselogimiskood";
+"verification_title" = "Sisestage kinnituskood";
+"code_placeholder" = "Sisestage 6-kohaline kood";
+"verify_button" = "Kinnita";
+"back_button" = "Tagasi";
+
+/* Empty State */
+"no_cards_title" = "Kaarte pole veel";
+"no_cards_subtitle" = "Alustage esimese liikmekaardi skaneerimisega";
+"scan_camera_title" = "Skaneeri kaameraga";
+"scan_camera_description" = "Suunake kaamera mis tahes vöötkoodi või QR-koodi poole";
+"enter_manually_title" = "Sisesta käsitsi";
+"enter_manually_description" = "Sisestage kaardinumber, kui skaneerimine ei tööta";
+"secure_private_title" = "Turvaline ja privaatne";
+"secure_private_description" = "Teie kaardid krüpteeritakse ja salvestatakse kohapeal";
+"scan_first_card" = "Skaneeri esimene kaart";
+"add_first_card" = "Lisa esimene kaart";
+"add_manually" = "Sisesta kaart käsitsi";
+"camera_permission_required" = "Kaartide skaneerimiseks on vaja kaamera luba";
+
+/* Navigation */
+"my_cards" = "Minu kaardid";
+"scan_card" = "Skaneeri kaart";
+"add_manually" = "Lisa käsitsi";
+"import_photo" = "Impordi fotodest";
+
+/* Photo Import */
+"import_photo_title" = "Impordi fotodest";
+"import_photo_description" = "Valige olemasolev foto vöötkoodiga";
+
+/* Common */
+"next_button" = "Edasi";
+"skip_button" = "Jäta vahele";
+"get_started" = "Alusta";
+

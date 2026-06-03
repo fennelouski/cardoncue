@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "歡迎使用 CardOnCue";
+"welcome_subtitle" = "您的會員卡數位錢包";
+"welcome_description" = "不再忘記您的會員卡。CardOnCue 將所有會員卡安全且私密地集中保存。";
+
+"scan_store_title" = "掃描與儲存";
+"scan_store_subtitle" = "輕鬆新增卡片";
+"scan_store_description" = "使用相機掃描實體卡條碼，或手動輸入。所有資料都會加密並安全儲存在您的裝置上。";
+
+"location_aware_title" = "位置感知";
+"location_aware_subtitle" = "自動卡片建議";
+"location_aware_description" = "到店時，CardOnCue 會自動顯示對應會員卡，不必再翻找錢包。";
+
+"privacy_first_title" = "隱私優先";
+"privacy_first_subtitle" = "您的資料由您掌控";
+"privacy_first_description" = "卡片只在您的裝置上本機加密。位置資料不會被儲存或追蹤。";
+
+/* Authentication */
+"sign_in_title" = "登入";
+"email_placeholder" = "輸入電子郵件";
+"send_code_button" = "傳送登入碼";
+"verification_title" = "輸入驗證碼";
+"code_placeholder" = "輸入 6 碼驗證碼";
+"verify_button" = "驗證";
+"back_button" = "返回";
+
+/* Empty State */
+"no_cards_title" = "尚無卡片";
+"no_cards_subtitle" = "先掃描您的第一張會員卡";
+"scan_camera_title" = "使用相機掃描";
+"scan_camera_description" = "將相機對準條碼或 QR Code";
+"enter_manually_title" = "手動輸入";
+"enter_manually_description" = "若掃描失敗，請輸入卡號";
+"secure_private_title" = "安全且私密";
+"secure_private_description" = "您的卡片會加密並儲存在本機";
+"scan_first_card" = "掃描第一張卡";
+"add_first_card" = "新增第一張卡";
+"add_manually" = "手動輸入卡片";
+"camera_permission_required" = "需要相機權限才能掃描卡片";
+
+/* Navigation */
+"my_cards" = "我的卡片";
+"scan_card" = "掃描卡片";
+"add_manually" = "手動新增";
+"import_photo" = "從照片匯入";
+
+/* Photo Import */
+"import_photo_title" = "從照片匯入";
+"import_photo_description" = "選擇包含條碼的照片";
+
+/* Common */
+"next_button" = "下一步";
+"skip_button" = "略過";
+"get_started" = "開始使用";
+

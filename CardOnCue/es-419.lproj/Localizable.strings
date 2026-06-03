@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Bienvenido a CardOnCue";
+"welcome_subtitle" = "Tu billetera digital para tarjetas de membresía";
+"welcome_description" = "No olvides tus tarjetas de membresía. CardOnCue guarda todas tus tarjetas de lealtad en un solo lugar seguro y privado.";
+
+"scan_store_title" = "Escanear y guardar";
+"scan_store_subtitle" = "Agrega tus tarjetas fácilmente";
+"scan_store_description" = "Usa la cámara para escanear códigos de barras de tus tarjetas físicas o ingrésalas manualmente. Todos los datos se cifran y almacenan de forma segura en tu dispositivo.";
+
+"location_aware_title" = "Con ubicación";
+"location_aware_subtitle" = "Sugerencias automáticas de tarjetas";
+"location_aware_description" = "Cuando llegues a una tienda, CardOnCue mostrará automáticamente la tarjeta de membresía relevante. ¡No más buscar en la billetera!";
+
+"privacy_first_title" = "Privacidad primero";
+"privacy_first_subtitle" = "Tus datos son tuyos";
+"privacy_first_description" = "Las tarjetas se cifran localmente en tu dispositivo. Los datos de ubicación nunca se almacenan ni rastrean. Tú tienes el control.";
+
+/* Authentication */
+"sign_in_title" = "Iniciar sesión";
+"email_placeholder" = "Ingresa tu correo electrónico";
+"send_code_button" = "Enviar código de acceso";
+"verification_title" = "Ingresa el código de verificación";
+"code_placeholder" = "Ingresa el código de 6 dígitos";
+"verify_button" = "Verificar";
+"back_button" = "Atrás";
+
+/* Empty State */
+"no_cards_title" = "Aún no hay tarjetas";
+"no_cards_subtitle" = "Comienza escaneando tu primera tarjeta de membresía";
+"scan_camera_title" = "Escanear con la cámara";
+"scan_camera_description" = "Apunta la cámara a cualquier código de barras o QR";
+"enter_manually_title" = "Ingresar manualmente";
+"enter_manually_description" = "Escribe el número de tarjeta si el escaneo no funciona";
+"secure_private_title" = "Seguro y privado";
+"secure_private_description" = "Tus tarjetas se cifran y almacenan localmente";
+"scan_first_card" = "Escanear tu primera tarjeta";
+"add_first_card" = "Agregar tu primera tarjeta";
+"add_manually" = "Ingresar tarjeta manualmente";
+"camera_permission_required" = "Se requiere permiso de cámara para escanear tarjetas";
+
+/* Navigation */
+"my_cards" = "Mis tarjetas";
+"scan_card" = "Escanear tarjeta";
+"add_manually" = "Agregar manualmente";
+"import_photo" = "Importar desde Fotos";
+
+/* Photo Import */
+"import_photo_title" = "Importar desde Fotos";
+"import_photo_description" = "Selecciona una foto existente con un código de barras";
+
+/* Common */
+"next_button" = "Siguiente";
+"skip_button" = "Omitir";
+"get_started" = "Comenzar";
+

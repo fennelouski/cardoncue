@@ -1,0 +1,48 @@
+{
+  "am": {
+    "values": {
+      "welcome_title": "እንኳን ወደ CardOnCue በደህና መጡ",
+      "welcome_subtitle": "ለዕህደት ካርዶችዎ ዲጂታል ቦርሳ",
+      "welcome_description": "የዕህደት ካርዶችዎን እንደገና አትርሱ። CardOnCue ሁሉንም የታማኝነት ካርዶችዎን በአንድ ደህንነቱ የተጠበቀና ግላዊ ቦታ ይይዛል።",
+      "scan_store_title": "ቃኝ እና አስቀምጥ",
+      "scan_store_subtitle": "ካርዶችዎን በቀላሉ ያክሉ",
+      "scan_store_description": "ከአካላዊ ካርዶችዎ ባርኮዶችን ለመቃኘት ካሜራዎን ይጠቀሙ፣ ወይም በእጅ ያስገቡ። ሁሉም ውሂብ በመሣሪያዎ ላይ በደህንነት ይመሰጠራልና ይከማቻል።",
+      "location_aware_title": "ቦታ-ተኮር",
+      "location_aware_subtitle": "ራስ-ሰር የካርድ ምክሮች",
+      "location_aware_description": "ወደ ሱቅ ሲደርሱ CardOnCue ተዛማጅ የዕህደት ካርድን በራስ-ሰር ያሳይዎታል። በቦርሳዎ ውስጥ መፈለግ አያስፈልግም!",
+      "privacy_first_title": "ግላዊነት በቅድሚያ",
+      "privacy_first_subtitle": "ውሂብዎ የእርስዎ ነው",
+      "privacy_first_description": "ካርዶች በመሣሪያዎ ላይ በአካባቢው ይመሰጠራሉ። የቦታ ውሂብ አይከማቸም ወይም አይከታተልም። ውሂብዎን ሙሉ በሙሉ ይቆጣጠራሉ።",
+      "sign_in_title": "ግባ",
+      "email_placeholder": "ኢሜልዎን ያስገቡ",
+      "send_code_button": "የመግቢያ ኮድ ላክ",
+      "verification_title": "የማረጋገጫ ኮድ ያስገቡ",
+      "code_placeholder": "6-አሃዝ ኮድ ያስገቡ",
+      "verify_button": "አረጋግጥ",
+      "back_button": "ተመለስ",
+      "no_cards_title": "ገና ካርድ የለም",
+      "no_cards_subtitle": "የመጀመሪያውን የዕህደት ካርድዎን በመቃኘት ይጀምሩ",
+      "scan_camera_title": "በካሜራ ቃኝ",
+      "scan_camera_description": "ካሜራዎን ወደ ማንኛውም ባርኮድ ወይም QR ኮድ ያመልክቱ",
+      "enter_manually_title": "በእጅ አስገባ",
+      "enter_manually_description": "ቃኝት ካልሰራ የካርድ ቁጥሩን ይተይቡ",
+      "secure_private_title": "ደህንነቱ የተጠበቀ እና ግላዊ",
+      "secure_private_description": "ካርዶችዎ ይመሰጠራሉ እና በአካባቢው ይከማቻሉ",
+      "scan_first_card": "የመጀመሪያ ካርድዎን ቃኝ",
+      "add_first_card": "የመጀመሪያ ካርድዎን ጨምር",
+      "camera_permission_required": "ካርዶችን ለመቃኘት የካሜራ ፈቃድ ያስፈልጋል",
+      "my_cards": "ካርዶቼ",
+      "scan_card": "ካርድ ቃኝ",
+      "import_photo": "ከፎቶዎች አስመጣ",
+      "import_photo_title": "ከፎቶዎች አስመጣ",
+      "import_photo_description": "ባርኮድ ያለበትን ፎቶ ይምረጡ",
+      "next_button": "ቀጣይ",
+      "skip_button": "ዝለል",
+      "get_started": "ጀምር"
+    },
+    "add_manually": [
+      "ካርድ በእጅ አስገባ",
+      "በእጅ ጨምር"
+    ]
+  }
+}

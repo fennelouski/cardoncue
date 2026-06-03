@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Benvido a CardOnCue";
+"welcome_subtitle" = "A túa carteira dixital para tarxetas de socio";
+"welcome_description" = "Non esquezas nunca máis as túas tarxetas de socio. CardOnCue garda todas as túas tarxetas de fidelidade nun só lugar seguro e privado.";
+
+"scan_store_title" = "Escanear e gardar";
+"scan_store_subtitle" = "Engade as túas tarxetas facilmente";
+"scan_store_description" = "Usa a cámara para escanear códigos de barras das túas tarxetas físicas ou introdúcelas manualmente. Todos os datos cífranse e gárdanse de forma segura no teu dispositivo.";
+
+"location_aware_title" = "Consciente da localización";
+"location_aware_subtitle" = "Suxestións automáticas de tarxetas";
+"location_aware_description" = "Cando chegues a unha tenda, CardOnCue mostrarache automaticamente a tarxeta de socio relevante. Xa non tes que buscar na carteira!";
+
+"privacy_first_title" = "Privacidade primeiro";
+"privacy_first_subtitle" = "Os teus datos son teus";
+"privacy_first_description" = "As tarxetas cífranse localmente no teu dispositivo. Os datos de localización nunca se gardan nin se rastrexan. Ti controlas os teus datos por completo.";
+
+/* Authentication */
+"sign_in_title" = "Iniciar sesión";
+"email_placeholder" = "Introduce o teu correo electrónico";
+"send_code_button" = "Enviar código de inicio de sesión";
+"verification_title" = "Introduce o código de verificación";
+"code_placeholder" = "Introduce o código de 6 díxitos";
+"verify_button" = "Verificar";
+"back_button" = "Atrás";
+
+/* Empty State */
+"no_cards_title" = "Aínda non hai tarxetas";
+"no_cards_subtitle" = "Comeza escaneando a túa primeira tarxeta de socio";
+"scan_camera_title" = "Escanear coa cámara";
+"scan_camera_description" = "Apunta a cámara a calquera código de barras ou QR";
+"enter_manually_title" = "Introducir manualmente";
+"enter_manually_description" = "Escribe o número da tarxeta se o escaneo non funciona";
+"secure_private_title" = "Seguro e privado";
+"secure_private_description" = "As túas tarxetas cífranse e gárdanse localmente";
+"scan_first_card" = "Escanea a túa primeira tarxeta";
+"add_first_card" = "Engade a túa primeira tarxeta";
+"add_manually" = "Introducir tarxeta manualmente";
+"camera_permission_required" = "Requírese permiso de cámara para escanear tarxetas";
+
+/* Navigation */
+"my_cards" = "As miñas tarxetas";
+"scan_card" = "Escanear tarxeta";
+"add_manually" = "Engadir manualmente";
+"import_photo" = "Importar desde Fotos";
+
+/* Photo Import */
+"import_photo_title" = "Importar desde Fotos";
+"import_photo_description" = "Selecciona unha foto existente cun código de barras";
+
+/* Common */
+"next_button" = "Seguinte";
+"skip_button" = "Omitir";
+"get_started" = "Comezar";
+

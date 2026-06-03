@@ -1,0 +1,55 @@
+/* Onboarding */
+"welcome_title" = "Vitajte v CardOnCue";
+"welcome_subtitle" = "Vaša digitálna peňaženka pre členské karty";
+"welcome_description" = "Už nikdy nezabudnite na svoje členské karty. CardOnCue uchováva všetky vaše vernostné karty na jednom bezpečnom a súkromnom mieste.";
+
+"scan_store_title" = "Skenovať a uložiť";
+"scan_store_subtitle" = "Jednoducho pridajte svoje karty";
+"scan_store_description" = "Použite fotoaparát na skenovanie čiarových kódov z fyzických kariet alebo ich zadajte ručne. Všetky údaje sú šifrované a bezpečne uložené vo vašom zariadení.";
+
+"location_aware_title" = "S uvedomením polohy";
+"location_aware_subtitle" = "Automatické návrhy kariet";
+"location_aware_description" = "Keď dorazíte do obchodu, CardOnCue vám automaticky zobrazí príslušnú členskú kartu. Už žiadne hľadanie v peňaženke!";
+
+"privacy_first_title" = "Súkromie na prvom mieste";
+"privacy_first_subtitle" = "Vaše údaje zostávajú vaše";
+"privacy_first_description" = "Karty sú lokálne šifrované vo vašom zariadení. Údaje o polohe sa nikdy neukladajú ani nesledujú. Máte plnú kontrolu nad svojimi údajmi.";
+
+/* Authentication */
+"sign_in_title" = "Prihlásiť sa";
+"email_placeholder" = "Zadajte svoj e-mail";
+"send_code_button" = "Odoslať prihlasovací kód";
+"verification_title" = "Zadajte overovací kód";
+"code_placeholder" = "Zadajte 6-miestny kód";
+"verify_button" = "Overiť";
+"back_button" = "Späť";
+
+/* Empty State */
+"no_cards_title" = "Zatiaľ žiadne karty";
+"no_cards_subtitle" = "Začnite naskenovaním prvej členskej karty";
+"scan_camera_title" = "Skenovať fotoaparátom";
+"scan_camera_description" = "Namierte fotoaparát na ľubovoľný čiarový alebo QR kód";
+"enter_manually_title" = "Zadať ručne";
+"enter_manually_description" = "Zadajte číslo karty, ak skenovanie nefunguje";
+"secure_private_title" = "Bezpečné a súkromné";
+"secure_private_description" = "Vaše karty sú šifrované a uložené lokálne";
+"scan_first_card" = "Naskenujte prvú kartu";
+"add_first_card" = "Pridajte prvú kartu";
+"add_manually" = "Zadať kartu ručne";
+"camera_permission_required" = "Na skenovanie kariet je potrebné povolenie fotoaparátu";
+
+/* Navigation */
+"my_cards" = "Moje karty";
+"scan_card" = "Skenovať kartu";
+"add_manually" = "Pridať ručne";
+"import_photo" = "Importovať z Fotiek";
+
+/* Photo Import */
+"import_photo_title" = "Importovať z Fotiek";
+"import_photo_description" = "Vyberte existujúcu fotku s čiarovým kódom";
+
+/* Common */
+"next_button" = "Ďalej";
+"skip_button" = "Preskočiť";
+"get_started" = "Začať";
+
