@@ -2,8 +2,16 @@ import SwiftUI
 import SwiftData
 import CryptoKit
 
+struct AddedPlaceInfo {
+    let name: String
+    let latitude: Double?
+    let longitude: Double?
+    let address: String?
+}
+
 struct CardDetailView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.apiClient) private var apiClient
     @Environment(\.dismiss) private var dismiss
     let card: CardModel
     
@@ -127,11 +135,26 @@ struct CardDetailView: View {
             await loadNetworks()
         }
         .sheet(isPresented: $showingAddPlace) {
-            AddPlaceViewForCardModel(card: card) { placeName in
-                editedLocationName = placeName
-                // Check database after updating
+            AddPlaceViewForCardModel(card: card) { place in
+                editedLocationName = place.name
+                if let lat = place.latitude, let lon = place.longitude {
+                    let newLoc = CardLocation(
+                        latitude: lat,
+                        longitude: lon,
+                        name: place.name,
+                        address: place.address
+                    )
+                    if card.locations == nil {
+                        card.locations = []
+                    }
+                    newLoc.card = card
+                    card.locations?.append(newLoc)
+                    modelContext.insert(newLoc)
+                    card.updatedAt = Date()
+                    PersistenceHelper.save(modelContext, label: "CardDetailView.addPlace")
+                }
                 Task {
-                    await checkDatabaseForPlace(placeName)
+                    await checkDatabaseForPlace(place.name)
                 }
             }
         }
@@ -1549,8 +1572,11 @@ struct RescanConfirmationView: View {
 struct AddPlaceViewForCardModel: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.apiClient) private var apiClient
     let card: CardModel
-    let onPlaceAdded: (String) -> Void
+    let onPlaceAdded: (AddedPlaceInfo) -> Void
+
+    private let keychainService = KeychainService()
 
     @State private var placeName: String = ""
     @State private var locationLatitude: Double? = nil
@@ -1681,7 +1707,14 @@ struct AddPlaceViewForCardModel: View {
             }
             .alert("Success", isPresented: $showSuccess) {
                 Button("OK", role: .cancel) {
-                    onPlaceAdded(placeName)
+                    onPlaceAdded(
+                        AddedPlaceInfo(
+                            name: placeName,
+                            latitude: locationLatitude,
+                            longitude: locationLongitude,
+                            address: locationAddress
+                        )
+                    )
                     dismiss()
                 }
             } message: {
@@ -1696,13 +1729,41 @@ struct AddPlaceViewForCardModel: View {
         isSubmitting = true
 
         Task {
-            // In a real implementation, this would call an API
-            // For now, we'll just simulate success
-            try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 second delay
+            var reportedToServer = false
+
+            if let client = apiClient {
+                do {
+                    let serverCardId = try await CardServerSync.ensureServerCardId(
+                        card: card,
+                        apiClient: client,
+                        keychainService: keychainService
+                    )
+                    _ = try await client.reportCardLocation(
+                        cardId: serverCardId,
+                        locationName: placeName,
+                        address: locationAddress,
+                        latitude: locationLatitude,
+                        longitude: locationLongitude,
+                        notes: notes.isEmpty ? nil : notes,
+                        source: "add_place"
+                    )
+                    reportedToServer = true
+                    await MainActor.run {
+                        PersistenceHelper.save(modelContext, label: "CardDetailView.serverCardId")
+                    }
+                } catch {
+                    print("⚠️ Location report failed (saved locally): \(error)")
+                }
+            }
 
             await MainActor.run {
                 isSubmitting = false
-                showSuccess = true
+                if reportedToServer || apiClient == nil {
+                    showSuccess = true
+                } else {
+                    // Still add locally when offline / unauthorized
+                    showSuccess = true
+                }
             }
         }
     }

@@ -26,6 +26,7 @@
 		362FE5657615F80D653A532D /* CardLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DC91F4E616D6D7EFD36949 /* CardLocationsView.swift */; };
 		37A6A19D72E052B16134390F /* GeofenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F81221F3F9D7ADDA2699905 /* GeofenceManager.swift */; };
 		0A11AA00BB00CC00DD00EE01 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11AA00BB00CC00DD00EE02 /* PersistenceHelper.swift */; };
+		0A11AA00BB00CC00DD00EE04 /* CardServerSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11AA00BB00CC00DD00EE03 /* CardServerSync.swift */; };
 		3E5CE9A84530B509231C2623 /* IconSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E547A49B563DB378CC25A8 /* IconSelectionView.swift */; };
 		44BAEFA2695F760FFBC8DF12 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58717726551F2801E364383A /* ContentView.swift */; };
 		48312CCE647AD0F32D1DF2CD /* WatchNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178316BE5A8320947DD5CF4E /* WatchNotificationManager.swift */; };
@@ -146,6 +147,7 @@
 		1A58C43F6EC54E51FC4A3C91 /* OCRFieldRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRFieldRow.swift; sourceTree = "<group>"; };
 		1F81221F3F9D7ADDA2699905 /* GeofenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofenceManager.swift; sourceTree = "<group>"; };
 		0A11AA00BB00CC00DD00EE02 /* PersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
+		0A11AA00BB00CC00DD00EE03 /* CardServerSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardServerSync.swift; sourceTree = "<group>"; };
 		21603A38A3B4D599B263DC91 /* RapidSaveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidSaveService.swift; sourceTree = "<group>"; };
 		22E547A49B563DB378CC25A8 /* IconSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelectionView.swift; sourceTree = "<group>"; };
 		28DC91F4E616D6D7EFD36949 /* CardLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLocationsView.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				77BF330BAA377AECE54D5E8F /* FeatureRow.swift */,
 				1F81221F3F9D7ADDA2699905 /* GeofenceManager.swift */,
 				0A11AA00BB00CC00DD00EE02 /* PersistenceHelper.swift */,
+				0A11AA00BB00CC00DD00EE03 /* CardServerSync.swift */,
 				0F9CAFA2E6CCF42AA0B0C50D /* IconCropView.swift */,
 				7AB3A9AF5FAC17F84E42BC73 /* IconSelectionSheet.swift */,
 				22E547A49B563DB378CC25A8 /* IconSelectionView.swift */,
@@ -556,6 +559,7 @@
 				62DF345BCEBD8F2F66102537 /* FeatureRow.swift in Sources */,
 				37A6A19D72E052B16134390F /* GeofenceManager.swift in Sources */,
 				0A11AA00BB00CC00DD00EE01 /* PersistenceHelper.swift in Sources */,
+				0A11AA00BB00CC00DD00EE04 /* CardServerSync.swift in Sources */,
 				EFE1CD535CDB82573DD3730C /* IconCropView.swift in Sources */,
 				E67974EA5E45928B8196C109 /* IconSelectionSheet.swift in Sources */,
 				3E5CE9A84530B509231C2623 /* IconSelectionView.swift in Sources */,

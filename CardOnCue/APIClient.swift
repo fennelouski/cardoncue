@@ -146,13 +146,13 @@ class APIClient {
     // MARK: - Cards
 
     func getCards() async throws -> [Card] {
-        let endpoint = "/cards"
+        let endpoint = "/v1/cards"
         let response: CardsResponse = try await get(endpoint)
         return response.cards
     }
 
     func createCard(_ card: EncryptedCard) async throws -> Card {
-        let endpoint = "/cards"
+        let endpoint = "/v1/cards"
 
         // Create request body from EncryptedCard
         let request = CardCreateRequest(
@@ -244,6 +244,47 @@ class APIClient {
             endpoint += "&near=\(near.lat),\(near.lon)"
         }
         return try await get(endpoint)
+    }
+
+    // MARK: - Card sync (Postgres row for location submissions)
+
+    @discardableResult
+    func syncCard(_ card: EncryptedCard) async throws -> String {
+        let endpoint = "/v1/cards/sync"
+        let request = CardSyncRequest(
+            id: card.id,
+            name: card.name,
+            barcodeType: card.barcodeType,
+            payloadEncrypted: card.payloadEncrypted,
+            tags: card.tags,
+            networkIds: card.networkIds,
+            metadata: card.metadata
+        )
+        let response: CardSyncResponse = try await post(endpoint, body: request)
+        return response.card.id
+    }
+
+    // MARK: - Location submissions
+
+    func reportCardLocation(
+        cardId: String,
+        locationName: String,
+        address: String?,
+        latitude: Double?,
+        longitude: Double?,
+        notes: String?,
+        source: String = "add_place"
+    ) async throws -> ReportCardLocationResponse {
+        let endpoint = "/v1/cards/\(cardId)/locations"
+        let request = ReportCardLocationRequest(
+            locationName: locationName,
+            address: address,
+            latitude: latitude,
+            longitude: longitude,
+            notes: notes,
+            source: source
+        )
+        return try await post(endpoint, body: request)
     }
 
     // MARK: - Generic HTTP Methods
@@ -385,6 +426,47 @@ struct CardCreateRequest: Codable {
     let validTo: Date?
     let oneTime: Bool
     let metadata: [String: String]
+}
+
+struct CardSyncRequest: Codable {
+    let id: String
+    let name: String
+    let barcodeType: BarcodeType
+    let payloadEncrypted: String
+    let tags: [String]
+    let networkIds: [String]
+    let metadata: [String: String]
+}
+
+struct CardSyncResponse: Codable {
+    let success: Bool
+    let card: SyncedCardRef
+
+    struct SyncedCardRef: Codable {
+        let id: String
+    }
+}
+
+struct ReportCardLocationRequest: Codable {
+    let locationName: String
+    let address: String?
+    let latitude: Double?
+    let longitude: Double?
+    let notes: String?
+    let source: String
+}
+
+struct ReportCardLocationResponse: Codable {
+    let success: Bool
+    let duplicate: Bool?
+    let location: ReportedLocation?
+
+    struct ReportedLocation: Codable {
+        let id: String
+        let locationName: String
+        let status: String?
+        let reportCount: Int?
+    }
 }
 
 private struct CardResponse: Codable {

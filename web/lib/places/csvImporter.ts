@@ -1,7 +1,11 @@
 import Papa from 'papaparse';
 import { CuratedLocation, Network } from './types';
+import { haversineDistanceMeters } from './geo';
+import { coordinateKey, buildCuratedKey } from '@/lib/locationSubmissions';
 import fs from 'fs';
 import path from 'path';
+
+export { haversineDistanceMeters } from './geo';
 
 // In-memory storage for curated networks (in production, use a database)
 let curatedNetworks: Network[] = [];
@@ -122,7 +126,7 @@ export function getCuratedLocationsNearby(lat: number, lon: number, limit: numbe
 
   for (const network of curatedNetworks) {
     for (const location of network.locations) {
-      const distance = haversineDistance(lat, lon, location.lat, location.lon);
+      const distance = haversineDistanceMeters(lat, lon, location.lat, location.lon);
       locations.push({ ...location, distance });
     }
   }
@@ -131,6 +135,77 @@ export function getCuratedLocationsNearby(lat: number, lon: number, limit: numbe
   return locations
     .sort((a, b) => a.distance - b.distance)
     .slice(0, limit);
+}
+
+export interface AddLocationToNetworkInput {
+  lat: number;
+  lon: number;
+  radiusMeters?: number;
+  notes?: string;
+  networkName?: string;
+}
+
+export interface AddLocationToNetworkResult {
+  success: boolean;
+  created: boolean;
+  curatedKey: string;
+  error?: string;
+}
+
+/**
+ * Merge a single POI into curated-networks.json for global network location APIs.
+ */
+export function addLocationToNetwork(
+  networkId: string,
+  input: AddLocationToNetworkInput
+): AddLocationToNetworkResult {
+  const { lat, lon } = input;
+  const radiusMeters = input.radiusMeters ?? 100;
+  const notes = input.notes ?? '';
+
+  if (Number.isNaN(lat) || Number.isNaN(lon) || lat < -90 || lat > 90 || lon < -180 || lon > 180) {
+    return { success: false, created: false, curatedKey: '', error: 'Invalid coordinates' };
+  }
+
+  if (radiusMeters <= 0) {
+    return { success: false, created: false, curatedKey: '', error: 'Invalid radius' };
+  }
+
+  const curatedKey = buildCuratedKey(networkId, lat, lon);
+  const key = coordinateKey(lat, lon);
+  const networkName = input.networkName ?? networkId;
+
+  const newLocation: CuratedLocation = {
+    network_id: networkId,
+    network_name: networkName,
+    lat,
+    lon,
+    radius_meters: radiusMeters,
+    notes,
+  };
+
+  const existingNetworkIndex = curatedNetworks.findIndex((n) => n.id === networkId);
+
+  if (existingNetworkIndex >= 0) {
+    const network = curatedNetworks[existingNetworkIndex];
+    const locationMap = new Map<string, CuratedLocation>();
+    for (const loc of network.locations) {
+      locationMap.set(coordinateKey(loc.lat, loc.lon), loc);
+    }
+    const existed = locationMap.has(key);
+    locationMap.set(key, newLocation);
+    curatedNetworks[existingNetworkIndex].locations = Array.from(locationMap.values());
+    saveCuratedData();
+    return { success: true, created: !existed, curatedKey };
+  }
+
+  curatedNetworks.push({
+    id: networkId,
+    name: networkName,
+    locations: [newLocation],
+  });
+  saveCuratedData();
+  return { success: true, created: true, curatedKey };
 }
 
 function loadCuratedData(): void {
@@ -159,19 +234,3 @@ function saveCuratedData(): void {
   }
 }
 
-// Haversine distance calculation
-function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
-  const toRad = (d: number) => d * Math.PI / 180;
-  const R = 6371000; // Earth radius in meters
-
-  const dLat = toRad(lat2 - lat1);
-  const dLon = toRad(lon2 - lon1);
-
-  const a =
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-    Math.sin(dLon/2) * Math.sin(dLon/2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R * c;
-}
