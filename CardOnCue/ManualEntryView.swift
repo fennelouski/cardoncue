@@ -4,6 +4,7 @@ import SwiftData
 struct ManualEntryView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.isInAddCardFlow) private var isInAddCardFlow
 
     // Form fields
     @State private var cardName: String = ""
@@ -51,7 +52,9 @@ struct ManualEntryView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.appLightGray)
                         }
-                        .padding(.top, 16)
+                        .padding(.top, isInAddCardFlow
+                            ? AddCardFlowMetrics.headerHeight(hasModeSelector: false) + 16
+                            : 16)
 
                         // Form
                         VStack(spacing: 20) {
@@ -205,13 +208,16 @@ struct ManualEntryView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
+                if !isInAddCardFlow {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") {
+                            dismiss()
+                        }
+                        .foregroundColor(.appBlue)
                     }
-                    .foregroundColor(.appBlue)
                 }
             }
+            .toolbar(isInAddCardFlow ? .hidden : .visible, for: .navigationBar)
             .alert("Error", isPresented: $showingError) {
                 Button("OK", role: .cancel) { }
             } message: {

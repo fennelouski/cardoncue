@@ -73,6 +73,7 @@ struct CapturedFrame: @unchecked Sendable {
 struct BarcodeScannerView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.isInAddCardFlow) private var isInAddCardFlow
 
     @StateObject private var scanner = BarcodeScannerViewModel()
     @State private var showingManualEntry = false
@@ -102,30 +103,27 @@ struct BarcodeScannerView: View {
                 // Overlay
                 ZStack {
                     VStack {
-                        // Top gradient with flashlight button
-                        ZStack(alignment: .topTrailing) {
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color.black.opacity(0.6),
-                                    Color.clear
-                                ]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                            .frame(height: 120)
-                            
-                            // Flashlight button in top corner
-                            if scanner.hasFlash {
-                                Button(action: { scanner.toggleFlash() }) {
-                                    Image(systemName: scanner.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
-                                        .font(.title2)
-                                        .foregroundColor(.white)
-                                        .frame(width: 44, height: 44)
-                                        .background(Color.black.opacity(0.5))
-                                        .clipShape(Circle())
+                        if isInAddCardFlow {
+                            Color.clear
+                                .frame(height: AddCardFlowMetrics.headerHeight(hasModeSelector: true))
+                        } else {
+                            // Top gradient with flashlight button
+                            ZStack(alignment: .topTrailing) {
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.black.opacity(0.6),
+                                        Color.clear
+                                    ]),
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                                .frame(height: 120)
+
+                                if scanner.hasFlash {
+                                    flashlightButton
+                                        .padding(.top, 8)
+                                        .padding(.trailing, 16)
                                 }
-                                .padding(.top, 8)
-                                .padding(.trailing, 16)
                             }
                         }
 
@@ -202,20 +200,30 @@ struct BarcodeScannerView: View {
                                             .transition(.move(edge: .bottom).combined(with: .opacity))
                                         }
                                         
-                                        // Capture button - always visible
-                                        Button(action: {
-                                            captureImage()
-                                        }) {
-                                            Image(systemName: "camera.fill")
-                                                .font(.title2)
-                                                .foregroundColor(.white)
-                                                .frame(width: 60, height: 60)
-                                                .background(scanner.barcodeDetected ? Color.black.opacity(0.5) : Color.appPrimary)
-                                                .clipShape(Circle())
-                                                .overlay(
-                                                    Circle()
-                                                        .stroke(Color.white.opacity(0.3), lineWidth: 2)
-                                                )
+                                        // Capture button with optional embedded flashlight
+                                        ZStack {
+                                            if isInAddCardFlow, scanner.hasFlash {
+                                                HStack {
+                                                    flashlightButton
+                                                    Spacer()
+                                                }
+                                                .padding(.horizontal, 32)
+                                            }
+
+                                            Button(action: {
+                                                captureImage()
+                                            }) {
+                                                Image(systemName: "camera.fill")
+                                                    .font(.title2)
+                                                    .foregroundColor(.white)
+                                                    .frame(width: 60, height: 60)
+                                                    .background(scanner.barcodeDetected ? Color.black.opacity(0.5) : Color.appPrimary)
+                                                    .clipShape(Circle())
+                                                    .overlay(
+                                                        Circle()
+                                                            .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                                                    )
+                                            }
                                         }
                                         .padding(.bottom, scanner.barcodeDetected ? 8 : 8)
 
@@ -299,7 +307,9 @@ struct BarcodeScannerView: View {
                                     dismiss()
                                 }
                             )
-                            .padding(.top, 100)
+                            .padding(.top, isInAddCardFlow
+                                ? AddCardFlowMetrics.headerHeight(hasModeSelector: true) + 12
+                                : 100)
 
                             Spacer()
                         }
@@ -441,22 +451,25 @@ struct BarcodeScannerView: View {
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        scanner.stopScanning()
-                        dismiss()
-                    }
-                    .foregroundColor(.white)
-                }
-
-                ToolbarItem(placement: .principal) {
-                    Text("Scan Card")
+                if !isInAddCardFlow {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") {
+                            scanner.stopScanning()
+                            dismiss()
+                        }
                         .foregroundColor(.white)
-                        .fontWeight(.semibold)
+                    }
+
+                    ToolbarItem(placement: .principal) {
+                        Text("Scan Card")
+                            .foregroundColor(.white)
+                            .fontWeight(.semibold)
+                    }
                 }
             }
+            .toolbar(isInAddCardFlow ? .hidden : .visible, for: .navigationBar)
             .toolbarBackground(Color.black.opacity(0.6), for: .navigationBar)
-            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarBackground(isInAddCardFlow ? .hidden : .visible, for: .navigationBar)
             .onAppear {
                 // Ensure we reset and start scanning when view appears
                 scanner.resetScanning()
@@ -527,6 +540,17 @@ struct BarcodeScannerView: View {
             }
         }
         .preferredColorScheme(.dark)
+    }
+
+    private var flashlightButton: some View {
+        Button(action: { scanner.toggleFlash() }) {
+            Image(systemName: scanner.isFlashOn ? "bolt.fill" : "bolt.slash.fill")
+                .font(.title2)
+                .foregroundColor(.white)
+                .frame(width: 44, height: 44)
+                .background(Color.black.opacity(0.5))
+                .clipShape(Circle())
+        }
     }
 
     private func handleScannedCode(_ code: String, type: BarcodeType) {

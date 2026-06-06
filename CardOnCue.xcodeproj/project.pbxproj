@@ -65,6 +65,7 @@
 		99D47AD3F37B66D9AFF62C3D /* AddCardOptionsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB8CE976710F6AD10DC47E9 /* AddCardOptionsSheet.swift */; };
 		9CF41FBECF10B5D0EE9D4120 /* BarcodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A88347F45C20F4D2C57CDD /* BarcodeScannerView.swift */; };
 		A2FE68464688D9754B7C515C /* BarcodeImageCropper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EB917918451A80A707FDFEA /* BarcodeImageCropper.swift */; };
+		A43A2DF1917083FFA2A3BBF6 /* AddCardFlowEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A790F509F0A2E15899D401 /* AddCardFlowEnvironment.swift */; };
 		A9E1BBCD277DCA303FD83F6C /* AddCardSwipeableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D5BF8FA7538F42E90B1D5E /* AddCardSwipeableView.swift */; };
 		ACA0EC1605654E226DE1AEF5 /* CardOnCueWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE86996120C8B02FFAB805D4 /* CardOnCueWatchApp.swift */; };
 		B22C4B3E86DAAE0F2A865490 /* CardIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7B7F76D53E0163B53279B6 /* CardIcon.swift */; };
@@ -138,6 +139,7 @@
 		08312BFDFC2802950F6CC599 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0BA26D39560DAB3283B5E498 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		0CB8CE976710F6AD10DC47E9 /* AddCardOptionsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardOptionsSheet.swift; sourceTree = "<group>"; };
+		84A790F509F0A2E15899D401 /* AddCardFlowEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardFlowEnvironment.swift; sourceTree = "<group>"; };
 		0D7B7F76D53E0163B53279B6 /* CardIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIcon.swift; sourceTree = "<group>"; };
 		0F9CAFA2E6CCF42AA0B0C50D /* IconCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCropView.swift; sourceTree = "<group>"; };
 		10294E4FEA8699DFEE0D563A /* CardImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageStorageService.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 		7E689CF3FDE82C8283958E33 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		7F4DD3822F228D018F9ADCCF /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		8425858FAD9005E285259E1C /* CardOnCue.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CardOnCue.entitlements; sourceTree = "<group>"; };
+		84A790F509F0A2E15899D401 /* AddCardFlowEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardFlowEnvironment.swift; sourceTree = "<group>"; };
 		853D9248CC90D503A1926F0E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		8867038AC4CCE1F6960B0BC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B3A63E2964A14B7130056FC /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
@@ -227,6 +230,7 @@
 		7BB1B169106CCE6F81B52CFB /* CardOnCue */ = {
 			isa = PBXGroup;
 			children = (
+				84A790F509F0A2E15899D401 /* AddCardFlowEnvironment.swift */,
 				0CB8CE976710F6AD10DC47E9 /* AddCardOptionsSheet.swift */,
 				A9D5BF8FA7538F42E90B1D5E /* AddCardSwipeableView.swift */,
 				B136A3ACB99C94790E77E721 /* APIClient.swift */,
@@ -522,6 +526,7 @@
 				7487FF7FACC8C06348CA9070 /* APIClient.swift in Sources */,
 				601FA54BF9C0ED2EF87DD938 /* APIClientEnvironment.swift in Sources */,
 				99D47AD3F37B66D9AFF62C3D /* AddCardOptionsSheet.swift in Sources */,
+				A43A2DF1917083FFA2A3BBF6 /* AddCardFlowEnvironment.swift in Sources */,
 				A9E1BBCD277DCA303FD83F6C /* AddCardSwipeableView.swift in Sources */,
 				CAE28E62D886F6293A690679 /* AppColors.swift in Sources */,
 				6DDD11A5B51660DF0F379B79 /* AppDelegate.swift in Sources */,

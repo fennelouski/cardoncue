@@ -5,6 +5,7 @@ import SwiftData
 struct PhotoLibraryImportView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.isInAddCardFlow) private var isInAddCardFlow
 
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImage: UIImage?
@@ -138,23 +139,28 @@ struct PhotoLibraryImportView: View {
 
                     Spacer()
                 }
-                .padding(.top, 60)
+                .padding(.top, isInAddCardFlow
+                    ? AddCardFlowMetrics.headerHeight(hasModeSelector: false) + 16
+                    : 60)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
-                    }
-                    .foregroundColor(.appBlue)
-                }
-
-                ToolbarItem(placement: .principal) {
-                    Text("Import Photo")
+                if !isInAddCardFlow {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button("Cancel") {
+                            dismiss()
+                        }
                         .foregroundColor(.appBlue)
-                        .fontWeight(.semibold)
+                    }
+
+                    ToolbarItem(placement: .principal) {
+                        Text("Import Photo")
+                            .foregroundColor(.appBlue)
+                            .fontWeight(.semibold)
+                    }
                 }
             }
+            .toolbar(isInAddCardFlow ? .hidden : .visible, for: .navigationBar)
             .photosPicker(isPresented: $showPhotoPicker, selection: $selectedItem, matching: .images)
             .onAppear {
                 // Auto-show photo picker when view first appears
