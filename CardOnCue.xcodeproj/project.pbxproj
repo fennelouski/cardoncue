@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,7 +15,6 @@
 		1082738660F19B36D46D8DDB /* WatchAppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = D87A9EEF1E0135B32D8A92E2 /* WatchAppColors.swift */; };
 		1308D851E10BDD5342DDD50F /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD80F0C53F1039B9BB9D104 /* StorageService.swift */; };
 		16B562BA91B324C184F6E421 /* SavedLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C58F522E185E493BA527369E /* SavedLocation.swift */; };
-		B83DAC7B01FF48AA986AF54A /* ArchivedCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465FA411AE084BE19C97DE3B /* ArchivedCardsView.swift */; };
 		195A04929DD6A66C6C61DFBC /* CardDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E23050A66A78F0FE1E538E1 /* CardDetailView.swift */; };
 		1EE98AC3E24BCD1D1F73389F /* AutoSaveToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ACB9C90938097C830D34FD6 /* AutoSaveToast.swift */; };
 		1F42BF65CC8D9361C9128CF8 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F6AFEC3601BD3738C80A29 /* Location.swift */; };
@@ -23,10 +22,10 @@
 		2D661BDEBB9EE047F73CDA6D /* DrawingPadSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87642FC54B09C4095BAAC15 /* DrawingPadSettingsView.swift */; };
 		331A68C4BAB1C41FE24DE70C /* EmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE87D01EE38614D078379113 /* EmptyStateView.swift */; };
 		33C65E5460D9F19B39E8F556 /* DrawingPadHaptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 643136C170BE1C07C2EAAC8C /* DrawingPadHaptics.swift */; };
+		35D0BEF7CFFF3134A5948528 /* MembershipIconResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007FF75D18CDDE9482D6CB90 /* MembershipIconResolver.swift */; };
 		362FE5657615F80D653A532D /* CardLocationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28DC91F4E616D6D7EFD36949 /* CardLocationsView.swift */; };
+		144A232B7229A6E8149AC109 /* AddLocationsOnMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5BB523715576E7B22EC0D19 /* AddLocationsOnMapView.swift */; };
 		37A6A19D72E052B16134390F /* GeofenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F81221F3F9D7ADDA2699905 /* GeofenceManager.swift */; };
-		0A11AA00BB00CC00DD00EE01 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11AA00BB00CC00DD00EE02 /* PersistenceHelper.swift */; };
-		0A11AA00BB00CC00DD00EE04 /* CardServerSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11AA00BB00CC00DD00EE03 /* CardServerSync.swift */; };
 		3E5CE9A84530B509231C2623 /* IconSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E547A49B563DB378CC25A8 /* IconSelectionView.swift */; };
 		44BAEFA2695F760FFBC8DF12 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58717726551F2801E364383A /* ContentView.swift */; };
 		48312CCE647AD0F32D1DF2CD /* WatchNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178316BE5A8320947DD5CF4E /* WatchNotificationManager.swift */; };
@@ -35,23 +34,30 @@
 		51B6F9A602B7BA47F95E3EB9 /* OCRData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7EB80C574DE1821E83D1E74 /* OCRData.swift */; };
 		552A24EF1F79B6A04DF126E6 /* OnboardingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A3318942B2C28EB4E863C7 /* OnboardingService.swift */; };
 		5A10CFC341CD6C5408768E0D /* WatchBarcodeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44DC707B8ED857962020D5C8 /* WatchBarcodeRenderer.swift */; };
-		5A10CFC341CD6C5408768E0E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB61694DAAC3BB4C25A6C13 /* Assets.xcassets */; };
 		5B08A47F95CBAB86C0CFF123 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB61694DAAC3BB4C25A6C13 /* Assets.xcassets */; };
 		5B7746313CC9BFE6F472F8F6 /* LocationPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F9355AA6292D771E3C670C /* LocationPermissionView.swift */; };
 		5F7DF3C267FE04A36362568E /* LocationSearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7E8C6490938862FC2B75D5E /* LocationSearchService.swift */; };
 		601FA54BF9C0ED2EF87DD938 /* APIClientEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D985E45CAD719FB034DD0FC9 /* APIClientEnvironment.swift */; };
 		618A3164EA88E5D936935848 /* BatchLocationBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9176C634A2324D36E0525340 /* BatchLocationBadge.swift */; };
 		62DF345BCEBD8F2F66102537 /* FeatureRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 77BF330BAA377AECE54D5E8F /* FeatureRow.swift */; };
+		695A1151C8A1C32F7FF7D9E3 /* brand_registry_snapshot.json in Resources */ = {isa = PBXBuildFile; fileRef = AD403BB3B1757FD29FA2612A /* brand_registry_snapshot.json */; };
 		6DDD11A5B51660DF0F379B79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8867038AC4CCE1F6960B0BC2 /* AppDelegate.swift */; };
 		6F22B8AB8A590C94C90F9AAE /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E689CF3FDE82C8283958E33 /* Card.swift */; };
 		73F4A5BBAAEF6352D09B654F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 470CBC9EEAD7ADD38BCF21DE /* Localizable.strings */; };
 		7487FF7FACC8C06348CA9070 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B136A3ACB99C94790E77E721 /* APIClient.swift */; };
+		1F25260AD160614CF7ACA31B /* CardUsageFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D482070A90C1A601857BC60C /* CardUsageFooterView.swift */; };
 		77597BAFC0D160F8D404D2BE /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96BBC988E4433EC684EA52B8 /* OnboardingView.swift */; };
 		79CED62F4A7F1F5E1213E1E7 /* CardOnCueUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCF7F704A96224CB23A33D9 /* CardOnCueUITests.swift */; };
 		7AB6B1ECB70B1D3884DC0B78 /* BarcodeDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A95594807A829CFA2F2BF0AD /* BarcodeDisplayView.swift */; };
+		7B228C4673529573BAD26A36 /* PhotoImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30CD0BAE8B6183AABBA8CFDD /* PhotoImportService.swift */; };
 		7B380704A98628A097F1C33E /* ConfidenceMeter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186FF01F09AFD46BE6193037 /* ConfidenceMeter.swift */; };
+		7D48E7C11EC7B638D41B69DE /* ArchivedCardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C39691BCF572993401A7A45A /* ArchivedCardsView.swift */; };
+		A1F0C0DE0000000000000001 /* MasonryLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F0C0DE0000000000000002 /* MasonryLayout.swift */; };
+		A1F0C0DE0000000000000003 /* CardCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F0C0DE0000000000000004 /* CardCellView.swift */; };
+		A1F0C0DE0000000000000005 /* CardCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F0C0DE0000000000000006 /* CardCategory.swift */; };
+		A1F0C0DE0000000000000007 /* AnimatedGradientBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F0C0DE0000000000000008 /* AnimatedGradientBackground.swift */; };
 		8044FF28B913432CCB7E21E2 /* OCRExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A9F4766EB84E8A9F4FC0272 /* OCRExtractionTests.swift */; };
-		0A11BB00CC00DD00EE00FF01 /* CardModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A11BB00CC00DD00EE00FF02 /* CardModelTests.swift */; };
+		80A197C6950D276B7B254C04 /* CardModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC571B7D4A2CD0B1411BB20 /* CardModelTests.swift */; };
 		83C8305617C44F9668A218D2 /* BrandLogoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3E0EA242CA84336C9824C9C /* BrandLogoService.swift */; };
 		868DE566ED30130E51DB9F62 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F57E1BE137EC09BBCB9D5C9 /* KeychainService.swift */; };
 		8855FD31EF8FD709B0CFA324 /* BarcodeQualityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EEA307738C59C562519D23 /* BarcodeQualityService.swift */; };
@@ -68,16 +74,20 @@
 		A43A2DF1917083FFA2A3BBF6 /* AddCardFlowEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84A790F509F0A2E15899D401 /* AddCardFlowEnvironment.swift */; };
 		A9E1BBCD277DCA303FD83F6C /* AddCardSwipeableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9D5BF8FA7538F42E90B1D5E /* AddCardSwipeableView.swift */; };
 		ACA0EC1605654E226DE1AEF5 /* CardOnCueWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE86996120C8B02FFAB805D4 /* CardOnCueWatchApp.swift */; };
+		AF1D9F253ADF802A5CD475AB /* CardServerSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D1F3AD445EF96AF48CB66 /* CardServerSync.swift */; };
 		B22C4B3E86DAAE0F2A865490 /* CardIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D7B7F76D53E0163B53279B6 /* CardIcon.swift */; };
 		B7B31C48BAE739AB27CF7886 /* OCRSegmentDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D9486BBE8935E02690AFDC /* OCRSegmentDetector.swift */; };
 		B867BD70E6556F37501A1B30 /* LocationSearchField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B620D35B64596A5F81CB2462 /* LocationSearchField.swift */; };
 		B8EC78F3CB2EE5BD7522C052 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4DD3822F228D018F9ADCCF /* MainView.swift */; };
 		B94458C6AAEC2AB0D3E64B40 /* CardImageStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10294E4FEA8699DFEE0D563A /* CardImageStorageService.swift */; };
+		C2C5FF00A171F116575F53DB /* BrandRegistrySnapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B6FCCF02155C9CE462CC433 /* BrandRegistrySnapshot.swift */; };
 		C48F3A9612C45E4EFF89F62E /* ScannedCardReviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BFBA6B9958544C449BAABA /* ScannedCardReviewView.swift */; };
 		C4FE6C43E3A05C0944E857C8 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853D9248CC90D503A1926F0E /* ContentView.swift */; };
+		C54F3FE8EF7D179AEE5CEE2A /* QRCodeGenerator in Frameworks */ = {isa = PBXBuildFile; productRef = 3A4BCC802D517198C9BFC350 /* QRCodeGenerator */; };
 		C9A1B95089B1C7871191937C /* BatchLocationPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 333280C5C1B8A48B9D2C6753 /* BatchLocationPickerSheet.swift */; };
 		CAE28E62D886F6293A690679 /* AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3A63E2964A14B7130056FC /* AppColors.swift */; };
 		D4A5A94308D1E3AEDBF74DBE /* LocationCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF814D5C3D35DC2EA28429E2 /* LocationCacheService.swift */; };
+		D82D5C765B903DC252368436 /* PersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C37D4D2CCF50A73636EDDF0 /* PersistenceHelper.swift */; };
 		DF976C02B2E8AD90F224E056 /* RapidScanningState.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44698902D69AABCD60105F6 /* RapidScanningState.swift */; };
 		E007A8110F63514CDB9799EA /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36EC12F63B12F28C8E3B107 /* Item.swift */; };
 		E67974EA5E45928B8196C109 /* IconSelectionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB3A9AF5FAC17F84E42BC73 /* IconSelectionSheet.swift */; };
@@ -87,8 +97,11 @@
 		F213B7FE84CED02916930E24 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DCE93D779A2B5D10C49EAB1 /* CardModel.swift */; };
 		F3293B8617BBBC66310A5504 /* AutoPopulatedTextFieldStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F630E95A6C37A3E9755F187 /* AutoPopulatedTextFieldStyle.swift */; };
 		F506CB6533330250045CF17E /* BarcodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C3B0A251DE6E634FAA0418 /* BarcodeService.swift */; };
+		A1F0C0DE0000000000000101 /* LinearBarcodeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F0C0DE0000000000000100 /* LinearBarcodeRenderer.swift */; };
+		A1F0C0DE0000000000000102 /* LinearBarcodeRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1F0C0DE0000000000000100 /* LinearBarcodeRenderer.swift */; };
 		F639D34FBFBBDCA5D410009F /* NotificationEducationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D3DEF31255334C60FB24C6 /* NotificationEducationView.swift */; };
 		F8E5C545733F81EC4FB1CDE9 /* CameraPermissionPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8822C9FD89264E18159BFF5 /* CameraPermissionPromptView.swift */; };
+		FA0A435EEA3EAB65351D9B10 /* BrandDomainResolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BCFE7771C2D5891DE4169F7 /* BrandDomainResolver.swift */; };
 		FBBA2E780E9653433A81ECD4 /* CardImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC8FE82F7545B11015F0AD7F /* CardImageProcessor.swift */; };
 		FC070687F5BDE1E28D6BA14B /* CardIconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB1F7FAD025EA658C143FDD5 /* CardIconService.swift */; };
 		FEF61ACE482483C24BD2BBA0 /* VisionOCRService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A0A137BE73184773FDB75E3 /* VisionOCRService.swift */; };
@@ -133,98 +146,204 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		007FF75D18CDDE9482D6CB90 /* MembershipIconResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembershipIconResolver.swift; sourceTree = "<group>"; };
 		01C3B0A251DE6E634FAA0418 /* BarcodeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeService.swift; sourceTree = "<group>"; };
+		A1F0C0DE0000000000000100 /* LinearBarcodeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinearBarcodeRenderer.swift; sourceTree = "<group>"; };
 		01D3DEF31255334C60FB24C6 /* NotificationEducationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEducationView.swift; sourceTree = "<group>"; };
 		02D9486BBE8935E02690AFDC /* OCRSegmentDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRSegmentDetector.swift; sourceTree = "<group>"; };
+		03107BB7F43C835F76B9ED9D /* my */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = my; path = my.lproj/Localizable.strings; sourceTree = "<group>"; };
+		03176017358E44274564349B /* lo */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lo; path = lo.lproj/Localizable.strings; sourceTree = "<group>"; };
+		04436133807DE228130733A8 /* kk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kk; path = kk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		04BB1E3E442124A0E8301F11 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0563E1AF81CDC9538A382D37 /* zh-TW */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-TW"; path = "zh-TW.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		08312BFDFC2802950F6CC599 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0B6FCCF02155C9CE462CC433 /* BrandRegistrySnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandRegistrySnapshot.swift; sourceTree = "<group>"; };
 		0BA26D39560DAB3283B5E498 /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		0C37D4D2CCF50A73636EDDF0 /* PersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
 		0CB8CE976710F6AD10DC47E9 /* AddCardOptionsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardOptionsSheet.swift; sourceTree = "<group>"; };
-		84A790F509F0A2E15899D401 /* AddCardFlowEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardFlowEnvironment.swift; sourceTree = "<group>"; };
 		0D7B7F76D53E0163B53279B6 /* CardIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIcon.swift; sourceTree = "<group>"; };
+		0F343458C5C3BA0C9178D7B9 /* mn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mn; path = mn.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0F9CAFA2E6CCF42AA0B0C50D /* IconCropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconCropView.swift; sourceTree = "<group>"; };
 		10294E4FEA8699DFEE0D563A /* CardImageStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageStorageService.swift; sourceTree = "<group>"; };
+		11B755900776ADE09E35AC9C /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/Localizable.strings; sourceTree = "<group>"; };
+		12C4DA95F6C8F2E5E0B535DE /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		178316BE5A8320947DD5CF4E /* WatchNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNotificationManager.swift; sourceTree = "<group>"; };
 		186FF01F09AFD46BE6193037 /* ConfidenceMeter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfidenceMeter.swift; sourceTree = "<group>"; };
 		189FA4FB36884B61D25703D6 /* CardOnCueUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		1A58C43F6EC54E51FC4A3C91 /* OCRFieldRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRFieldRow.swift; sourceTree = "<group>"; };
+		1B54664720A26AD462F52848 /* gu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = gu; path = gu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1BDEDBE94E61301BF2CC0CEE /* is */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = is; path = is.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1C4521F402AB13B20E1B5C26 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1F81221F3F9D7ADDA2699905 /* GeofenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeofenceManager.swift; sourceTree = "<group>"; };
-		0A11AA00BB00CC00DD00EE02 /* PersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceHelper.swift; sourceTree = "<group>"; };
-		0A11AA00BB00CC00DD00EE03 /* CardServerSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardServerSync.swift; sourceTree = "<group>"; };
 		21603A38A3B4D599B263DC91 /* RapidSaveService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidSaveService.swift; sourceTree = "<group>"; };
 		22E547A49B563DB378CC25A8 /* IconSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelectionView.swift; sourceTree = "<group>"; };
+		23EF3B61DCB36C5193326AB6 /* de-CH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "de-CH"; path = "de-CH.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		27A45790050F2B9FF07BE9AE /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
+		27F2074FBDD180A70A076FD8 /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		28DC91F4E616D6D7EFD36949 /* CardLocationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardLocationsView.swift; sourceTree = "<group>"; };
+		D5BB523715576E7B22EC0D19 /* AddLocationsOnMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationsOnMapView.swift; sourceTree = "<group>"; };
 		2A5F8405D48F8D6641F394B8 /* PhotoLibraryImportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryImportView.swift; sourceTree = "<group>"; };
+		2BEFBF794C3AD47D62F98E1E /* en-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-US"; path = "en-US.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		2D621109257252C4A6067D1B /* sl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sl; path = sl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2DBC2369A35FCEE5D1DFE7E6 /* BarcodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeType.swift; sourceTree = "<group>"; };
 		2DCE93D779A2B5D10C49EAB1 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
-		465FA411AE084BE19C97DE3B /* ArchivedCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedCardsView.swift; sourceTree = "<group>"; };
 		2E23050A66A78F0FE1E538E1 /* CardDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDetailView.swift; sourceTree = "<group>"; };
+		2E614D02EDFB052B86BF2FB1 /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2F203612E1E177E7A244A120 /* DrawingPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPadView.swift; sourceTree = "<group>"; };
+		30CD0BAE8B6183AABBA8CFDD /* PhotoImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoImportService.swift; sourceTree = "<group>"; };
+		3134DC9996820F3C8AB3A964 /* ne */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ne; path = ne.lproj/Localizable.strings; sourceTree = "<group>"; };
+		316B31E83064234EF7CD49E0 /* de-AT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "de-AT"; path = "de-AT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		32F943AD8CBE728DDB760A4F /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		333280C5C1B8A48B9D2C6753 /* BatchLocationPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchLocationPickerSheet.swift; sourceTree = "<group>"; };
 		334A437789120201E165EDB8 /* CardDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardDataParser.swift; sourceTree = "<group>"; };
+		3361F96FEEAE3FD07CDD3407 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		336CB211598689D1C81BE5D3 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3ACB9C90938097C830D34FD6 /* AutoSaveToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoSaveToast.swift; sourceTree = "<group>"; };
+		3D608A8BE949A87C9290CF30 /* en-AU */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-AU"; path = "en-AU.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		3D93ABF4380F40E56B677701 /* fr-CH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-CH"; path = "fr-CH.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		3FA30531CF87F71D832AA0EC /* en-NZ */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-NZ"; path = "en-NZ.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		4077159993BCA9C24DD05EC7 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		44DC707B8ED857962020D5C8 /* WatchBarcodeRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchBarcodeRenderer.swift; sourceTree = "<group>"; };
+		46E0A68D2CE66C72BCEFDA6A /* es-MX */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-MX"; path = "es-MX.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		498FDB292399D9DB3418B4B3 /* fr-BE */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "fr-BE"; path = "fr-BE.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		4A9F4766EB84E8A9F4FC0272 /* OCRExtractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRExtractionTests.swift; sourceTree = "<group>"; };
-		0A11BB00CC00DD00EE00FF02 /* CardModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModelTests.swift; sourceTree = "<group>"; };
+		4B5EB15838995C9544656381 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4DCF7F704A96224CB23A33D9 /* CardOnCueUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueUITests.swift; sourceTree = "<group>"; };
+		4E404EB8681E25E3C0C5A536 /* af */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = af; path = af.lproj/Localizable.strings; sourceTree = "<group>"; };
+		502D1F3AD445EF96AF48CB66 /* CardServerSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardServerSync.swift; sourceTree = "<group>"; };
 		50A3318942B2C28EB4E863C7 /* OnboardingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingService.swift; sourceTree = "<group>"; };
 		50A88347F45C20F4D2C57CDD /* BarcodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeScannerView.swift; sourceTree = "<group>"; };
+		5133E6FC090C254D7F661E7C /* si */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = si; path = si.lproj/Localizable.strings; sourceTree = "<group>"; };
 		51503CEB261161B228C2C594 /* CardOnCueApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueApp.swift; sourceTree = "<group>"; };
+		53CB4C5A1CE6E9EF74779451 /* ta */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ta; path = ta.lproj/Localizable.strings; sourceTree = "<group>"; };
 		58717726551F2801E364383A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		58BA925B783781A090E258F2 /* ml */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ml; path = ml.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5A770219CAE18E39F9B1BCB7 /* yue-CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "yue-CN"; path = "yue-CN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		5AC571B7D4A2CD0B1411BB20 /* CardModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModelTests.swift; sourceTree = "<group>"; };
+		5DEBF276DFF89F9E20C1EB11 /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5EB917918451A80A707FDFEA /* BarcodeImageCropper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeImageCropper.swift; sourceTree = "<group>"; };
 		5F630E95A6C37A3E9755F187 /* AutoPopulatedTextFieldStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoPopulatedTextFieldStyle.swift; sourceTree = "<group>"; };
+		6098F3DDDC533B532F3AA0AC /* hy */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hy; path = hy.lproj/Localizable.strings; sourceTree = "<group>"; };
+		60F152BF0F7F169266208FDA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		63D706B09AB0B64C9BB0B628 /* mk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mk; path = mk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		643136C170BE1C07C2EAAC8C /* DrawingPadHaptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPadHaptics.swift; sourceTree = "<group>"; };
+		65A53E09CE26B45373F39972 /* nn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nn; path = nn.lproj/Localizable.strings; sourceTree = "<group>"; };
+		67698B0BC5E66B694336A8F1 /* hi-Latn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "hi-Latn"; path = "hi-Latn.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		69F86B0DCC34EA9AB2EB6CF6 /* te */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = te; path = te.lproj/Localizable.strings; sourceTree = "<group>"; };
 		6AD2DDE34A702A843F6E8040 /* ManualEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualEntryView.swift; sourceTree = "<group>"; };
-		6EA014EE5BD7A439269EA927 /* CardOnCueUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CardOnCueUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6E265FE4097EC5117DE506ED /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6EA014EE5BD7A439269EA927 /* CardOnCueUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardOnCueUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		71D62637EB20C46DECA66002 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
+		741D83F257640C389B8AAA99 /* bg */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bg; path = bg.lproj/Localizable.strings; sourceTree = "<group>"; };
+		741F319DDE25518E4CE6D081 /* es-US */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-US"; path = "es-US.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		7575561BC8C1F0D68611B369 /* BarcodeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeType.swift; sourceTree = "<group>"; };
 		76BFBA6B9958544C449BAABA /* ScannedCardReviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannedCardReviewView.swift; sourceTree = "<group>"; };
 		77BF330BAA377AECE54D5E8F /* FeatureRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureRow.swift; sourceTree = "<group>"; };
-		79BEA75F5CF1884B215D3389 /* CardOnCueTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = CardOnCueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		79833D04FF5AD4E7B039C304 /* ug */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ug; path = ug.lproj/Localizable.strings; sourceTree = "<group>"; };
+		79BEA75F5CF1884B215D3389 /* CardOnCueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CardOnCueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A0A137BE73184773FDB75E3 /* VisionOCRService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisionOCRService.swift; sourceTree = "<group>"; };
 		7AB3A9AF5FAC17F84E42BC73 /* IconSelectionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelectionSheet.swift; sourceTree = "<group>"; };
+		7CFFE584A6398B9C6E60CCE6 /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
+		7E31DE72FC559BC8AB293C70 /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7E689CF3FDE82C8283958E33 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		7F41CF643171E3EDB748552B /* sq */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sq; path = sq.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7F4DD3822F228D018F9ADCCF /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		7F76A6B785A89E926BC4B8DA /* en-SG */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-SG"; path = "en-SG.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		81C6853E0CEB39780A228524 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8425858FAD9005E285259E1C /* CardOnCue.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CardOnCue.entitlements; sourceTree = "<group>"; };
 		84A790F509F0A2E15899D401 /* AddCardFlowEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardFlowEnvironment.swift; sourceTree = "<group>"; };
 		853D9248CC90D503A1926F0E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		85A97188D63795A7AC0FB2F5 /* tl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tl; path = tl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8867038AC4CCE1F6960B0BC2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8B3A63E2964A14B7130056FC /* AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColors.swift; sourceTree = "<group>"; };
+		8BCFE7771C2D5891DE4169F7 /* BrandDomainResolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandDomainResolver.swift; sourceTree = "<group>"; };
+		8C820E0B1CD67FC024AC18EF /* it-CH */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "it-CH"; path = "it-CH.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		8F57E1BE137EC09BBCB9D5C9 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		9058AA938365C9A0C0DA0EE8 /* sw */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sw; path = sw.lproj/Localizable.strings; sourceTree = "<group>"; };
+		91632298C60CBA64E450A029 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
 		9176C634A2324D36E0525340 /* BatchLocationBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchLocationBadge.swift; sourceTree = "<group>"; };
+		919242B4732C47D7033FD142 /* en-IN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-IN"; path = "en-IN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		92382D742E31AEA996315479 /* uz */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uz; path = uz.lproj/Localizable.strings; sourceTree = "<group>"; };
 		93B3E9CC92CD359CCE739A20 /* WatchBarcodeImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchBarcodeImageView.swift; sourceTree = "<group>"; };
 		96BBC988E4433EC684EA52B8 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		975A5FEED983FECBD9A059B8 /* CardOnCue Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "CardOnCue Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E1F9CE67DB08B6610198B05 /* et */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = et; path = et.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A4DAB9D1D650D7C93E28016F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A7EB80C574DE1821E83D1E74 /* OCRData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OCRData.swift; sourceTree = "<group>"; };
 		A95594807A829CFA2F2BF0AD /* BarcodeDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeDisplayView.swift; sourceTree = "<group>"; };
+		A9A10F230C1110ECE69EB9E0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Localizable.strings; sourceTree = "<group>"; };
 		A9D5BF8FA7538F42E90B1D5E /* AddCardSwipeableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCardSwipeableView.swift; sourceTree = "<group>"; };
+		AAF216F1D6733FB8B6FF5533 /* fa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fa; path = fa.lproj/Localizable.strings; sourceTree = "<group>"; };
 		ABB61694DAAC3BB4C25A6C13 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AD3AB459C8F8A29CBB9FE00C /* pa */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pa; path = pa.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AD403BB3B1757FD29FA2612A /* brand_registry_snapshot.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = brand_registry_snapshot.json; sourceTree = "<group>"; };
+		ADE0121C4A64DDF85DA1096A /* nl-BE */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "nl-BE"; path = "nl-BE.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		AE1E3FB9C453D331E45179B8 /* sr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sr; path = sr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		AE86996120C8B02FFAB805D4 /* CardOnCueWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueWatchApp.swift; sourceTree = "<group>"; };
 		B136A3ACB99C94790E77E721 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		D482070A90C1A601857BC60C /* CardUsageFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardUsageFooterView.swift; sourceTree = "<group>"; };
 		B1F6AFEC3601BD3738C80A29 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		B2C0A35C520542D9C49A41C3 /* en-GB */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-GB"; path = "en-GB.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		B620D35B64596A5F81CB2462 /* LocationSearchField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchField.swift; sourceTree = "<group>"; };
+		B63043F08D5A45CECBBD3CEF /* gl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = gl; path = gl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		B7B5DF1FF9C48775DE2DB97E /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		B7E8C6490938862FC2B75D5E /* LocationSearchService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchService.swift; sourceTree = "<group>"; };
+		BD12933F3F645DE5120FEF5E /* zh-CN */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-CN"; path = "zh-CN.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		BD266F04B2971E836AE62FAF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BD7136BF166F0C1CFE202094 /* zu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zu; path = zu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C0EE6124D9CF274461C9A3F1 /* DrawingTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingTools.swift; sourceTree = "<group>"; };
+		C1A902DA45D10D4561424A1C /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		C39691BCF572993401A7A45A /* ArchivedCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedCardsView.swift; sourceTree = "<group>"; };
+		A1F0C0DE0000000000000002 /* MasonryLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasonryLayout.swift; sourceTree = "<group>"; };
+		A1F0C0DE0000000000000004 /* CardCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCellView.swift; sourceTree = "<group>"; };
+		A1F0C0DE0000000000000006 /* CardCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCategory.swift; sourceTree = "<group>"; };
+		A1F0C0DE0000000000000008 /* AnimatedGradientBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedGradientBackground.swift; sourceTree = "<group>"; };
 		C58F522E185E493BA527369E /* SavedLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedLocation.swift; sourceTree = "<group>"; };
+		C6F23357A147BFE6FB0700E9 /* km */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = km; path = km.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C87642FC54B09C4095BAAC15 /* DrawingPadSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingPadSettingsView.swift; sourceTree = "<group>"; };
 		C8822C9FD89264E18159BFF5 /* CameraPermissionPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionPromptView.swift; sourceTree = "<group>"; };
+		C8B647B5C927086308153275 /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CC8FE82F7545B11015F0AD7F /* CardImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardImageProcessor.swift; sourceTree = "<group>"; };
+		CEC9B9C53F0E6879CBD04325 /* fil */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fil; path = fil.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CF814D5C3D35DC2EA28429E2 /* LocationCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationCacheService.swift; sourceTree = "<group>"; };
 		D356CD07E3E38B7414529032 /* CardOnCueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardOnCueTests.swift; sourceTree = "<group>"; };
 		D4BE04FE32056A8436EFF24B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D58A5BC091FF03D298C233A0 /* am */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = am; path = am.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D5C4F5106C88F55F8531EA4B /* bn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bn; path = bn.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D60DC152164BB67084438818 /* eu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = eu; path = eu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D87A9EEF1E0135B32D8A92E2 /* WatchAppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppColors.swift; sourceTree = "<group>"; };
+		D9771DF7FCA14C341692542F /* mr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = mr; path = mr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D985E45CAD719FB034DD0FC9 /* APIClientEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientEnvironment.swift; sourceTree = "<group>"; };
 		DB1F7FAD025EA658C143FDD5 /* CardIconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardIconService.swift; sourceTree = "<group>"; };
+		DB30933A36EDC4FEC4534BBC /* az */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = az; path = az.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DFD80F0C53F1039B9BB9D104 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		E1F9355AA6292D771E3C670C /* LocationPermissionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionView.swift; sourceTree = "<group>"; };
+		E262F9DACB9174F10F65A7EC /* kn */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = kn; path = kn.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E36EC12F63B12F28C8E3B107 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		E3E0EA242CA84336C9824C9C /* BrandLogoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrandLogoService.swift; sourceTree = "<group>"; };
 		E44698902D69AABCD60105F6 /* RapidScanningState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RapidScanningState.swift; sourceTree = "<group>"; };
-		EA91E3F7AEC160D0E9422DC5 /* CardOnCue.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = CardOnCue.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E76B5F631100FE3EEC618E80 /* en-CA */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "en-CA"; path = "en-CA.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		E94FD402FAF53243F84A9893 /* no */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = no; path = no.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EA67DE482F2C669D62080C80 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
+		EA91E3F7AEC160D0E9422DC5 /* CardOnCue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CardOnCue.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBF5AC972831869ED978876D /* es-419 */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "es-419"; path = "es-419.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		EE4724B6EC7582AAD4E2CF6D /* ur */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ur; path = ur.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F1EEA307738C59C562519D23 /* BarcodeQualityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeQualityService.swift; sourceTree = "<group>"; };
 		F42380183E05A9FBCB3120C6 /* CardListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardListView.swift; sourceTree = "<group>"; };
 		FA4AB9A3E803F2A45C3EEF91 /* CameraPermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionManager.swift; sourceTree = "<group>"; };
 		FE87D01EE38614D078379113 /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C26EAAA2086AF139EE77C079 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C54F3FE8EF7D179AEE5CEE2A /* QRCodeGenerator in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		7BB1B169106CCE6F81B52CFB /* CardOnCue */ = {
@@ -234,24 +353,32 @@
 				0CB8CE976710F6AD10DC47E9 /* AddCardOptionsSheet.swift */,
 				A9D5BF8FA7538F42E90B1D5E /* AddCardSwipeableView.swift */,
 				B136A3ACB99C94790E77E721 /* APIClient.swift */,
+				D482070A90C1A601857BC60C /* CardUsageFooterView.swift */,
 				D985E45CAD719FB034DD0FC9 /* APIClientEnvironment.swift */,
 				8B3A63E2964A14B7130056FC /* AppColors.swift */,
 				8867038AC4CCE1F6960B0BC2 /* AppDelegate.swift */,
+				C39691BCF572993401A7A45A /* ArchivedCardsView.swift */,
+				A1F0C0DE0000000000000002 /* MasonryLayout.swift */,
+				A1F0C0DE0000000000000004 /* CardCellView.swift */,
+				A1F0C0DE0000000000000006 /* CardCategory.swift */,
+				A1F0C0DE0000000000000008 /* AnimatedGradientBackground.swift */,
 				ABB61694DAAC3BB4C25A6C13 /* Assets.xcassets */,
 				5F630E95A6C37A3E9755F187 /* AutoPopulatedTextFieldStyle.swift */,
 				3ACB9C90938097C830D34FD6 /* AutoSaveToast.swift */,
 				5EB917918451A80A707FDFEA /* BarcodeImageCropper.swift */,
 				50A88347F45C20F4D2C57CDD /* BarcodeScannerView.swift */,
 				01C3B0A251DE6E634FAA0418 /* BarcodeService.swift */,
+				A1F0C0DE0000000000000100 /* LinearBarcodeRenderer.swift */,
 				7575561BC8C1F0D68611B369 /* BarcodeType.swift */,
 				9176C634A2324D36E0525340 /* BatchLocationBadge.swift */,
 				333280C5C1B8A48B9D2C6753 /* BatchLocationPickerSheet.swift */,
+				8BCFE7771C2D5891DE4169F7 /* BrandDomainResolver.swift */,
 				E3E0EA242CA84336C9824C9C /* BrandLogoService.swift */,
+				0B6FCCF02155C9CE462CC433 /* BrandRegistrySnapshot.swift */,
 				FA4AB9A3E803F2A45C3EEF91 /* CameraPermissionManager.swift */,
 				C8822C9FD89264E18159BFF5 /* CameraPermissionPromptView.swift */,
 				7E689CF3FDE82C8283958E33 /* Card.swift */,
 				334A437789120201E165EDB8 /* CardDataParser.swift */,
-				465FA411AE084BE19C97DE3B /* ArchivedCardsView.swift */,
 				2E23050A66A78F0FE1E538E1 /* CardDetailView.swift */,
 				0D7B7F76D53E0163B53279B6 /* CardIcon.swift */,
 				DB1F7FAD025EA658C143FDD5 /* CardIconService.swift */,
@@ -259,9 +386,11 @@
 				10294E4FEA8699DFEE0D563A /* CardImageStorageService.swift */,
 				F42380183E05A9FBCB3120C6 /* CardListView.swift */,
 				28DC91F4E616D6D7EFD36949 /* CardLocationsView.swift */,
+				D5BB523715576E7B22EC0D19 /* AddLocationsOnMapView.swift */,
 				2DCE93D779A2B5D10C49EAB1 /* CardModel.swift */,
 				8425858FAD9005E285259E1C /* CardOnCue.entitlements */,
 				51503CEB261161B228C2C594 /* CardOnCueApp.swift */,
+				502D1F3AD445EF96AF48CB66 /* CardServerSync.swift */,
 				186FF01F09AFD46BE6193037 /* ConfidenceMeter.swift */,
 				58717726551F2801E364383A /* ContentView.swift */,
 				643136C170BE1C07C2EAAC8C /* DrawingPadHaptics.swift */,
@@ -271,8 +400,6 @@
 				FE87D01EE38614D078379113 /* EmptyStateView.swift */,
 				77BF330BAA377AECE54D5E8F /* FeatureRow.swift */,
 				1F81221F3F9D7ADDA2699905 /* GeofenceManager.swift */,
-				0A11AA00BB00CC00DD00EE02 /* PersistenceHelper.swift */,
-				0A11AA00BB00CC00DD00EE03 /* CardServerSync.swift */,
 				0F9CAFA2E6CCF42AA0B0C50D /* IconCropView.swift */,
 				7AB3A9AF5FAC17F84E42BC73 /* IconSelectionSheet.swift */,
 				22E547A49B563DB378CC25A8 /* IconSelectionView.swift */,
@@ -287,6 +414,7 @@
 				B7E8C6490938862FC2B75D5E /* LocationSearchService.swift */,
 				7F4DD3822F228D018F9ADCCF /* MainView.swift */,
 				6AD2DDE34A702A843F6E8040 /* ManualEntryView.swift */,
+				007FF75D18CDDE9482D6CB90 /* MembershipIconResolver.swift */,
 				0BA26D39560DAB3283B5E498 /* Network.swift */,
 				01D3DEF31255334C60FB24C6 /* NotificationEducationView.swift */,
 				A7EB80C574DE1821E83D1E74 /* OCRData.swift */,
@@ -294,6 +422,8 @@
 				02D9486BBE8935E02690AFDC /* OCRSegmentDetector.swift */,
 				50A3318942B2C28EB4E863C7 /* OnboardingService.swift */,
 				96BBC988E4433EC684EA52B8 /* OnboardingView.swift */,
+				0C37D4D2CCF50A73636EDDF0 /* PersistenceHelper.swift */,
+				30CD0BAE8B6183AABBA8CFDD /* PhotoImportService.swift */,
 				2A5F8405D48F8D6641F394B8 /* PhotoLibraryImportView.swift */,
 				21603A38A3B4D599B263DC91 /* RapidSaveService.swift */,
 				E44698902D69AABCD60105F6 /* RapidScanningState.swift */,
@@ -301,6 +431,7 @@
 				76BFBA6B9958544C449BAABA /* ScannedCardReviewView.swift */,
 				DFD80F0C53F1039B9BB9D104 /* StorageService.swift */,
 				7A0A137BE73184773FDB75E3 /* VisionOCRService.swift */,
+				D4BBB140F52A726CCA3C7676 /* Resources */,
 				8F0045ED7BD9CD310BAA3934 /* Services */,
 			);
 			path = CardOnCue;
@@ -341,6 +472,14 @@
 			path = "CardOnCue Watch App";
 			sourceTree = "<group>";
 		};
+		D4BBB140F52A726CCA3C7676 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AD403BB3B1757FD29FA2612A /* brand_registry_snapshot.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		DE12448DDFFA703BF9685BA2 = {
 			isa = PBXGroup;
 			children = (
@@ -364,9 +503,9 @@
 		F48E4DADAC4862B00E3C407B /* CardOnCueTests */ = {
 			isa = PBXGroup;
 			children = (
+				5AC571B7D4A2CD0B1411BB20 /* CardModelTests.swift */,
 				D356CD07E3E38B7414529032 /* CardOnCueTests.swift */,
 				4A9F4766EB84E8A9F4FC0272 /* OCRExtractionTests.swift */,
-				0A11BB00CC00DD00EE00FF02 /* CardModelTests.swift */,
 			);
 			path = CardOnCueTests;
 			sourceTree = "<group>";
@@ -379,7 +518,7 @@
 			buildConfigurationList = 90FC94625F1947F5579B9D48 /* Build configuration list for PBXNativeTarget "CardOnCue Watch App" */;
 			buildPhases = (
 				ADD63171E380FC384FA3CDBE /* Sources */,
-				ADD63171E380FC384FA3CDC0 /* Resources */,
+				C26EAAA2086AF139EE77C079 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -387,10 +526,11 @@
 			);
 			name = "CardOnCue Watch App";
 			packageProductDependencies = (
+				3A4BCC802D517198C9BFC350 /* QRCodeGenerator */,
 			);
 			productName = "CardOnCue Watch App";
 			productReference = 975A5FEED983FECBD9A059B8 /* CardOnCue Watch App.app */;
-			productType = "com.apple.product-type.application.watchapp2";
+			productType = "com.apple.product-type.application";
 		};
 		3F026D40DCBE795246104A3F /* CardOnCueTests */ = {
 			isa = PBXNativeTarget;
@@ -455,10 +595,9 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 2650;
 				TargetAttributes = {
 					09BFA6ED21C7DD528F490471 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					3F026D40DCBE795246104A3F = {
@@ -466,7 +605,6 @@
 						ProvisioningStyle = Automatic;
 					};
 					4BD7016FA96DBAD217037426 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 					C97E7F59B525E44500238205 = {
@@ -482,11 +620,97 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				Base,
+				af,
+				am,
+				az,
+				be,
+				bg,
+				bn,
+				bs,
+				ca,
+				cs,
+				da,
+				de,
+				"de-AT",
+				"de-CH",
+				el,
 				en,
+				"en-AU",
+				"en-CA",
+				"en-GB",
+				"en-IN",
+				"en-NZ",
+				"en-SG",
+				"en-US",
+				es,
+				"es-419",
+				"es-MX",
+				"es-US",
+				et,
+				eu,
+				fa,
+				fi,
+				fil,
+				fr,
+				"fr-BE",
+				"fr-CH",
+				gl,
+				gu,
+				"hi-Latn",
+				hr,
+				hu,
+				hy,
+				id,
+				is,
+				it,
+				"it-CH",
+				ka,
+				kk,
+				km,
+				kn,
+				lo,
+				lt,
+				lv,
+				mk,
+				ml,
+				mn,
+				mr,
+				ms,
+				my,
+				nb,
+				ne,
+				nl,
+				"nl-BE",
+				nn,
+				no,
+				pa,
+				ro,
+				si,
+				sk,
+				sl,
+				sq,
+				sr,
+				sw,
+				ta,
+				te,
+				th,
+				tl,
+				ug,
+				ur,
+				uz,
+				"yue-CN",
+				zh,
+				"zh-CN",
+				"zh-HK",
+				"zh-Hant",
+				"zh-TW",
+				zu,
 			);
 			mainGroup = DE12448DDFFA703BF9685BA2;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
+			packageReferences = (
+				353B1F0E82D8664478F1C3B0 /* XCRemoteSwiftPackageReference "swift-qrcode-generator" */,
+			);
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -505,14 +729,7 @@
 			files = (
 				5B08A47F95CBAB86C0CFF123 /* Assets.xcassets in Resources */,
 				73F4A5BBAAEF6352D09B654F /* Localizable.strings in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		ADD63171E380FC384FA3CDC0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5A10CFC341CD6C5408768E0E /* Assets.xcassets in Resources */,
+				695A1151C8A1C32F7FF7D9E3 /* brand_registry_snapshot.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,27 +741,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				7487FF7FACC8C06348CA9070 /* APIClient.swift in Sources */,
+				1F25260AD160614CF7ACA31B /* CardUsageFooterView.swift in Sources */,
 				601FA54BF9C0ED2EF87DD938 /* APIClientEnvironment.swift in Sources */,
-				99D47AD3F37B66D9AFF62C3D /* AddCardOptionsSheet.swift in Sources */,
 				A43A2DF1917083FFA2A3BBF6 /* AddCardFlowEnvironment.swift in Sources */,
+				99D47AD3F37B66D9AFF62C3D /* AddCardOptionsSheet.swift in Sources */,
 				A9E1BBCD277DCA303FD83F6C /* AddCardSwipeableView.swift in Sources */,
 				CAE28E62D886F6293A690679 /* AppColors.swift in Sources */,
 				6DDD11A5B51660DF0F379B79 /* AppDelegate.swift in Sources */,
+				7D48E7C11EC7B638D41B69DE /* ArchivedCardsView.swift in Sources */,
+				A1F0C0DE0000000000000001 /* MasonryLayout.swift in Sources */,
+				A1F0C0DE0000000000000003 /* CardCellView.swift in Sources */,
+				A1F0C0DE0000000000000005 /* CardCategory.swift in Sources */,
+				A1F0C0DE0000000000000007 /* AnimatedGradientBackground.swift in Sources */,
 				F3293B8617BBBC66310A5504 /* AutoPopulatedTextFieldStyle.swift in Sources */,
 				1EE98AC3E24BCD1D1F73389F /* AutoSaveToast.swift in Sources */,
 				A2FE68464688D9754B7C515C /* BarcodeImageCropper.swift in Sources */,
 				8855FD31EF8FD709B0CFA324 /* BarcodeQualityService.swift in Sources */,
 				9CF41FBECF10B5D0EE9D4120 /* BarcodeScannerView.swift in Sources */,
 				F506CB6533330250045CF17E /* BarcodeService.swift in Sources */,
+				A1F0C0DE0000000000000101 /* LinearBarcodeRenderer.swift in Sources */,
 				90BA33493B99EF4285FA2FB9 /* BarcodeType.swift in Sources */,
 				618A3164EA88E5D936935848 /* BatchLocationBadge.swift in Sources */,
 				C9A1B95089B1C7871191937C /* BatchLocationPickerSheet.swift in Sources */,
+				FA0A435EEA3EAB65351D9B10 /* BrandDomainResolver.swift in Sources */,
 				83C8305617C44F9668A218D2 /* BrandLogoService.swift in Sources */,
+				C2C5FF00A171F116575F53DB /* BrandRegistrySnapshot.swift in Sources */,
 				0A3093F93C73C8A05C1E90DD /* CameraPermissionManager.swift in Sources */,
 				F8E5C545733F81EC4FB1CDE9 /* CameraPermissionPromptView.swift in Sources */,
 				6F22B8AB8A590C94C90F9AAE /* Card.swift in Sources */,
 				0E611F9B1F1FAEF336CEAB21 /* CardDataParser.swift in Sources */,
-				B83DAC7B01FF48AA986AF54A /* ArchivedCardsView.swift in Sources */,
 				195A04929DD6A66C6C61DFBC /* CardDetailView.swift in Sources */,
 				B22C4B3E86DAAE0F2A865490 /* CardIcon.swift in Sources */,
 				FC070687F5BDE1E28D6BA14B /* CardIconService.swift in Sources */,
@@ -552,8 +777,10 @@
 				B94458C6AAEC2AB0D3E64B40 /* CardImageStorageService.swift in Sources */,
 				8B1533AF1DB183060D4E6454 /* CardListView.swift in Sources */,
 				362FE5657615F80D653A532D /* CardLocationsView.swift in Sources */,
+				144A232B7229A6E8149AC109 /* AddLocationsOnMapView.swift in Sources */,
 				F213B7FE84CED02916930E24 /* CardModel.swift in Sources */,
 				8C1F7A5783A1CCE86FA5B9AA /* CardOnCueApp.swift in Sources */,
+				AF1D9F253ADF802A5CD475AB /* CardServerSync.swift in Sources */,
 				7B380704A98628A097F1C33E /* ConfidenceMeter.swift in Sources */,
 				44BAEFA2695F760FFBC8DF12 /* ContentView.swift in Sources */,
 				33C65E5460D9F19B39E8F556 /* DrawingPadHaptics.swift in Sources */,
@@ -563,8 +790,6 @@
 				331A68C4BAB1C41FE24DE70C /* EmptyStateView.swift in Sources */,
 				62DF345BCEBD8F2F66102537 /* FeatureRow.swift in Sources */,
 				37A6A19D72E052B16134390F /* GeofenceManager.swift in Sources */,
-				0A11AA00BB00CC00DD00EE01 /* PersistenceHelper.swift in Sources */,
-				0A11AA00BB00CC00DD00EE04 /* CardServerSync.swift in Sources */,
 				EFE1CD535CDB82573DD3730C /* IconCropView.swift in Sources */,
 				E67974EA5E45928B8196C109 /* IconSelectionSheet.swift in Sources */,
 				3E5CE9A84530B509231C2623 /* IconSelectionView.swift in Sources */,
@@ -577,6 +802,7 @@
 				5F7DF3C267FE04A36362568E /* LocationSearchService.swift in Sources */,
 				B8EC78F3CB2EE5BD7522C052 /* MainView.swift in Sources */,
 				930C346736115F1748985E03 /* ManualEntryView.swift in Sources */,
+				35D0BEF7CFFF3134A5948528 /* MembershipIconResolver.swift in Sources */,
 				0D1782590D7484A0820D07D7 /* Network.swift in Sources */,
 				F639D34FBFBBDCA5D410009F /* NotificationEducationView.swift in Sources */,
 				51B6F9A602B7BA47F95E3EB9 /* OCRData.swift in Sources */,
@@ -584,6 +810,8 @@
 				B7B31C48BAE739AB27CF7886 /* OCRSegmentDetector.swift in Sources */,
 				552A24EF1F79B6A04DF126E6 /* OnboardingService.swift in Sources */,
 				77597BAFC0D160F8D404D2BE /* OnboardingView.swift in Sources */,
+				D82D5C765B903DC252368436 /* PersistenceHelper.swift in Sources */,
+				7B228C4673529573BAD26A36 /* PhotoImportService.swift in Sources */,
 				EEDD3343AD049615026E6104 /* PhotoLibraryImportView.swift in Sources */,
 				4FC85110FBF3DDC4D9E5EC47 /* RapidSaveService.swift in Sources */,
 				DF976C02B2E8AD90F224E056 /* RapidScanningState.swift in Sources */,
@@ -605,6 +833,7 @@
 				1082738660F19B36D46D8DDB /* WatchAppColors.swift in Sources */,
 				02C326357EE6EF8DAFF1B83D /* WatchBarcodeImageView.swift in Sources */,
 				5A10CFC341CD6C5408768E0D /* WatchBarcodeRenderer.swift in Sources */,
+				A1F0C0DE0000000000000102 /* LinearBarcodeRenderer.swift in Sources */,
 				48312CCE647AD0F32D1DF2CD /* WatchNotificationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -622,9 +851,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				80A197C6950D276B7B254C04 /* CardModelTests.swift in Sources */,
 				968AB2FAC57795D558516460 /* CardOnCueTests.swift in Sources */,
 				8044FF28B913432CCB7E21E2 /* OCRExtractionTests.swift in Sources */,
-				0A11BB00CC00DD00EE00FF01 /* CardModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,7 +881,91 @@
 		470CBC9EEAD7ADD38BCF21DE /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
+				4E404EB8681E25E3C0C5A536 /* af */,
+				D58A5BC091FF03D298C233A0 /* am */,
+				DB30933A36EDC4FEC4534BBC /* az */,
+				6E265FE4097EC5117DE506ED /* be */,
+				741D83F257640C389B8AAA99 /* bg */,
+				D5C4F5106C88F55F8531EA4B /* bn */,
+				C1A902DA45D10D4561424A1C /* bs */,
+				C8B647B5C927086308153275 /* ca */,
+				EA67DE482F2C669D62080C80 /* cs */,
+				27A45790050F2B9FF07BE9AE /* da */,
+				336CB211598689D1C81BE5D3 /* de */,
+				316B31E83064234EF7CD49E0 /* de-AT */,
+				23EF3B61DCB36C5193326AB6 /* de-CH */,
+				7E31DE72FC559BC8AB293C70 /* el */,
 				08312BFDFC2802950F6CC599 /* en */,
+				3D608A8BE949A87C9290CF30 /* en-AU */,
+				E76B5F631100FE3EEC618E80 /* en-CA */,
+				B2C0A35C520542D9C49A41C3 /* en-GB */,
+				919242B4732C47D7033FD142 /* en-IN */,
+				3FA30531CF87F71D832AA0EC /* en-NZ */,
+				7F76A6B785A89E926BC4B8DA /* en-SG */,
+				2BEFBF794C3AD47D62F98E1E /* en-US */,
+				12C4DA95F6C8F2E5E0B535DE /* es */,
+				EBF5AC972831869ED978876D /* es-419 */,
+				46E0A68D2CE66C72BCEFDA6A /* es-MX */,
+				741F319DDE25518E4CE6D081 /* es-US */,
+				9E1F9CE67DB08B6610198B05 /* et */,
+				D60DC152164BB67084438818 /* eu */,
+				AAF216F1D6733FB8B6FF5533 /* fa */,
+				27F2074FBDD180A70A076FD8 /* fi */,
+				CEC9B9C53F0E6879CBD04325 /* fil */,
+				B7B5DF1FF9C48775DE2DB97E /* fr */,
+				498FDB292399D9DB3418B4B3 /* fr-BE */,
+				3D93ABF4380F40E56B677701 /* fr-CH */,
+				B63043F08D5A45CECBBD3CEF /* gl */,
+				1B54664720A26AD462F52848 /* gu */,
+				67698B0BC5E66B694336A8F1 /* hi-Latn */,
+				1C4521F402AB13B20E1B5C26 /* hr */,
+				7CFFE584A6398B9C6E60CCE6 /* hu */,
+				6098F3DDDC533B532F3AA0AC /* hy */,
+				91632298C60CBA64E450A029 /* id */,
+				1BDEDBE94E61301BF2CC0CEE /* is */,
+				71D62637EB20C46DECA66002 /* it */,
+				8C820E0B1CD67FC024AC18EF /* it-CH */,
+				11B755900776ADE09E35AC9C /* ka */,
+				04436133807DE228130733A8 /* kk */,
+				C6F23357A147BFE6FB0700E9 /* km */,
+				E262F9DACB9174F10F65A7EC /* kn */,
+				03176017358E44274564349B /* lo */,
+				81C6853E0CEB39780A228524 /* lt */,
+				2E614D02EDFB052B86BF2FB1 /* lv */,
+				63D706B09AB0B64C9BB0B628 /* mk */,
+				58BA925B783781A090E258F2 /* ml */,
+				0F343458C5C3BA0C9178D7B9 /* mn */,
+				D9771DF7FCA14C341692542F /* mr */,
+				5DEBF276DFF89F9E20C1EB11 /* ms */,
+				03107BB7F43C835F76B9ED9D /* my */,
+				3361F96FEEAE3FD07CDD3407 /* nb */,
+				3134DC9996820F3C8AB3A964 /* ne */,
+				4B5EB15838995C9544656381 /* nl */,
+				ADE0121C4A64DDF85DA1096A /* nl-BE */,
+				65A53E09CE26B45373F39972 /* nn */,
+				E94FD402FAF53243F84A9893 /* no */,
+				AD3AB459C8F8A29CBB9FE00C /* pa */,
+				BD266F04B2971E836AE62FAF /* ro */,
+				5133E6FC090C254D7F661E7C /* si */,
+				32F943AD8CBE728DDB760A4F /* sk */,
+				2D621109257252C4A6067D1B /* sl */,
+				7F41CF643171E3EDB748552B /* sq */,
+				AE1E3FB9C453D331E45179B8 /* sr */,
+				9058AA938365C9A0C0DA0EE8 /* sw */,
+				53CB4C5A1CE6E9EF74779451 /* ta */,
+				69F86B0DCC34EA9AB2EB6CF6 /* te */,
+				04BB1E3E442124A0E8301F11 /* th */,
+				85A97188D63795A7AC0FB2F5 /* tl */,
+				79833D04FF5AD4E7B039C304 /* ug */,
+				EE4724B6EC7582AAD4E2CF6D /* ur */,
+				92382D742E31AEA996315479 /* uz */,
+				5A770219CAE18E39F9B1BCB7 /* yue-CN */,
+				A9A10F230C1110ECE69EB9E0 /* zh */,
+				BD12933F3F645DE5120FEF5E /* zh-CN */,
+				60F152BF0F7F169266208FDA /* zh-Hant */,
+				4077159993BCA9C24DD05EC7 /* zh-HK */,
+				0563E1AF81CDC9538A382D37 /* zh-TW */,
+				BD7136BF166F0C1CFE202094 /* zu */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -664,6 +977,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -695,9 +1009,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -718,6 +1034,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.9;
@@ -729,6 +1046,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -760,9 +1078,11 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -776,6 +1096,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.9;
@@ -787,7 +1108,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -808,10 +1128,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = EJLR2RPSV2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "CardOnCue Watch App/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue.watchkitapp;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -826,7 +1150,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -847,13 +1170,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = EJLR2RPSV2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CardOnCue/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
@@ -867,7 +1191,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -886,7 +1209,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -907,10 +1229,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = EJLR2RPSV2;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "CardOnCue Watch App/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue.watchkitapp;
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -927,13 +1253,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
-				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = EJLR2RPSV2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CardOnCue/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				MARKETING_VERSION = 1.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.nathanfennel.CardOnCue;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = NO;
@@ -992,6 +1319,25 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		353B1F0E82D8664478F1C3B0 /* XCRemoteSwiftPackageReference "swift-qrcode-generator" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/dagronf/swift-qrcode-generator";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3A4BCC802D517198C9BFC350 /* QRCodeGenerator */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 353B1F0E82D8664478F1C3B0 /* XCRemoteSwiftPackageReference "swift-qrcode-generator" */;
+			productName = QRCodeGenerator;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 870B0520418244ED11C9F670 /* Project object */;
 }

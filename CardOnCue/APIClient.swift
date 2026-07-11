@@ -59,6 +59,22 @@ struct GiftCardBrandResponse: Codable {
     }
 }
 
+struct BrandResolveResponse: Codable {
+    let ok: Bool
+    let brand: ResolvedBrand
+
+    struct ResolvedBrand: Codable {
+        let name: String
+        let displayName: String
+        let category: String?
+        let domain: String
+        let logoUrl: String?
+        let source: String
+        let tier: Int
+        let verified: Bool
+    }
+}
+
 // MARK: - Network Locations
 
 struct NetworkLocationsResponse: Codable {
@@ -287,6 +303,46 @@ class APIClient {
         return try await post(endpoint, body: request)
     }
 
+    // MARK: - Scan feedback
+
+    /// Records whether an in-app barcode scanned. Best-effort and unauthenticated
+    /// so it works even when the user isn't signed in. Call twice with the same
+    /// `submissionId` (thumb tap, then note) — the server upserts into one row.
+    @discardableResult
+    func submitScanFeedback(
+        submissionId: String,
+        deviceId: String,
+        cardId: String,
+        barcodeType: String,
+        worked: Bool,
+        note: String?
+    ) async throws -> ScanFeedbackResponse {
+        let request = ScanFeedbackRequest(
+            submissionId: submissionId,
+            deviceId: deviceId,
+            cardId: cardId,
+            barcodeType: barcodeType,
+            worked: worked,
+            note: note
+        )
+        return try await post("/v1/scan-feedback", body: request, authenticated: false)
+    }
+
+    // MARK: - Brand Icon Resolution
+
+    func resolveBrand(name: String, locationName: String? = nil, website: String? = nil) async throws -> BrandResolveResponse {
+        var endpoint = "/v1/brands/resolve?name=\(name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? name)"
+        if let locationName, !locationName.isEmpty,
+           let encoded = locationName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+            endpoint += "&locationName=\(encoded)"
+        }
+        if let website, !website.isEmpty,
+           let encoded = website.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
+            endpoint += "&website=\(encoded)"
+        }
+        return try await get(endpoint, authenticated: false)
+    }
+
     // MARK: - Generic HTTP Methods
 
     /// Build a URL preserving any query string in endpoint (appendingPathComponent percent-encodes "?").
@@ -445,6 +501,19 @@ struct CardSyncResponse: Codable {
     struct SyncedCardRef: Codable {
         let id: String
     }
+}
+
+struct ScanFeedbackRequest: Codable {
+    let submissionId: String
+    let deviceId: String
+    let cardId: String
+    let barcodeType: String
+    let worked: Bool
+    let note: String?
+}
+
+struct ScanFeedbackResponse: Codable {
+    let success: Bool
 }
 
 struct ReportCardLocationRequest: Codable {

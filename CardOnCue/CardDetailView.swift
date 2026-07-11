@@ -16,6 +16,7 @@ struct CardDetailView: View {
     let card: CardModel
     
     @State private var brightness: Double = 1.0
+    @State private var priorBrightness: CGFloat?
     @State private var decryptedPayload: String?
     @State private var showingError = false
     @State private var errorMessage = ""
@@ -27,6 +28,7 @@ struct CardDetailView: View {
     @State private var editedIcon: CardIcon? = nil
     @State private var showingRescan = false
     @State private var showingAddPlace = false
+    @State private var showingMapPicker = false
     @State private var showingIconSelection = false
     @State private var networks: [Network] = []
     @State private var editedWebsiteUrl: String = ""
@@ -134,6 +136,9 @@ struct CardDetailView: View {
             await decryptPayload()
             await loadNetworks()
         }
+        .sheet(isPresented: $showingMapPicker) {
+            AddLocationsOnMapView(card: card)
+        }
         .sheet(isPresented: $showingAddPlace) {
             AddPlaceViewForCardModel(card: card) { place in
                 editedLocationName = place.name
@@ -176,6 +181,15 @@ struct CardDetailView: View {
             if let ocrData = card.getOCRData() {
                 editedFullText = ocrData.fullText
                 editedOCRSegments = ocrData.segments
+            }
+
+            // Boost screen backlight so cashier scanners can read the code.
+            priorBrightness = UIScreen.main.brightness
+            UIScreen.main.brightness = 1.0
+        }
+        .onDisappear {
+            if let prior = priorBrightness {
+                UIScreen.main.brightness = prior
             }
         }
         .sheet(isPresented: $showingIconSelection) {
@@ -314,6 +328,8 @@ struct CardDetailView: View {
 
             if isEditing {
                 brightnessControlSection
+            } else {
+                CardUsageFooterView(card: card)
             }
         }
         .onAppear {
@@ -332,6 +348,7 @@ struct CardDetailView: View {
     // View for displaying generated barcode
     private func generatedBarcodeView(_ image: UIImage) -> some View {
         Image(uiImage: image)
+            .interpolation(.none)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .padding(16)
@@ -349,6 +366,15 @@ struct CardDetailView: View {
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(.primary)
+
+            if let payload = decryptedPayload, !payload.isEmpty {
+                Text(payload)
+                    .font(.system(.body, design: .monospaced))
+                    .textSelection(.enabled)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.primary)
+                    .padding(.horizontal)
+            }
 
             Button(action: {
                 showingRescan = true
@@ -684,6 +710,20 @@ struct CardDetailView: View {
                 .font(.headline)
                 .foregroundColor(.primary)
 
+            Button(action: { showingMapPicker = true }) {
+                HStack {
+                    Image(systemName: "map.fill")
+                    Text("Add Locations on Map")
+                }
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(.appBlue)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(Color.appBlue.opacity(0.12))
+                .cornerRadius(8)
+            }
+
             let hasLocation = !(card.locationName ?? "").isEmpty
             let hasNetworks = !networks.isEmpty
 
@@ -978,7 +1018,9 @@ struct CardDetailView: View {
         }
         
         let service = BarcodeService()
-        let size = CGSize(width: 600, height: 300)
+        let size = card.barcodeType.isTwoDimensional
+            ? CGSize(width: 800, height: 800)
+            : CGSize(width: 600, height: 300)
         
         do {
             return try service.renderBarcode(payload: payload, type: card.barcodeType, size: size)
@@ -1159,11 +1201,10 @@ struct CardDetailView: View {
         } else if nameChanged || locationChanged {
             // Auto-assign icon based on new name/location
             Task {
-                let iconName = await CardIconService.shared.assignIconForCard(
-                    name: editedName,
+                let newIcon = await MembershipIconResolver.shared.resolveIcon(
+                    cardName: editedName,
                     locationName: capitalizedPlaceName.isEmpty ? nil : capitalizedPlaceName
                 )
-                let newIcon = CardIcon.sfSymbol(iconName)
                 await MainActor.run {
                     card.setIcon(newIcon)
                     editedIcon = newIcon

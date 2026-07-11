@@ -47,9 +47,43 @@
 /* Photo Import */
 "import_photo_title" = "由相簿匯入";
 "import_photo_description" = "揀一張包含條碼嘅相片";
+"photo_import_multi_description" = "選擇一張或多張會員卡照片。我們將偵測條碼並為您匯入。";
+"choose_photos" = "選擇照片";
+"enter_manually_instead" = "改為手動輸入";
+"photo_import_loading" = "正在載入所選照片...";
+"photo_import_processing" = "正在處理 %d / %d...";
+"photo_import_preparing_review" = "正在準備待審核的卡片...";
+"photo_import_review_progress" = "審核 %d / %d";
+"photo_import_summary_title" = "匯入完成";
+"photo_import_summary_auto_saved" = "已自動儲存";
+"photo_import_summary_reviewed" = "已手動審核";
+"photo_import_summary_failed" = "找不到條碼";
+"photo_import_import_more" = "匯入更多照片";
+"photo_import_enter_failed_manually" = "手動輸入失敗的卡片";
+"photo_import_done" = "完成";
+
+/* Add Card Tabs */
+"add_card_tab_camera" = "相機";
+"add_card_tab_photos" = "照片";
+"add_card_tab_manual" = "手動";
 
 /* Common */
 "next_button" = "下一步";
 "skip_button" = "略過";
 "get_started" = "開始使用";
 
+
+/* Card usage feedback */
+"scan_feedback_prompt" = "Did it scan?";
+"scan_feedback_yes" = "It scanned";
+"scan_feedback_no" = "It didn't scan";
+"scan_feedback_thanks" = "Thanks for the feedback!";
+"scan_feedback_more" = "Tell us more";
+"scan_feedback_note_placeholder" = "What happened?";
+"scan_feedback_send" = "Send";
+"scan_feedback_submit_failed" = "Couldn't submit — try again";
+"card_works_here" = "This card works here";
+"card_works_here_done" = "Reported";
+"card_works_here_toast" = "Added “%@” — thanks!";
+"location_unavailable" = "Location unavailable right now";
+"nearby_location" = "Nearby location";

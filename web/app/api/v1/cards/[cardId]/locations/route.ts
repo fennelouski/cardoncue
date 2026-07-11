@@ -30,17 +30,18 @@ export async function POST(
 
     const body = await request.json();
     const {
-      locationName,
       address,
       city,
       state,
       country,
-      postalCode,
       latitude,
       longitude,
       notes,
       source = 'add_place',
     } = body;
+    // iOS sends snake_case (APIClient uses .convertToSnakeCase); accept both casings.
+    const locationName = body.locationName ?? body.location_name;
+    const postalCode = body.postalCode ?? body.postal_code;
 
     if (!locationName) {
       return NextResponse.json({ error: 'Location name is required' }, { status: 400 });

@@ -10,6 +10,8 @@ struct ScannedCardReviewView: View {
     let barcodeType: BarcodeType
     let capturedImage: UIImage? // Optional captured card image
     let barcodeBoundingBox: CGRect? // Optional barcode region from detection
+    var reviewProgressLabel: String? = nil
+    var dismissesOnSave: Bool = true
 
     var onSave: () -> Void
     var onRescan: () -> Void
@@ -215,10 +217,7 @@ struct ScannedCardReviewView: View {
                                 }
 
                                 TextField("Enter phone number", text: $phoneNumber)
-                                    .font(.body)
-                                    .padding(12)
-                                    .background(Color.white)
-                                    .cornerRadius(8)
+                                    .textFieldStyle(CustomTextFieldStyle())
                                     .autocapitalization(.none)
                                     .keyboardType(.phonePad)
                             }
@@ -245,10 +244,7 @@ struct ScannedCardReviewView: View {
                                 }
 
                                 TextField("Enter email address", text: $emailAddress)
-                                    .font(.body)
-                                    .padding(12)
-                                    .background(Color.white)
-                                    .cornerRadius(8)
+                                    .textFieldStyle(CustomTextFieldStyle())
                                     .autocapitalization(.none)
                                     .keyboardType(.emailAddress)
                             }
@@ -275,10 +271,7 @@ struct ScannedCardReviewView: View {
                                 }
 
                                 TextField("Enter website URL", text: $websiteURL)
-                                    .font(.body)
-                                    .padding(12)
-                                    .background(Color.white)
-                                    .cornerRadius(8)
+                                    .textFieldStyle(CustomTextFieldStyle())
                                     .autocapitalization(.none)
                                     .keyboardType(.URL)
                             }
@@ -305,10 +298,7 @@ struct ScannedCardReviewView: View {
                                 }
 
                                 TextField("Enter PIN code", text: $pinCode)
-                                    .font(.body)
-                                    .padding(12)
-                                    .background(Color.white)
-                                    .cornerRadius(8)
+                                    .textFieldStyle(CustomTextFieldStyle())
                                     .autocapitalization(.none)
                                     .keyboardType(.numberPad)
                             }
@@ -341,6 +331,7 @@ struct ScannedCardReviewView: View {
                                     .padding()
                                     .background(Color.white)
                                     .cornerRadius(12)
+                                    .appLightTextFieldContent()
                                 }
                             }
 
@@ -447,6 +438,14 @@ struct ScannedCardReviewView: View {
                         onSave()
                     }
                     .foregroundColor(.appBlue)
+                }
+
+                if let reviewProgressLabel {
+                    ToolbarItem(placement: .principal) {
+                        Text(reviewProgressLabel)
+                            .font(.headline)
+                            .foregroundColor(.appBlue)
+                    }
                 }
             }
             .sheet(isPresented: $showingIconCrop) {
@@ -830,47 +829,28 @@ struct ScannedCardReviewView: View {
                     }
                 }
 
-                // Smart icon extraction - try multiple methods in order
-                var cardIcon: CardIcon
+                // Smart icon extraction via unified resolver
+                let cachedLocationIcon: CardIcon? = {
+                    guard !trimmedLocationName.isEmpty,
+                          let cachedLocation = LocationCacheService.shared.findMatches(
+                              for: trimmedLocationName,
+                              address: locationAddress,
+                              userLocation: nil,
+                              context: modelContext
+                          ).first else {
+                        return nil
+                    }
+                    return cachedLocation.cardIcon
+                }()
 
-                // 1. Use manually extracted icon if available
-                if let extractedIcon = extractedIcon {
-                    cardIcon = extractedIcon
-                }
-                // 2. Try to use icon from cached location (if location was selected from cache)
-                else if !trimmedLocationName.isEmpty,
-                        let cachedLocation = LocationCacheService.shared.findMatches(
-                            for: trimmedLocationName,
-                            address: locationAddress,
-                            userLocation: nil,
-                            context: modelContext
-                        ).first,
-                        let cachedIcon = cachedLocation.cardIcon {
-                    cardIcon = cachedIcon
-                    print("✨ Reusing icon from cached location: \(trimmedLocationName)")
-                }
-                // 3. Try to reuse icon from existing cards with same brand/location
-                else if let reusedIcon = await CardIconService.shared.findReusableIcon(
+                let cardIcon = await MembershipIconResolver.shared.resolveIcon(
                     cardName: trimmedCardName,
                     locationName: trimmedLocationName.isEmpty ? nil : trimmedLocationName,
                     websiteUrl: websiteUrl,
+                    existingIcon: extractedIcon,
+                    cachedLocationIcon: cachedLocationIcon,
                     modelContext: modelContext
-                ) {
-                    cardIcon = reusedIcon
-                }
-                // 4. Try to fetch icon from website URL
-                else if let websiteUrl = websiteUrl,
-                        let fetchedIcon = await CardIconService.shared.fetchIconFromURL(websiteUrl) {
-                    cardIcon = fetchedIcon
-                }
-                // 5. Fall back to automatic SF Symbol
-                else {
-                    let iconName = await CardIconService.shared.assignIconForCard(
-                        name: trimmedCardName,
-                        locationName: trimmedLocationName.isEmpty ? nil : trimmedLocationName
-                    )
-                    cardIcon = CardIcon.sfSymbol(iconName)
-                }
+                )
 
                 // Create card with encrypted payload
                 let card = try CardModel.createWithEncryptedPayload(
@@ -992,7 +972,9 @@ struct ScannedCardReviewView: View {
                 // Success! Dismiss and call completion
                 await MainActor.run {
                     isLoading = false
-                    dismiss()
+                    if dismissesOnSave {
+                        dismiss()
+                    }
                     onSave()
                 }
 

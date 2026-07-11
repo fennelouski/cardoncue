@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1430"
+   LastUpgradeVersion = "2650"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -17,20 +17,6 @@
                BlueprintIdentifier = "09BFA6ED21C7DD528F490471"
                BuildableName = "CardOnCue Watch App.app"
                BlueprintName = "CardOnCue Watch App"
-               ReferencedContainer = "container:CardOnCue.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "4BD7016FA96DBAD217037426"
-               BuildableName = "CardOnCue.app"
-               BlueprintName = "CardOnCue"
                ReferencedContainer = "container:CardOnCue.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

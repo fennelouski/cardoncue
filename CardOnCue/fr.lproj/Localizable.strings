@@ -47,9 +47,43 @@
 /* Photo Import */
 "import_photo_title" = "Importer depuis Photos";
 "import_photo_description" = "Sélectionnez une photo existante avec un code-barres";
+"photo_import_multi_description" = "Sélectionnez une ou plusieurs photos de vos cartes de membre. Nous détecterons les codes-barres et les importerons pour vous.";
+"choose_photos" = "Choisir des photos";
+"enter_manually_instead" = "Saisir manuellement";
+"photo_import_loading" = "Chargement des photos sélectionnées...";
+"photo_import_processing" = "Traitement %d sur %d...";
+"photo_import_preparing_review" = "Préparation des cartes pour révision...";
+"photo_import_review_progress" = "Révision %d sur %d";
+"photo_import_summary_title" = "Importation terminée";
+"photo_import_summary_auto_saved" = "Enregistrées automatiquement";
+"photo_import_summary_reviewed" = "Révisées manuellement";
+"photo_import_summary_failed" = "Aucun code-barres trouvé";
+"photo_import_import_more" = "Importer d'autres photos";
+"photo_import_enter_failed_manually" = "Saisir manuellement les cartes échouées";
+"photo_import_done" = "Terminé";
+
+/* Add Card Tabs */
+"add_card_tab_camera" = "Appareil photo";
+"add_card_tab_photos" = "Photos";
+"add_card_tab_manual" = "Manuel";
 
 /* Common */
 "next_button" = "Suivant";
 "skip_button" = "Ignorer";
 "get_started" = "Commencer";
 
+
+/* Card usage feedback */
+"scan_feedback_prompt" = "Did it scan?";
+"scan_feedback_yes" = "It scanned";
+"scan_feedback_no" = "It didn't scan";
+"scan_feedback_thanks" = "Thanks for the feedback!";
+"scan_feedback_more" = "Tell us more";
+"scan_feedback_note_placeholder" = "What happened?";
+"scan_feedback_send" = "Send";
+"scan_feedback_submit_failed" = "Couldn't submit — try again";
+"card_works_here" = "This card works here";
+"card_works_here_done" = "Reported";
+"card_works_here_toast" = "Added “%@” — thanks!";
+"location_unavailable" = "Location unavailable right now";
+"nearby_location" = "Nearby location";

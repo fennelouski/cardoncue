@@ -20,6 +20,7 @@ struct AutoPopulatedTextFieldStyle: TextFieldStyle {
                     )
             )
             .cornerRadius(12)
+            .appLightTextFieldContent()
     }
 }
 

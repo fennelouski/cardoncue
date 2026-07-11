@@ -92,6 +92,7 @@ struct ManualEntryView: View {
                                     .padding()
                                     .background(Color.white)
                                     .cornerRadius(12)
+                                    .appLightTextFieldContent()
                                 }
                             }
 
@@ -149,6 +150,7 @@ struct ManualEntryView: View {
                                     .padding()
                                     .background(Color.white)
                                     .cornerRadius(12)
+                                    .appLightTextFieldContent()
                                 }
                             }
 
@@ -258,25 +260,25 @@ struct ManualEntryView: View {
                 let trimmedCardName = cardName.trimmingCharacters(in: .whitespacesAndNewlines)
                 let trimmedLocationName = locationName.trimmingCharacters(in: .whitespacesAndNewlines)
 
-                // Try to reuse icon from cached location first
-                var autoIcon: CardIcon
-                if !trimmedLocationName.isEmpty,
-                   let cachedLocation = LocationCacheService.shared.findMatches(
-                       for: trimmedLocationName,
-                       address: locationAddress,
-                       userLocation: nil,
-                       context: modelContext
-                   ).first,
-                   let cachedIcon = cachedLocation.cardIcon {
-                    autoIcon = cachedIcon
-                    print("✨ Reusing icon from cached location: \(trimmedLocationName)")
-                } else {
-                    let iconName = await CardIconService.shared.assignIconForCard(
-                        name: trimmedCardName,
-                        locationName: trimmedLocationName.isEmpty ? nil : trimmedLocationName
-                    )
-                    autoIcon = CardIcon.sfSymbol(iconName)
-                }
+                let cachedLocationIcon: CardIcon? = {
+                    guard !trimmedLocationName.isEmpty,
+                          let cachedLocation = LocationCacheService.shared.findMatches(
+                              for: trimmedLocationName,
+                              address: locationAddress,
+                              userLocation: nil,
+                              context: modelContext
+                          ).first else {
+                        return nil
+                    }
+                    return cachedLocation.cardIcon
+                }()
+
+                let autoIcon = await MembershipIconResolver.shared.resolveIcon(
+                    cardName: trimmedCardName,
+                    locationName: trimmedLocationName.isEmpty ? nil : trimmedLocationName,
+                    cachedLocationIcon: cachedLocationIcon,
+                    modelContext: modelContext
+                )
 
                 // Extract iconName for backward compatibility with CardModel
                 let iconName = autoIcon.type == .sfSymbol ? autoIcon.value : "creditcard.fill"
@@ -373,6 +375,7 @@ struct CustomTextFieldStyle: TextFieldStyle {
             .padding()
             .background(Color.white)
             .cornerRadius(12)
+            .appLightTextFieldContent()
     }
 }
 

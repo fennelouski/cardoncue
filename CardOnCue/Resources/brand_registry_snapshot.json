@@ -1,0 +1,846 @@
+{
+  "generatedAt": "2026-06-06T08:09:38.742Z",
+  "count": 105,
+  "brands": [
+    {
+      "name": "costco",
+      "displayName": "Costco",
+      "domain": "costco.com",
+      "category": "membership",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "sams",
+      "displayName": "Sam's Club",
+      "domain": "samsclub.com",
+      "category": "membership",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "bjswholesale",
+      "displayName": "BJ's Wholesale Club",
+      "domain": "bjs.com",
+      "category": "membership",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "planetfitness",
+      "displayName": "Planet Fitness",
+      "domain": "planetfitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "lafitness",
+      "displayName": "LA Fitness",
+      "domain": "lafitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "24hourfitness",
+      "displayName": "24 Hour Fitness",
+      "domain": "24hourfitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "anytimefitness",
+      "displayName": "Anytime Fitness",
+      "domain": "anytimefitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "crunchfitness",
+      "displayName": "Crunch Fitness",
+      "domain": "crunch.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "equinox",
+      "displayName": "Equinox",
+      "domain": "equinox.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "goldsgym",
+      "displayName": "Gold's Gym",
+      "domain": "goldsgym.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "lifetimefitness",
+      "displayName": "Lifetime Fitness",
+      "domain": "lifetimefitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "ymca",
+      "displayName": "YMCA",
+      "domain": "ymca.org",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "orangetheoryfitness",
+      "displayName": "Orangetheory Fitness",
+      "domain": "orangetheoryfitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "crossfit",
+      "displayName": "CrossFit",
+      "domain": "crossfit.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "purebarre",
+      "displayName": "Pure Barre",
+      "domain": "purebarre.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "soulcycle",
+      "displayName": "SoulCycle",
+      "domain": "soulcycle.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "barrysbootcamp",
+      "displayName": "Barry's Bootcamp",
+      "domain": "barrysbootcamp.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "flywheelsports",
+      "displayName": "Flywheel Sports",
+      "domain": "flywheelsports.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "corepoweryoga",
+      "displayName": "CorePower Yoga",
+      "domain": "corepoweryoga.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "yogaworks",
+      "displayName": "Yoga Works",
+      "domain": "yogaworks.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "clubpilates",
+      "displayName": "Club Pilates",
+      "domain": "clubpilates.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "snapfitness",
+      "displayName": "Snap Fitness",
+      "domain": "snapfitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "retrofitness",
+      "displayName": "Retro Fitness",
+      "domain": "retrofitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "youfithealthclubs",
+      "displayName": "Youfit Health Clubs",
+      "domain": "youfithealthclubs.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "workoutanytime",
+      "displayName": "Workout Anytime",
+      "domain": "workoutanytime.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "powerhousegym",
+      "displayName": "Powerhouse Gym",
+      "domain": "powerhousegym.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "eosfitness",
+      "displayName": "EoS Fitness",
+      "domain": "eosfitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "vasafitness",
+      "displayName": "Vasa Fitness",
+      "domain": "vasafitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "mountainsidefitness",
+      "displayName": "Mountainside Fitness",
+      "domain": "mountainsidefitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "onelifefitness",
+      "displayName": "OneLife Fitness",
+      "domain": "onelifefitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "ufcgym",
+      "displayName": "UFC Gym",
+      "domain": "ufcgym.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "blinkfitness",
+      "displayName": "Blink Fitness",
+      "domain": "blinkfitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "esportafitness",
+      "displayName": "Esporta Fitness",
+      "domain": "esportafitness.com",
+      "category": "gym",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "kroger",
+      "displayName": "Kroger",
+      "domain": "kroger.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "safeway",
+      "displayName": "Safeway",
+      "domain": "safeway.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "albertsons",
+      "displayName": "Albertsons",
+      "domain": "albertsons.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "publix",
+      "displayName": "Publix",
+      "domain": "publix.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "wholefoodsmarket",
+      "displayName": "Whole Foods Market",
+      "domain": "wholefoodsmarket.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "traderjoes",
+      "displayName": "Trader Joe's",
+      "domain": "traderjoes.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "heb",
+      "displayName": "H-E-B",
+      "domain": "heb.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "wegmans",
+      "displayName": "Wegmans",
+      "domain": "wegmans.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "giantfood",
+      "displayName": "Giant Food",
+      "domain": "giantfood.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "stopshop",
+      "displayName": "Stop & Shop",
+      "domain": "stop&shop.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "foodlion",
+      "displayName": "Food Lion",
+      "domain": "foodlion.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "harristeeter",
+      "displayName": "Harris Teeter",
+      "domain": "harristeeter.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "hyvee",
+      "displayName": "Hy-Vee",
+      "domain": "hyvee.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "meijer",
+      "displayName": "Meijer",
+      "domain": "meijer.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "shoprite",
+      "displayName": "ShopRite",
+      "domain": "shoprite.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "winndixie",
+      "displayName": "Winn-Dixie",
+      "domain": "winndixie.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "ralphs",
+      "displayName": "Ralphs",
+      "domain": "ralphs.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "fredmeyer",
+      "displayName": "Fred Meyer",
+      "domain": "fredmeyer.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "kingsoopers",
+      "displayName": "King Soopers",
+      "domain": "kingsoopers.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "frysfood",
+      "displayName": "Fry's Food",
+      "domain": "frysfood.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "smithsfoodanddrug",
+      "displayName": "Smith's Food and Drug",
+      "domain": "smithsfoodanddrug.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "qfc",
+      "displayName": "QFC",
+      "domain": "qfc.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "dillons",
+      "displayName": "Dillons",
+      "domain": "dillons.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "bakers",
+      "displayName": "Baker's",
+      "domain": "bakers.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "gerbes",
+      "displayName": "Gerbes",
+      "domain": "gerbes.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "cvspharmacy",
+      "displayName": "CVS Pharmacy",
+      "domain": "cvs.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "walgreens",
+      "displayName": "Walgreens",
+      "domain": "walgreens.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "riteaid",
+      "displayName": "Rite Aid",
+      "domain": "riteaid.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "walmartpharmacy",
+      "displayName": "Walmart Pharmacy",
+      "domain": "walmartpharmacy.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "targetpharmacy",
+      "displayName": "Target Pharmacy",
+      "domain": "targetpharmacy.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "target",
+      "displayName": "Target",
+      "domain": "target.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "bestbuy",
+      "displayName": "Best Buy",
+      "domain": "bestbuy.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "staples",
+      "displayName": "Staples",
+      "domain": "staples.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "officedepot",
+      "displayName": "Office Depot",
+      "domain": "officedepot.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "petsmart",
+      "displayName": "PetSmart",
+      "domain": "petsmart.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "petco",
+      "displayName": "Petco",
+      "domain": "petco.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "rei",
+      "displayName": "REI",
+      "domain": "rei.com",
+      "category": "membership",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "dickssportinggoods",
+      "displayName": "Dick's Sporting Goods",
+      "domain": "dickssportinggoods.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "sportsauthority",
+      "displayName": "Sports Authority",
+      "domain": "sportsauthority.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "bedbathbeyond",
+      "displayName": "Bed Bath & Beyond",
+      "domain": "bedbath&beyond.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "containerstore",
+      "displayName": "Container Store",
+      "domain": "containerstore.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "barnesnoble",
+      "displayName": "Barnes & Noble",
+      "domain": "barnes&noble.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "gamestop",
+      "displayName": "GameStop",
+      "domain": "gamestop.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "michaels",
+      "displayName": "Michaels",
+      "domain": "michaels.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "joannfabric",
+      "displayName": "Jo-Ann Fabric",
+      "domain": "joannfabric.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "starbucks",
+      "displayName": "Starbucks",
+      "domain": "starbucks.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "dunkin",
+      "displayName": "Dunkin'",
+      "domain": "dunkindonuts.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "peetscoffee",
+      "displayName": "Peet's Coffee",
+      "domain": "peetscoffee.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "thecoffeebeantealeaf",
+      "displayName": "The Coffee Bean & Tea Leaf",
+      "domain": "thecoffeebean&tealeaf.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "cariboucoffee",
+      "displayName": "Caribou Coffee",
+      "domain": "cariboucoffee.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "panerabread",
+      "displayName": "Panera Bread",
+      "domain": "panerabread.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "chipotle",
+      "displayName": "Chipotle",
+      "domain": "chipotle.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "subway",
+      "displayName": "Subway",
+      "domain": "subway.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "mcdonalds",
+      "displayName": "McDonald's",
+      "domain": "mcdonalds.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "chickfila",
+      "displayName": "Chick-fil-A",
+      "domain": "chick-fil-a.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "tacobell",
+      "displayName": "Taco Bell",
+      "domain": "tacobell.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "wendys",
+      "displayName": "Wendy's",
+      "domain": "wendys.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "burgerking",
+      "displayName": "Burger King",
+      "domain": "burgerking.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "arbys",
+      "displayName": "Arby's",
+      "domain": "arbys.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "jerseymikes",
+      "displayName": "Jersey Mike's",
+      "domain": "jerseymikes.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "shell",
+      "displayName": "Shell",
+      "domain": "shell.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "bp",
+      "displayName": "BP",
+      "domain": "bp.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "chevron",
+      "displayName": "Chevron",
+      "domain": "chevron.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "exxonmobil",
+      "displayName": "ExxonMobil",
+      "domain": "exxonmobil.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "76",
+      "displayName": "76",
+      "domain": "76.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "circlek",
+      "displayName": "Circle K",
+      "domain": "circlek.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "7eleven",
+      "displayName": "7-Eleven",
+      "domain": "7-eleven.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "speedway",
+      "displayName": "Speedway",
+      "domain": "speedway.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "amctheatres",
+      "displayName": "AMC Theatres",
+      "domain": "amctheatres.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "regalcinemas",
+      "displayName": "Regal Cinemas",
+      "domain": "regmovies.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "cinemark",
+      "displayName": "Cinemark",
+      "domain": "cinemark.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    },
+    {
+      "name": "alamodrafthouse",
+      "displayName": "Alamo Drafthouse",
+      "domain": "alamodrafthouse.com",
+      "category": "loyalty",
+      "logoUrl": null,
+      "verified": false
+    }
+  ]
+}

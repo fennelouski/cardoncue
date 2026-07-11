@@ -1,22 +1,20 @@
 #!/usr/bin/env tsx
 
 /**
- * Pre-fetch Brand Icons
- *
- * This script pre-fetches and caches icons for all 105 brands in the import queue.
- * It uses the icon service to search for brand icons and cache them in Vercel KV.
+ * Pre-fetch Brand Icons into brands.logo_url and Vercel KV cache.
  *
  * Usage:
  *   npx tsx scripts/prefetch-brand-icons.ts
  */
 
 import { getDefaultIconForCard } from '../lib/services/iconService';
+import { seedBrandLogos } from '../lib/services/brandService';
 import queueData from './import-queue.json';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
-// Load environment variables
 dotenv.config({ path: path.join(__dirname, '..', '.env.production') });
+dotenv.config({ path: path.join(__dirname, '..', '.env.local') });
 
 interface FetchResult {
   brand: string;
@@ -29,7 +27,12 @@ interface FetchResult {
 async function main() {
   console.log('🎨 CardOnCue - Brand Icon Pre-Fetch\n');
   console.log('='.repeat(60));
-  console.log(`\n📋 Fetching icons for ${queueData.brands.length} brands...\n`);
+
+  console.log('\n📋 Step 1: Seeding brands table and logo_url columns...\n');
+  const seedResult = await seedBrandLogos(queueData.brands as any[]);
+  console.log(`   Seeded: ${seedResult.seeded}, logos in DB: ${seedResult.logosFound}`);
+
+  console.log(`\n📋 Step 2: Warming KV cache for ${queueData.brands.length} brands...\n`);
 
   const results: FetchResult[] = [];
   let successCount = 0;
@@ -44,14 +47,13 @@ async function main() {
       const result = await getDefaultIconForCard(brand.name);
 
       if (result.source === 'default') {
-        // This means we couldn't find a real icon
         failures++;
         results.push({
           brand: brand.name,
           success: false,
-          error: 'No icon found (using placeholder)'
+          error: 'No icon found (using placeholder)',
         });
-        console.log(` ⚠️  No icon (placeholder)`);
+        console.log(' ⚠️  No icon (placeholder)');
       } else {
         successCount++;
         if (result.source === 'cache') {
@@ -64,28 +66,25 @@ async function main() {
           brand: brand.name,
           success: true,
           iconUrl: result.url,
-          source: result.source
+          source: result.source,
         });
 
         const icon = result.source === 'cache' ? '💾' : '🔍';
         console.log(` ${icon} ${result.source}`);
       }
 
-      // Small delay to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 100));
-
+      await new Promise((resolve) => setTimeout(resolve, 100));
     } catch (error: any) {
       failures++;
       results.push({
         brand: brand.name,
         success: false,
-        error: error.message
+        error: error.message,
       });
       console.log(` ❌ Error: ${error.message}`);
     }
   }
 
-  // Summary
   console.log('\n' + '='.repeat(60));
   console.log('\n📊 Summary:\n');
   console.log(`   Total brands:        ${queueData.brands.length}`);
@@ -93,30 +92,24 @@ async function main() {
   console.log(`   💾 From cache:       ${cacheHits}`);
   console.log(`   🔍 New searches:     ${searches}`);
   console.log(`   ⚠️  No icon found:   ${failures}`);
-  console.log(`   Success rate:        ${((successCount / queueData.brands.length) * 100).toFixed(1)}%`);
+  console.log(
+    `   Success rate:        ${((successCount / queueData.brands.length) * 100).toFixed(1)}%`
+  );
 
-  // Show failures
   if (failures > 0) {
     console.log('\n⚠️  Brands without icons:\n');
     results
-      .filter(r => !r.success)
-      .forEach(r => console.log(`   - ${r.brand}`));
+      .filter((r) => !r.success)
+      .forEach((r) => console.log(`   - ${r.brand}`));
   }
 
-  // Show sample successful results
-  console.log('\n✅ Sample successful results:\n');
-  results
-    .filter(r => r.success)
-    .slice(0, 10)
-    .forEach(r => console.log(`   - ${r.brand}: ${r.iconUrl?.substring(0, 60)}...`));
-
   console.log('\n' + '='.repeat(60));
-  console.log(`\n✨ Icon pre-fetch complete! All icons are now cached in Vercel KV.\n`);
+  console.log('\n✨ Icon pre-fetch complete!\n');
 
   process.exit(0);
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error('\n❌ Fatal error:', error);
   process.exit(1);
 });

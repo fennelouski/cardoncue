@@ -47,9 +47,43 @@
 /* Photo Import */
 "import_photo_title" = "Inportatu Argazkiak-etik";
 "import_photo_description" = "Hautatu barra-kodea duen argazki bat";
+"photo_import_multi_description" = "Select one or more photos of your membership cards. We'll detect barcodes and import them for you.";
+"choose_photos" = "Choose Photos";
+"enter_manually_instead" = "Enter Manually Instead";
+"photo_import_loading" = "Loading selected photos...";
+"photo_import_processing" = "Processing %d of %d...";
+"photo_import_preparing_review" = "Preparing cards for review...";
+"photo_import_review_progress" = "Review %d of %d";
+"photo_import_summary_title" = "Import Complete";
+"photo_import_summary_auto_saved" = "Saved automatically";
+"photo_import_summary_reviewed" = "Reviewed manually";
+"photo_import_summary_failed" = "No barcode found";
+"photo_import_import_more" = "Import More Photos";
+"photo_import_enter_failed_manually" = "Enter Failed Cards Manually";
+"photo_import_done" = "Done";
+
+/* Add Card Tabs */
+"add_card_tab_camera" = "Camera";
+"add_card_tab_photos" = "Photos";
+"add_card_tab_manual" = "Manual";
 
 /* Common */
 "next_button" = "Hurrengoa";
 "skip_button" = "Saltatu";
 "get_started" = "Hasi";
 
+
+/* Card usage feedback */
+"scan_feedback_prompt" = "Did it scan?";
+"scan_feedback_yes" = "It scanned";
+"scan_feedback_no" = "It didn't scan";
+"scan_feedback_thanks" = "Thanks for the feedback!";
+"scan_feedback_more" = "Tell us more";
+"scan_feedback_note_placeholder" = "What happened?";
+"scan_feedback_send" = "Send";
+"scan_feedback_submit_failed" = "Couldn't submit — try again";
+"card_works_here" = "This card works here";
+"card_works_here_done" = "Reported";
+"card_works_here_toast" = "Added “%@” — thanks!";
+"location_unavailable" = "Location unavailable right now";
+"nearby_location" = "Nearby location";

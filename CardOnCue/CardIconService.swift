@@ -101,84 +101,11 @@ actor CardIconService {
         return cleaned.trimmingCharacters(in: .whitespaces)
     }
     
-    /// Determine appropriate SF Symbol icon based on business name
+    /// Determine appropriate SF Symbol icon based on business name.
+    /// Delegates to CardCategory, the single source of truth for the
+    /// keyword → symbol mapping (also used for tints and grouping).
     private func determineIcon(for businessName: String) -> String {
-        let lowercased = businessName.lowercased()
-        
-        // Library
-        if lowercased.contains("library") {
-            return "book.closed.fill"
-        }
-        
-        // Gym/Fitness
-        if lowercased.contains("gym") || lowercased.contains("fitness") || 
-           lowercased.contains("athletic") || lowercased.contains("sport") {
-            return "figure.run"
-        }
-        
-        // Grocery/Store
-        if lowercased.contains("costco") || lowercased.contains("wholesale") {
-            return "cart.fill"
-        }
-        if lowercased.contains("whole foods") || lowercased.contains("market") {
-            return "basket.fill"
-        }
-        if lowercased.contains("grocery") || lowercased.contains("supermarket") {
-            return "cart.fill"
-        }
-        
-        // Retail
-        if lowercased.contains("kohl") || lowercased.contains("retail") || 
-           lowercased.contains("department") {
-            return "bag.fill"
-        }
-        
-        // Coffee/Cafe
-        if lowercased.contains("coffee") || lowercased.contains("cafe") || 
-           lowercased.contains("starbucks") {
-            return "cup.and.saucer.fill"
-        }
-        
-        // Restaurant
-        if lowercased.contains("restaurant") || lowercased.contains("dining") {
-            return "fork.knife"
-        }
-        
-        // Pharmacy
-        if lowercased.contains("pharmacy") || lowercased.contains("drug") || 
-           lowercased.contains("cvs") || lowercased.contains("walgreens") {
-            return "cross.case.fill"
-        }
-        
-        // Gas Station
-        if lowercased.contains("gas") || lowercased.contains("fuel") || 
-           lowercased.contains("shell") || lowercased.contains("bp") {
-            return "fuelpump.fill"
-        }
-        
-        // Hotel
-        if lowercased.contains("hotel") || lowercased.contains("resort") {
-            return "bed.double.fill"
-        }
-        
-        // Movie Theater
-        if lowercased.contains("cinema") || lowercased.contains("theater") || 
-           lowercased.contains("movie") {
-            return "film.fill"
-        }
-        
-        // Museum
-        if lowercased.contains("museum") || lowercased.contains("gallery") {
-            return "building.columns.fill"
-        }
-        
-        // Park/Recreation
-        if lowercased.contains("park") || lowercased.contains("recreation") {
-            return "tree.fill"
-        }
-        
-        // Default: credit card icon
-        return "creditcard.fill"
+        return (CardCategory.matches(in: businessName).first ?? .card).sfSymbol
     }
     
     /// Get cached icon for a business name (if not expired)

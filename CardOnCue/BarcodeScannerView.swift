@@ -694,16 +694,15 @@ struct BarcodeScannerView: View {
             )
 
             // Determine icon (use batch location icon if available)
-            var cardIcon: CardIcon
+            let cardIcon: CardIcon
             if let batchIcon = rapidState?.batchLocation?.icon {
                 cardIcon = batchIcon
             } else {
-                // Auto-assign SF Symbol
-                let iconName = await CardIconService.shared.assignIconForCard(
-                    name: cardName,
-                    locationName: parsedData.suggestedLocations.first?.name
+                cardIcon = await MembershipIconResolver.shared.resolveIcon(
+                    cardName: cardName,
+                    locationName: parsedData.suggestedLocations.first?.name,
+                    modelContext: modelContext
                 )
-                cardIcon = CardIcon.sfSymbol(iconName)
             }
 
             // Get location data (from batch context or parsed data)

@@ -35,4 +35,9 @@ enum BarcodeType: String, Codable, CaseIterable {
         default: return nil // Not supported by CoreImage, use fallback renderer
         }
     }
+
+    /// 2D symbologies render square; linear ones render wide.
+    var isTwoDimensional: Bool {
+        self == .qr || self == .aztec
+    }
 }

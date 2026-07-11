@@ -47,9 +47,43 @@
 /* Photo Import */
 "import_photo_title" = "Importeren uit Foto's";
 "import_photo_description" = "Selecteer een bestaande foto met een barcode";
+"photo_import_multi_description" = "Selecteer een of meer foto's van je lidmaatschapskaarten. We detecteren barcodes en importeren ze voor je.";
+"choose_photos" = "Kies foto's";
+"enter_manually_instead" = "Handmatig invoeren";
+"photo_import_loading" = "Geselecteerde foto's laden...";
+"photo_import_processing" = "Verwerken %d van %d...";
+"photo_import_preparing_review" = "Kaarten voorbereiden voor controle...";
+"photo_import_review_progress" = "Controle %d van %d";
+"photo_import_summary_title" = "Import voltooid";
+"photo_import_summary_auto_saved" = "Automatisch opgeslagen";
+"photo_import_summary_reviewed" = "Handmatig gecontroleerd";
+"photo_import_summary_failed" = "Geen barcode gevonden";
+"photo_import_import_more" = "Meer foto's importeren";
+"photo_import_enter_failed_manually" = "Mislukte kaarten handmatig invoeren";
+"photo_import_done" = "Klaar";
+
+/* Add Card Tabs */
+"add_card_tab_camera" = "Camera";
+"add_card_tab_photos" = "Foto's";
+"add_card_tab_manual" = "Handmatig";
 
 /* Common */
 "next_button" = "Volgende";
 "skip_button" = "Overslaan";
 "get_started" = "Aan de slag";
 
+
+/* Card usage feedback */
+"scan_feedback_prompt" = "Did it scan?";
+"scan_feedback_yes" = "It scanned";
+"scan_feedback_no" = "It didn't scan";
+"scan_feedback_thanks" = "Thanks for the feedback!";
+"scan_feedback_more" = "Tell us more";
+"scan_feedback_note_placeholder" = "What happened?";
+"scan_feedback_send" = "Send";
+"scan_feedback_submit_failed" = "Couldn't submit — try again";
+"card_works_here" = "This card works here";
+"card_works_here_done" = "Reported";
+"card_works_here_toast" = "Added “%@” — thanks!";
+"location_unavailable" = "Location unavailable right now";
+"nearby_location" = "Nearby location";

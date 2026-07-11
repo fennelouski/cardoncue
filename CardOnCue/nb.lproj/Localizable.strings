@@ -47,9 +47,43 @@
 /* Photo Import */
 "import_photo_title" = "Import from Photos";
 "import_photo_description" = "Select an existing photo containing a barcode";
+"photo_import_multi_description" = "Velg ett eller flere bilder av medlemskortene dine. Vi finner strekkoder og importerer dem for deg.";
+"choose_photos" = "Velg bilder";
+"enter_manually_instead" = "Skriv inn manuelt i stedet";
+"photo_import_loading" = "Laster valgte bilder...";
+"photo_import_processing" = "Behandler %d av %d...";
+"photo_import_preparing_review" = "Forbereder kort for gjennomgang...";
+"photo_import_review_progress" = "Gjennomgang %d av %d";
+"photo_import_summary_title" = "Import fullført";
+"photo_import_summary_auto_saved" = "Lagret automatisk";
+"photo_import_summary_reviewed" = "Gjennomgått manuelt";
+"photo_import_summary_failed" = "Ingen strekkode funnet";
+"photo_import_import_more" = "Importer flere bilder";
+"photo_import_enter_failed_manually" = "Skriv inn mislykkede kort manuelt";
+"photo_import_done" = "Ferdig";
+
+/* Add Card Tabs */
+"add_card_tab_camera" = "Kamera";
+"add_card_tab_photos" = "Bilder";
+"add_card_tab_manual" = "Manuelt";
 
 /* Common */
 "next_button" = "Next";
 "skip_button" = "Skip";
 "get_started" = "Get Started";
 
+
+/* Card usage feedback */
+"scan_feedback_prompt" = "Did it scan?";
+"scan_feedback_yes" = "It scanned";
+"scan_feedback_no" = "It didn't scan";
+"scan_feedback_thanks" = "Thanks for the feedback!";
+"scan_feedback_more" = "Tell us more";
+"scan_feedback_note_placeholder" = "What happened?";
+"scan_feedback_send" = "Send";
+"scan_feedback_submit_failed" = "Couldn't submit — try again";
+"card_works_here" = "This card works here";
+"card_works_here_done" = "Reported";
+"card_works_here_toast" = "Added “%@” — thanks!";
+"location_unavailable" = "Location unavailable right now";
+"nearby_location" = "Nearby location";

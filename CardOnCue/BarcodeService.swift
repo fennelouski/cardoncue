@@ -203,12 +203,14 @@ extension BarcodeService {
             return try renderWithCoreImage(payload: payload, filterName: filterName, size: size)
         }
 
-        // Fallback: not supported by CoreImage
-        throw BarcodeError.renderFailed(type)
+        // No CoreImage generator (EAN-13, UPC-A, Code 39, ITF) -> shared 1D renderer.
+        let cgImage = try LinearBarcodeRenderer.render(payload: payload, type: type, size: size)
+        return UIImage(cgImage: cgImage)
     }
 
     private func renderWithCoreImage(payload: String, filterName: String, size: CGSize) throws -> UIImage {
-        guard let data = payload.data(using: .ascii) else {
+        // QR/2D payloads are frequently UTF-8 (URLs, accented text); ASCII would drop them.
+        guard let data = payload.data(using: .utf8) else {
             throw BarcodeError.invalidPayload
         }
 

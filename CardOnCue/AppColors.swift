@@ -33,3 +33,11 @@ extension Color {
     static let appBackground = Color("AppBackground")
 }
 
+extension View {
+    /// Light text field surfaces use a white background while the app stays in dark mode.
+    /// Force light scheme locally so entered text and placeholders stay readable.
+    func appLightTextFieldContent() -> some View {
+        colorScheme(.light)
+    }
+}
+

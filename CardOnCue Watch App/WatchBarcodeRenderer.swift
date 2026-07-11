@@ -1,120 +1,102 @@
-import CoreImage
 import CoreGraphics
+import QRCodeGenerator
 #if os(watchOS)
 import WatchKit
 #endif
 
-/// Barcode renderer for watchOS with performance optimizations
+/// Barcode renderer for watchOS (CoreImage is unavailable on watch).
 class WatchBarcodeRenderer {
     static let shared = WatchBarcodeRenderer()
-    
-    // Reusable CIContext for better performance
-    private let ciContext: CIContext
-    
-    // Cache for rendered barcode images (keyed by payload+type+size)
+
     private var imageCache: [String: CGImage] = [:]
     private let cacheQueue = DispatchQueue(label: "com.cardoncue.barcodeCache", attributes: .concurrent)
-    
+
     enum BarcodeError: Error {
         case invalidData
         case generationFailed
         case unsupportedType
     }
-    
-    private init() {
-        // Use optimized CIContext options for watchOS
-        let options: [CIContextOption: Any] = [
-            .useSoftwareRenderer: false,
-            .cacheIntermediates: false // Save memory on watch
-        ]
-        self.ciContext = CIContext(options: options)
-    }
-    
+
+    private init() {}
+
     func render(payload: String, type: BarcodeType, size: CGSize) throws -> CGImage {
-        // Check cache first
         let cacheKey = "\(payload)_\(type.rawValue)_\(size.width)x\(size.height)"
-        
-        var cachedImage: UIImage?
-        cacheQueue.sync {
-            cachedImage = imageCache[cacheKey]
-        }
-        
-        if let cached = cachedImage {
+
+        if let cached = cacheQueue.sync(execute: { imageCache[cacheKey] }) {
             return cached
         }
-        
-        // Generate new image
-        let filter = try createFilter(for: type)
-        
-        guard let data = payload.data(using: .ascii) else {
-            throw BarcodeError.invalidData
-        }
-        
-        filter.setValue(data, forKey: "inputMessage")
-        
-        // For QR codes, set correction level
-        if type == .qr {
-            filter.setValue("M", forKey: "inputCorrectionLevel")
-        }
-        
-        guard let outputImage = filter.outputImage else {
-            throw BarcodeError.generationFailed
-        }
-        
-        // Optimize scale calculation for watch screen sizes
-        let scaleX = size.width / outputImage.extent.width
-        let scaleY = size.height / outputImage.extent.height
-        let scale = min(scaleX, scaleY)
-        let transform = CGAffineTransform(scaleX: scale, y: scale)
-        let scaledImage = outputImage.transformed(by: transform)
-        
-        // Use shared CIContext for better performance
-        guard let cgImage = ciContext.createCGImage(scaledImage, from: scaledImage.extent) else {
-            throw BarcodeError.generationFailed
-        }
-        
-        // Cache the image (limit cache size)
+
+        let cgImage = try generateImage(payload: payload, type: type, size: size)
+
         cacheQueue.async(flags: .barrier) {
-            // Limit cache to 5 images to save memory
-            if self.imageCache.count >= 5 {
-                // Remove oldest entry (simple FIFO)
-                if let firstKey = self.imageCache.keys.first {
-                    self.imageCache.removeValue(forKey: firstKey)
-                }
+            if self.imageCache.count >= 5, let firstKey = self.imageCache.keys.first {
+                self.imageCache.removeValue(forKey: firstKey)
             }
             self.imageCache[cacheKey] = cgImage
         }
-        
+
         return cgImage
     }
-    
+
     func clearCache() {
         cacheQueue.async(flags: .barrier) {
             self.imageCache.removeAll()
         }
     }
-    
-    private func createFilter(for type: BarcodeType) throws -> CIFilter {
-        let filterName: String
-        
+
+    private func generateImage(payload: String, type: BarcodeType, size: CGSize) throws -> CGImage {
         switch type {
         case .qr:
-            filterName = "CIQRCodeGenerator"
-        case .code128:
-            filterName = "CICode128BarcodeGenerator"
-        case .pdf417:
-            filterName = "CIPDF417BarcodeGenerator"
-        case .aztec:
-            filterName = "CIAztecCodeGenerator"
-        default:
+            return try renderQRCode(payload: payload, size: size)
+        case .code128, .ean13, .upcA, .code39, .itf:
+            return try LinearBarcodeRenderer.render(payload: payload, type: type, size: size)
+        // ponytail: PDF417/Aztec are 2D and rare for loyalty cards; add a watch 2D encoder if a card needs one.
+        case .pdf417, .aztec:
             throw BarcodeError.unsupportedType
         }
-        
-        guard let filter = CIFilter(name: filterName) else {
+    }
+
+    private func renderQRCode(payload: String, size: CGSize) throws -> CGImage {
+        guard !payload.isEmpty else {
+            throw BarcodeError.invalidData
+        }
+
+        let qr = try QRCode.encode(text: payload, ecl: .medium)
+        let targetDimension = max(Int(size.width.rounded()), Int(size.height.rounded()), qr.size)
+        let modulePixelSize = max(1, targetDimension / qr.size)
+        let imageDimension = qr.size * modulePixelSize
+
+        let colorSpace = CGColorSpaceCreateDeviceGray()
+        guard let context = CGContext(
+            data: nil,
+            width: imageDimension,
+            height: imageDimension,
+            bitsPerComponent: 8,
+            bytesPerRow: imageDimension,
+            space: colorSpace,
+            bitmapInfo: CGImageAlphaInfo.none.rawValue
+        ) else {
             throw BarcodeError.generationFailed
         }
-        
-        return filter
+
+        context.setFillColor(gray: 1, alpha: 1)
+        context.fill(CGRect(x: 0, y: 0, width: imageDimension, height: imageDimension))
+        context.setFillColor(gray: 0, alpha: 1)
+
+        for y in 0..<qr.size {
+            for x in 0..<qr.size where qr.getModule(x: x, y: y) {
+                context.fill(CGRect(
+                    x: x * modulePixelSize,
+                    y: y * modulePixelSize,
+                    width: modulePixelSize,
+                    height: modulePixelSize
+                ))
+            }
+        }
+
+        guard let image = context.makeImage() else {
+            throw BarcodeError.generationFailed
+        }
+        return image
     }
 }
-

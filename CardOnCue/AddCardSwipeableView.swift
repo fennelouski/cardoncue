@@ -16,10 +16,6 @@ struct AddCardSwipeableView: View {
         _currentPage = State(initialValue: clampedTab)
     }
 
-    private var pageCount: Int {
-        canScan ? 3 : 2
-    }
-
     private var photosPageIndex: Int {
         canScan ? 1 : 0
     }

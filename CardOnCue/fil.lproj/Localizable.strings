@@ -47,9 +47,43 @@
 /* Photo Import */
 "import_photo_title" = "Mag-import mula sa Photos";
 "import_photo_description" = "Pumili ng existing photo na may barcode";
+"photo_import_multi_description" = "Pumili ng isa o higit pang larawan ng iyong mga membership card. Matutukoy namin ang mga barcode at ia-import ang mga ito para sa iyo.";
+"choose_photos" = "Pumili ng mga Larawan";
+"enter_manually_instead" = "Ilagay nang Manu-mano";
+"photo_import_loading" = "Nilo-load ang mga napiling larawan...";
+"photo_import_processing" = "Pinoproseso %d ng %d...";
+"photo_import_preparing_review" = "Inihahanda ang mga card para sa pagsusuri...";
+"photo_import_review_progress" = "Pagsusuri %d ng %d";
+"photo_import_summary_title" = "Kumpleto ang Import";
+"photo_import_summary_auto_saved" = "Awtomatikong na-save";
+"photo_import_summary_reviewed" = "Manu-manong sinuri";
+"photo_import_summary_failed" = "Walang nahanap na barcode";
+"photo_import_import_more" = "Mag-import ng Higit pang Larawan";
+"photo_import_enter_failed_manually" = "Ilagay nang Manu-mano ang mga Nabigong Card";
+"photo_import_done" = "Tapos na";
+
+/* Add Card Tabs */
+"add_card_tab_camera" = "Camera";
+"add_card_tab_photos" = "Mga Larawan";
+"add_card_tab_manual" = "Manu-mano";
 
 /* Common */
 "next_button" = "Susunod";
 "skip_button" = "Laktawan";
 "get_started" = "Magsimula";
 
+
+/* Card usage feedback */
+"scan_feedback_prompt" = "Did it scan?";
+"scan_feedback_yes" = "It scanned";
+"scan_feedback_no" = "It didn't scan";
+"scan_feedback_thanks" = "Thanks for the feedback!";
+"scan_feedback_more" = "Tell us more";
+"scan_feedback_note_placeholder" = "What happened?";
+"scan_feedback_send" = "Send";
+"scan_feedback_submit_failed" = "Couldn't submit — try again";
+"card_works_here" = "This card works here";
+"card_works_here_done" = "Reported";
+"card_works_here_toast" = "Added “%@” — thanks!";
+"location_unavailable" = "Location unavailable right now";
+"nearby_location" = "Nearby location";

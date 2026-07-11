@@ -264,6 +264,7 @@ private struct LocationTextFieldStyle: TextFieldStyle {
                     )
             )
             .cornerRadius(12)
+            .appLightTextFieldContent()
     }
 }
 

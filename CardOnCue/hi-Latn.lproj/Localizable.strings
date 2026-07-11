@@ -47,9 +47,43 @@
 /* Photo Import */
 "import_photo_title" = "Photos se import karein";
 "import_photo_description" = "Barcode wali photo select karein";
+"photo_import_multi_description" = "Apne membership cards ki ek ya zyada photos chunein. Hum barcodes detect karke unhe import karenge.";
+"choose_photos" = "Photos Chunein";
+"enter_manually_instead" = "Manual Entry Karen";
+"photo_import_loading" = "Chuni hui photos load ho rahi hain...";
+"photo_import_processing" = "Process ho raha hai %d of %d...";
+"photo_import_preparing_review" = "Cards review ke liye taiyar ho rahe hain...";
+"photo_import_review_progress" = "Review %d of %d";
+"photo_import_summary_title" = "Import Complete";
+"photo_import_summary_auto_saved" = "Automatically save ho gaya";
+"photo_import_summary_reviewed" = "Manually review kiya gaya";
+"photo_import_summary_failed" = "Koi barcode nahi mila";
+"photo_import_import_more" = "Aur Photos Import Karen";
+"photo_import_enter_failed_manually" = "Failed Cards Manually Enter Karen";
+"photo_import_done" = "Ho gaya";
+
+/* Add Card Tabs */
+"add_card_tab_camera" = "Camera";
+"add_card_tab_photos" = "Photos";
+"add_card_tab_manual" = "Manual";
 
 /* Common */
 "next_button" = "Next";
 "skip_button" = "Skip";
 "get_started" = "Shuru karein";
 
+
+/* Card usage feedback */
+"scan_feedback_prompt" = "Did it scan?";
+"scan_feedback_yes" = "It scanned";
+"scan_feedback_no" = "It didn't scan";
+"scan_feedback_thanks" = "Thanks for the feedback!";
+"scan_feedback_more" = "Tell us more";
+"scan_feedback_note_placeholder" = "What happened?";
+"scan_feedback_send" = "Send";
+"scan_feedback_submit_failed" = "Couldn't submit — try again";
+"card_works_here" = "This card works here";
+"card_works_here_done" = "Reported";
+"card_works_here_toast" = "Added “%@” — thanks!";
+"location_unavailable" = "Location unavailable right now";
+"nearby_location" = "Nearby location";

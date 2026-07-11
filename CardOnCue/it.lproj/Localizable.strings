@@ -47,9 +47,43 @@
 /* Photo Import */
 "import_photo_title" = "Importa da Foto";
 "import_photo_description" = "Seleziona una foto esistente con un codice a barre";
+"photo_import_multi_description" = "Seleziona una o più foto delle tue tessere. Rileveremo i codici a barre e le importeremo per te.";
+"choose_photos" = "Scegli foto";
+"enter_manually_instead" = "Inserisci manualmente";
+"photo_import_loading" = "Caricamento foto selezionate...";
+"photo_import_processing" = "Elaborazione %d di %d...";
+"photo_import_preparing_review" = "Preparazione tessere per la revisione...";
+"photo_import_review_progress" = "Revisione %d di %d";
+"photo_import_summary_title" = "Importazione completata";
+"photo_import_summary_auto_saved" = "Salvate automaticamente";
+"photo_import_summary_reviewed" = "Revisionate manualmente";
+"photo_import_summary_failed" = "Nessun codice a barre trovato";
+"photo_import_import_more" = "Importa altre foto";
+"photo_import_enter_failed_manually" = "Inserisci manualmente le tessere non riuscite";
+"photo_import_done" = "Fine";
+
+/* Add Card Tabs */
+"add_card_tab_camera" = "Fotocamera";
+"add_card_tab_photos" = "Foto";
+"add_card_tab_manual" = "Manuale";
 
 /* Common */
 "next_button" = "Avanti";
 "skip_button" = "Salta";
 "get_started" = "Inizia";
 
+
+/* Card usage feedback */
+"scan_feedback_prompt" = "Did it scan?";
+"scan_feedback_yes" = "It scanned";
+"scan_feedback_no" = "It didn't scan";
+"scan_feedback_thanks" = "Thanks for the feedback!";
+"scan_feedback_more" = "Tell us more";
+"scan_feedback_note_placeholder" = "What happened?";
+"scan_feedback_send" = "Send";
+"scan_feedback_submit_failed" = "Couldn't submit — try again";
+"card_works_here" = "This card works here";
+"card_works_here_done" = "Reported";
+"card_works_here_toast" = "Added “%@” — thanks!";
+"location_unavailable" = "Location unavailable right now";
+"nearby_location" = "Nearby location";

@@ -1,3 +1,4 @@
+import CoreGraphics
 import Foundation
 import SwiftData
 
@@ -41,8 +42,11 @@ final class CardModel {
     var useProcessedImage: Bool = true // Whether to use processed image by default
     var processingMetadataJSON: String? = nil // JSON-encoded ProcessingMetadata
 
-    // Barcode cropping support
-    var barcodeBoundingBox: CGRect? = nil // Normalized (0-1) coords from Vision
+    // Barcode cropping support (stored as doubles — SwiftData cannot persist CGRect)
+    private var barcodeBoundingBoxX: Double? = nil
+    private var barcodeBoundingBoxY: Double? = nil
+    private var barcodeBoundingBoxWidth: Double? = nil
+    private var barcodeBoundingBoxHeight: Double? = nil
     var croppedBarcodeImageURL: String? = nil // Cached cropped barcode image
     var prefersCroppedBarcode: Bool = false // User's toggle preference
     
@@ -308,6 +312,32 @@ final class CardModel {
 
 // MARK: - Extensions for computed properties
 extension CardModel {
+    /// Normalized (0–1) barcode region from Vision. Backed by scalar doubles for SwiftData.
+    var barcodeBoundingBox: CGRect? {
+        get {
+            guard let x = barcodeBoundingBoxX,
+                  let y = barcodeBoundingBoxY,
+                  let width = barcodeBoundingBoxWidth,
+                  let height = barcodeBoundingBoxHeight else {
+                return nil
+            }
+            return CGRect(x: x, y: y, width: width, height: height)
+        }
+        set {
+            if let rect = newValue {
+                barcodeBoundingBoxX = Double(rect.origin.x)
+                barcodeBoundingBoxY = Double(rect.origin.y)
+                barcodeBoundingBoxWidth = Double(rect.size.width)
+                barcodeBoundingBoxHeight = Double(rect.size.height)
+            } else {
+                barcodeBoundingBoxX = nil
+                barcodeBoundingBoxY = nil
+                barcodeBoundingBoxWidth = nil
+                barcodeBoundingBoxHeight = nil
+            }
+        }
+    }
+
     var expiryInfo: String? {
         if let daysUntilExpiration = daysUntilExpiration {
             if daysUntilExpiration <= 0 {

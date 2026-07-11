@@ -7,6 +7,11 @@ options:
     watchOS: "10.0"
   developmentLanguage: en
 
+packages:
+  QRCodeGenerator:
+    url: https://github.com/dagronf/swift-qrcode-generator
+    from: 2.0.2
+
 settings:
   SWIFT_VERSION: "5.9"
   MARKETING_VERSION: "1.0"
@@ -22,9 +27,12 @@ targets:
           - "*.md"
           - "Preview Content"
       - path: CardOnCue/Assets.xcassets
+    resources:
+      - path: CardOnCue/Resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.nathanfennel.CardOnCue
+        GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_FILE: CardOnCue/Info.plist
         DEVELOPMENT_TEAM: ""
         CODE_SIGN_STYLE: Automatic
@@ -50,7 +58,7 @@ targets:
     postBuildScripts: []
 
   CardOnCue Watch App:
-    type: application.watchapp2
+    type: application
     platform: watchOS
     sources:
       - path: "CardOnCue Watch App"
@@ -75,6 +83,8 @@ targets:
           SWIFT_OPTIMIZATION_LEVEL: "-Onone"
         Release:
           SWIFT_OPTIMIZATION_LEVEL: "-O"
+    dependencies:
+      - package: QRCodeGenerator
     scheme: {}
 
   CardOnCueTests:

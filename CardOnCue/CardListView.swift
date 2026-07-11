@@ -1,6 +1,33 @@
 import SwiftUI
 import SwiftData
 
+// MARK: - Sort & Group options
+
+enum CardSortOption: String, CaseIterable, Identifiable {
+    case recentlyAdded, nameAtoZ, expiringSoon, recentlyUsed
+    var id: String { rawValue }
+    var label: String {
+        switch self {
+        case .recentlyAdded: return NSLocalizedString("sort_recently_added", value: "Recently Added", comment: "Sort option")
+        case .nameAtoZ:      return NSLocalizedString("sort_name", value: "Name (A–Z)", comment: "Sort option")
+        case .expiringSoon:  return NSLocalizedString("sort_expiring", value: "Expiring Soon", comment: "Sort option")
+        case .recentlyUsed:  return NSLocalizedString("sort_recently_used", value: "Recently Used", comment: "Sort option")
+        }
+    }
+}
+
+enum CardGroupOption: String, CaseIterable, Identifiable {
+    case brand, category, none
+    var id: String { rawValue }
+    var label: String {
+        switch self {
+        case .brand:    return NSLocalizedString("group_brand", value: "Brand", comment: "Group option")
+        case .category: return NSLocalizedString("group_category", value: "Category", comment: "Group option")
+        case .none:     return NSLocalizedString("group_none", value: "None", comment: "Group option")
+        }
+    }
+}
+
 struct CardListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(filter: #Predicate<CardModel> { card in
@@ -11,67 +38,127 @@ struct CardListView: View {
     @StateObject private var cameraPermission = CameraPermissionManager()
     @State private var showingAddCardView = false
     @State private var showingArchivedCards = false
-    
+
+    @AppStorage("cardSortOption") private var sortOption: CardSortOption = .recentlyAdded
+    @AppStorage("cardGroupOption") private var groupOption: CardGroupOption = .brand
+
     private var isCameraAvailable: Bool {
         cameraPermission.isCameraAvailable && cameraPermission.permissionStatus != .unavailable
     }
 
-    // Computed property for grouped cards.
-    // Cards are grouped by a stable place/brand key (network id when known,
-    // else normalized brand) so the same place groups across cardholders.
-    private var groupedCards: [(key: String, brand: String, cards: [CardModel])] {
-        let grouped = Dictionary(grouping: cards) { $0.groupKey }
+    private var otherLabel: String {
+        NSLocalizedString("group_other", value: "Other", comment: "Fallback group name")
+    }
 
-        var groups: [(key: String, brand: String, cards: [CardModel])] = grouped.map { (key, cards) in
-            let sortedCards = cards.sorted { $0.createdAt > $1.createdAt }
-            // Display title: prefer a non-"Other" brand name from the group.
-            let title = sortedCards.first(where: { $0.brandName != "Other" })?.brandName
-                ?? sortedCards.first?.brandName
-                ?? "Other"
-            return (key, title, sortedCards)
+    // MARK: Sorting
+
+    private func sortedCards(_ cards: [CardModel]) -> [CardModel] {
+        switch sortOption {
+        case .recentlyAdded:
+            return cards.sorted { $0.createdAt > $1.createdAt }
+        case .nameAtoZ:
+            return cards.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        case .expiringSoon:
+            return cards.sorted { lhs, rhs in
+                switch (lhs.validTo, rhs.validTo) {
+                case let (l?, r?): return l < r
+                case (_?, nil):    return true
+                case (nil, _?):    return false
+                case (nil, nil):   return lhs.createdAt > rhs.createdAt
+                }
+            }
+        case .recentlyUsed:
+            return cards.sorted { lhs, rhs in
+                switch (lhs.usedAt, rhs.usedAt) {
+                case let (l?, r?): return l > r
+                case (_?, nil):    return true
+                case (nil, _?):    return false
+                case (nil, nil):   return lhs.createdAt > rhs.createdAt
+                }
+            }
         }
+    }
 
-        // Sort groups alphabetically by title, with "Other" last.
+    // MARK: Grouping
+
+    // Grouped, sorted cards honoring the selected sort + group options.
+    // Group order is stable (alphabetical, "Other" last); within-group order
+    // follows the chosen sort.
+    private var groupedCards: [(key: String, title: String, cards: [CardModel])] {
+        let sorted = sortedCards(cards)
+        switch groupOption {
+        case .none:
+            return sorted.isEmpty ? [] : [(key: "all", title: "", cards: sorted)]
+        case .brand:
+            return brandGroups(sorted)
+        case .category:
+            return categoryGroups(sorted)
+        }
+    }
+
+    private func brandGroups(_ sorted: [CardModel]) -> [(key: String, title: String, cards: [CardModel])] {
+        let grouped = Dictionary(grouping: sorted) { $0.groupKey }
+        var groups = grouped.map { (key, cards) -> (key: String, title: String, cards: [CardModel]) in
+            let title = cards.first(where: { $0.brandName != "Other" })?.brandName
+                ?? cards.first?.brandName
+                ?? "Other"
+            return (key, title, cards)
+        }
         groups.sort { lhs, rhs in
-            if lhs.brand == "Other" { return false }
-            if rhs.brand == "Other" { return true }
-            return lhs.brand.localizedCaseInsensitiveCompare(rhs.brand) == .orderedAscending
+            if lhs.title == "Other" { return false }
+            if rhs.title == "Other" { return true }
+            return lhs.title.localizedCaseInsensitiveCompare(rhs.title) == .orderedAscending
+        }
+        return groups
+    }
+
+    private func categoryGroups(_ sorted: [CardModel]) -> [(key: String, title: String, cards: [CardModel])] {
+        let other = otherLabel
+        let grouped = Dictionary(grouping: sorted) { $0.categories.first?.label ?? other }
+        var groups = grouped.map { (label, cards) -> (key: String, title: String, cards: [CardModel]) in
+            (label, label, cards)
+        }
+        groups.sort { lhs, rhs in
+            if lhs.title == other { return false }
+            if rhs.title == other { return true }
+            return lhs.title.localizedCaseInsensitiveCompare(rhs.title) == .orderedAscending
         }
         return groups
     }
 
     var body: some View {
         NavigationStack {
-            Group {
-                if cards.isEmpty {
-                    EmptyStateView(
-                        onAddCard: {
-                            showingAddCardView = true
-                        },
-                        canScan: isCameraAvailable && cameraPermission.permissionStatus != .denied
-                    )
-                } else {
-                    cardListView
-                        .navigationTitle(NSLocalizedString("my_cards", comment: "My Cards navigation title"))
-                        .navigationBarTitleDisplayMode(.large)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button(action: {
-                                    showingAddCardView = true
-                                }) {
-                                    Image(systemName: "plus")
-                                        .foregroundColor(.appPrimary)
+            ZStack {
+                AnimatedGradientBackground()
+
+                Group {
+                    if cards.isEmpty {
+                        EmptyStateView(
+                            onAddCard: { showingAddCardView = true },
+                            canScan: isCameraAvailable && cameraPermission.permissionStatus != .denied
+                        )
+                    } else {
+                        cardGrid
+                            .navigationTitle(NSLocalizedString("my_cards", comment: "My Cards navigation title"))
+                            .navigationBarTitleDisplayMode(.large)
+                            .toolbar {
+                                ToolbarItem(placement: .navigationBarTrailing) {
+                                    sortGroupMenu
+                                }
+                                ToolbarItem(placement: .navigationBarTrailing) {
+                                    Button(action: { showingAddCardView = true }) {
+                                        Image(systemName: "plus")
+                                            .foregroundColor(.appPrimary)
+                                    }
+                                }
+                                ToolbarItem(placement: .navigationBarLeading) {
+                                    Button(action: { showingArchivedCards = true }) {
+                                        Image(systemName: "archivebox")
+                                            .foregroundColor(.secondary)
+                                    }
                                 }
                             }
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button(action: {
-                                    showingArchivedCards = true
-                                }) {
-                                    Image(systemName: "archivebox")
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                        }
+                    }
                 }
             }
             .sheet(isPresented: $showingAddCardView) {
@@ -92,140 +179,52 @@ struct CardListView: View {
         }
     }
 
-    private var cardListView: some View {
-        List {
-            ForEach(groupedCards, id: \.key) { group in
-                Section(header: BrandSectionHeader(
-                    brandName: group.brand,
-                    cardCount: group.cards.count
-                )) {
-                    ForEach(group.cards) { card in
-                        NavigationLink(destination: CardDetailView(card: card)) {
-                            CardRowView(card: card)
+    private var sortGroupMenu: some View {
+        Menu {
+            Picker(NSLocalizedString("sort_by", value: "Sort By", comment: "Sort menu title"), selection: $sortOption) {
+                ForEach(CardSortOption.allCases) { option in
+                    Text(option.label).tag(option)
+                }
+            }
+            Picker(NSLocalizedString("group_by", value: "Group By", comment: "Group menu title"), selection: $groupOption) {
+                ForEach(CardGroupOption.allCases) { option in
+                    Text(option.label).tag(option)
+                }
+            }
+        } label: {
+            Image(systemName: "line.3.horizontal.decrease.circle")
+                .foregroundColor(.appPrimary)
+        }
+    }
+
+    private var cardGrid: some View {
+        ScrollView {
+            LazyVStack(alignment: .leading, spacing: 20) {
+                ForEach(groupedCards, id: \.key) { group in
+                    if !group.title.isEmpty {
+                        BrandSectionHeader(brandName: group.title, cardCount: group.cards.count)
+                            .padding(.horizontal)
+                    }
+                    MasonryLayout(spacing: 12) {
+                        ForEach(group.cards) { card in
+                            NavigationLink(destination: CardDetailView(card: card)) {
+                                CardCellView(card: card) { archive(card) }
+                            }
+                            .buttonStyle(.plain)
                         }
-                        .listRowBackground(Color.appBackground)
                     }
-                    .onDelete { offsets in
-                        deleteCards(in: group.cards, at: offsets)
-                    }
+                    .padding(.horizontal)
                 }
             }
-        }
-        .listStyle(.insetGrouped)
-        .background(Color.appBackground)
-        .scrollContentBackground(.hidden)
-    }
-
-    private func deleteCards(in groupCards: [CardModel], at offsets: IndexSet) {
-        for index in offsets {
-            let card = groupCards[index]
-            // Soft delete - set archivedAt instead of actually deleting
-            card.archivedAt = Date()
-            card.updatedAt = Date()
-        }
-        PersistenceHelper.save(modelContext, label: "CardListView.deleteCards")
-    }
-
-}
-
-struct CardRowView: View {
-    let card: CardModel
-
-    @State private var brandLogo: UIImage? = nil
-    @State private var isLoadingLogo = true
-
-    var body: some View {
-        HStack(spacing: 16) {
-            // Brand logo or card icon
-            ZStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.appLightGray.opacity(0.2))
-                    .frame(width: 50, height: 50)  // Increased from 35 to 50
-
-                if isLoadingLogo {
-                    ProgressView()
-                        .frame(width: 50, height: 50)
-                } else if let logo = brandLogo {
-                    Image(uiImage: logo)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 48, height: 48)
-                        .cornerRadius(8)
-                } else {
-                    // Fallback to existing icon
-                    CardIconDisplay(
-                        icon: card.getIcon() ?? CardIcon.sfSymbol(barcodeIcon(for: card.barcodeType)),
-                        size: 35
-                    )
-                }
-            }
-
-            VStack(alignment: .leading, spacing: 4) {
-                Text(card.name)
-                    .font(.headline)
-                    .foregroundColor(.appBlue)
-
-                if let cardholder = card.cardholderName {
-                    Text(cardholder)
-                        .font(.caption)
-                        .foregroundColor(.appLightGray)
-                } else if let locationName = card.locationName, !locationName.isEmpty {
-                    Text(locationName)
-                        .font(.caption)
-                        .foregroundColor(.appLightGray)
-                } else {
-                    Text(card.barcodeType.displayName)
-                        .font(.caption)
-                        .foregroundColor(.appLightGray)
-                }
-
-                if let expiryInfo = card.expiryInfo {
-                    Text(expiryInfo)
-                        .font(.caption)
-                        .foregroundColor(card.isExpired ? .red : .appGreen)
-                }
-            }
-
-            Spacer()
-
-            // Status indicators
-            if card.isExpired {
-                Image(systemName: "exclamationmark.triangle.fill")
-                    .foregroundColor(.red)
-                    .font(.system(size: 16))
-            } else if card.oneTime && card.usedAt != nil {
-                Image(systemName: "checkmark.circle.fill")
-                    .foregroundColor(.appGreen)
-                    .font(.system(size: 16))
-            }
-        }
-        .padding(.vertical, 8)
-        .task {
-            await loadBrandLogo()
+            .padding(.vertical)
         }
     }
 
-    private func loadBrandLogo() async {
-        let logo = await BrandLogoService.shared.fetchLogo(for: card.brandName)
-        await MainActor.run {
-            brandLogo = logo
-            isLoadingLogo = false
-        }
-    }
-
-    private func barcodeIcon(for type: BarcodeType) -> String {
-        switch type {
-        case .qr:
-            return "qrcode"
-        case .code128, .ean13, .upcA:
-            return "barcode"
-        case .pdf417:
-            return "doc.text"
-        case .aztec:
-            return "square.grid.2x2"
-        case .code39, .itf:
-            return "barcode"
-        }
+    private func archive(_ card: CardModel) {
+        // Soft delete - set archivedAt instead of actually deleting
+        card.archivedAt = Date()
+        card.updatedAt = Date()
+        PersistenceHelper.save(modelContext, label: "CardListView.archive")
     }
 }
 

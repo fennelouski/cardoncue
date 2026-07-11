@@ -2,24 +2,33 @@ import SwiftUI
 import PhotosUI
 import SwiftData
 
+private enum PhotoImportPhase: Equatable {
+    case idle
+    case loading
+    case processing(current: Int, total: Int)
+    case summary(autoSaved: Int, reviewed: Int, failed: Int)
+    case reviewing
+}
+
 struct PhotoLibraryImportView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Environment(\.isInAddCardFlow) private var isInAddCardFlow
 
-    @State private var selectedItem: PhotosPickerItem?
-    @State private var selectedImage: UIImage?
-    @State private var isLoadingImage = false
-    @State private var isProcessing = false
-    @State private var scannedCode: String?
-    @State private var detectedBarcodeType: BarcodeType?
-    @State private var capturedImage: UIImage?
-    @State private var showingSaveSheet = false
-    @State private var showingError = false
-    @State private var errorMessage = ""
+    var isActive: Bool = false
+
+    @State private var selectedItems: [PhotosPickerItem] = []
+    @State private var phase: PhotoImportPhase = .idle
     @State private var showingManualEntry = false
     @State private var showPhotoPicker = false
-    @State private var hasAppeared = false
+    @State private var hasAutoPresentedPicker = false
+
+    @State private var reviewQueue: [PhotoImportReviewItem] = []
+    @State private var reviewIndex = 0
+    @State private var showingReviewSheet = false
+    @State private var autoSavedCount = 0
+    @State private var reviewedCount = 0
+    @State private var failedCount = 0
 
     var body: some View {
         NavigationStack {
@@ -27,121 +36,14 @@ struct PhotoLibraryImportView: View {
                 Color.appBackground
                     .ignoresSafeArea()
 
-                VStack(spacing: 32) {
-                    if isProcessing {
-                        // Processing state
-                        VStack(spacing: 24) {
-                            ProgressView()
-                                .scaleEffect(1.5)
-                                .tint(.appPrimary)
-
-                            Text("Analyzing image for barcodes...")
-                                .font(.headline)
-                                .foregroundColor(.appBlue)
-                        }
-                    } else if let selectedImage = selectedImage {
-                        // Selected image preview state
-                        VStack(spacing: 24) {
-                            Text("Selected Image")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .foregroundColor(.appBlue)
-
-                            // Image preview
-                            Image(uiImage: selectedImage)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(maxHeight: 400)
-                                .cornerRadius(12)
-                                .shadow(radius: 5)
-                                .padding(.horizontal, 24)
-
-                            // Action buttons
-                            VStack(spacing: 12) {
-                                Button(action: {
-                                    processImage(selectedImage)
-                                }) {
-                                    HStack {
-                                        Image(systemName: "checkmark.circle.fill")
-                                            .font(.headline)
-                                        Text("Use This Image")
-                                            .font(.headline)
-                                    }
-                                    .foregroundColor(.white)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 16)
-                                    .background(Color.appPrimary)
-                                    .cornerRadius(12)
-                                }
-
-                                PhotosPicker(selection: $selectedItem, matching: .images) {
-                                    HStack {
-                                        Image(systemName: "photo.fill")
-                                            .font(.subheadline)
-                                        Text("Choose Different Photo")
-                                            .font(.subheadline)
-                                    }
-                                    .foregroundColor(.appBlue)
-                                    .frame(maxWidth: .infinity)
-                                    .padding(.vertical, 12)
-                                }
-                            }
-                            .padding(.horizontal, 24)
-                        }
-                    } else {
-                        // Initial state - photo picker
-                        VStack(spacing: 24) {
-                            Image(systemName: "photo.on.rectangle.angled")
-                                .font(.system(size: 80))
-                                .foregroundColor(.appBlue)
-
-                            VStack(spacing: 12) {
-                                Text("Import from Photo Library")
-                                    .font(.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(.appBlue)
-
-                                Text("Select a photo containing a barcode or card")
-                                    .font(.subheadline)
-                                    .foregroundColor(.appLightGray)
-                                    .multilineTextAlignment(.center)
-                                    .padding(.horizontal, 32)
-                            }
-
-                            Button(action: {
-                                showPhotoPicker = true
-                            }) {
-                                HStack(spacing: 12) {
-                                    Image(systemName: "photo.fill")
-                                        .font(.title3)
-                                    Text("Choose Photo")
-                                        .font(.headline)
-                                }
-                                .foregroundColor(.white)
-                                .frame(maxWidth: 280)
-                                .padding(.vertical, 16)
-                                .background(Color.appPrimary)
-                                .cornerRadius(12)
-                            }
-
-                            // Manual entry fallback button
-                            Button(action: {
-                                showingManualEntry = true
-                            }) {
-                                Text("Enter Manually Instead")
-                                    .font(.subheadline)
-                                    .foregroundColor(.appBlue)
-                                    .padding(.horizontal, 20)
-                                    .padding(.vertical, 10)
-                            }
-                        }
-                    }
-
+                VStack(spacing: 24) {
+                    content
                     Spacer()
                 }
                 .padding(.top, isInAddCardFlow
                     ? AddCardFlowMetrics.headerHeight(hasModeSelector: false) + 16
                     : 60)
+                .padding(.horizontal, 24)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -161,180 +63,314 @@ struct PhotoLibraryImportView: View {
                 }
             }
             .toolbar(isInAddCardFlow ? .hidden : .visible, for: .navigationBar)
-            .photosPicker(isPresented: $showPhotoPicker, selection: $selectedItem, matching: .images)
-            .onAppear {
-                // Auto-show photo picker when view first appears
-                if !hasAppeared {
-                    hasAppeared = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        showPhotoPicker = true
-                    }
+            .photosPicker(
+                isPresented: $showPhotoPicker,
+                selection: $selectedItems,
+                maxSelectionCount: PhotoImportService.maxSelectionCount,
+                matching: .images
+            )
+            .onChange(of: isActive) { _, active in
+                if active {
+                    maybeAutoPresentPicker()
                 }
             }
-            .onChange(of: selectedItem) { oldValue, newValue in
-                if let item = newValue {
-                    loadSelectedImage(item)
-                }
+            .onChange(of: selectedItems) { _, newItems in
+                guard !newItems.isEmpty else { return }
+                startBatchImport(items: newItems)
             }
-            .sheet(isPresented: $showingSaveSheet) {
-                if let code = scannedCode, let type = detectedBarcodeType {
+            .sheet(isPresented: $showingReviewSheet, onDismiss: finishReviewFlow) {
+                if reviewIndex < reviewQueue.count {
+                    let item = reviewQueue[reviewIndex]
                     ScannedCardReviewView(
-                        barcodeNumber: code,
-                        barcodeType: type,
-                        capturedImage: capturedImage,
-                        barcodeBoundingBox: nil, // Will be detected from image
+                        barcodeNumber: item.barcodePayload,
+                        barcodeType: item.barcodeType,
+                        capturedImage: item.capturedImage,
+                        barcodeBoundingBox: item.boundingBox,
+                        reviewProgressLabel: String(
+                            format: NSLocalizedString(
+                                "photo_import_review_progress",
+                                comment: "Batch review progress label"
+                            ),
+                            reviewIndex + 1,
+                            reviewQueue.count
+                        ),
+                        dismissesOnSave: false,
                         onSave: {
-                            dismiss()
+                            reviewedCount += 1
+                            advanceReviewQueue()
                         },
                         onRescan: {
-                            showingSaveSheet = false
-                            resetState()
+                            advanceReviewQueue()
                         }
                     )
+                    .id(item.id)
                 }
             }
             .sheet(isPresented: $showingManualEntry) {
                 ManualEntryView()
             }
-            .alert("No Barcode Found", isPresented: $showingError) {
-                Button("Try Another Photo", role: .cancel) {
-                    resetState()
+        }
+    }
+
+    @ViewBuilder
+    private var content: some View {
+        switch phase {
+        case .idle:
+            idleContent
+        case .loading:
+            loadingContent(message: NSLocalizedString("photo_import_loading", comment: "Loading selected photos"))
+        case .processing(let current, let total):
+            loadingContent(
+                message: String(
+                    format: NSLocalizedString("photo_import_processing", comment: "Processing photos progress"),
+                    current,
+                    total
+                )
+            )
+        case .summary(let autoSaved, let reviewed, let failed):
+            summaryContent(autoSaved: autoSaved, reviewed: reviewed, failed: failed)
+        case .reviewing:
+            loadingContent(message: NSLocalizedString("photo_import_preparing_review", comment: "Preparing review queue"))
+        }
+    }
+
+    private var idleContent: some View {
+        VStack(spacing: 24) {
+            Image(systemName: "photo.on.rectangle.angled")
+                .font(.system(size: 80))
+                .foregroundColor(.appBlue)
+
+            VStack(spacing: 12) {
+                Text(NSLocalizedString("import_photo_title", comment: "Import from photo feature title"))
+                    .font(.title2)
+                    .fontWeight(.bold)
+                    .foregroundColor(.appBlue)
+
+                Text(NSLocalizedString("photo_import_multi_description", comment: "Multi-photo import description"))
+                    .font(.subheadline)
+                    .foregroundColor(.appLightGray)
+                    .multilineTextAlignment(.center)
+            }
+
+            Button(action: { showPhotoPicker = true }) {
+                HStack(spacing: 12) {
+                    Image(systemName: "photo.fill")
+                        .font(.title3)
+                    Text(NSLocalizedString("choose_photos", comment: "Choose photos button"))
+                        .font(.headline)
                 }
-                Button("Enter Manually") {
-                    showingManualEntry = true
-                }
-            } message: {
-                Text(errorMessage)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(Color.appPrimary)
+                .cornerRadius(12)
+            }
+
+            Button(action: { showingManualEntry = true }) {
+                Text(NSLocalizedString("enter_manually_instead", comment: "Manual entry fallback"))
+                    .font(.subheadline)
+                    .foregroundColor(.appBlue)
             }
         }
     }
 
-    private func loadSelectedImage(_ item: PhotosPickerItem) {
-        isLoadingImage = true
+    private func loadingContent(message: String) -> some View {
+        VStack(spacing: 24) {
+            ProgressView()
+                .scaleEffect(1.5)
+                .tint(.appPrimary)
 
-        Task {
-            do {
-                // Load the image data
-                guard let imageData = try await item.loadTransferable(type: Data.self),
-                      let loadedImage = UIImage(data: imageData) else {
-                    await MainActor.run {
-                        isLoadingImage = false
-                        errorMessage = "Failed to load the selected image."
-                        showingError = true
+            Text(message)
+                .font(.headline)
+                .foregroundColor(.appBlue)
+                .multilineTextAlignment(.center)
+        }
+    }
+
+    private func summaryContent(autoSaved: Int, reviewed: Int, failed: Int) -> some View {
+        VStack(spacing: 24) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.system(size: 64))
+                .foregroundColor(.appGreen)
+
+            Text(NSLocalizedString("photo_import_summary_title", comment: "Import summary title"))
+                .font(.title2)
+                .fontWeight(.bold)
+                .foregroundColor(.appBlue)
+
+            VStack(alignment: .leading, spacing: 12) {
+                summaryRow(
+                    label: NSLocalizedString("photo_import_summary_auto_saved", comment: "Auto-saved count"),
+                    value: autoSaved
+                )
+                summaryRow(
+                    label: NSLocalizedString("photo_import_summary_reviewed", comment: "Reviewed count"),
+                    value: reviewed
+                )
+                summaryRow(
+                    label: NSLocalizedString("photo_import_summary_failed", comment: "Failed count"),
+                    value: failed
+                )
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding()
+            .background(Color.appBlue.opacity(0.06))
+            .cornerRadius(12)
+
+            VStack(spacing: 12) {
+                Button(action: resetForAnotherImport) {
+                    Text(NSLocalizedString("photo_import_import_more", comment: "Import more photos"))
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 16)
+                        .background(Color.appPrimary)
+                        .cornerRadius(12)
+                }
+
+                if failed > 0 {
+                    Button(action: { showingManualEntry = true }) {
+                        Text(NSLocalizedString("photo_import_enter_failed_manually", comment: "Enter failed manually"))
+                            .font(.subheadline)
+                            .foregroundColor(.appBlue)
                     }
-                    return
                 }
 
-                // Debug: Print orientation
-                print("📸 Image orientation: \(loadedImage.imageOrientation.rawValue) - \(loadedImage.imageOrientation)")
-                print("📸 Image size: \(loadedImage.size)")
-                print("📸 CGImage size: \(loadedImage.cgImage?.width ?? 0) x \(loadedImage.cgImage?.height ?? 0)")
-
-                // DON'T normalize - pass image through unchanged
-                let image = loadedImage
-
-                // Store and display the image
-                await MainActor.run {
-                    selectedImage = image
-                    isLoadingImage = false
-                }
-            } catch {
-                await MainActor.run {
-                    isLoadingImage = false
-                    errorMessage = "An error occurred while loading the image: \(error.localizedDescription)"
-                    showingError = true
+                Button(action: { dismiss() }) {
+                    Text(NSLocalizedString("photo_import_done", comment: "Done importing"))
+                        .font(.subheadline)
+                        .foregroundColor(.appBlue)
                 }
             }
         }
     }
 
-    private func processImage(_ image: UIImage) {
-        isProcessing = true
-        capturedImage = image
+    private func summaryRow(label: String, value: Int) -> some View {
+        HStack {
+            Text(label)
+                .foregroundColor(.appLightGray)
+            Spacer()
+            Text("\(value)")
+                .fontWeight(.semibold)
+                .foregroundColor(.appBlue)
+        }
+    }
+
+    private func maybeAutoPresentPicker() {
+        guard !hasAutoPresentedPicker, phase == .idle else { return }
+        hasAutoPresentedPicker = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            if isActive, phase == .idle {
+                showPhotoPicker = true
+            }
+        }
+    }
+
+    private func startBatchImport(items: [PhotosPickerItem]) {
+        phase = .loading
+        reviewQueue = []
+        reviewIndex = 0
+        autoSavedCount = 0
+        reviewedCount = 0
+        failedCount = 0
 
         Task {
-            // Detect barcode in the image
-            let barcodeData = await BarcodeQualityService.shared.detectBestBarcode(in: image)
+            var images: [UIImage] = []
+
+            for item in items {
+                if let image = await loadImage(from: item) {
+                    images.append(image)
+                } else {
+                    await MainActor.run {
+                        failedCount += 1
+                    }
+                }
+            }
+
+            guard !images.isEmpty else {
+                await MainActor.run {
+                    phase = .summary(autoSaved: 0, reviewed: 0, failed: failedCount)
+                    selectedItems = []
+                }
+                return
+            }
+
+            var pendingReview: [PhotoImportReviewItem] = []
+
+            for (index, image) in images.enumerated() {
+                await MainActor.run {
+                    phase = .processing(current: index + 1, total: images.count)
+                }
+
+                let result = await PhotoImportService.processAndSaveImage(image, modelContext: modelContext)
+
+                await MainActor.run {
+                    switch result {
+                    case .autoSaved:
+                        autoSavedCount += 1
+                    case .needsReview(let item):
+                        pendingReview.append(item)
+                    case .failed:
+                        failedCount += 1
+                    }
+                }
+            }
 
             await MainActor.run {
-                isProcessing = false
+                selectedItems = []
+                reviewQueue = pendingReview
 
-                if let barcode = barcodeData {
-                    // Success! We found a barcode
-                    scannedCode = barcode.payload
-                    detectedBarcodeType = barcode.barcodeType
-
-                    // Haptic feedback
-                    let generator = UINotificationFeedbackGenerator()
-                    generator.notificationOccurred(.success)
-
-                    // Show save sheet
-                    showingSaveSheet = true
+                if pendingReview.isEmpty {
+                    phase = .summary(
+                        autoSaved: autoSavedCount,
+                        reviewed: reviewedCount,
+                        failed: failedCount
+                    )
                 } else {
-                    // No barcode found
-                    errorMessage = "We couldn't detect a barcode in this image. Please try another photo or enter the card details manually."
-                    showingError = true
+                    phase = .reviewing
+                    reviewIndex = 0
+                    showingReviewSheet = true
                 }
             }
         }
     }
 
-    private func resetState() {
-        selectedItem = nil
-        selectedImage = nil
-        scannedCode = nil
-        detectedBarcodeType = nil
-        capturedImage = nil
-        isProcessing = false
-        isLoadingImage = false
+    private func loadImage(from item: PhotosPickerItem) async -> UIImage? {
+        guard let imageData = try? await item.loadTransferable(type: Data.self),
+              let image = UIImage(data: imageData) else {
+            return nil
+        }
+        return image
+    }
+
+    private func advanceReviewQueue() {
+        reviewIndex += 1
+        if reviewIndex >= reviewQueue.count {
+            showingReviewSheet = false
+        }
+    }
+
+    private func finishReviewFlow() {
+        phase = .summary(
+            autoSaved: autoSavedCount,
+            reviewed: reviewedCount,
+            failed: failedCount
+        )
+    }
+
+    private func resetForAnotherImport() {
+        selectedItems = []
+        reviewQueue = []
+        reviewIndex = 0
+        autoSavedCount = 0
+        reviewedCount = 0
+        failedCount = 0
+        phase = .idle
+        showPhotoPicker = true
     }
 }
 
 #Preview {
-    PhotoLibraryImportView()
+    PhotoLibraryImportView(isActive: true)
         .modelContainer(for: CardModel.self, inMemory: true)
-}
-
-// MARK: - UIImage Orientation Fix
-extension UIImage {
-    /// Normalize image orientation by redrawing pixels in correct orientation
-    /// This ensures the actual pixel data matches the expected upright orientation
-    func normalized() -> UIImage {
-        guard let cgImage = cgImage else {
-            return self
-        }
-
-        let width = size.width
-        let height = size.height
-
-        // Create bitmap context
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
-
-        guard let context = CGContext(
-            data: nil,
-            width: Int(width),
-            height: Int(height),
-            bitsPerComponent: 8,
-            bytesPerRow: 0,
-            space: colorSpace,
-            bitmapInfo: bitmapInfo.rawValue
-        ) else {
-            return self
-        }
-
-        // Flip the context vertically to match UIKit coordinate system
-        context.translateBy(x: 0, y: height)
-        context.scaleBy(x: 1.0, y: -1.0)
-
-        // Draw the CGImage
-        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: width, height: height))
-
-        // Create new image from context
-        guard let newCGImage = context.makeImage() else {
-            return self
-        }
-
-        return UIImage(cgImage: newCGImage, scale: scale, orientation: .up)
-    }
 }
