@@ -28,6 +28,26 @@ enum CardGroupOption: String, CaseIterable, Identifiable {
     }
 }
 
+/// How the main collection is rendered. `list` and multi-column choices are
+/// only meaningful in a regular horizontal size class; compact width always
+/// falls back to a single-column masonry grid.
+enum CardLayoutStyle: String, CaseIterable, Identifiable {
+    case grid, list
+    var id: String { rawValue }
+    var label: String {
+        switch self {
+        case .grid: return NSLocalizedString("layout_grid", value: "Grid", comment: "Layout option")
+        case .list: return NSLocalizedString("layout_list", value: "List", comment: "Layout option")
+        }
+    }
+    var symbol: String {
+        switch self {
+        case .grid: return "square.grid.2x2"
+        case .list: return "list.bullet"
+        }
+    }
+}
+
 struct CardListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(filter: #Predicate<CardModel> { card in
@@ -35,12 +55,36 @@ struct CardListView: View {
     }, sort: \CardModel.createdAt, order: .reverse)
     private var cards: [CardModel]
 
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
+
     @StateObject private var cameraPermission = CameraPermissionManager()
     @State private var showingAddCardView = false
     @State private var showingArchivedCards = false
 
     @AppStorage("cardSortOption") private var sortOption: CardSortOption = .recentlyAdded
     @AppStorage("cardGroupOption") private var groupOption: CardGroupOption = .brand
+
+    // Layout preferences. `layoutStyle` toggles list vs. masonry grid (regular
+    // width only). `gridColumns` is the user's chosen masonry column count;
+    // 0 means "Auto" (derive from width). Both are ignored in compact width,
+    // which is always forced to a single-column masonry grid.
+    @AppStorage("cardLayoutStyle") private var layoutStyle: CardLayoutStyle = .grid
+    @AppStorage("cardGridColumns") private var gridColumns: Int = 0
+
+    /// iPad, or a large iPhone in landscape — where multi-column / list are allowed.
+    private var isRegularWidth: Bool { horizontalSizeClass == .regular }
+
+    /// Effective style: compact width can never be a list.
+    private var effectiveLayoutStyle: CardLayoutStyle {
+        isRegularWidth ? layoutStyle : .grid
+    }
+
+    /// Column count passed to `MasonryLayout`. Compact width is always a single
+    /// column; in regular width `nil` lets the layout auto-derive from width.
+    private var masonryColumns: Int? {
+        guard isRegularWidth else { return 1 }
+        return gridColumns == 0 ? nil : min(4, max(1, gridColumns))
+    }
 
     private var isCameraAvailable: Bool {
         cameraPermission.isCameraAvailable && cameraPermission.permissionStatus != .unavailable
@@ -142,6 +186,11 @@ struct CardListView: View {
                             .navigationTitle(NSLocalizedString("my_cards", comment: "My Cards navigation title"))
                             .navigationBarTitleDisplayMode(.large)
                             .toolbar {
+                                if isRegularWidth {
+                                    ToolbarItem(placement: .navigationBarTrailing) {
+                                        layoutMenu
+                                    }
+                                }
                                 ToolbarItem(placement: .navigationBarTrailing) {
                                     sortGroupMenu
                                 }
@@ -197,6 +246,29 @@ struct CardListView: View {
         }
     }
 
+    // Layout switcher — only shown in regular width (see toolbar gating). Lets
+    // the user pick list vs. masonry grid and, for the grid, a column count.
+    private var layoutMenu: some View {
+        Menu {
+            Picker(NSLocalizedString("layout", value: "Layout", comment: "Layout menu title"), selection: $layoutStyle) {
+                ForEach(CardLayoutStyle.allCases) { style in
+                    Label(style.label, systemImage: style.symbol).tag(style)
+                }
+            }
+            if effectiveLayoutStyle == .grid {
+                Picker(NSLocalizedString("columns", value: "Columns", comment: "Column count menu title"), selection: $gridColumns) {
+                    Text(NSLocalizedString("columns_auto", value: "Auto", comment: "Automatic column count")).tag(0)
+                    ForEach(1...4, id: \.self) { count in
+                        Text("\(count)").tag(count)
+                    }
+                }
+            }
+        } label: {
+            Image(systemName: effectiveLayoutStyle.symbol)
+                .foregroundColor(.appPrimary)
+        }
+    }
+
     private var cardGrid: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 20) {
@@ -205,15 +277,27 @@ struct CardListView: View {
                         BrandSectionHeader(brandName: group.title, cardCount: group.cards.count)
                             .padding(.horizontal)
                     }
-                    MasonryLayout(spacing: 12) {
-                        ForEach(group.cards) { card in
-                            NavigationLink(destination: CardDetailView(card: card)) {
-                                CardCellView(card: card) { archive(card) }
+                    if effectiveLayoutStyle == .list {
+                        VStack(spacing: 10) {
+                            ForEach(group.cards) { card in
+                                NavigationLink(destination: CardDetailView(card: card)) {
+                                    CardRowView(card: card) { archive(card) }
+                                }
+                                .buttonStyle(.plain)
                             }
-                            .buttonStyle(.plain)
                         }
+                        .padding(.horizontal)
+                    } else {
+                        MasonryLayout(columns: masonryColumns, spacing: 12) {
+                            ForEach(group.cards) { card in
+                                NavigationLink(destination: CardDetailView(card: card)) {
+                                    CardCellView(card: card) { archive(card) }
+                                }
+                                .buttonStyle(.plain)
+                            }
+                        }
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
                 }
             }
             .padding(.vertical)
@@ -225,6 +309,123 @@ struct CardListView: View {
         card.archivedAt = Date()
         card.updatedAt = Date()
         PersistenceHelper.save(modelContext, label: "CardListView.archive")
+    }
+}
+
+// MARK: - Card Row (list layout)
+
+/// Compact single-line-per-card row used by the iPad "List" layout. Mirrors the
+/// data shown by `CardCellView` but in a horizontal, list-friendly arrangement.
+struct CardRowView: View {
+    let card: CardModel
+    var onArchive: () -> Void
+
+    var body: some View {
+        HStack(spacing: 12) {
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(Color.appLightGray.opacity(0.25))
+                    .frame(width: 44, height: 44)
+
+                CardIconDisplay(
+                    icon: card.getIcon() ?? CardIcon.sfSymbol(barcodeIcon(for: card.barcodeType)),
+                    size: card.getIcon()?.type == .image ? 42 : 28
+                )
+            }
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(card.name)
+                    .font(.headline)
+                    .foregroundColor(.appBlue)
+                    .lineLimit(1)
+
+                Text(subtitle)
+                    .font(.caption)
+                    .foregroundColor(.appLightGray)
+                    .lineLimit(1)
+
+                if let expiryInfo = card.expiryInfo {
+                    Text(expiryInfo)
+                        .font(.caption)
+                        .foregroundColor(card.isExpired ? .red : .appGreen)
+                        .lineLimit(1)
+                }
+            }
+
+            Spacer(minLength: 8)
+
+            trailingBadges
+        }
+        .padding(12)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(
+                    LinearGradient(
+                        colors: [card.themeTint.opacity(0.20), card.themeTint.opacity(0.04)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+                .background(RoundedRectangle(cornerRadius: 16).fill(Color.appBackground))
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 16)
+                .stroke(card.themeTint.opacity(0.30), lineWidth: 1)
+        )
+        .contextMenu {
+            Button(role: .destructive, action: onArchive) {
+                Label(
+                    NSLocalizedString("archive", value: "Archive", comment: "Archive card action"),
+                    systemImage: "archivebox"
+                )
+            }
+        }
+    }
+
+    private var trailingBadges: some View {
+        HStack(spacing: 5) {
+            ForEach(Array(card.categories.prefix(3)), id: \.self) { category in
+                Image(systemName: category.sfSymbol)
+                    .font(.system(size: 11))
+                    .foregroundColor(category.tint)
+            }
+
+            if card.isExpired {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundColor(.red)
+                    .font(.system(size: 14))
+            } else if card.oneTime && card.usedAt != nil {
+                Image(systemName: "checkmark.circle.fill")
+                    .foregroundColor(.appGreen)
+                    .font(.system(size: 14))
+            }
+        }
+    }
+
+    private var subtitle: String {
+        if let cardholder = card.cardholderName {
+            return cardholder
+        } else if let locationName = card.locationName, !locationName.isEmpty {
+            return locationName
+        } else {
+            return card.barcodeType.displayName
+        }
+    }
+
+    private func barcodeIcon(for type: BarcodeType) -> String {
+        switch type {
+        case .qr:
+            return "qrcode"
+        case .code128, .ean13, .upcA:
+            return "barcode"
+        case .pdf417:
+            return "doc.text"
+        case .aztec:
+            return "square.grid.2x2"
+        case .code39, .itf:
+            return "barcode"
+        }
     }
 }
 

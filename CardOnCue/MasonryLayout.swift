@@ -13,10 +13,15 @@ import SwiftUI
 /// personal loyalty wallet). If libraries grow to hundreds, switch to two
 /// LazyVStacks with a greedy height-estimated column split.
 struct MasonryLayout: Layout {
+    /// Explicit column count. When non-nil the layout uses exactly this many
+    /// columns (clamped to >= 1); when nil the count is derived from the
+    /// available width using `minColumnWidth`.
+    var columns: Int? = nil
     var minColumnWidth: CGFloat = 168
     var spacing: CGFloat = 12
 
     private func columnCount(for width: CGFloat) -> Int {
+        if let columns { return max(1, columns) }
         guard width > 0 else { return 2 }
         // n columns fit when n*minColumnWidth + (n-1)*spacing <= width.
         let n = Int((width + spacing) / (minColumnWidth + spacing))
