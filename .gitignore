@@ -1,0 +1,39 @@
+# macOS
+.DS_Store
+._*
+
+# Xcode / Swift
+build/
+DerivedData/
+*.xcuserstate
+*.xcuserdatad/
+xcuserdata/
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+.swiftpm/
+.build/
+Packages/
+
+# Build logs / artifacts
+*.log
+
+# Backups
+*.backup
+*.orig
+*.bak
+
+# Node (web/)
+node_modules/
+.next/
+.vercel
+.env*.local
+tsconfig.tsbuildinfo
+
+# Editor
+.idea/
+*.swp

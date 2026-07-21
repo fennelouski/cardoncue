@@ -1,6 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { put, del } from '@vercel/blob';
+import { sql } from '@vercel/postgres';
+import { requireJwtAuth } from '@/lib/jwtAuth';
 import { getCardIcon, updateCardCustomIcon, removeCardCustomIcon } from '@/lib/services/iconService';
+
+/**
+ * Confirm the card exists and belongs to the authenticated user.
+ * Returns a response to short-circuit with, or null when access is allowed.
+ */
+async function denyIfNotOwner(
+  cardId: string,
+  userId: string
+): Promise<NextResponse | null> {
+  const cardCheck = await sql`
+    SELECT id, user_id FROM cards WHERE id = ${cardId}
+  `;
+
+  if (cardCheck.rows.length === 0) {
+    return NextResponse.json({ error: 'Card not found' }, { status: 404 });
+  }
+
+  if (cardCheck.rows[0].user_id !== userId) {
+    return NextResponse.json(
+      { error: 'Unauthorized: Card does not belong to this user' },
+      { status: 403 }
+    );
+  }
+
+  return null;
+}
 
 /**
  * GET /api/v1/cards/[cardId]/icon
@@ -11,11 +39,15 @@ export async function GET(
   { params }: { params: { cardId: string } }
 ) {
   try {
+    const user = await requireJwtAuth(request);
     const { cardId } = params;
 
     if (!cardId) {
       return NextResponse.json({ error: 'Card ID is required' }, { status: 400 });
     }
+
+    const denied = await denyIfNotOwner(cardId, user.id);
+    if (denied) return denied;
 
     const iconUrl = await getCardIcon(cardId);
 
@@ -29,6 +61,10 @@ export async function GET(
       success: true,
     });
   } catch (error) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
     console.error('Error fetching card icon:', error);
     return NextResponse.json(
       { error: 'Failed to fetch card icon' },
@@ -46,11 +82,15 @@ export async function POST(
   { params }: { params: { cardId: string } }
 ) {
   try {
+    const user = await requireJwtAuth(request);
     const { cardId } = params;
 
     if (!cardId) {
       return NextResponse.json({ error: 'Card ID is required' }, { status: 400 });
     }
+
+    const denied = await denyIfNotOwner(cardId, user.id);
+    if (denied) return denied;
 
     const formData = await request.formData();
     const file = formData.get('icon') as File;
@@ -84,6 +124,10 @@ export async function POST(
       success: true,
     });
   } catch (error) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
     console.error('Error uploading card icon:', error);
     return NextResponse.json(
       { error: 'Failed to upload card icon' },
@@ -101,11 +145,15 @@ export async function DELETE(
   { params }: { params: { cardId: string } }
 ) {
   try {
+    const user = await requireJwtAuth(request);
     const { cardId } = params;
 
     if (!cardId) {
       return NextResponse.json({ error: 'Card ID is required' }, { status: 400 });
     }
+
+    const denied = await denyIfNotOwner(cardId, user.id);
+    if (denied) return denied;
 
     // Remove custom icon from database and get blob ID
     const blobId = await removeCardCustomIcon(cardId);
@@ -130,6 +178,10 @@ export async function DELETE(
       message: 'Custom icon removed, reverted to default',
     });
   } catch (error) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
     console.error('Error removing card icon:', error);
     return NextResponse.json(
       { error: 'Failed to remove card icon' },

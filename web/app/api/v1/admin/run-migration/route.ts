@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql, pool } from '@/lib/db';
+import { requireAdminAuth } from '@/lib/adminAuth';
 import fs from 'fs';
 import path from 'path';
 
@@ -11,11 +12,22 @@ export const dynamic = 'force-dynamic';
  */
 export async function POST(req: NextRequest) {
   try {
+    await requireAdminAuth();
+
     const { migration } = await req.json();
 
     if (!migration) {
       return NextResponse.json(
         { error: 'migration parameter required (e.g., "009_gift_cards")' },
+        { status: 400 }
+      );
+    }
+
+    // Prevent path traversal: the migration name is interpolated into a file path,
+    // so restrict it to a plain identifier (no slashes, dots, or separators).
+    if (!/^[A-Za-z0-9_]+$/.test(migration)) {
+      return NextResponse.json(
+        { error: 'invalid migration identifier' },
         { status: 400 }
       );
     }
@@ -85,13 +97,16 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (error: any) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
+    if (message.includes('Forbidden')) {
+      return NextResponse.json({ error: message }, { status: 403 });
+    }
     console.error('[Migration] Error:', error);
     return NextResponse.json(
-      {
-        error: 'migration_failed',
-        message: error.message,
-        stack: error.stack,
-      },
+      { error: 'migration_failed' },
       { status: 500 }
     );
   }
@@ -100,6 +115,8 @@ export async function POST(req: NextRequest) {
 // GET endpoint to list available migrations
 export async function GET() {
   try {
+    await requireAdminAuth();
+
     const migrationsDir = path.join(process.cwd(), 'db', 'migrations');
 
     if (!fs.existsSync(migrationsDir)) {
@@ -122,8 +139,15 @@ export async function GET() {
     });
 
   } catch (error: any) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
+    if (message.includes('Forbidden')) {
+      return NextResponse.json({ error: message }, { status: 403 });
+    }
     return NextResponse.json(
-      { error: 'failed_to_list_migrations', message: error.message },
+      { error: 'failed_to_list_migrations' },
       { status: 500 }
     );
   }

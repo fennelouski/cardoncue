@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { sql } from '@vercel/postgres';
+import { requireAdminAuth } from '@/lib/adminAuth';
 
 // Force this route to be dynamic (runtime only, not build time)
 export const dynamic = 'force-dynamic';
@@ -11,6 +12,8 @@ export const runtime = 'nodejs';
  */
 export async function GET() {
   try {
+    await requireAdminAuth();
+
     console.log('Starting card icon migration...');
 
     // Add the columns if they don't exist
@@ -62,11 +65,17 @@ export async function GET() {
       }, { status: 500 });
     }
   } catch (error: any) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
+    if (message.includes('Forbidden')) {
+      return NextResponse.json({ error: message }, { status: 403 });
+    }
     console.error('Migration failed:', error);
     return NextResponse.json({
       success: false,
       message: 'Migration failed',
-      error: error.message,
     }, { status: 500 });
   }
 }

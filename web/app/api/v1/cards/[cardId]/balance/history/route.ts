@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql } from '@vercel/postgres';
+import { requireJwtAuth } from '@/lib/jwtAuth';
 
 /**
  * GET /api/v1/cards/[cardId]/balance/history
@@ -10,6 +11,7 @@ export async function GET(
   { params }: { params: { cardId: string } }
 ) {
   try {
+    const user = await requireJwtAuth(request);
     const { cardId } = params;
 
     if (!cardId) {
@@ -21,13 +23,20 @@ export async function GET(
     const limit = parseInt(searchParams.get('limit') || '50');
     const offset = parseInt(searchParams.get('offset') || '0');
 
-    // Verify card exists
+    // Verify the card exists and belongs to the authenticated user
     const cardCheck = await sql`
-      SELECT id FROM cards WHERE id = ${cardId}
+      SELECT id, user_id FROM cards WHERE id = ${cardId}
     `;
 
     if (cardCheck.rows.length === 0) {
       return NextResponse.json({ error: 'Card not found' }, { status: 404 });
+    }
+
+    if (cardCheck.rows[0].user_id !== user.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Card does not belong to this user' },
+        { status: 403 }
+      );
     }
 
     // Get balance history
@@ -67,6 +76,10 @@ export async function GET(
       success: true,
     });
   } catch (error) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
     console.error('Error fetching balance history:', error);
     return NextResponse.json(
       { error: 'Failed to fetch balance history' },

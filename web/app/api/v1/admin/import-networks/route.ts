@@ -1,19 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { importCSV } from '@/lib/places/csvImporter';
+import { requireAdminAuth } from '@/lib/adminAuth';
 
 export async function POST(request: NextRequest) {
   try {
-    // Basic admin check (in production, use proper authentication)
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
-
-    // For now, accept any Bearer token (in production, validate JWT)
-    // TODO: Implement proper admin authentication
+    await requireAdminAuth();
 
     const contentType = request.headers.get('content-type') || '';
 
@@ -72,6 +63,13 @@ export async function POST(request: NextRequest) {
     });
 
   } catch (error) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
+    if (message.includes('Forbidden')) {
+      return NextResponse.json({ error: message }, { status: 403 });
+    }
     console.error('Import networks error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },

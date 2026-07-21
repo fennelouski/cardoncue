@@ -2,9 +2,21 @@ import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { sql, pool } from '@/lib/db';
 
-const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-});
+// Instantiate lazily. The SDK constructor throws when ANTHROPIC_API_KEY is unset, and at
+// module scope that runs during `next build` route collection and on every cold start,
+// turning a missing env var into a failed build instead of a handled request error.
+let anthropicClient: Anthropic | null = null;
+
+function getAnthropic(): Anthropic {
+  if (!anthropicClient) {
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey) {
+      throw new Error('ANTHROPIC_API_KEY is not configured');
+    }
+    anthropicClient = new Anthropic({ apiKey });
+  }
+  return anthropicClient;
+}
 
 interface DiscoverBrandRequest {
   cardName: string;
@@ -111,7 +123,7 @@ export async function POST(req: NextRequest) {
   } catch (error: any) {
     console.error('[Gift Card Discovery] Error:', error);
     return NextResponse.json(
-      { error: 'internal_error', message: error.message },
+      { error: 'internal_error' },
       { status: 500 }
     );
   }
@@ -155,7 +167,7 @@ Respond in JSON format:
 If you cannot identify this as a real gift card brand, respond with: {"error": "unknown_brand"}`;
 
   try {
-    const message = await anthropic.messages.create({
+    const message = await getAnthropic().messages.create({
       model: 'claude-sonnet-4-5-20250929',
       max_tokens: 2000,
       messages: [

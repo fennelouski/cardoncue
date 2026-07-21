@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getDefaultIconForCard } from '@/lib/services/iconService';
+import { requireAdminAuth } from '@/lib/adminAuth';
 import queueData from '@/scripts/import-queue.json';
 
 // Force this route to be dynamic (runtime only, not build time)
@@ -21,6 +22,8 @@ interface FetchResult {
  */
 export async function GET() {
   try {
+    await requireAdminAuth();
+
     console.log('🎨 CardOnCue - Brand Icon Pre-Fetch');
     console.log('='.repeat(60));
     console.log(`\n📋 Fetching icons for ${queueData.brands.length} brands...\n`);
@@ -112,11 +115,17 @@ export async function GET() {
       results
     });
   } catch (error: any) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
+    if (message.includes('Forbidden')) {
+      return NextResponse.json({ error: message }, { status: 403 });
+    }
     console.error('Fatal error:', error);
     return NextResponse.json({
       success: false,
-      message: 'Icon pre-fetch failed',
-      error: error.message
+      message: 'Icon pre-fetch failed'
     }, { status: 500 });
   }
 }

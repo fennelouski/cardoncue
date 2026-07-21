@@ -1,7 +1,9 @@
 import { NextRequest } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production';
+// Never fall back to a hardcoded secret: an unset JWT_SECRET must reject all tokens,
+// not verify them against a value that is public in source control.
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export interface AuthenticatedUser {
   id: string;
@@ -19,8 +21,14 @@ export function extractBearerToken(request: NextRequest): string | null {
 }
 
 export function verifyAccessToken(token: string): AuthenticatedUser | null {
+  if (!JWT_SECRET) {
+    // Fail closed rather than authenticate against a missing/insecure secret.
+    console.error('JWT_SECRET is not configured; rejecting all access tokens.');
+    return null;
+  }
+
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as {
+    const decoded = jwt.verify(token, JWT_SECRET, { algorithms: ['HS256'] }) as {
       sub?: string;
       email?: string;
       type?: string;

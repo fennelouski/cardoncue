@@ -424,8 +424,11 @@ class APIClient {
             do {
                 return try decoder.decode(T.self, from: data)
             } catch {
-                print("❌ Decoding error: \(error)")
-                print("Response data: \(String(data: data, encoding: .utf8) ?? "nil")")
+                // Never log the raw response body: for auth endpoints it contains access/refresh
+                // tokens, and for card endpoints it may contain encrypted card blobs.
+                #if DEBUG
+                print("❌ Decoding error for \(T.self): \(error)")
+                #endif
                 throw APIError.decodingFailed
             }
 

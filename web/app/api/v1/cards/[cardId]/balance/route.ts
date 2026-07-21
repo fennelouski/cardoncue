@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { sql } from '@vercel/postgres';
+import { requireJwtAuth } from '@/lib/jwtAuth';
 
 /**
  * POST /api/v1/cards/[cardId]/balance
@@ -10,6 +11,7 @@ export async function POST(
   { params }: { params: { cardId: string } }
 ) {
   try {
+    const user = await requireJwtAuth(request);
     const { cardId } = params;
 
     if (!cardId) {
@@ -29,13 +31,20 @@ export async function POST(
       return NextResponse.json({ error: 'Balance must be a valid number' }, { status: 400 });
     }
 
-    // Verify card exists
+    // Verify the card exists and belongs to the authenticated user
     const cardCheck = await sql`
-      SELECT id FROM cards WHERE id = ${cardId}
+      SELECT id, user_id FROM cards WHERE id = ${cardId}
     `;
 
     if (cardCheck.rows.length === 0) {
       return NextResponse.json({ error: 'Card not found' }, { status: 404 });
+    }
+
+    if (cardCheck.rows[0].user_id !== user.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Card does not belong to this user' },
+        { status: 403 }
+      );
     }
 
     // Update card's current balance
@@ -66,6 +75,10 @@ export async function POST(
       success: true,
     });
   } catch (error) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
     console.error('Error updating card balance:', error);
     return NextResponse.json(
       { error: 'Failed to update card balance' },
@@ -83,6 +96,7 @@ export async function GET(
   { params }: { params: { cardId: string } }
 ) {
   try {
+    const user = await requireJwtAuth(request);
     const { cardId } = params;
 
     if (!cardId) {
@@ -92,6 +106,7 @@ export async function GET(
     const result = await sql`
       SELECT
         id,
+        user_id,
         current_balance,
         balance_currency,
         balance_last_updated
@@ -105,6 +120,13 @@ export async function GET(
 
     const card = result.rows[0];
 
+    if (card.user_id !== user.id) {
+      return NextResponse.json(
+        { error: 'Unauthorized: Card does not belong to this user' },
+        { status: 403 }
+      );
+    }
+
     return NextResponse.json({
       cardId,
       balance: card.current_balance,
@@ -113,6 +135,10 @@ export async function GET(
       success: true,
     });
   } catch (error) {
+    const message = error instanceof Error ? error.message : '';
+    if (message.includes('Unauthorized')) {
+      return NextResponse.json({ error: message }, { status: 401 });
+    }
     console.error('Error fetching card balance:', error);
     return NextResponse.json(
       { error: 'Failed to fetch card balance' },

@@ -36,7 +36,11 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         let userInfo = response.notification.request.content.userInfo
 
-        print("📱 Notification tapped with userInfo: \(userInfo)")
+        // Note: userInfo carries the decrypted card `payload` (see GeofenceManager), so we
+        // never log the dictionary itself — only the non-sensitive action for debugging.
+        #if DEBUG
+        print("📱 Notification tapped (action: \(userInfo["action"] as? String ?? "none"))")
+        #endif
 
         // Parse notification action
         if let action = userInfo["action"] as? String {
