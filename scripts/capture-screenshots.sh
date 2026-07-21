@@ -9,10 +9,15 @@
 # Requires the iOS platform installed:  xcodebuild -downloadPlatform iOS
 # The Watch app additionally needs:      xcodebuild -downloadPlatform watchOS
 #
-# NOTE: this script drives the simulator only far enough to launch the app. Getting a
-# populated card list, the barcode detail screen, or a geofence notification still needs
-# a human (or a UI test) to tap through — the app has no demo-data seeding hook. Add
-# cards manually in the simulator, then re-run with SKIP_RESET=1 to keep that state.
+# The app ships a DEBUG-only demo seeder (see DemoDataSeeder in CardOnCueApp.swift) that
+# inserts 8 realistic cards and marks onboarding complete, so the card list is populated.
+# This script enables it by writing the CardOnCueSeedDemoData key straight into the app's
+# sandboxed preferences plist — `simctl spawn defaults write` and SIMCTL_CHILD_ env vars
+# both proved unreliable. Verify it ran by reading:
+#   <app data container>/Documents/demo-seed-result.txt
+#
+# Screens beyond the card list (barcode detail, scanner) still need a human to tap
+# through; re-run with SKIP_RESET=1 to keep the state you navigated to.
 
 set -euo pipefail
 
@@ -74,10 +79,37 @@ print(next((x['udid'] for v in d.values() for x in v if x['name']=='$NAME'), '')
   open -a Simulator --args -CurrentDeviceUDID "$UDID"
   sleep 5
 
-  log "Installing and launching"
+  log "Installing"
   xcrun simctl install "$UDID" "$APP"
+
+  # Enable the DEBUG-only demo seeder by writing directly into the app's sandboxed
+  # preferences plist. The container only exists after install.
+  DEVDIR="$HOME/Library/Developer/CoreSimulator/Devices/$UDID"
+  CONTAINER=""
+  for d in "$DEVDIR"/data/Containers/Data/Application/*/; do
+    META="$d.com.apple.mobile_container_manager.metadata.plist"
+    if [ -f "$META" ] && plutil -p "$META" 2>/dev/null | grep -q "$BUNDLE_ID"; then
+      CONTAINER="$d"
+    fi
+  done
+
+  if [ -n "$CONTAINER" ]; then
+    PLIST="$CONTAINER/Library/Preferences/$BUNDLE_ID.plist"
+    mkdir -p "$CONTAINER/Library/Preferences"
+    [ -f "$PLIST" ] || plutil -create xml1 "$PLIST" 2>/dev/null
+    plutil -replace CardOnCueSeedDemoData -bool YES "$PLIST" 2>/dev/null \
+      && log "Demo seeding enabled"
+  else
+    log "WARNING: app container not found; launching without demo data"
+  fi
+
+  log "Launching"
   xcrun simctl launch "$UDID" "$BUNDLE_ID" >/dev/null
-  sleep 8
+  sleep 10
+
+  if [ -n "$CONTAINER" ] && [ -f "$CONTAINER/Documents/demo-seed-result.txt" ]; then
+    log "Seeder: $(cat "$CONTAINER/Documents/demo-seed-result.txt")"
+  fi
 
   log "Capturing $FOLDER/01-launch.png"
   xcrun simctl io "$UDID" screenshot "$OUT/$FOLDER/01-launch.png" >/dev/null 2>&1
