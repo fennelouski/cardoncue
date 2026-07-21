@@ -1790,7 +1790,7 @@ struct AddPlaceViewForCardModel: View {
                     )
                     reportedToServer = true
                     await MainActor.run {
-                        PersistenceHelper.save(modelContext, label: "CardDetailView.serverCardId")
+                        _ = PersistenceHelper.save(modelContext, label: "CardDetailView.serverCardId")
                     }
                 } catch {
                     print("⚠️ Location report failed (saved locally): \(error)")

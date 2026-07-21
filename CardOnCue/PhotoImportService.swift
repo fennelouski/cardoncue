@@ -86,6 +86,9 @@ enum PhotoImportService {
         }
     }
 
+    // Main actor-isolated: the ModelContext comes from the SwiftUI environment and, like the
+    // CardModel it creates, is not Sendable — both must stay on the actor that owns them.
+    @MainActor
     private static func performInstantSave(
         barcodePayload: String,
         barcodeType: BarcodeType,
@@ -174,10 +177,8 @@ enum PhotoImportService {
             card.originalImageURL = originalURL.lastPathComponent
         }
 
-        await MainActor.run {
-            modelContext.insert(card)
-            PersistenceHelper.save(modelContext, label: "PhotoImportService.saveCard")
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-        }
+        modelContext.insert(card)
+        _ = PersistenceHelper.save(modelContext, label: "PhotoImportService.saveCard")
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
     }
 }

@@ -175,7 +175,7 @@ struct BarcodeDisplayView: View {
                 }
             }
         }
-        .onChange(of: brightness) { newValue in
+        .onChange(of: brightness) { _, newValue in
             // Save brightness preference
             UserDefaults.standard.set(newValue, forKey: "watchBarcodeBrightness")
         }

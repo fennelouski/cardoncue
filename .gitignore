@@ -22,6 +22,9 @@ Packages/
 # Build logs / artifacts
 *.log
 
+# App Store screenshots (captured locally, never committed)
+Screenshots/
+
 # Backups
 *.backup
 *.orig

@@ -65,10 +65,10 @@ struct WatchBarcodeImageView: View {
         .onAppear {
             loadBarcodeImage()
         }
-        .onChange(of: payload) { _ in
+        .onChange(of: payload) {
             loadBarcodeImage()
         }
-        .onChange(of: barcodeType) { _ in
+        .onChange(of: barcodeType) {
             loadBarcodeImage()
         }
     }
@@ -80,15 +80,18 @@ struct WatchBarcodeImageView: View {
         isLoading = true
         error = nil
         
+        // Resolve the inputs on the main actor before hopping to a background task,
+        // so the detached closure never reaches back into main actor-isolated state.
+        let barcodeTypeEnum = mapBarcodeType(barcodeType)
+        let payloadToRender = payload
+
         // Load asynchronously to avoid blocking UI
         Task.detached(priority: .userInitiated) {
-            let barcodeTypeEnum = self.mapBarcodeType(self.barcodeType)
-            
             do {
                 // Use optimal size for watch screens (larger for better scanner readability)
                 let optimalSize = CGSize(width: 250, height: 250)
                 let image = try WatchBarcodeRenderer.shared.render(
-                    payload: self.payload,
+                    payload: payloadToRender,
                     type: barcodeTypeEnum,
                     size: optimalSize
                 )

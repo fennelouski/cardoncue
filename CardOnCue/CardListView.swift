@@ -174,7 +174,7 @@ struct CardListView: View {
         .onAppear {
             GeofenceManager.shared.syncCardsToWatch()
         }
-        .onChange(of: cards.map(\.updatedAt)) { _ in
+        .onChange(of: cards.map(\.updatedAt)) {
             GeofenceManager.shared.syncCardsToWatch()
         }
     }

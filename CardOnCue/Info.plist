@@ -14,7 +14,6 @@
 	<string>CardOnCue uses your location in the background to notify you when you arrive at a store where you have a saved card.</string>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>remote-notification</string>
 		<string>location</string>
 	</array>
 	<key>ITSAppUsesNonExemptEncryption</key>
