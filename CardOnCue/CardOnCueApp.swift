@@ -96,9 +96,14 @@ struct CardOnCueApp: App {
 
                     #if DEBUG
                     // Populate a realistic card set for App Store screenshots.
-                    // Opt-in only: pass --seed-demo-data as a launch argument.
+                    // Opt-in only — see DemoDataSeeder.isRequested.
                     if DemoDataSeeder.isRequested {
                         DemoDataSeeder.seed(into: modelContainer.mainContext)
+                        // Land directly on the populated card list: suppress onboarding and
+                        // the post-onboarding location/notification permission sheets so the
+                        // screenshot shows content, not a system-style prompt.
+                        UserDefaults.standard.set(true, forKey: "hasSeenLocationPrompt")
+                        UserDefaults.standard.set(true, forKey: "hasSeenNotificationPrompt")
                         onboardingService.completeOnboarding()
                     }
                     #endif
