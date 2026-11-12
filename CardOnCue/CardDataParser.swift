@@ -9,6 +9,9 @@ struct ParsedCardData {
     var extractedLocationNames: [String]
     var suggestedLocations: [LocationSuggestion]
     var rawText: [String]
+    /// Filled by Apple Intelligence when available (see `CardIntelligence`).
+    var membershipLevel: String?
+    var expirationDate: Date?
 
     init(cardName: String? = nil, personName: String? = nil, personNameConfidence: Float? = nil, extractedLocationNames: [String] = [], suggestedLocations: [LocationSuggestion] = [], rawText: [String] = []) {
         self.cardName = cardName
@@ -70,6 +73,10 @@ class CardDataParser {
 
         parsed.extractedLocationNames = extractLocationNames(from: textLines)
 
+        // Apple Intelligence (on device) overrides the heuristics where it is confident,
+        // before the location search so the search uses the corrected brand name.
+        await CardIntelligence.refine(&parsed, ocrText: ocrResult.allText)
+
         // Detect address first using OCRSegmentDetector
         let segments = OCRSegmentDetector.shared.detectSegments(from: ocrResult, parsedData: parsed)
         let detectedAddress = segments.first { $0.type == .address }?.value
@@ -81,9 +88,12 @@ class CardDataParser {
         }
         allLocationQueries.append(contentsOf: parsed.extractedLocationNames)
 
+        // Callers rarely have a location handy; the geofence manager usually does.
+        let nearby: CLLocation?
+        if let userLocation { nearby = userLocation } else { nearby = await GeofenceManager.shared.currentLocation }
         parsed.suggestedLocations = await findLocations(
             for: allLocationQueries,
-            near: userLocation,
+            near: nearby,
             detectedAddress: detectedAddress
         )
 

@@ -53,7 +53,10 @@ final class GeofenceManager: NSObject, ObservableObject {
     func requestLocationPermission() {
         switch authorizationStatus {
         case .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
+            // Asking for Always up front shows the normal "While Using" prompt and grants
+            // provisional Always, so iOS offers the upgrade itself once a geofence fires.
+            // Requesting When-In-Use here meant background arrival alerts never worked.
+            locationManager.requestAlwaysAuthorization()
         case .authorizedWhenInUse:
             // Optionally upgrade to Always for background monitoring
             locationManager.requestAlwaysAuthorization()
@@ -95,6 +98,13 @@ final class GeofenceManager: NSObject, ObservableObject {
 
         isMonitoring = false
         print("🛑 Stopped location monitoring")
+    }
+
+    /// Re-pick the monitored regions after cards change. Without this a newly added
+    /// card's location is only monitored after the user moves 5 km or relaunches.
+    func refreshGeofences() {
+        guard isMonitoring, let currentLocation else { return }
+        updateActiveGeofences(near: currentLocation)
     }
 
     // MARK: - Smart Geofence Rotation

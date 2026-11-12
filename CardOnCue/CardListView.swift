@@ -59,7 +59,9 @@ struct CardListView: View {
 
     @StateObject private var cameraPermission = CameraPermissionManager()
     @State private var showingAddCardView = false
-    @State private var showingArchivedCards = false
+    @State private var showingSettings = false
+    /// Card opened from a tapped arrival notification.
+    @State private var notificationCard: CardModel?
 
     @AppStorage("cardSortOption") private var sortOption: CardSortOption = .recentlyAdded
     @AppStorage("cardGroupOption") private var groupOption: CardGroupOption = .brand
@@ -200,15 +202,22 @@ struct CardListView: View {
                                             .foregroundColor(.appPrimary)
                                     }
                                 }
-                                ToolbarItem(placement: .navigationBarLeading) {
-                                    Button(action: { showingArchivedCards = true }) {
-                                        Image(systemName: "archivebox")
-                                            .foregroundColor(.secondary)
-                                    }
-                                }
                             }
                     }
                 }
+            }
+            .toolbar {
+                // Outside the non-empty branch so Settings is reachable with zero cards.
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: { showingSettings = true }) {
+                        Image(systemName: "gearshape")
+                            .foregroundColor(.secondary)
+                    }
+                    .accessibilityLabel(NSLocalizedString("settings_title", value: "Settings", comment: ""))
+                }
+            }
+            .navigationDestination(item: $notificationCard) { card in
+                CardDetailView(card: card)
             }
             .sheet(isPresented: $showingAddCardView) {
                 AddCardSwipeableView(
@@ -216,15 +225,21 @@ struct CardListView: View {
                 )
                 .presentationDragIndicator(.visible)
             }
-            .sheet(isPresented: $showingArchivedCards) {
-                ArchivedCardsView()
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
             }
         }
         .onAppear {
             GeofenceManager.shared.syncCardsToWatch()
+            // Cold launch from a notification: AppDelegate stored the id before this view existed.
+            if let id = AppDelegate.shared?.pendingCardId { openCard(id: id) }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("OpenCardFromNotification"))) { note in
+            if let id = note.userInfo?["cardId"] as? String { openCard(id: id) }
         }
         .onChange(of: cards.map(\.updatedAt)) {
             GeofenceManager.shared.syncCardsToWatch()
+            GeofenceManager.shared.refreshGeofences()
         }
     }
 
@@ -302,6 +317,13 @@ struct CardListView: View {
             }
             .padding(.vertical)
         }
+    }
+
+    private func openCard(id: String) {
+        AppDelegate.shared?.clearPendingAction()
+        showingAddCardView = false
+        showingSettings = false
+        notificationCard = cards.first { $0.id == id }
     }
 
     private func archive(_ card: CardModel) {

@@ -38,7 +38,9 @@ struct MainView: View {
         }
         .onChange(of: geofenceManager.authorizationStatus) { _, status in
             // After location permission is granted, show notification education
-            if (status == .authorizedWhenInUse || status == .authorizedAlways) && !hasSeenNotificationPrompt {
+            // Onboarding has its own notification page; don't stack a sheet on top of it.
+            if onboardingService.hasCompletedOnboarding
+                && (status == .authorizedWhenInUse || status == .authorizedAlways) && !hasSeenNotificationPrompt {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                     showNotificationEducation = true
                 }
