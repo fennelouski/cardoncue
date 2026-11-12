@@ -1,248 +1,274 @@
 import SwiftUI
+import CoreLocation
+import UserNotifications
 
-// PreferenceKey to track scroll offset
-struct ScrollOffsetPreferenceKey: PreferenceKey {
-    static var defaultValue: CGFloat = 0
-    static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
-        value = nextValue()
-    }
-}
-
+/// Welcome tour. The location and notification pages ask for permission in context,
+/// so the user sees why before the system prompt appears.
 struct OnboardingView: View {
     @EnvironmentObject var onboardingService: OnboardingService
-    @State private var currentPage = 0
-    @State private var scrollOffset: CGFloat = 0
+    @EnvironmentObject var geofenceManager: GeofenceManager
+    @AppStorage("hasSeenLocationPrompt") private var hasSeenLocationPrompt = false
+    @AppStorage("hasSeenNotificationPrompt") private var hasSeenNotificationPrompt = false
 
-    private let pages = [
-        OnboardingPage(
-            title: NSLocalizedString("welcome_title", comment: "Welcome screen title"),
-            subtitle: NSLocalizedString("welcome_subtitle", comment: "Welcome screen subtitle"),
-            description: NSLocalizedString("welcome_description", comment: "Welcome screen description"),
-            systemImage: "AppLogo",
-            color: .appPrimary,
-            isCustomImage: true
-        ),
-        OnboardingPage(
-            title: NSLocalizedString("scan_store_title", comment: "Scan & Store screen title"),
-            subtitle: NSLocalizedString("scan_store_subtitle", comment: "Scan & Store screen subtitle"),
-            description: NSLocalizedString("scan_store_description", comment: "Scan & Store screen description"),
-            systemImage: "camera.viewfinder",
-            color: .appBlue,
-            isCustomImage: false
-        ),
-        OnboardingPage(
-            title: NSLocalizedString("location_aware_title", comment: "Location Aware screen title"),
-            subtitle: NSLocalizedString("location_aware_subtitle", comment: "Location Aware screen subtitle"),
-            description: NSLocalizedString("location_aware_description", comment: "Location Aware screen description"),
-            systemImage: "location.circle.fill",
-            color: .appGreen,
-            isCustomImage: false
-        ),
-        OnboardingPage(
-            title: NSLocalizedString("privacy_first_title", comment: "Privacy First screen title"),
-            subtitle: NSLocalizedString("privacy_first_subtitle", comment: "Privacy First screen subtitle"),
-            description: NSLocalizedString("privacy_first_description", comment: "Privacy First screen description"),
-            systemImage: "hand.raised.fill",
-            color: .appBlue,
-            isCustomImage: false
-        )
+    @State private var currentPage = 0
+    @State private var notificationStatus: UNAuthorizationStatus = .notDetermined
+
+    private enum Step { case info, location, notifications }
+
+    private struct Page {
+        let step: Step
+        let title: String
+        let subtitle: String
+        let description: String
+        let image: String
+        let color: Color
+        var isCustomImage = false
+    }
+
+    private let pages: [Page] = [
+        Page(step: .info,
+             title: NSLocalizedString("welcome_title", comment: "Welcome screen title"),
+             subtitle: NSLocalizedString("welcome_subtitle", comment: "Welcome screen subtitle"),
+             description: NSLocalizedString("welcome_description", comment: "Welcome screen description"),
+             image: "AppLogo", color: .appPrimary, isCustomImage: true),
+        Page(step: .info,
+             title: NSLocalizedString("scan_store_title", comment: "Scan & Store screen title"),
+             subtitle: NSLocalizedString("scan_store_subtitle", comment: "Scan & Store screen subtitle"),
+             description: NSLocalizedString("scan_store_description", comment: "Scan & Store screen description")
+                + (CardIntelligence.status == .available
+                   ? "\n\n" + NSLocalizedString("scan_store_ai", value: "Apple Intelligence reads the brand, name and expiry date for you, right on your device.", comment: "Onboarding note about smart scanning")
+                   : ""),
+             image: "camera.viewfinder", color: .appBlue),
+        Page(step: .location,
+             title: NSLocalizedString("location_aware_title", comment: "Location Aware screen title"),
+             subtitle: NSLocalizedString("location_aware_subtitle", comment: "Location Aware screen subtitle"),
+             description: NSLocalizedString("location_aware_description", comment: "Location Aware screen description"),
+             image: "location.circle.fill", color: .appGreen),
+        Page(step: .notifications,
+             title: NSLocalizedString("notify_title", value: "Right on Cue", comment: "Onboarding notifications title"),
+             subtitle: NSLocalizedString("notify_subtitle", value: "A tap away when you arrive", comment: "Onboarding notifications subtitle"),
+             description: NSLocalizedString("notify_description", value: "Allow notifications and CardOnCue will put the right card on your Lock Screen and Apple Watch as you walk in. Only for places you've saved, never ads.", comment: "Onboarding notifications description"),
+             image: "bell.badge.fill", color: .appPrimary),
+        Page(step: .info,
+             title: NSLocalizedString("privacy_first_title", comment: "Privacy First screen title"),
+             subtitle: NSLocalizedString("privacy_first_subtitle", comment: "Privacy First screen subtitle"),
+             description: NSLocalizedString("privacy_first_description", comment: "Privacy First screen description"),
+             image: "hand.raised.fill", color: .appBlue)
     ]
+
+    private var page: Page { pages[currentPage] }
+    private var isLastPage: Bool { currentPage == pages.count - 1 }
 
     var body: some View {
         ZStack {
-            Color.appBackground
-                .ignoresSafeArea()
+            Color.appBackground.ignoresSafeArea()
 
             VStack(spacing: 0) {
-                // Page content with gradient overlays
-                ZStack {
-                    TabView(selection: $currentPage) {
-                        ForEach(0..<pages.count, id: \.self) { index in
-                            OnboardingPageView(
-                                page: pages[index]
-                            )
-                            .tag(index)
-                        }
-                    }
-                    .tabViewStyle(.page(indexDisplayMode: .never))
-                    .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-                        scrollOffset = value
-                    }
+                HStack {
+                    Spacer()
+                    Button(NSLocalizedString("skip_button", comment: "Skip button"), action: finish)
+                        .font(.subheadline)
+                        .foregroundColor(.appLightGray)
+                        .opacity(isLastPage ? 0 : 1)
+                        .disabled(isLastPage)
+                }
+                .padding(.horizontal, 24)
+                .frame(height: 44)
 
-                    // Top gradient fade
-                    VStack {
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.appBackground.opacity(1.0),
-                                Color.appBackground.opacity(0.0)
-                            ]),
-                            startPoint: .top,
-                            endPoint: .bottom
+                TabView(selection: $currentPage) {
+                    ForEach(pages.indices, id: \.self) { index in
+                        OnboardingPageView(
+                            title: pages[index].title,
+                            subtitle: pages[index].subtitle,
+                            description: pages[index].description,
+                            image: pages[index].image,
+                            color: pages[index].color,
+                            isCustomImage: pages[index].isCustomImage,
+                            badge: grantedBadge(for: pages[index].step)
                         )
-                        .frame(height: 60)
-                        .allowsHitTesting(false)
-
-                        Spacer()
-                    }
-
-                    // Bottom gradient fade
-                    VStack {
-                        Spacer()
-
-                        LinearGradient(
-                            gradient: Gradient(colors: [
-                                Color.appBackground.opacity(0.0),
-                                Color.appBackground.opacity(1.0)
-                            ]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
-                        .frame(height: 80)
-                        .allowsHitTesting(false)
+                        .tag(index)
                     }
                 }
+                .tabViewStyle(.page(indexDisplayMode: .never))
 
-                Spacer(minLength: 0)
+                pageIndicator.padding(.vertical, 16)
 
-                // Navigation buttons
-                VStack(spacing: 16) {
-                    // Main action button (Next or Get Started)
-                    Button(action: {
-                        if currentPage < pages.count - 1 {
-                            withAnimation {
-                                currentPage += 1
-                            }
-                        } else {
-                            completeOnboarding()
-                        }
-                    }) {
-                        Text(currentPage < pages.count - 1
-                            ? NSLocalizedString("next_button", comment: "Next button")
-                            : NSLocalizedString("get_started", comment: "Get Started button"))
+                VStack(spacing: 8) {
+                    Button(action: primaryAction) {
+                        Text(primaryTitle)
                             .font(.headline)
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 16)
-                            .background(Color.appPrimary)
-                            .cornerRadius(12)
+                            .background(page.color)
+                            .cornerRadius(14)
                     }
-                    .padding(.horizontal, 24)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
 
-                    // Skip button (fades out on last page)
-                    Button(action: {
-                        completeOnboarding()
-                    }) {
-                        Text(NSLocalizedString("skip_button", comment: "Skip button"))
-                            .font(.subheadline)
-                            .foregroundColor(.appLightGray)
-                    }
-                    .opacity(currentPage < pages.count - 1 ? 1 : 0)
-                    .animation(.easeOut(duration: 0.3), value: currentPage)
+                    // "Not now" only where there is something to decline.
+                    Button(NSLocalizedString("not_now", value: "Not Now", comment: "Decline permission button"), action: advance)
+                        .font(.subheadline)
+                        .foregroundColor(.appLightGray)
+                        .padding(.vertical, 8)
+                        .opacity(needsPermission ? 1 : 0)
+                        .disabled(!needsPermission)
                 }
-                .padding(.top, 16)
+                .padding(.horizontal, 24)
                 .padding(.bottom, 16)
-
-                // Page indicator at the bottom
-                HStack(spacing: 8) {
-                    ForEach(0..<pages.count, id: \.self) { index in
-                        Circle()
-                            .fill(currentPage == index ? pages[index].color : Color.appLightGray)
-                            .frame(width: 8, height: 8)
-                    }
-                }
-                .padding(.bottom, 24)
             }
         }
-    }
-
-    private func completeOnboarding() {
-        withAnimation {
-            onboardingService.completeOnboarding()
+        .animation(.easeInOut(duration: 0.25), value: currentPage)
+        .task { await refreshNotificationStatus() }
+        .onChange(of: geofenceManager.authorizationStatus) { _, status in
+            // The system prompt was answered; move on.
+            if page.step == .location && status != .notDetermined { advance() }
         }
     }
-}
 
+    // MARK: Pieces
 
-struct OnboardingPage {
-    let title: String
-    let subtitle: String
-    let description: String
-    let systemImage: String
-    let color: Color
-    let isCustomImage: Bool
+    private var pageIndicator: some View {
+        HStack(spacing: 6) {
+            ForEach(pages.indices, id: \.self) { index in
+                Capsule()
+                    .fill(index == currentPage ? page.color : Color.appLightGray.opacity(0.4))
+                    .frame(width: index == currentPage ? 22 : 8, height: 8)
+            }
+        }
+        .accessibilityElement()
+        .accessibilityLabel(String(format: NSLocalizedString("page_x_of_y", value: "Page %d of %d", comment: ""), currentPage + 1, pages.count))
+    }
+
+    private var needsPermission: Bool {
+        switch page.step {
+        case .location: return geofenceManager.authorizationStatus == .notDetermined
+        case .notifications: return notificationStatus == .notDetermined
+        case .info: return false
+        }
+    }
+
+    private var primaryTitle: String {
+        if isLastPage { return NSLocalizedString("get_started", comment: "Get Started button") }
+        guard needsPermission else { return NSLocalizedString("next_button", comment: "Next button") }
+        return page.step == .location
+            ? NSLocalizedString("enable_location", value: "Enable Location", comment: "")
+            : NSLocalizedString("enable_notifications", value: "Enable Notifications", comment: "")
+    }
+
+    private func grantedBadge(for step: Step) -> String? {
+        let granted: Bool
+        switch step {
+        case .location: granted = [.authorizedAlways, .authorizedWhenInUse].contains(geofenceManager.authorizationStatus)
+        case .notifications: granted = [.authorized, .provisional, .ephemeral].contains(notificationStatus)
+        case .info: return nil
+        }
+        return granted ? NSLocalizedString("permission_enabled", value: "Enabled", comment: "Permission granted badge") : nil
+    }
+
+    // MARK: Actions
+
+    private func primaryAction() {
+        if isLastPage { return finish() }
+        guard needsPermission else { return advance() }
+        switch page.step {
+        case .location:
+            hasSeenLocationPrompt = true
+            geofenceManager.requestLocationPermission() // advances via onChange
+        case .notifications:
+            hasSeenNotificationPrompt = true
+            Task {
+                _ = try? await UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge])
+                await refreshNotificationStatus()
+                advance()
+            }
+        case .info:
+            advance()
+        }
+    }
+
+    private func advance() {
+        // Passing a permission page (either way) means MainView shouldn't re-ask with a sheet.
+        if page.step == .location { hasSeenLocationPrompt = true }
+        if page.step == .notifications { hasSeenNotificationPrompt = true }
+        if isLastPage { finish() } else { currentPage += 1 }
+    }
+
+    private func finish() {
+        withAnimation { onboardingService.completeOnboarding() }
+    }
+
+    private func refreshNotificationStatus() async {
+        notificationStatus = await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+    }
 }
 
 struct OnboardingPageView: View {
-    let page: OnboardingPage
+    let title: String
+    let subtitle: String
+    let description: String
+    let image: String
+    let color: Color
+    let isCustomImage: Bool
+    var badge: String?
 
     var body: some View {
         ScrollView(showsIndicators: false) {
-            VStack(spacing: 0) {
-                // GeometryReader to track scroll offset
-                GeometryReader { geometry in
-                    Color.clear.preference(
-                        key: ScrollOffsetPreferenceKey.self,
-                        value: geometry.frame(in: .named("scroll")).minY
-                    )
-                }
-                .frame(height: 0)
+            VStack(spacing: 28) {
+                Spacer(minLength: 24)
 
-                VStack(spacing: 32) {
-                    // Top spacing to account for sign-in button area
-                    Spacer(minLength: 60)
-
-                    // Icon
-                    if page.isCustomImage {
-                        Image(page.systemImage)
+                Group {
+                    if isCustomImage {
+                        Image(image)
                             .resizable()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 120, height: 120)
-                            .cornerRadius(20)
+                            .frame(width: 128, height: 128)
+                            .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                            .shadow(color: color.opacity(0.3), radius: 16, y: 8)
                     } else {
                         ZStack {
                             Circle()
-                                .fill(page.color.opacity(0.1))
-                                .frame(width: 120, height: 120)
-
-                            Image(systemName: page.systemImage)
-                                .font(.system(size: 48))
-                                .foregroundColor(page.color)
+                                .fill(color.opacity(0.12))
+                                .frame(width: 128, height: 128)
+                            Image(systemName: image)
+                                .font(.system(size: 52, weight: .semibold))
+                                .foregroundColor(color)
+                                .symbolRenderingMode(.hierarchical)
                         }
                     }
-
-                    // Content
-                    VStack(spacing: 16) {
-                        Text(page.title)
-                            .font(.title)
-                            .fontWeight(.bold)
-                            .foregroundColor(.appBlue)
-                            .multilineTextAlignment(.center)
-
-                        Text(page.subtitle)
-                            .font(.title2)
-                            .foregroundColor(.appGreen)
-                            .multilineTextAlignment(.center)
-
-                        Text(page.description)
-                            .font(.body)
-                            .foregroundColor(.appLightGray)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal, 32)
-                            .lineSpacing(4)
-                    }
-
-                    Spacer(minLength: 40)
                 }
-                .padding(.horizontal, 24)
-                .frame(maxWidth: .infinity)
+                .accessibilityHidden(true)
+
+                VStack(spacing: 12) {
+                    Text(title)
+                        .font(.largeTitle.bold())
+                        .foregroundColor(.appBlue)
+                    Text(subtitle)
+                        .font(.title3.weight(.medium))
+                        .foregroundColor(color)
+                    Text(description)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                        .lineSpacing(4)
+                        .padding(.top, 4)
+                    if let badge {
+                        Label(badge, systemImage: "checkmark.circle.fill")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundColor(.appGreen)
+                            .padding(.top, 8)
+                    }
+                }
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
+
+                Spacer(minLength: 24)
             }
+            .frame(maxWidth: 560)
+            .frame(maxWidth: .infinity)
         }
-        .coordinateSpace(name: "scroll")
     }
 }
 
 #Preview {
     OnboardingView()
         .environmentObject(OnboardingService())
+        .environmentObject(GeofenceManager.shared)
 }

@@ -94,6 +94,7 @@ targets:
       - CardOnCueTests
     settings:
       base:
+        GENERATE_INFOPLIST_FILE: YES
         PRODUCT_BUNDLE_IDENTIFIER: com.nathanfennel.CardOnCueTests
         DEVELOPMENT_TEAM: ""
         CODE_SIGN_STYLE: Automatic
@@ -107,6 +108,7 @@ targets:
       - CardOnCueUITests
     settings:
       base:
+        GENERATE_INFOPLIST_FILE: YES
         PRODUCT_BUNDLE_IDENTIFIER: com.nathanfennel.CardOnCueUITests
         DEVELOPMENT_TEAM: ""
         CODE_SIGN_STYLE: Automatic

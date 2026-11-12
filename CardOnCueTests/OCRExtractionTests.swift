@@ -413,3 +413,22 @@ final class OCRExtractionTests: XCTestCase {
         )
     }
 }
+
+final class CardIntelligenceMergeTests: XCTestCase {
+    func testModelFieldsOverrideHeuristicsAndBlanksDoNot() {
+        var parsed = ParsedCardData(cardName: "COSTC0", personName: "Heuristic Guess", personNameConfidence: 0.4)
+        CardIntelligence.apply("Costco", "  ", "Executive", "2027-03-31", to: &parsed)
+        XCTAssertEqual(parsed.cardName, "Costco")
+        XCTAssertEqual(parsed.personName, "Heuristic Guess")      // blank holder keeps heuristic
+        XCTAssertEqual(parsed.personNameConfidence, 0.4)
+        XCTAssertEqual(parsed.membershipLevel, "Executive")
+        let c = Calendar(identifier: .gregorian).dateComponents(in: .current, from: parsed.expirationDate!)
+        XCTAssertEqual([c.year, c.month, c.day], [2027, 3, 31])
+
+        CardIntelligence.apply(nil, "Jane Doe", nil, "March 2027", to: &parsed)
+        XCTAssertEqual(parsed.personName, "Jane Doe")
+        XCTAssertEqual(parsed.personNameConfidence, 0.9)           // clears the auto-fill threshold
+        XCTAssertEqual(parsed.cardName, "Costco")                  // nil brand keeps previous
+        XCTAssertNotNil(parsed.expirationDate)                     // unparseable expiry ignored
+    }
+}

@@ -583,10 +583,16 @@ struct ScannedCardReviewView: View {
                         isPinAutoPopulated = true
                     }
 
-                    // Auto-populate card type
-                    if let type = segments.first(where: { $0.type == .cardType })?.value {
+                    // Auto-populate card type (Apple Intelligence tier wins over the regex segment)
+                    if let type = parsed.membershipLevel ?? segments.first(where: { $0.type == .cardType })?.value {
                         cardType = type
                         isCardTypeAutoPopulated = true
+                    }
+
+                    // Expiry date read by Apple Intelligence
+                    if let expiry = parsed.expirationDate, !hasExpiryDate {
+                        expiryDate = expiry
+                        hasExpiryDate = true
                     }
 
                     // Auto-populate person name if confidence > 0.7
@@ -607,7 +613,7 @@ struct ScannedCardReviewView: View {
                     // Auto-suggest card name if not already set
                     if cardName.isEmpty {
                         // Priority 1: Use extracted brand/merchant name from OCR
-                        if let extractedName = ocrResult.cardName, !extractedName.isEmpty {
+                        if let extractedName = parsed.cardName, !extractedName.isEmpty {
                             cardName = extractedName
                             // Append card type if available
                             if !cardType.isEmpty {
